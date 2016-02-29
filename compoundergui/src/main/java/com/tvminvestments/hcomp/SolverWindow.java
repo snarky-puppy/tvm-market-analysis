@@ -32,6 +32,7 @@ public class SolverWindow implements ActionListener {
     private JSplitPane splitPane;
     private JButton clearFilesListButton;
     private JProgressBar progressBar;
+    private JButton showWorkingOutButton;
 
     DefaultListModel<File> listModel;
     SolveParamTableModel paramTableModel;
@@ -46,6 +47,7 @@ public class SolverWindow implements ActionListener {
         runCalculationButton.addActionListener(this);
         loadFilesButton.addActionListener(this);
         clearFilesListButton.addActionListener(this);
+        showWorkingOutButton.addActionListener(this);
 
         listModel = new DefaultListModel<File>();
         fileList.setModel(listModel);
@@ -126,6 +128,10 @@ public class SolverWindow implements ActionListener {
             listModel.clear();
             runCalculationButton.setEnabled(false);
         }
+
+        if(e.getSource() == showWorkingOutButton) {
+            CompounderLogResults.openResults();
+        }
     }
 
 
@@ -173,21 +179,20 @@ public class SolverWindow implements ActionListener {
                     iterations = 0;
                 }
 
+                int iteration = 1;
                 do {
                     compounder.spread = spread;
                     compounder.investPercent = percent;
                     compounder.totalBank = bank;
 
                     compounder.shuffle();
-                    compounder.calculate();
+                    compounder.calculate(iteration);
 
                     cash.addValue(compounder.balanceCash);
                     total.addValue(compounder.balanceTotal);
 
-
-
-                    iterations --;
-                } while(iterations > 0);
+                    iteration++;
+                } while(iteration <= iterations);
 
                 rv.file = file;
                 rv.percent = percent;
@@ -237,6 +242,8 @@ public class SolverWindow implements ActionListener {
 
     private void runCalculation() {
         SolveParamTableModel solverParameters = paramTableModel;
+
+        CompounderLogResults.reset();
 
         ArrayList<Combination> options = new ArrayList<>();
 

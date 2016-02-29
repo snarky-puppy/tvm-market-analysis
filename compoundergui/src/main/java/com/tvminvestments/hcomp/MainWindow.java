@@ -36,12 +36,14 @@ public class MainWindow implements ActionListener {
     private JTextField balanceCash;
     private JTextField balanceTrades;
     private JTextField balanceTotal;
+    private JButton showWorkingOutButton;
 
     private CompoundTableModel model;
 
     public MainWindow() {
         loadButton.addActionListener(this);
         recalcButton.addActionListener(this);
+        showWorkingOutButton.addActionListener(this);
 
         model = new CompoundTableModel();
 
@@ -127,7 +129,12 @@ public class MainWindow implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if(e.getSource() == showWorkingOutButton) {
+            CompounderLogResults.openResults();
+        }
+
         if (e.getSource() == recalcButton) {
+            CompounderLogResults.reset();
             DebugWindow.getInstance().reset();
             update();
         }

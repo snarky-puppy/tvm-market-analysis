@@ -44,7 +44,7 @@ public class CompoundTableModel extends AbstractTableModel {
 
     public void calculate() {
         logger.info(String.format("Update triggered: spread=%d, percent=%d", compounder.spread, compounder.investPercent));
-        compounder.calculate();
+        compounder.calculate(0);
         fireTableDataChanged();
     }
 

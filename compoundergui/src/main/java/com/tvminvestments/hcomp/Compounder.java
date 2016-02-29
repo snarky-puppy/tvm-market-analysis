@@ -67,11 +67,15 @@ public class Compounder {
         public String toString() {
             SimpleDateFormat f = new SimpleDateFormat("dd/MM/YYYY");
 
-            return String.format("%s: %s -> %.2f", symbol, f.format(date), transact);
+            return String.format("%s\t%.2f\t%s\t%d", symbol, transact, f.format(date), period);
         }
 
         public boolean isInvestment() {
             return transact > 0.0;
+        }
+
+        public Integer getPeriod() {
+            return period;
         }
     }
 
@@ -149,9 +153,20 @@ public class Compounder {
         data.add(r);
     }
 
-    public void calculate() {
+    private CompounderLogRow newLogRow() {
+        CompounderLogRow r = new CompounderLogRow();
+        r.percent = investPercent;
+        r.spread = spread;
+        return r;
+    }
+
+    public void calculate(int iteration) {
 
         //List<Row> withdrawals =  data.stream().filter(r -> r.transact < 0).collect(Collectors.toList());
+
+
+
+        CompounderLogRow logRow = newLogRow();
 
         balanceTotal = 0;
         balanceCash = totalBank;
@@ -209,6 +224,13 @@ public class Compounder {
             }
 
             if(period == -1 || period != r.period) {
+                if(period != -1) {
+                    logRow.cash = balanceCash;
+                    logRow.trades = balanceTrades;
+                    logRow.total = balanceCash + balanceTrades;
+                    CompounderLogResults.add(logRow);
+                    logRow = newLogRow();
+                }
                 // recalculate minInvestment
                 logger.info(String.format("---------------- New period detected: %d, balances: cash=%.2f, trade=%.2f, total=%.2f", r.period, balanceCash, balanceTrades, balanceCash+balanceTrades));
                 totalBank = balanceCash + balanceTrades;
@@ -217,6 +239,11 @@ public class Compounder {
                 minInvestment = ((totalBank/100)*investPercent);
                 logger.info(String.format("New period minInvestment=%.2f, totalBank=%.2f", minInvestment, totalBank));
                 period = r.period;
+
+                logRow.iteration = iteration;
+                logRow.period = period;
+                logRow.minInvest = minInvestment;
+                logRow.startBank = totalBank;
             }
 
 
@@ -300,6 +327,12 @@ public class Compounder {
             }
             iter ++;
         }
+
+        logRow.cash = balanceCash;
+        logRow.trades = balanceTrades;
+        logRow.total = balanceCash + balanceTrades;
+        CompounderLogResults.add(logRow);
+
         balanceTotal = balanceCash + balanceTrades;
         logger.info(String.format("End of compound run: cash=%.2f trade=%.2f total=%.2f", balanceCash, balanceTrades, balanceTotal));
     }
@@ -316,69 +349,87 @@ public class Compounder {
     }
 
     public void shuffle() {
-        Map<Date, List<Row>> daily = data.stream().collect(Collectors.groupingBy(Row::getDate));
 
-        /*
-        logger.debug("Pre-shuffle:");
-        for(Row r : data) {
-            logger.debug(r);
-        }*/
+        Map<Integer, List<Row>> periods = data.stream().collect(Collectors.groupingBy(Row::getPeriod));
+
+        periods.forEach((periodK, periodList) -> {
+
+            Map<Date, List<Row>> daily = periodList.stream().collect(Collectors.groupingBy(Row::getDate));
+
+            /*
+            logger.debug("Pre-shuffle:");
+            for(Row r : data) {
+                logger.debug(r);
+            }*/
 
 
-        daily.forEach((k, v) -> {
-            Map<Boolean, List<Row>> investmentsAndWithdrawals = v.stream().collect(Collectors.groupingBy(Row::isInvestment));
+            daily.forEach((k, v) -> {
+                Map<Boolean, List<Row>> investmentsAndWithdrawals = v.stream().collect(Collectors.groupingBy(Row::isInvestment));
 
-            v.clear();
-            List<Row> invest = investmentsAndWithdrawals.get(true);
-            if(invest != null) {
-                Collections.shuffle(invest);
-                v.addAll(invest);
+                v.clear();
+                List<Row> invest = investmentsAndWithdrawals.get(true);
+                if(invest != null) {
+                    Collections.shuffle(invest);
+                    v.addAll(invest);
+                }
+
+                List<Row> withd = investmentsAndWithdrawals.get(false);
+                if(withd != null) {
+                    Collections.shuffle(withd);
+                    v.addAll(withd);
+                }
+            });
+
+            // re-insert into period list
+
+            periodList.clear();
+            SortedSet<Date> keys = new TreeSet<Date>(daily.keySet());
+            for (Date key : keys) {
+                List<Row> value = daily.get(key);
+                // do something
+                periodList.addAll(value);
             }
 
-            List<Row> withd = investmentsAndWithdrawals.get(false);
-            if(withd != null) {
-                Collections.shuffle(withd);
-                v.addAll(withd);
-            }
-        });
+            /*
+            daily.forEach((k, v) -> Collections.shuffle(v));
 
-        /*
-        daily.forEach((k, v) -> Collections.shuffle(v));
+            // now somehow make sure that any W with a matching I in this list are in the correct order
+            daily.forEach((key, list) -> {
+                int i, j;
+                for (i = 0; i < list.size(); i++) {
+                    Row r = list.get(i);
 
-        // now somehow make sure that any W with a matching I in this list are in the correct order
-        daily.forEach((key, list) -> {
-            int i, j;
-            for (i = 0; i < list.size(); i++) {
-                Row r = list.get(i);
-
-                for (j = i + 1; j < list.size(); j++) {
-                    Row r2 = list.get(j);
-                    if (r2.symbol.compareTo(r.symbol) == 0) {
-                        if (r.order > r2.order) {
-                            Collections.swap(list, i, j);
+                    for (j = i + 1; j < list.size(); j++) {
+                        Row r2 = list.get(j);
+                        if (r2.symbol.compareTo(r.symbol) == 0) {
+                            if (r.order > r2.order) {
+                                Collections.swap(list, i, j);
+                            }
                         }
                     }
                 }
-            }
+            });
+            */
         });
-        */
 
         // re-insert into main array
         data.clear();
 
-        SortedSet<Date> keys = new TreeSet<Date>(daily.keySet());
-        for (Date key : keys) {
-            List<Row> value = daily.get(key);
+        SortedSet<Integer> keys = new TreeSet<Integer>(periods.keySet());
+        for (Integer key : keys) {
+            List<Row> value = periods.get(key);
             // do something
             data.addAll(value);
         }
 
 /*
+
         logger.debug("Post-shuffle:");
         for(Row r : data) {
             logger.debug(r);
         }
-        */
+
+*/
 
     }
 }
