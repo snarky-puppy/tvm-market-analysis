@@ -24,7 +24,7 @@ public class DebugWindow {
         return instance;
     }
 
-    public void doLog(String msg) {
+    public synchronized void doLog(String msg) {
         debugText.append(msg);
     }
 

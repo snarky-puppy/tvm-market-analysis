@@ -183,7 +183,7 @@ public class SolverWindow implements ActionListener {
                 do {
                     compounder.spread = spread;
                     compounder.investPercent = percent;
-                    compounder.totalBank = bank;
+                    compounder.startBank = bank;
 
                     compounder.shuffle();
                     compounder.calculate(iteration);

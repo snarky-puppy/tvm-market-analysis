@@ -22,11 +22,11 @@ public class CompounderLogRow {
     public double total;
 
     public static String header() {
-        return "Spread ,Percent ,Start Bank ,Iteration ,Period ,Min Invest ,Cash ,Trades ,Total\n";
+        return "Percent ,Spread ,Start Bank ,Iteration ,Period ,Min Invest ,Cash ,Trades ,Total\n";
     }
 
     public String toString() {
-        return String.format("%.2f,%d,%.2f,%d,%d,%.2f,%.2f,%.2f,%.2f\n", spread, percent, startBank, iteration, period, minInvest, cash, trades, total);
+        return String.format("%d,%.2f,%.2f,%d,%d,%.2f,%.2f,%.2f,%.2f\n", percent, spread, startBank, iteration, period, minInvest, cash, trades, total);
     }
 
 }

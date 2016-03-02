@@ -17,7 +17,7 @@ public class Compounder {
     private static final Logger logger = LogManager.getLogger(Compounder.class);
     private ArrayList<Row> data;
 
-    public double totalBank = 200000.0;
+    public double startBank = 200000.0;
     public int investPercent = 10;
     public int spread = 5;
 
@@ -48,6 +48,8 @@ public class Compounder {
         public Integer period;
 
         public int order;
+        public double preCompoundInvestAmt;
+        public double compoundInvestAmt;
 
         public String getSymbol() {
             return symbol;
@@ -160,20 +162,22 @@ public class Compounder {
         return r;
     }
 
+    private void log(String msg, int iteration) {
+        logger.info(String.format("[p=%d,s=%d,i=%d]: %s", investPercent, spread, iteration, msg));
+    }
+
     public void calculate(int iteration) {
 
         //List<Row> withdrawals =  data.stream().filter(r -> r.transact < 0).collect(Collectors.toList());
 
-
-
         CompounderLogRow logRow = newLogRow();
 
         balanceTotal = 0;
-        balanceCash = totalBank;
+        balanceCash = startBank;
         balanceTrades = 0.0;
 
         if(spread == 0 || investPercent == 0) {
-            logger.info("Parameters failed sanity check. Zero action means zero result.");
+            log("Parameters failed sanity check. Zero action means zero result.", iteration);
             return;
         }
 
@@ -232,18 +236,17 @@ public class Compounder {
                     logRow = newLogRow();
                 }
                 // recalculate minInvestment
-                logger.info(String.format("---------------- New period detected: %d, balances: cash=%.2f, trade=%.2f, total=%.2f", r.period, balanceCash, balanceTrades, balanceCash+balanceTrades));
-                totalBank = balanceCash + balanceTrades;
-                balanceCash = totalBank;
+                log(String.format("new_period=%d, balances: cash=%.2f, trade=%.2f, total=%.2f", r.period, balanceCash, balanceTrades, balanceCash+balanceTrades), iteration);
+                balanceCash = balanceCash + balanceTrades;
                 balanceTrades = 0.0;
-                minInvestment = ((totalBank/100)*investPercent);
-                logger.info(String.format("New period minInvestment=%.2f, totalBank=%.2f", minInvestment, totalBank));
+                minInvestment = ((balanceCash/100)*investPercent);
+                log(String.format("new_period=%d, minInvestment=%.2f, balanceCash=%.2f", r.period, minInvestment, balanceCash), iteration);
                 period = r.period;
 
                 logRow.iteration = iteration;
                 logRow.period = period;
                 logRow.minInvest = minInvestment;
-                logRow.startBank = totalBank;
+                logRow.startBank = balanceCash;
             }
 
 
@@ -261,34 +264,39 @@ public class Compounder {
                     lastWithdrawal = false;
                 }
 
-                if((totalBank - investAmt) < 0) {
+                if((balanceCash - investAmt) < 0) {
                     //logger.info(String.format("%s: I: not enough funds[%.2f] to cover investment[%.2f], skipping", r.symbol, totalBank, investAmt));
-                    r.bankBalance = totalBank;
+                    r.bankBalance = balanceCash;
                     iter++;
                     continue;
                 }
 
+                r.preCompoundInvestAmt = investAmt;
+
                 if(compoundTally > 0) {
                     // use compound tally.
                     //logger.info(String.format("%s: I: Compounding, add %.2f to investment amount of %.2f", r.symbol, tallySlice, investAmt));
+                    r.compoundInvestAmt = tallySlice;
                     investAmt += tallySlice;
                     sliceSpreadCount ++;
                     compoundTally -= tallySlice;
-                    if(sliceSpreadCount == spread || (totalBank - tallySlice + investAmt) < 0) {
-                        assert compoundTally == 0;
+                    if(sliceSpreadCount == spread) {
+                        compoundTally = 0;
                         sliceSpreadCount = 0;
                         tallySlice = 0;
                     }
                 }
 
+                if((balanceCash - investAmt) < 0) {
+                    investAmt = balanceCash;
+                }
+
                 //logger.info(String.format("%s: I: final_amount=%.2f balanceTrades=%.2f", r.symbol, investAmt, balanceTrades + investAmt));
 
-                totalBank -= investAmt;
                 balanceTrades += investAmt;
                 balanceCash -= investAmt;
-                r.bankBalance = totalBank;
-                if(investAmt > 0)
-                    r.realTransact = investAmt;
+                r.bankBalance = balanceCash;
+                r.realTransact = investAmt;
             }
 
             // withdrawal
@@ -302,26 +310,29 @@ public class Compounder {
 
                     double roiAmt = profit;
 
-                    // redfinnition of the term "profit", since it goes into a counter for distribution
-                    if(withdrawal > minInvestment)
-                        profit = withdrawal - minInvestment;
+                    // redefinition of the term "profit", since it goes into a counter for distribution
+                    if(withdrawal > i.compoundInvestAmt)
+                        profit = withdrawal - i.compoundInvestAmt;
 
                     if(r.roi > 0) {
                         compoundTally += profit;
                     }
 
-                    //logger.info(String.format("%s: W: roi=%.2f, profit=%.2f, compoundTally=%.2f", r.symbol, roiAmt, profit, compoundTally));
+                    //log(String.format("%s: W: roi=%.2f, profit=%.2f, withdrawal=%.2f, compoundTally=%.2f", r.symbol, roiAmt, profit, withdrawal, compoundTally), iteration);
 
                     r.realTransact = -withdrawal;
 
-                    totalBank += withdrawal;
-                    r.bankBalance = totalBank;
+                    balanceCash += withdrawal;
+
                     r.compoundTally = compoundTally;
 
                     balanceTrades -= i.realTransact;
-                    balanceCash += withdrawal;
+
                     lastWithdrawal = true;
-                } //else logger.warn(String.format("%s: W: no valid I found", r.symbol));
+                }
+
+                r.bankBalance = balanceCash;
+
 
 
             }

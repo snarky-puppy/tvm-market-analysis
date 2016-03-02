@@ -21,7 +21,6 @@ public class GuiAppender extends AbstractAppender {
 
     protected GuiAppender(String name, Filter filter, Layout<? extends Serializable> layout, boolean ignoreExceptions) {
         super(name, filter, layout, ignoreExceptions);
-        System.out.println("GuiAppender ctor");
     }
 
     @Override
@@ -37,7 +36,6 @@ public class GuiAppender extends AbstractAppender {
             @PluginElement("Filter") final Filter filter,
             @PluginAttribute("otherAttribute") String otherAttribute) {
 
-        System.out.println("GuiAppender factory");
         if (name == null) {
             System.out.println("GuiAppender no name error");
             LOGGER.error("No name provided for MyCustomAppenderImpl");

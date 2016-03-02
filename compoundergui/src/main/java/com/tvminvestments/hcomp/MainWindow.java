@@ -37,6 +37,7 @@ public class MainWindow implements ActionListener {
     private JTextField balanceTrades;
     private JTextField balanceTotal;
     private JButton showWorkingOutButton;
+    private JCheckBox shuffleCheckBox;
 
     private CompoundTableModel model;
 
@@ -49,7 +50,7 @@ public class MainWindow implements ActionListener {
 
         spreadText.setText(Integer.toString(model.getCompounder().spread));
         investPercentText.setText(Integer.toString(model.getCompounder().investPercent));
-        bankText.setText(Double.toString(model.getCompounder().totalBank));
+        bankText.setText(Double.toString(model.getCompounder().startBank));
 
 
         DefaultTableCellRenderer dateRender = new DefaultTableCellRenderer() {
@@ -116,7 +117,10 @@ public class MainWindow implements ActionListener {
 
         model.getCompounder().spread = Integer.parseInt(spreadText.getText());
         model.getCompounder().investPercent = Integer.parseInt(investPercentText.getText());
-        model.getCompounder().totalBank = Double.parseDouble(bankText.getText());
+        model.getCompounder().startBank = Double.parseDouble(bankText.getText());
+
+        if(shuffleCheckBox.isSelected())
+            model.getCompounder().shuffle();
 
         model.calculate();
 
