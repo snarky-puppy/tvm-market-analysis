@@ -1,4 +1,4 @@
-ulimit -S -n 12000
+ulimit -S -n 65536
 GRADLE_OPTS="-Xmx12g -Xms4g"
 DEFAULT_JVM_OPTS=${GRADLE_OPTS}
 export GRADLE_OPTS

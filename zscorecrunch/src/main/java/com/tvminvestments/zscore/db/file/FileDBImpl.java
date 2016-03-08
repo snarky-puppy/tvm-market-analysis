@@ -58,7 +58,7 @@ public class FileDBImpl {
         return Conf.getDataDir(market, symbol).resolve(symbol + ".txt");
     }
 
-    public Path zscoreFile(String symbol, int startDate) {
+    private Path zscoreFile(String symbol, int startDate) {
         return Conf.getZScoreDir(market, symbol).resolve(symbol + "-"+startDate+".txt");
     }
 
@@ -84,10 +84,6 @@ public class FileDBImpl {
         synchronized (map) {
             map.put(date, str);
         }
-    }
-
-    private FileChannel openZScore(int date) {
-        return null;
     }
 
     public void freshImport() {
@@ -203,10 +199,31 @@ public class FileDBImpl {
         d.open[idx] = Double.parseDouble(fields[4]);
     }
 
+    private List<String> readAllLines(Path p) throws IOException {
+
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(p.toFile()));
+
+        try {
+            List<String> result = new ArrayList<>();
+            for (;;) {
+                String line = bufferedReader.readLine();
+                if (line == null)
+                    break;
+                result.add(line);
+            }
+            return result;
+        } finally {
+            try {
+                bufferedReader.close();
+            } catch (IOException e) {
+            }
+        }
+    }
+
     public CloseData loadData(String symbol) {
         logger.info("Loading data "+market+"/"+symbol);
         try {
-            List<String> lines = Files.readAllLines(dataFile(symbol));
+            List<String> lines = readAllLines(dataFile(symbol));
             CloseData rv = new CloseData(symbol, lines.size());
             int i = 0;
             for(String line : lines) {
@@ -222,8 +239,9 @@ public class FileDBImpl {
     }
 
     public void rewrite(CloseData data) {
+        BufferedOutputStream outputStream = null;
         try {
-            BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(String.valueOf(dataFile(data.symbol)), false));
+            outputStream = new BufferedOutputStream(new FileOutputStream(String.valueOf(dataFile(data.symbol)), false));
             for(int i = 0; i < data.close.length; i++) {
                 StringBuilder builder = new StringBuilder(256);
                 builder.append(String.format("%d,%f,%f", data.date[i], data.close[i], data.volume[i]));
@@ -241,19 +259,30 @@ public class FileDBImpl {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            quietClose(outputStream);
+        }
+    }
+
+    private void quietClose(BufferedOutputStream outputStream) {
+        try {
+            outputStream.close();
+        } catch (IOException e) {
         }
     }
 
     public RangeBounds findDataBounds(String symbol) {
-
+        RandomAccessFile file = null;
+        MappedByteBuffer buffer = null;
+        FileChannel channel = null;
         try {
 
             int first, last, count = 0;
 
-            RandomAccessFile file = new RandomAccessFile(dataFile(symbol).toString(), "r");
-            FileChannel channel = file.getChannel();
+            file = new RandomAccessFile(dataFile(symbol).toString(), "r");
+            channel = file.getChannel();
 
-            MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, file.length());
+            buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, file.length());
 
             StringBuilder builder = new StringBuilder();
 
@@ -294,6 +323,15 @@ public class FileDBImpl {
             logger.error("Processing file "+symbol, e);
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            try {
+                if (channel != null)
+                    channel.close();
+                if(file != null)
+                    file.close();
+
+            } catch (IOException e) {
+            }
         }
     }
 
@@ -323,34 +361,32 @@ public class FileDBImpl {
     }
 
     public void dropZScoreFile(String symbol) {
-        try {
-            final File[] files = listZScoreFiles(symbol);
 
-            for ( final File file : files ) {
-                logger.info("Delete: " + file.getName());
-                if ( !file.delete() ) {
-                    System.err.println( "Can't remove " + file.getAbsolutePath() );
-                }
+        final File[] files = listZScoreFiles(symbol);
+
+        for ( final File file : files ) {
+            logger.info("Delete: " + file.getName());
+            if ( !file.delete() ) {
+                System.err.println( "Can't remove " + file.getAbsolutePath() );
             }
-
-        } finally {
-
         }
-
     }
 
     public int findMaxZScoreDate(String symbol, int startDate) {
         int rv = -1;
+        RandomAccessFile file = null;
+        MappedByteBuffer buffer = null;
+        FileChannel channel = null;
         try {
 
-            RandomAccessFile file = new RandomAccessFile(zscoreFile(symbol, startDate).toString(), "r");
+            file = new RandomAccessFile(zscoreFile(symbol, startDate).toString(), "r");
 
             if(file.length() == 0)
                 return startDate;
 
-            FileChannel channel = file.getChannel();
+            channel = file.getChannel();
 
-            MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, file.length());
+            buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, file.length());
 
             StringBuilder builder = new StringBuilder();
 
@@ -383,12 +419,21 @@ public class FileDBImpl {
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } finally {
+            try {
+                if (channel != null)
+                    channel.close();
+                if(file != null)
+                    file.close();
+
+            } catch (IOException e) {
+            }
         }
     }
 
     public ZScoreEntry loadZScores(String symbol, int sampleStart) {
         try {
-            List<String> lines = Files.readAllLines(zscoreFile(symbol, sampleStart));
+            List<String> lines = readAllLines(zscoreFile(symbol, sampleStart));
             ZScoreEntry rv = new ZScoreEntry(lines.size());
 
             for (String line : lines) {
@@ -436,6 +481,7 @@ public class FileDBImpl {
 
             entry.sanity();
 
+            FileChannel channel = null;
             try {
 
                 // preallocate file
@@ -443,7 +489,7 @@ public class FileDBImpl {
                 final int fileSize = maxLineLength * entry.date.length;
 
 
-                FileChannel channel = new RandomAccessFile(p.toString(), "rw").getChannel();
+                channel = new RandomAccessFile(p.toString(), "rw").getChannel();
                 channel.position(channel.size());
                 ByteBuffer buffer = ByteBuffer.allocate(8192);
                 for(int i = 0; i < entry.date.length; i++) {
@@ -464,6 +510,7 @@ public class FileDBImpl {
                     buffer.clear();
                 }
                 channel.close();
+                channel = null;
 
                 /*
                 BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(p.toString(), true));
@@ -479,6 +526,13 @@ public class FileDBImpl {
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
+            } finally {
+                if(channel != null) {
+                    try {
+                        channel.close();
+                    } catch (IOException e) {
+                    }
+                }
             }
         }
     }

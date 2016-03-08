@@ -218,6 +218,12 @@ public class ZScore {
 
         if(true) {
             useAdjustedClose = false;
+
+            //executeDSA("OTC");
+
+            //executeDSA("ASX");
+
+
             executeAllDataSources();
 
             //ENTRY_Z = -3;
