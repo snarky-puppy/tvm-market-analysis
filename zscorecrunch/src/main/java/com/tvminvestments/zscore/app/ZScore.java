@@ -30,6 +30,7 @@ public class ZScore {
 
     private static final Logger logger = LogManager.getLogger(ZScore.class);
     private static /*final*/ int N_THREADS = (int) Math.floor(Runtime.getRuntime().availableProcessors() * 2);
+    private static boolean useRestrictedOutput = false;
 
     private final String market;
     private final Database database;
@@ -62,7 +63,7 @@ public class ZScore {
             //ticker.resetTicker();
             //findZScores(ENTRY_Z, EXIT_Z);
             zscore(ENTRY_Z, EXIT_Z);
-            exportResults();
+            exportResults(useRestrictedOutput);
         } catch(Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -169,10 +170,10 @@ public class ZScore {
     }
 
 
-    public void exportResults() {
+    public void exportResults(boolean useRestrictedOutput) {
         try {
             //BufferedWriter bw = new BufferedWriter(new FileWriter(Util.getOutFile(market, getName())));
-            SearchResults.writeResults(market, getName());
+            SearchResults.writeResults(market, getName(), useRestrictedOutput);
             //bw.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -214,6 +215,8 @@ public class ZScore {
     }
 
     public static void main(String[] args) {
+
+        useRestrictedOutput = false;
 
 
         if(true) {

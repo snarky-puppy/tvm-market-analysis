@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * Calculate our adjustments on daily data
+ *
  * Created by horse on 10/09/15.
  */
 public class DailyUpdate {

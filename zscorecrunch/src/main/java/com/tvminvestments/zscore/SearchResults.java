@@ -140,16 +140,35 @@ public class SearchResults {
         bufferedWriter.write("\n");
     }
 
-    public static void writeResults(String market, String name) throws IOException {
+
+    private static void writeRestrictedHeader(BufferedWriter bw) throws IOException {
+        bw.write("Exchange,Symbol,Scenario ID,Sub-scenario");
+        bw.write(",Entry Date");
+        bw.write(",Entry Price");
+        bw.write(",Entry ZScore");
+        bw.write(",Average Volume");
+        bw.write(",Average Price");
+
+        bw.write("\n");
+
+    }
+
+    public static void writeResults(String market, String name, boolean useRestrictedOutput) throws IOException {
         Map<String, BufferedWriter> writers = new HashMap<>();
         for(Result r : results) {
             if(!writers.containsKey(r.getScenario().name)) {
                 BufferedWriter bw = new BufferedWriter(new FileWriter(Util.getOutFile(market, name, r.getScenario().name)));
                 writers.put(r.getScenario().name, bw);
-                writeHeader(bw);
+                if(useRestrictedOutput)
+                    writeRestrictedHeader(bw);
+                else
+                    writeHeader(bw);
             }
             BufferedWriter bw = writers.get(r.getScenario().name);
-            bw.write(r.toString());
+            if(useRestrictedOutput)
+                bw.write(r.toRestrictedString());
+            else
+                bw.write(r.toString());
         }
 
         for(BufferedWriter bw : writers.values()) {
@@ -162,10 +181,18 @@ public class SearchResults {
             results.clear();
     }
 
-    public static void writeResults(BufferedWriter bufferedWriter) throws IOException {
-        writeHeader(bufferedWriter);
+
+    public static void writeResults(BufferedWriter bufferedWriter, boolean useRestrictedOutput) throws IOException {
+        if(useRestrictedOutput)
+            writeRestrictedHeader(bufferedWriter);
+        else
+            writeHeader(bufferedWriter);
+
         for(Result r : results) {
-            bufferedWriter.write(r.toString());
+            if(useRestrictedOutput)
+                bufferedWriter.write(r.toRestrictedString());
+            else
+                bufferedWriter.write(r.toString());
         }
         bufferedWriter.close();
         results.clear();

@@ -36,3 +36,9 @@ dependencies {
     testCompile 'org.hamcrest:hamcrest-all:1.3'
 
 }
+
+run{
+    if(project.hasProperty("appProp")){
+        args appProp
+    }
+}

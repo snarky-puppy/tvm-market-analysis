@@ -30,6 +30,7 @@ public class DailyTriggerReport {
     private static final int TRACKING_DAYS = 2; //1; PD lags behind a couple of days
 
     private static final int N_THREADS = (int) Math.floor(Runtime.getRuntime().availableProcessors() * 2);
+    private static boolean useRestrictedOutput = true;
     private final Database database;
 
     String market;
@@ -41,6 +42,11 @@ public class DailyTriggerReport {
     }
 
     public static void main(String[] args) throws Exception {
+
+
+        useRestrictedOutput = true;
+
+
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
@@ -51,12 +57,22 @@ public class DailyTriggerReport {
         stopWatch.reset();
         stopWatch.start();
 
-        List<String> markets = Conf.listAllMarkets();
 
-        for(String market : markets) {
-            if(market.compareTo("OTC") != 0) {
+        if(args.length > 0) {
+            for(String market : args) {
                 DailyTriggerReport report = new DailyTriggerReport(market);
                 report.doit();
+            }
+            return;
+        } else {
+
+            List<String> markets = Conf.listAllMarkets();
+
+            for (String market : markets) {
+                if (market.compareTo("OTC") != 0) {
+                    DailyTriggerReport report = new DailyTriggerReport(market);
+                    report.doit();
+                }
             }
         }
 
@@ -100,40 +116,6 @@ public class DailyTriggerReport {
                             algo.setUseAdjustedClose(false);
                             try {
                                 algo.zscore();
-                                //logger.info("["+symbol+"] ZScore calc finished! "+database.getZScoreCollection(symbol).count()+" zscores total");
-                                //database.updateZScoreIndex(symbol);
-                            } catch (RuntimeException e) {
-                                logger.error("RunTimeException: ", e);
-                                System.exit(1);
-                            } catch (Exception e) {
-                                logger.error("[" + symbol + "] b0rked", e);
-                                System.exit(1);
-                            }
-                            ticker.incrementTicker();
-                        }
-                    });
-                }
-
-                logger.info("All jobs submitted in " + stopWatch.toString());
-                executorService.shutdown();
-                executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.DAYS);
-                stopWatch.stop();
-                logger.info("ZScore Crunch completed in " + stopWatch.toString());
-                stopWatch.reset();
-            }
-
-            // search
-            {
-                stopWatch.start();
-                ExecutorService executorService = Executors.newFixedThreadPool(N_THREADS);
-                for (final String symbol : database.listSymbols()) {
-                    executorService.submit(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            ZScoreAlgorithmDaily algo = new ZScoreAlgorithmDaily(symbol, database, getScenarioFactory());
-                            algo.setUseAdjustedClose(false);
-                            try {
                                 algo.inMemSearch(ENTRY_LIMIT, EXIT_LIMIT);
                                 //logger.info("["+symbol+"] ZScore calc finished! "+database.getZScoreCollection(symbol).count()+" zscores total");
                                 //database.updateZScoreIndex(symbol);
@@ -167,7 +149,7 @@ public class DailyTriggerReport {
         try {
             if(SearchResults.results.size() > 0) {
                 BufferedWriter bw = new BufferedWriter(new FileWriter(fp, true));
-                SearchResults.writeResults(bw);
+                SearchResults.writeResults(bw, useRestrictedOutput);
                 bw.close();
             }
         } catch(IOException e) {
