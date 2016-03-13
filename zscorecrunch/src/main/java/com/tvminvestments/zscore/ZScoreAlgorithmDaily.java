@@ -334,6 +334,8 @@ public class ZScoreAlgorithmDaily {
 
                 }
 
+                /*
+
                 if(zscore.zscore[idx] >= exitLimit) {
                     // find exit point
 
@@ -355,6 +357,7 @@ public class ZScoreAlgorithmDaily {
                     logger.debug(String.format("Found exit: %d/%f", pair.exitDate, pair.exitZScore));
                     SearchResults.addResult(database.getMarket(), symbol, scenario, pair);
                 }
+                */
 
 
                 // prepare for next run at it

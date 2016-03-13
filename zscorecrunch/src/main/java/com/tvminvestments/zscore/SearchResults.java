@@ -189,10 +189,12 @@ public class SearchResults {
             writeHeader(bufferedWriter);
 
         for(Result r : results) {
-            if(useRestrictedOutput)
-                bufferedWriter.write(r.toRestrictedString());
-            else
-                bufferedWriter.write(r.toString());
+            if(r.isEntry()) {
+                if (useRestrictedOutput)
+                    bufferedWriter.write(r.toRestrictedString());
+                else
+                    bufferedWriter.write(r.toString());
+            }
         }
         bufferedWriter.close();
         results.clear();

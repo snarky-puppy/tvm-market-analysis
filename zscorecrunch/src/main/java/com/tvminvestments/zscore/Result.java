@@ -22,6 +22,11 @@ public class Result {
         this.pair = entryExitPair;
     }
 
+    public boolean isEntry() {
+        return pair.resultCode == ResultCode.ENTRY || pair.resultCode == ResultCode.ENTRY_EXIT;
+    }
+
+
     public Scenario getScenario() {
         return scenario;
     }
