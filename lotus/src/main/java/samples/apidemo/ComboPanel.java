@@ -21,8 +21,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 
 
-import apidemo.OrdersPanel.OrderRow;
-import apidemo.OrdersPanel.OrdersModel;
+import samples.apidemo.OrdersPanel.OrderRow;
+import samples.apidemo.OrdersPanel.OrdersModel;
 import samples.apidemo.TopModel.TopRow;
 import samples.apidemo.util.HtmlButton;
 import samples.apidemo.util.NewTabbedPanel;

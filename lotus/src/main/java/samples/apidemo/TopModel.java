@@ -72,7 +72,7 @@ class TopModel extends AbstractTableModel {
 			case 3: return fmt( row.m_ask);
 			case 4: return row.m_askSize;
 			case 5: return fmt( row.m_last);
-			case 6: return fmtTime( row.m_lastTime);
+			case 6: return Formats.fmtTime( row.m_lastTime);
 			case 7: return row.change();
 			case 8: return Formats.fmt0( row.m_volume);
 			default: return null;

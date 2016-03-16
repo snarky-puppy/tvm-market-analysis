@@ -13,7 +13,7 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 
-import apidemo.AccountInfoPanel.Table;
+import samples.apidemo.AccountInfoPanel.Table;
 import samples.apidemo.util.HtmlButton;
 import samples.apidemo.util.VerticalPanel;
 import samples.apidemo.util.NewTabbedPanel.NewTabPanel;

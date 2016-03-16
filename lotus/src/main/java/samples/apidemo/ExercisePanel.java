@@ -14,7 +14,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 
-import apidemo.AccountInfoPanel.PortfolioModel;
+import samples.apidemo.AccountInfoPanel.PortfolioModel;
 import samples.apidemo.util.HtmlButton;
 import samples.apidemo.util.TCombo;
 import samples.apidemo.util.UpperField;

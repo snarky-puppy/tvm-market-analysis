@@ -18,7 +18,7 @@ import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
 
-import apidemo.OrdersPanel.OrdersModel;
+import samples.apidemo.OrdersPanel.OrdersModel;
 import samples.apidemo.util.HtmlButton;
 import samples.apidemo.util.TCombo;
 import samples.apidemo.util.UpperField;
