@@ -8,6 +8,7 @@ import samples.apidemo.ApiDemo;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -18,6 +19,7 @@ public class Broker implements ApiConnection.ILogger, ApiController.IConnectionH
     private static final Logger logger = LogManager.getLogger(Broker.class);
 
     private ApiController controller = new ApiController(this, this, this);
+    private List<String> accountList = new ArrayList<String>();
 
 
     public static void main(String[] args) {
@@ -28,28 +30,61 @@ public class Broker implements ApiConnection.ILogger, ApiController.IConnectionH
     private void test() {
 
         controller.connect("localhost", 7497, 0);
-
-        NewContract contract = new NewContract();
-        NewOrder order = new NewOrder();
-
-        order.totalQuantity(100);
-        order.lmtPrice(1);
-
-
-
-
-
-
-        // place order
-        controller.placeOrModifyOrder(contract, order, new ApiController.IOrderHandler() {
-            @Override public void orderState(NewOrderState orderState) {
+        try {
+            boolean accountListPopulated = false;
+            while(accountListPopulated == false) {
+                synchronized (accountList) {
+                    accountListPopulated = accountList.size() > 0;
+                }
+                Thread.sleep(1000);
             }
-            @Override public void orderStatus(OrderStatus status, int filled, int remaining, double avgFillPrice, long permId, int parentId, double lastFillPrice, int clientId, String whyHeld) {
-            }
-            @Override public void handle(int errorCode, final String errorMsg) {
-                logger.error(String.format("place_order: code=%d, msg=%s",errorCode, errorMsg));
-            }
-        });
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        controller.cancelAllOrders();
+
+        logger.info("2");
+
+        for(int i = 0; i < 5; i++) {
+            NewContract contract = new NewContract();
+            NewOrder order = new NewOrder();
+
+
+            order.totalQuantity(100);
+            order.lmtPrice(1);
+
+            // contract
+            contract.symbol("BHP");
+            contract.secType(Types.SecType.STK);
+            contract.exchange("SMART");
+            contract.primaryExch("ASX");
+            contract.currency("AUD");
+
+            // order
+            order.account(accountList.get(0));
+            order.action(Types.Action.BUY);
+            order.totalQuantity(100);
+            order.orderType(OrderType.MKT);
+            order.lmtPrice(1.0);
+            order.tif(Types.TimeInForce.DAY);
+
+            // place order
+            controller.placeOrModifyOrder(contract, order, new ApiController.IOrderHandler() {
+                @Override
+                public void orderState(NewOrderState orderState) {
+                }
+
+                @Override
+                public void orderStatus(OrderStatus status, int filled, int remaining, double avgFillPrice, long permId, int parentId, double lastFillPrice, int clientId, String whyHeld) {
+                }
+
+                @Override
+                public void handle(int errorCode, final String errorMsg) {
+                    logger.error(String.format("place_order: code=%d, msg=%s", errorCode, errorMsg));
+                }
+            });
+        }
 
 
         try {
@@ -58,7 +93,10 @@ public class Broker implements ApiConnection.ILogger, ApiController.IConnectionH
             e.printStackTrace();
         }
 
+        controller.disconnect();
     }
+
+
 
     @Override
     public void log(String valueOf) {
@@ -77,9 +115,12 @@ public class Broker implements ApiConnection.ILogger, ApiController.IConnectionH
 
     @Override
     public void accountList(ArrayList<String> list) {
-        logger.info("Accounts:");
-        for(String s : list) {
-            logger.info("\t"+s);
+        synchronized (accountList) {
+            this.accountList.addAll(list);
+            logger.info("Accounts:");
+            for (String s : list) {
+                logger.info("\t" + s);
+            }
         }
     }
 
@@ -90,7 +131,7 @@ public class Broker implements ApiConnection.ILogger, ApiController.IConnectionH
 
     @Override
     public void message(int id, int errorCode, String errorMsg) {
-        logger.error(String.format("message: id=%d, code=%d, msg=%s", id, errorCode, errorMsg));
+        logger.info(String.format("message: id=%d, code=%d, msg=%s", id, errorCode, errorMsg));
     }
 
     @Override
