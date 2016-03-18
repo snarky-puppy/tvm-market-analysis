@@ -63,7 +63,7 @@ public class DailyTriggerReport {
                 DailyTriggerReport report = new DailyTriggerReport(market);
                 report.doit();
             }
-            return;
+
         } else {
 
             List<String> markets = Conf.listAllMarkets();
@@ -78,6 +78,7 @@ public class DailyTriggerReport {
 
         // export
         int results = SearchResults.results.size();
+        System.out.println("Results: "+results);
         String fileName = Util.getDailyOutFile();
         exportResults(fileName);
         Gmailer.sendNotification(results,
@@ -147,11 +148,13 @@ public class DailyTriggerReport {
 
     private static void exportResults(String fp) {
         try {
+
             if(SearchResults.results.size() > 0) {
                 BufferedWriter bw = new BufferedWriter(new FileWriter(fp, true));
                 SearchResults.writeResults(bw, useRestrictedOutput);
                 bw.close();
-            }
+            } else
+                logger.error("No results");
         } catch(IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

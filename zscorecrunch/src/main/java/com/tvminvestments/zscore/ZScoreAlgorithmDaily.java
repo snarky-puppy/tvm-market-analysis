@@ -273,11 +273,17 @@ public class ZScoreAlgorithmDaily {
                     EntryExitPair pair = new EntryExitPair(ResultCode.ENTRY);
                     pair.entryDate = zscore.date[idx];
                     pair.entryZScore = zscore.zscore[idx];
+
+
                     //pair.entryPrice = database.findClosePrice(symbol, pair.entryDate);
                     if (useAdjustedClose)
                         pair.entryClosePrice = data.findAdjustedClosePriceAtDate(pair.entryDate);
                     else
                         pair.entryClosePrice = data.findClosePriceAtDate(pair.entryDate);
+
+                    data.avgVolumePrev30Days(pair.entryDate, pair.avgVolumePrev30);
+                    data.avgPricePrev30Days(pair.entryDate, pair.avgPricePrev30, useAdjustedClose);
+/*
                     if (idx > 0) {
                         pair.entryPrevDayDate = zscore.date[idx - 1];
                         if (useAdjustedClose)
@@ -313,13 +319,14 @@ public class ZScoreAlgorithmDaily {
                     data.findPCIncreaseFromEntry(pair.entryDate, 30, pair.pc30Date, pair.pc30Price, useAdjustedClose);
                     data.findPCIncreaseFromEntry(pair.entryDate, 20, pair.pc20Date, pair.pc20Price, useAdjustedClose);
                     data.findPCIncreaseFromEntry(pair.entryDate, 10, pair.pc10Date, pair.pc10Price, useAdjustedClose);
-
+*/
 
                     /**
                      * 1. Look for the highest close price after entry and note this dollar amount
                      * 2. Provide the date of the price and
                      * 3. The z score on that day (if you already have the z score calcd it might help us)
                      */
+/*
                     if (useAdjustedClose)
                         data.findMaxAdjustedClosePriceAfterEntry(pair);
                     else
@@ -328,6 +335,7 @@ public class ZScoreAlgorithmDaily {
                         logger.debug(String.format("[%s]: max price after entry %d: %f/%d", symbol, pair.entryDate, pair.maxPriceAfterEntry, pair.maxPriceDate));
                         pair.maxPriceZScore = zscore.findZScoreAtDate(pair.maxPriceDate);
                     }
+*/
 
                     logger.debug(String.format("Found entry: %d/%f", pair.entryDate, pair.entryZScore));
                     SearchResults.addResult(database.getMarket(), symbol, scenario, pair);

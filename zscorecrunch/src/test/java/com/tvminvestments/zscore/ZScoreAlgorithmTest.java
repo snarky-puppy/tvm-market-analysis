@@ -409,7 +409,7 @@ S1  2
         // OK now everything's done, we need to read back the generated CSV
         StringWriter stringWriter = new StringWriter();
         BufferedWriter bufferedWriter = new BufferedWriter(stringWriter);
-        SearchResults.writeResults(bufferedWriter);
+        SearchResults.writeResults(bufferedWriter, false);
         bufferedWriter.close();
 
         logger.debug("\n"+stringWriter.toString());

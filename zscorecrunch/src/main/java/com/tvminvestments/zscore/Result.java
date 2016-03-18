@@ -35,17 +35,7 @@ public class Result {
         StringBuilder builder = new StringBuilder();
         builder.append(String.format("%s,", exchange));
         builder.append(String.format("%s,%s,%d,", symbol, scenario.name, scenario.subScenario));
-
-        /*
-        bw.write(",Entry Date");
-        bw.write(",Entry Price");
-        bw.write(",Entry ZScore");
-        bw.write(",Average Volume");
-        bw.write(",Average Price");
-         */
         builder.append(String.format("%d,%f,%f,%f,%f", pair.entryDate, pair.entryClosePrice, pair.entryZScore, pair.avgVolumePrev30.get(), pair.avgPricePrev30.get()));
-
-
         builder.append("\n");
 
         return builder.toString();

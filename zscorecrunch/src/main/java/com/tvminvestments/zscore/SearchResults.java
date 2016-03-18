@@ -148,7 +148,6 @@ public class SearchResults {
         bw.write(",Entry ZScore");
         bw.write(",Average Volume");
         bw.write(",Average Price");
-
         bw.write("\n");
 
     }
