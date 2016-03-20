@@ -30,6 +30,9 @@
 build
 .gradle
 
+# database
+db
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
