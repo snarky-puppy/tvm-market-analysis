@@ -16,19 +16,22 @@ public class DailyScenarioFactory implements AbstractScenarioFactory {
         this.trackingDays = trackingDays;
     }
 
-
     @Override
     public Set<Scenario> getScenarios(String symbol) throws Exception {
-        int sampleStart = DateUtil.firstOfThisMonth();
-        sampleStart = DateUtil.minusYears(sampleStart, 5);
+        int sampleStart = DateUtil.firstOfTheMonth(getTodaysDate());
+        sampleStart = DateUtil.minusMonths(sampleStart, 1);
 
         // Premium Data feed is delayed by a day or so, reflect this in the scenario
-        int today = DateUtil.today();
+        int today = getTodaysDate();
         int trackingStart = DateUtil.minusDays(today, trackingDays);
 
         Scenario s = new Scenario("Daily", 0, sampleStart, trackingStart, today);
         Set<Scenario> rv = new HashSet<>();
         rv.add(s);
         return rv;
+    }
+
+    protected int getTodaysDate() {
+        return DateUtil.today();
     }
 }

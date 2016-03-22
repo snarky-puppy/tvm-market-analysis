@@ -57,7 +57,6 @@ public class DailyTriggerReport {
         stopWatch.reset();
         stopWatch.start();
 
-
         if(args.length > 0) {
             for(String market : args) {
                 DailyTriggerReport report = new DailyTriggerReport(market);

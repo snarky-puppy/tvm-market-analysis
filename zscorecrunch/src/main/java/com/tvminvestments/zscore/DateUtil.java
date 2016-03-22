@@ -112,7 +112,13 @@ public class DateUtil {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM01");
         return Integer.parseInt(sdf.format(date));
     }
-    
+
+    public static int firstOfTheMonth(int date) {
+        DateComponents dc = new DateComponents(date);
+        DateTime dateTime = new DateTime(dc.y, dc.m, 1, 0, 0);
+        return dateTimeToInteger(dateTime);
+    }
+
     public static int distance(int start, int end) {
         DateComponents startDateComponents = new DateComponents(start);
         DateComponents endDateComponents = new DateComponents(end);
