@@ -1,71 +1,68 @@
-    package com.tvmresearch.lotus;
+package com.tvmresearch.lotus;
 
-import com.tvmresearch.lotus.db.HibernateUtil;
 import com.tvmresearch.lotus.db.model.Trigger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.exception.ConstraintViolationException;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.Calendar;
-import java.util.List;
 
-    /**
+import java.sql.*;
+
+/**
  * Database interface
  *
  * Created by horse on 19/03/2016.
  */
 public class Database {
 
-        private static final Logger logger = LogManager.getLogger(Database.class);
+    private static final Logger logger = LogManager.getLogger(Database.class);
 
-    public Database() {
-        ensureSchema();
-    }
-
-
-
-    private void ensureSchema() {
-
-    }
-
-    public static void main(String[] args) {
+    public static Connection connection() {
         try {
-            Trigger data = new Trigger();
-            data.date = Calendar.getInstance().getTime();
-            data.closePrice = 123.123;
-            data.exchange = "ASX";
-            data.symbol = "TVM";
-            data.avgPrice = 1.0;
-            data.avgVolume = 2.0;
-
-            try {
-                Session session = HibernateUtil.getSessionFactory().openSession();
-                session.beginTransaction();
-                session.save(data);
-                session.getTransaction().commit();
-                session.close();
-            } catch(ConstraintViolationException e) {
-                logger.error("*********************** SAVE EXCEPTION", e);
-            }
-
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-            List result = session.createQuery("from Trigger").list();
-            for (Trigger t : (List<Trigger>) result) {
-                System.out.println("RESULT: "+t);
-            }
-            session.getTransaction().commit();
-            session.close();
-
-
-        } finally {
-            HibernateUtil.getSessionFactory().close();
+            Class.forName("com.mysql.jdbc.Driver");
+            return DriverManager.getConnection("jdbc:mysql://localhost/lotus", "lotus", "lotus");
+        } catch (SQLException | ClassNotFoundException e) {
+            logger.error("Cannot connect to DB", e);
+            throw new LotusException(e);
         }
+    }
 
+    private static String generateParams(int nParams) {
+        StringBuilder builder = new StringBuilder();
+        while(nParams > 0) {
+            builder.append("?");
+            nParams --;
+            if(nParams > 0)
+                builder.append(',');
+        }
+        return builder.toString();
+    }
+
+    public static void serialise(Connection connection, Trigger trigger) throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO triggers VALUES(NULL,"+generateParams(10)+")");
+        try {
+            stmt.setString(1, trigger.exchange);
+            stmt.setString(2, trigger.symbol);
+            stmt.setDate(3, new Date(trigger.date.getTime()));
+            stmt.setDouble(4, trigger.price);
+            stmt.setDouble(5, trigger.zscore);
+            stmt.setDouble(6, trigger.avgVolume);
+            stmt.setDouble(7, trigger.avgPrice);
+            stmt.setBoolean(8, trigger.seen);
+            stmt.setBoolean(9, trigger.actioned);
+            stmt.setBoolean(10, trigger.ignored);
+
+            stmt.execute();
+        } finally {
+            if(stmt != null)
+                stmt.close();
+        }
+    }
+
+    public static void close(Connection connection) {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

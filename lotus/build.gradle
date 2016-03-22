@@ -15,8 +15,10 @@ dependencies {
     //compile 'org.hsqldb:hsqldb:2.3.3'
     //compile 'org.xerial:sqlite-jdbc:3.8.11.2'
 
+    //compile 'org.hibernate:hibernate-core:5.1.0.Final'
 
-    compile 'org.hibernate:hibernate-core:5.1.0.Final'
+    compile 'mysql:mysql-connector-java:5.1.38'
+
 
     compile 'commons-io:commons-io:2.4'
 
