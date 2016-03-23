@@ -22,4 +22,16 @@ public class Compounder {
         this.broker = broker;
         state = new CompounderState(broker);
     }
+
+    public void onInvestment(Investment investment) {
+
+    }
+
+    public void onWithdrawal(Withdrawal withdrawal) {
+
+    }
+
+    public double nextInvestmentAmount() {
+        return state.minInvest;
+    }
 }

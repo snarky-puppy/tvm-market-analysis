@@ -43,8 +43,7 @@ public class ImportTriggers {
         } catch (IOException|SQLException e) {
             throw new LotusException(e);
         } finally {
-            if(connection != null)
-                Database.close(connection);
+            Database.close(connection);
         }
     }
 

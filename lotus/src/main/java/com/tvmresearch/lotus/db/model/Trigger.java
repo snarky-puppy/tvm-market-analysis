@@ -3,14 +3,14 @@ package com.tvmresearch.lotus.db.model;
 
 import com.tvmresearch.lotus.Configuration;
 import com.tvmresearch.lotus.Database;
+import com.tvmresearch.lotus.LotusException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,6 +24,8 @@ public class Trigger {
     private static final Logger logger = LogManager.getLogger(Trigger.class);
 
     public Trigger() {}
+
+    private Integer id = null;
 
     public String exchange;
 
@@ -40,15 +42,41 @@ public class Trigger {
     public double avgPrice;
 
     public boolean event = false;
-    public boolean expired = false;
+
+    public RejectReason rejectReason = RejectReason.NOTEVENT;
+    public Double rejectData = null;
+
+    public enum RejectReason {
+        NOTEVENT,
+        NOTPROCESSED,
+        ZSCORE,
+        CATEGORY,
+        VOLUME,
+        INVESTAMT,
+        OK
+    }
 
     public void serialise(Connection connection) throws SQLException {
+        PreparedStatement stmt = null;
 
-        int elapsedDays = elapsedDays(connection);
-        if(elapsedDays == -1 || elapsedDays > Configuration.RETRIGGER_MIN_DAYS)
-            event = true;
+        if(id == null) {
+            int elapsedDays = elapsedDays(connection);
+            if (elapsedDays == -1 || elapsedDays > Configuration.RETRIGGER_MIN_DAYS) {
+                event = true;
+                rejectReason = RejectReason.NOTPROCESSED;
+            } else {
+                rejectReason = RejectReason.NOTEVENT;
+            }
+            stmt = connection.prepareStatement("INSERT INTO triggers VALUES(NULL," + Database.generateParams(10) + ")");
+        } else {
+            final String sql = "UPDATE triggers "+
+                               "SET    exchange=?, symbol=?, trigger_date=?, price=?, " +
+                               "       zscore=?, avg_volume=?, avg_price=?, event=?, " +
+                               "       reject_reason=?, reject_data=?" +
+                               "WHERE  id = ?";
+            stmt = connection.prepareStatement(sql);
+        }
 
-        PreparedStatement stmt = connection.prepareStatement("INSERT INTO triggers VALUES(NULL,"+ Database.generateParams(9)+")");
         try {
             stmt.setString(1, exchange);
             stmt.setString(2, symbol);
@@ -58,29 +86,78 @@ public class Trigger {
             stmt.setDouble(6, avgVolume);
             stmt.setDouble(7, avgPrice);
             stmt.setBoolean(8, event);
-            stmt.setBoolean(9, expired);
+            stmt.setString(9, rejectReason.name());
+            if(rejectData == null)
+                stmt.setNull(10, Types.NUMERIC);
+            else
+                stmt.setDouble(10, rejectData);
+
+            if(id != null)
+                stmt.setInt(11, id);
 
             stmt.execute();
         } finally {
-            if(stmt != null)
-                stmt.close();
+            Database.close(stmt);
+        }
+    }
+
+    public static List<Trigger> getTodaysTriggers(Connection connection) {
+        List<Trigger> rv = new ArrayList<>();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        final String sql = "SELECT id, exchange, symbol, trigger_date, price, zscore, avg_volume, avg_price, event, reject_reason, reject_data"
+                         + " FROM triggers"
+                         + " WHERE trigger_date = ? AND event = TRUE";
+
+        try {
+            stmt = connection.prepareStatement(sql);
+            stmt.setDate(1, new java.sql.Date(new Date().getTime()));
+            rs = stmt.executeQuery();
+            while(rs.next()) {
+                Trigger trigger = new Trigger();
+
+                trigger.id = rs.getInt(1);
+                trigger.exchange = rs.getString(2);
+                trigger.symbol = rs.getString(3);
+                trigger.date = rs.getDate(4);
+                trigger.price = rs.getDouble(5);
+                trigger.price = rs.getDouble(6);
+                trigger.price = rs.getDouble(7);
+                trigger.price = rs.getDouble(8);
+                trigger.event = rs.getBoolean(9);
+                trigger.rejectReason = RejectReason.valueOf(rs.getString(10));
+
+                trigger.rejectData = rs.getDouble(11);
+                if(rs.wasNull())
+                    trigger.rejectData = null;
+
+                rv.add(trigger);
+            }
+            return rv;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new LotusException(e);
+        } finally {
+            Database.close(rs, stmt);
         }
     }
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Trigger{");
-        sb.append("exchange='").append(exchange).append('\'');
-        sb.append(", symbol='").append(symbol).append('\'');
-        sb.append(", date=").append(date);
-        sb.append(", price=").append(price);
-        sb.append(", zscore=").append(zscore);
-        sb.append(", avgVolume=").append(avgVolume);
-        sb.append(", avgPrice=").append(avgPrice);
-        sb.append(", event=").append(event);
-        sb.append(", expired=").append(expired);
-        sb.append('}');
-        return sb.toString();
+        return "Trigger{" +
+                "id=" + id +
+                ", exchange='" + exchange + '\'' +
+                ", symbol='" + symbol + '\'' +
+                ", date=" + date +
+                ", price=" + price +
+                ", zscore=" + zscore +
+                ", avgVolume=" + avgVolume +
+                ", avgPrice=" + avgPrice +
+                ", event=" + event +
+                ", rejectReason=" + rejectReason +
+                ", rejectData=" + rejectData +
+                '}';
     }
 
     public int elapsedDays(Connection connection) {
@@ -106,8 +183,7 @@ public class Trigger {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if(stmt != null)
-                Database.close(stmt);
+            Database.close(stmt);
         }
         return -1;
     }

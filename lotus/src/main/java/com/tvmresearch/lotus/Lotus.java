@@ -1,8 +1,12 @@
 package com.tvmresearch.lotus;
 
+import com.tvmresearch.lotus.db.model.Trigger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.xml.crypto.Data;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Calendar;
 
 /**
@@ -16,20 +20,18 @@ public class Lotus {
 
     public static void main(String[] args) {
 
+        Connection connection = Database.connection();
+
         ImportTriggers importTriggers = new ImportTriggers();
         importTriggers.importAll();
 
         Broker broker = new InteractiveBrokerAPI();
-
         Compounder compounder = new Compounder(broker);
+        EventProcessor eventProcessor = new EventProcessor(broker, compounder);
+        eventProcessor.processTriggers(connection, Trigger.getTodaysTriggers(connection));
 
-
-        EventProcessor eventProcessor = new EventProcessor();
-        eventProcessor.processTriggers();
+        Database.close(connection);
 
     }
 
-    private boolean isFirstOfMonth() {
-        return Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 1;
-    }
 }

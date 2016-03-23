@@ -77,4 +77,9 @@ public class Database {
         close(stmt);
         close(connection);
     }
+
+    public static void close(ResultSet rs, PreparedStatement stmt) {
+        close(rs);
+        close(stmt);
+    }
 }

@@ -9,8 +9,8 @@ GRANT ALL PRIVILEGES ON lotus.* TO lotus@localhost IDENTIFIED BY 'lotus';
 CREATE TABLE triggers (
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
 
-	exchange CHAR(8) NOT NULL,
-	symbol CHAR(8) NOT NULL,
+	exchange CHAR(16) NOT NULL,
+	symbol CHAR(16) NOT NULL,
 	trigger_date DATE NOT NULL,
 
 	price DOUBLE(18,6) NOT NULL,
@@ -20,7 +20,8 @@ CREATE TABLE triggers (
 	avg_price DOUBLE(18,6) NOT NULL,
 
 	event BOOLEAN NOT NULL DEFAULT false,
-	expired BOOLEAN NOT NULL DEFAULT false,
+	reject_reason ENUM('NOTEVENT', 'NOTPROCESSED', 'ZSCORE', 'CATEGORY', 'VOLUME', 'INVESTAMT', 'OK') NOT NULL DEFAULT 'NOTEVENT',
+	reject_data DOUBLE(18,6),
 
 	UNIQUE KEY trigger_uniq (exchange, symbol, trigger_date)
 );
