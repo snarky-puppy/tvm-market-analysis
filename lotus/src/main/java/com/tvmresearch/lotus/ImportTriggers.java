@@ -95,7 +95,7 @@ public class ImportTriggers {
 
     private void saveTrigger(Trigger trigger) {
         try {
-            Database.serialise(connection, trigger);
+            trigger.serialise(connection);
         } catch(MySQLIntegrityConstraintViolationException e) {
             // ignore duplicates
         } catch(SQLException e) {

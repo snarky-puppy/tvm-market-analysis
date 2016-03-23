@@ -1,8 +1,14 @@
 #!/bin/bash
 
+if [ -f /usr/bin/mysql ] ; then
+	BIN=/usr/bin/mysql
+else
+	BIN=/usr/local/mysql/bin/mysql 
+fi
+
 if [ "$1" = "-schema" ] ; then
-	/usr/local/mysql/bin/mysql -uroot mysql < schema.sql
+	$BIN -uroot mysql < schema.sql
 
 else
-	/usr/local/mysql/bin/mysql -ulotus -plotus lotus
+	$BIN -ulotus -plotus lotus
 fi

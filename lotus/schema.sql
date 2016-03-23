@@ -19,10 +19,18 @@ CREATE TABLE triggers (
 	avg_volume DOUBLE(18,6) NOT NULL,
 	avg_price DOUBLE(18,6) NOT NULL,
 
-	seen BOOLEAN NOT NULL DEFAULT false,
-	actioned BOOLEAN NOT NULL DEFAULT false,
-	ignored BOOLEAN NOT NULL DEFAULT false,
+	event BOOLEAN NOT NULL DEFAULT false,
+	expired BOOLEAN NOT NULL DEFAULT false,
 
 	UNIQUE KEY trigger_uniq (exchange, symbol, trigger_date)
 );
 
+CREATE TABLE positions (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	trigger_id INTEGER NOT NULL,
+
+
+	FOREIGN KEY(trigger_id)
+		REFERENCES(triggers.id);
+
+);
