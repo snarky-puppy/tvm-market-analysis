@@ -25,6 +25,21 @@ CREATE TABLE triggers (
 	UNIQUE KEY trigger_uniq (exchange, symbol, trigger_date)
 );
 
+CREATE TABLE compounder_state (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+
+	dt DATE NOT NULL,
+
+	start_bank DOUBLE(18,6) NOT NULL,
+	min_invest DOUBLE(18,6) NOT NULL,
+	compound_tally DOUBLE(18,6) NOT NULL,
+	spread INTEGER NOT NULL,
+	invest_pc INTEGER NOT NULL,
+
+	UNIQUE KEY dt_uniq (dt)
+);
+
+/*
 CREATE TABLE positions (
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	trigger_id INTEGER NOT NULL,
@@ -34,3 +49,4 @@ CREATE TABLE positions (
 		REFERENCES(triggers.id);
 
 );
+*/

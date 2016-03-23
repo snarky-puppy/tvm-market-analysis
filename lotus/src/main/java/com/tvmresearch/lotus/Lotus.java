@@ -3,6 +3,8 @@ package com.tvmresearch.lotus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Calendar;
+
 /**
  * Program entry point
  *
@@ -17,8 +19,17 @@ public class Lotus {
         ImportTriggers importTriggers = new ImportTriggers();
         importTriggers.importAll();
 
+        Broker broker = new InteractiveBrokerAPI();
+
+        Compounder compounder = new Compounder(broker);
+
+
         EventProcessor eventProcessor = new EventProcessor();
         eventProcessor.processTriggers();
 
+    }
+
+    private boolean isFirstOfMonth() {
+        return Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 1;
     }
 }

@@ -13,4 +13,7 @@ public class Configuration {
     public static final double MIN_ZSCORE = -2;
     public static final double MIN_VOLUME = 10000000;
     public static final int RETRIGGER_MIN_DAYS = 28;
+    public static final int SPREAD = 5;
+    public static final int MIN_INVEST_PC = 10;
+
 }

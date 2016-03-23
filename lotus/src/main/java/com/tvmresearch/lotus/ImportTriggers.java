@@ -77,6 +77,7 @@ public class ImportTriggers {
     }
 
     private void parseLine(String line) {
+        logger.debug(line);
         String fields[] = line.split(",");
 
         Trigger trigger = new Trigger();

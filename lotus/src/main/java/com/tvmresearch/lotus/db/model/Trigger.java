@@ -1,12 +1,17 @@
 package com.tvmresearch.lotus.db.model;
 
 
+import com.tvmresearch.lotus.Configuration;
 import com.tvmresearch.lotus.Database;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Triggers bean
@@ -15,6 +20,8 @@ import java.util.Date;
  */
 
 public class Trigger {
+
+    private static final Logger logger = LogManager.getLogger(Trigger.class);
 
     public Trigger() {}
 
@@ -36,6 +43,11 @@ public class Trigger {
     public boolean expired = false;
 
     public void serialise(Connection connection) throws SQLException {
+
+        int elapsedDays = elapsedDays(connection);
+        if(elapsedDays == -1 || elapsedDays > Configuration.RETRIGGER_MIN_DAYS)
+            event = true;
+
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO triggers VALUES(NULL,"+ Database.generateParams(9)+")");
         try {
             stmt.setString(1, exchange);
@@ -75,16 +87,28 @@ public class Trigger {
         StringBuffer sb = new StringBuffer("SELECT trigger_date ");
         sb.append(" FROM triggers ");
         sb.append(" WHERE symbol = ? AND exchange = ? AND trigger_date < ?");
-        sb.append(" ORDER BY trigger_date ASC");
+        sb.append(" ORDER BY trigger_date DESC LIMIT 1");
 
+        PreparedStatement stmt = null;
         try {
-            PreparedStatement stmt = connection.prepareStatement(sb.toString());
+            stmt = connection.prepareStatement(sb.toString());
+            stmt.setString(1, symbol);
+            stmt.setString(2, exchange);
+            stmt.setDate(3, new java.sql.Date(date.getTime()));
+            ResultSet rs = stmt.executeQuery();
             int nDays = -1;
-
+            if(rs.next()) {
+                Date lastDate = rs.getDate(1);
+                long diff = date.getTime() - lastDate.getTime();
+                nDays = (int)TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            }
             return nDays;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if(stmt != null)
+                Database.close(stmt);
         }
-        return 0;
+        return -1;
     }
 }
