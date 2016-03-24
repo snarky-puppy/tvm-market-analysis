@@ -40,6 +40,7 @@ public class ImportTriggers {
                     .filter(p -> p.toString().endsWith(".csv"))
                     .forEach(this::importFile);
             connection.commit();
+            connection.setAutoCommit(true);
         } catch (IOException|SQLException e) {
             throw new LotusException(e);
         } finally {

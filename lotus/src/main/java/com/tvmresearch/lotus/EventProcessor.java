@@ -36,7 +36,8 @@ public class EventProcessor {
     }
 
     private void createBuyOrder(Trigger trigger) {
-
+        Position position = compounder.createBuyOrder(trigger);
+        broker.buy(position);
     }
 
     public boolean validateTrigger(Trigger trigger) {
@@ -73,9 +74,18 @@ public class EventProcessor {
             rv = false;
         }
 
-        if(!rv) {
-            trigger.serialise();
+        if((broker.getAvailableFunds() - nextInvest) < 0) {
+            trigger.rejectReason = Trigger.RejectReason.NOFUNDS;
+            trigger.rejectData = nextInvest;
+            rv = false;
         }
+
+        if(rv) {
+            trigger.rejectReason = Trigger.RejectReason.OK;
+        }
+
+        trigger.serialise();
+
         return rv;
     }
 

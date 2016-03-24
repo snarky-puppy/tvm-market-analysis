@@ -1,5 +1,6 @@
 package com.tvmresearch.lotus;
 
+import jdk.nashorn.internal.objects.NativeDate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
@@ -32,6 +33,8 @@ public class DateUtil {
     public static boolean isFirstOfMonth() {
         return Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 1;
     }
+
+
 
     private static class DateComponents {
         public int y, m, d;
@@ -112,6 +115,13 @@ public class DateUtil {
         DateTime rv = new DateTime(dateTime.getYear(), dateTime.getMonthOfYear(), 1, 0, 0);
         return rv.toDate();
     }
+
+    public static Date firstOfLastMonth() {
+        DateTime dateTime = new DateTime(new Date());
+        DateTime rv = new DateTime(dateTime.getYear(), dateTime.getMonthOfYear(), 1, 0, 0);
+        return rv.minusMonths(1).toDate();
+    }
+
 
     public static int firstOfTheMonth(int date) {
         DateComponents dc = new DateComponents(date);

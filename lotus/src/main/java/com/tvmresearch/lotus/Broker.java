@@ -8,4 +8,6 @@ package com.tvmresearch.lotus;
 public interface Broker {
 
     double getAvailableFunds();
+
+    void buy(Position position);
 }

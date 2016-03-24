@@ -20,7 +20,7 @@ public class Database {
     private static DataSource dataSource;
 
     static {
-        DataSource dataSource = new DataSource();
+        dataSource = new DataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost/lotus?useSSL=false");
         dataSource.setUsername("lotus");

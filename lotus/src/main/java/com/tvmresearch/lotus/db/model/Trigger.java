@@ -56,7 +56,7 @@ public class Trigger {
         CATEGORY,
         VOLUME,
         INVESTAMT,
-        MININVEST,
+        NOFUNDS,
         OK
     }
 

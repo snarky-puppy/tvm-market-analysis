@@ -140,4 +140,9 @@ public class InteractiveBrokerAPI implements ApiConnection.ILogger, ApiControlle
     public double getAvailableFunds() {
         return 200000;
     }
+
+    @Override
+    public void buy(Position position) {
+
+    }
 }

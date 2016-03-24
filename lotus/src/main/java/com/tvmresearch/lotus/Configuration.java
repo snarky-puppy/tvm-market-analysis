@@ -16,4 +16,6 @@ public class Configuration {
     public static final int SPREAD = 21;
     public static final int MIN_INVEST_PC = 7;
 
+    // buy limit is close price + 0.1 %
+    public static final double BUY_LIMIT_FACTOR = 1.01;;
 }
