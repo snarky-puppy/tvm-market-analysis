@@ -1,11 +1,13 @@
 package com.tvmresearch.lotus.db.model;
 
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.tvmresearch.lotus.Configuration;
 import com.tvmresearch.lotus.Database;
 import com.tvmresearch.lotus.LotusException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -46,6 +48,7 @@ public class Trigger {
     public RejectReason rejectReason = RejectReason.NOTEVENT;
     public Double rejectData = null;
 
+
     public enum RejectReason {
         NOTEVENT,
         NOTPROCESSED,
@@ -53,31 +56,40 @@ public class Trigger {
         CATEGORY,
         VOLUME,
         INVESTAMT,
+        MININVEST,
         OK
     }
 
-    public void serialise(Connection connection) throws SQLException {
+
+    public void serialise() {
+        Connection connection = Database.connection();
+        serialise(Database.connection());
+        Database.close(connection);
+    }
+
+    public void serialise(Connection connection) {
         PreparedStatement stmt = null;
 
-        if(id == null) {
-            int elapsedDays = elapsedDays(connection);
-            if (elapsedDays == -1 || elapsedDays > Configuration.RETRIGGER_MIN_DAYS) {
-                event = true;
-                rejectReason = RejectReason.NOTPROCESSED;
-            } else {
-                rejectReason = RejectReason.NOTEVENT;
-            }
-            stmt = connection.prepareStatement("INSERT INTO triggers VALUES(NULL," + Database.generateParams(10) + ")");
-        } else {
-            final String sql = "UPDATE triggers "+
-                               "SET    exchange=?, symbol=?, trigger_date=?, price=?, " +
-                               "       zscore=?, avg_volume=?, avg_price=?, event=?, " +
-                               "       reject_reason=?, reject_data=?" +
-                               "WHERE  id = ?";
-            stmt = connection.prepareStatement(sql);
-        }
-
         try {
+
+            if (id == null) {
+                int elapsedDays = elapsedDays(connection);
+                if (elapsedDays == -1 || elapsedDays > Configuration.RETRIGGER_MIN_DAYS) {
+                    event = true;
+                    rejectReason = RejectReason.NOTPROCESSED;
+                } else {
+                    rejectReason = RejectReason.NOTEVENT;
+                }
+                stmt = connection.prepareStatement("INSERT INTO triggers VALUES(NULL," + Database.generateParams(10) + ")");
+            } else {
+                final String sql = "UPDATE triggers " +
+                        "SET    exchange=?, symbol=?, trigger_date=?, price=?, " +
+                        "       zscore=?, avg_volume=?, avg_price=?, event=?, " +
+                        "       reject_reason=?, reject_data=?" +
+                        "WHERE  id = ?";
+                stmt = connection.prepareStatement(sql);
+            }
+
             stmt.setString(1, exchange);
             stmt.setString(2, symbol);
             stmt.setDate(3, new java.sql.Date(date.getTime()));
@@ -87,22 +99,27 @@ public class Trigger {
             stmt.setDouble(7, avgPrice);
             stmt.setBoolean(8, event);
             stmt.setString(9, rejectReason.name());
-            if(rejectData == null)
+            if (rejectData == null)
                 stmt.setNull(10, Types.NUMERIC);
             else
                 stmt.setDouble(10, rejectData);
 
-            if(id != null)
+            if (id != null)
                 stmt.setInt(11, id);
 
             stmt.execute();
+        } catch(MySQLIntegrityConstraintViolationException e) {
+            // ignore
+        } catch (SQLException e) {
+            throw new LotusException(e);
         } finally {
             Database.close(stmt);
         }
     }
 
-    public static List<Trigger> getTodaysTriggers(Connection connection) {
+    public static List<Trigger> getTodaysTriggers() {
         List<Trigger> rv = new ArrayList<>();
+        Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -111,6 +128,7 @@ public class Trigger {
                          + " WHERE trigger_date = ? AND event = TRUE";
 
         try {
+            connection = Database.connection();
             stmt = connection.prepareStatement(sql);
             stmt.setDate(1, new java.sql.Date(new Date().getTime()));
             rs = stmt.executeQuery();
@@ -136,10 +154,9 @@ public class Trigger {
             }
             return rv;
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new LotusException(e);
         } finally {
-            Database.close(rs, stmt);
+            Database.close(rs, stmt, connection);
         }
     }
 
@@ -181,10 +198,9 @@ public class Trigger {
             }
             return nDays;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new LotusException(e);
         } finally {
             Database.close(stmt);
         }
-        return -1;
     }
 }

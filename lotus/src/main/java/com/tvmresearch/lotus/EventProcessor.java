@@ -5,9 +5,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implement event processing logic
@@ -26,19 +29,20 @@ public class EventProcessor {
         this.compounder = compounder;
     }
 
-    public void processTriggers(Connection connection, List<Trigger> triggerList) {
+    public void processTriggers(List<Trigger> triggerList) {
+        triggerList.stream()
+                .filter(this::validateTrigger)
+                .forEach(this::createBuyOrder);
+    }
 
-        List<Trigger> okTriggerList = new ArrayList<>();
-        for(Trigger trigger : triggerList) {
-            if(validateTrigger(connection, trigger))
-                okTriggerList.add(trigger);
-        }
+    private void createBuyOrder(Trigger trigger) {
 
     }
 
-    public boolean validateTrigger(Connection connection, Trigger trigger) {
+    public boolean validateTrigger(Trigger trigger) {
 
         boolean rv = true;
+
         if(!trigger.event) {
             trigger.rejectReason = Trigger.RejectReason.NOTEVENT;
             rv = false;
@@ -50,7 +54,7 @@ public class EventProcessor {
             rv = false;
         }
 
-        if(isHealthCare(trigger)) {
+        if(isActiveSymbol(trigger)) {
             trigger.rejectReason = Trigger.RejectReason.CATEGORY;
             rv = false;
         }
@@ -69,25 +73,33 @@ public class EventProcessor {
             rv = false;
         }
 
-
-        if(rv == false) {
-            try {
-                trigger.serialise(connection);
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw new LotusException(e);
-            }
+        if(!rv) {
+            trigger.serialise();
         }
         return rv;
     }
 
-    private boolean isHealthCare(Trigger trigger) {
-        return false;
+    private boolean isActiveSymbol(Trigger trigger) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Database.connection();
+            stmt = connection.prepareStatement("SELECT COUNT(*) FROM active_symbols WHERE exchange = ? AND symbol = ?");
+            stmt.setString(1, trigger.exchange);
+            stmt.setString(2, trigger.symbol);
+            rs = stmt.executeQuery();
+            if(rs.next()) {
+                int i = rs.getInt(1);
+                return i > 0;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new LotusException(e);
+        } finally {
+            Database.close(rs, stmt, connection);
+        }
     }
-
-    private void processEvents() {
-
-    }
-
-
 }

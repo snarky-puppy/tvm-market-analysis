@@ -64,7 +64,6 @@ public class ImportTriggers {
                     parseLine(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
             throw new LotusException(e);
         } finally {
             try {
@@ -90,18 +89,7 @@ public class ImportTriggers {
         trigger.avgVolume = Double.parseDouble(fields[7]);
         trigger.avgPrice = Double.parseDouble(fields[8]);
 
-        saveTrigger(trigger);
-    }
-
-    private void saveTrigger(Trigger trigger) {
-        try {
-            trigger.serialise(connection);
-        } catch(MySQLIntegrityConstraintViolationException e) {
-            // ignore duplicates
-        } catch(SQLException e) {
-            e.printStackTrace();
-            throw new LotusException(e);
-        }
+        trigger.serialise(connection);
     }
 
     private Date parseDate(String date) {

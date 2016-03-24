@@ -20,17 +20,13 @@ public class Lotus {
 
     public static void main(String[] args) {
 
-        Connection connection = Database.connection();
-
         ImportTriggers importTriggers = new ImportTriggers();
         importTriggers.importAll();
 
         Broker broker = new InteractiveBrokerAPI();
         Compounder compounder = new Compounder(broker);
         EventProcessor eventProcessor = new EventProcessor(broker, compounder);
-        eventProcessor.processTriggers(connection, Trigger.getTodaysTriggers(connection));
-
-        Database.close(connection);
+        eventProcessor.processTriggers(Trigger.getTodaysTriggers());
 
     }
 

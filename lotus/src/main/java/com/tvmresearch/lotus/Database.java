@@ -3,6 +3,7 @@ package com.tvmresearch.lotus;
 import com.tvmresearch.lotus.db.model.Trigger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 
 import java.sql.*;
@@ -16,7 +17,30 @@ public class Database {
 
     private static final Logger logger = LogManager.getLogger(Database.class);
 
+    private static DataSource dataSource;
+
+    static {
+        DataSource dataSource = new DataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost/lotus?useSSL=false");
+        dataSource.setUsername("lotus");
+        dataSource.setPassword("lotus");
+        dataSource.setInitialSize(10);
+        dataSource.setMaxActive(50);
+        dataSource.setMaxIdle(20);
+        dataSource.setMinIdle(10);
+    }
+
     public static Connection connection() {
+
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new LotusException(e);
+        }
+
+        /*
         try {
             Class.forName("com.mysql.jdbc.Driver");
             return DriverManager.getConnection("jdbc:mysql://localhost/lotus?useSSL=false", "lotus", "lotus");
@@ -24,6 +48,7 @@ public class Database {
             logger.error("Cannot connect to DB", e);
             throw new LotusException(e);
         }
+        */
     }
 
     public static String generateParams(int nParams) {
@@ -36,8 +61,6 @@ public class Database {
         }
         return builder.toString();
     }
-
-
 
     public static void close(Connection connection) {
         try {
