@@ -1,6 +1,7 @@
 package com.tvmresearch.lotus.db.model;
 
 import com.tvmresearch.lotus.*;
+import com.tvmresearch.lotus.broker.Broker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,7 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 
 /**
  * Compounder state
@@ -54,7 +54,7 @@ public class CompounderState {
         try {
             connection = Database.connection();
             stmt = connection.prepareStatement(sql);
-            stmt.setDate(1, new java.sql.Date(DateUtil.firstOfLastMonth().getTime()));
+            stmt.setDate(1, java.sql.Date.valueOf(DateUtil.firstOfLastMonth()));
             rs = stmt.executeQuery();
             if(rs.next()) {
                 rv = rs.getDouble(1);
@@ -80,7 +80,7 @@ public class CompounderState {
             connection = Database.connection();
             stmt = connection.prepareStatement(sql);
             stmt.setDouble(1, compoundTally);
-            stmt.setDate(2, new java.sql.Date(DateUtil.firstOfThisMonth().getTime()));
+            stmt.setDate(2, java.sql.Date.valueOf(DateUtil.firstOfThisMonth()));
             stmt.execute();
         } catch (SQLException e) {
             throw new LotusException(e);
@@ -98,14 +98,13 @@ public class CompounderState {
 
         Connection connection = null;
         PreparedStatement stmt = null;
-        Date dt = DateUtil.firstOfThisMonth();
         try {
             final String sql = "INSERT INTO compounder_state(dt, start_bank, min_invest, compound_tally, spread, invest_pc) " +
                     "VALUES(?, ?, ?, ?, ?, ?)";
             connection = Database.connection();
             stmt = connection.prepareStatement(sql);
 
-            stmt.setDate(1, new java.sql.Date(dt.getTime()));
+            stmt.setDate(1, java.sql.Date.valueOf(DateUtil.firstOfThisMonth()));
             stmt.setDouble(2, startBank);
             stmt.setDouble(3, minInvest);
             stmt.setDouble(4, compoundTally);
@@ -128,11 +127,11 @@ public class CompounderState {
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Date dt = DateUtil.firstOfThisMonth();
+
         try {
             connection = Database.connection();
             stmt = connection.prepareStatement("SELECT start_bank, min_invest, compound_tally, spread, invest_pc FROM compounder_state WHERE dt = ?");
-            stmt.setDate(1, new java.sql.Date(dt.getTime()));
+            stmt.setDate(1, java.sql.Date.valueOf(DateUtil.firstOfThisMonth()));
             rs = stmt.executeQuery();
             if(rs.next()) {
                 startBank = rs.getDouble(1);

@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -29,7 +30,6 @@ public class ImportTriggers {
     private Connection connection = null;
 
     public ImportTriggers() {
-
     }
 
     public void importAll() {
@@ -76,7 +76,7 @@ public class ImportTriggers {
     }
 
     private void parseLine(String line) {
-        logger.debug(line);
+        //logger.debug(line);
         String fields[] = line.split(",");
 
         Trigger trigger = new Trigger();
@@ -93,14 +93,12 @@ public class ImportTriggers {
         trigger.serialise(connection);
     }
 
-    private Date parseDate(String date) {
+    private LocalDate parseDate(String date) {
         int dt = Integer.parseInt(date);
         int y = dt / 10000;
         int m = (dt - (y * 10000)) / 100;
         int d = (dt - (y * 10000)) - (m * 100);
-        Calendar c = Calendar.getInstance();
-        c.set(y, m - 1, d);
-        return c.getTime();
+        return LocalDate.of(y, m, d);
     }
 
 

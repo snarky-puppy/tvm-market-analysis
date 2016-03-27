@@ -10,6 +10,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
 import java.sql.*;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,13 +31,13 @@ public class Trigger {
 
     public Trigger() {}
 
-    private Integer id = null;
+    public Integer id = null;
 
     public String exchange;
 
     public String symbol;
 
-    public Date date;
+    public LocalDate date;
 
     public double price;
 
@@ -92,7 +96,7 @@ public class Trigger {
 
             stmt.setString(1, exchange);
             stmt.setString(2, symbol);
-            stmt.setDate(3, new java.sql.Date(date.getTime()));
+            stmt.setDate(3, java.sql.Date.valueOf(date));
             stmt.setDouble(4, price);
             stmt.setDouble(5, zscore);
             stmt.setDouble(6, avgVolume);
@@ -138,7 +142,7 @@ public class Trigger {
                 trigger.id = rs.getInt(1);
                 trigger.exchange = rs.getString(2);
                 trigger.symbol = rs.getString(3);
-                trigger.date = rs.getDate(4);
+                trigger.date = rs.getDate(4) == null ? null : rs.getDate(4).toLocalDate();
                 trigger.price = rs.getDouble(5);
                 trigger.price = rs.getDouble(6);
                 trigger.price = rs.getDouble(7);
@@ -153,6 +157,50 @@ public class Trigger {
                 rv.add(trigger);
             }
             return rv;
+        } catch (SQLException e) {
+            throw new LotusException(e);
+        } finally {
+            Database.close(rs, stmt, connection);
+        }
+    }
+
+    public static Trigger load(int id) {
+        Trigger rv = null;
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        final String sql = "SELECT id, exchange, symbol, trigger_date, price, zscore, " +
+                "avg_volume, avg_price, event, reject_reason, reject_data"
+                + " FROM triggers"
+                + " WHERE id = ?";
+
+        try {
+            connection = Database.connection();
+            stmt = connection.prepareStatement(sql);
+            stmt.setDate(1, new java.sql.Date(new Date().getTime()));
+            rs = stmt.executeQuery();
+            while(rs.next()) {
+                Trigger trigger = new Trigger();
+
+                trigger.id = rs.getInt(1);
+                trigger.exchange = rs.getString(2);
+                trigger.symbol = rs.getString(3);
+                trigger.date = rs.getDate(4) == null ? null : rs.getDate(4).toLocalDate();
+                trigger.price = rs.getDouble(5);
+                trigger.price = rs.getDouble(6);
+                trigger.price = rs.getDouble(7);
+                trigger.price = rs.getDouble(8);
+                trigger.event = rs.getBoolean(9);
+                trigger.rejectReason = RejectReason.valueOf(rs.getString(10));
+
+                trigger.rejectData = rs.getDouble(11);
+                if(rs.wasNull())
+                    trigger.rejectData = null;
+
+                return trigger;
+            }
+            return null;
         } catch (SQLException e) {
             throw new LotusException(e);
         } finally {
@@ -188,13 +236,12 @@ public class Trigger {
             stmt = connection.prepareStatement(sb.toString());
             stmt.setString(1, symbol);
             stmt.setString(2, exchange);
-            stmt.setDate(3, new java.sql.Date(date.getTime()));
+            stmt.setDate(3, java.sql.Date.valueOf(date));
             ResultSet rs = stmt.executeQuery();
             int nDays = -1;
             if(rs.next()) {
-                Date lastDate = rs.getDate(1);
-                long diff = date.getTime() - lastDate.getTime();
-                nDays = (int)TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+                LocalDate lastDate = rs.getDate(1).toLocalDate();
+                nDays = (int) ChronoUnit.DAYS.between(lastDate, date);
             }
             return nDays;
         } catch (SQLException e) {

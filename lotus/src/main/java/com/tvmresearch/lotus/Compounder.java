@@ -1,7 +1,11 @@
 package com.tvmresearch.lotus;
 
+import com.tvmresearch.lotus.broker.Broker;
 import com.tvmresearch.lotus.db.model.CompounderState;
+import com.tvmresearch.lotus.db.model.Position;
 import com.tvmresearch.lotus.db.model.Trigger;
+
+import java.time.LocalDate;
 
 
 /**
@@ -23,13 +27,17 @@ public class Compounder {
         return state.minInvest + (state.compoundTally > 0 ? state.tallySlice : 0);
     }
 
-    public Position createBuyOrder(Trigger trigger) {
-        Position position = new Position(trigger);
-        position.minInvest = state.minInvest;
-        position.limit = trigger.price * Configuration.BUY_LIMIT_FACTOR;
+    /**
+     * Calculate compounded amount. Can be negative!
+     * Also updates the various counters so that the amount available for compounding decreases.
+     *
+     * @return compounded value
+     */
+    private double calculateCompoundAmount() {
+        double rv = 0.0;
 
         if(state.compoundTally > 0) {
-            position.compoundAmount = state.tallySlice;
+            rv = state.tallySlice;
             state.tallySliceCnt++;
             state.compoundTally -= state.tallySlice;
 
@@ -41,27 +49,42 @@ public class Compounder {
 
             state.updateCompoundTally(state.compoundTally);
         } else {
-            position.compoundAmount = 0;
+            rv = 0;
         }
 
-        position.totalInvest = position.minInvest + position.compoundAmount;
-
-        double breach = broker.getAvailableFunds() - position.totalInvest;
+        double total = state.minInvest + rv;
+        double breach = broker.getAvailableFunds() - total;
         if(breach < 0) {
-            position.minInvest -= breach;
-            position.totalInvest -= breach;
+            // this will give us a negatice compound amount, but should mean that we still get a trade in.
+            rv -= breach;
         }
+        return rv;
+    }
 
-        // final sanity check
-        if(position.totalInvest < 0) {
+    public Position createBuyOrder(Trigger trigger) {
+        Position position = new Position(trigger);
+
+        position.cmpMin = state.minInvest;
+        position.cmpVal = calculateCompoundAmount();
+        position.cmpTotal = position.cmpMin + position.cmpVal;
+
+        if(position.cmpTotal < 0) {
             trigger.rejectReason = Trigger.RejectReason.NOFUNDS;
-            trigger.rejectData = position.totalInvest;
+            trigger.rejectData = position.cmpTotal;
             trigger.serialise();
             return null;
-        } else {
-            position.qty = (int)Math.floor(position.totalInvest / position.limit);
-            return position;
         }
+
+        position.buyLimit = trigger.price * Configuration.BUY_LIMIT_FACTOR;
+        position.buyDate = LocalDate.now();
+
+        position.qty = (int)Math.floor(position.cmpTotal / position.buyLimit);
+        position.qtyValue = position.qty * position.buyLimit;
+
+        position.sellLimit = trigger.price * Configuration.SELL_LIMIT_FACTOR;
+        position.sellDateLimit = position.buyDate.plusDays(Configuration.SELL_LIMIT_DAYS);
+
+        return position;
     }
 
     //public void onPartialFill

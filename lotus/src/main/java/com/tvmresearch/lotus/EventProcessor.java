@@ -1,5 +1,7 @@
 package com.tvmresearch.lotus;
 
+import com.tvmresearch.lotus.broker.Broker;
+import com.tvmresearch.lotus.db.model.Position;
 import com.tvmresearch.lotus.db.model.Trigger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,9 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Implement event processing logic
@@ -111,5 +112,49 @@ public class EventProcessor {
         } finally {
             Database.close(rs, stmt, connection);
         }
+    }
+
+    public void processFilledPositions(List<Position> positionList) {
+        // check open positions for Sell events
+        positionList.stream()
+                .filter(this::isSellEvent)
+                .forEach(this::createSellOrder);
+    }
+
+    public void processUnfilledPositions(List<Position> positionList) {
+        // check open positions for filled Buy events
+        positionList.stream()
+                .filter(this::isUnfilled)
+                .forEach(this::updateFulfillment);
+    }
+
+    private void updateFulfillment(Position position) {
+        broker.updateUnfilledPosition(position);
+    }
+
+    private boolean isUnfilled(Position position) {
+        return (position.qtyFilled == null || position.qtyFilled == 0);
+    }
+
+    private void createSellOrder(Position position) {
+        broker.sell(position);
+    }
+
+    private boolean isSellEvent(Position position) {
+
+        // ensure we are a position that has been filled
+        if(isUnfilled(position))
+            return false;
+
+        // check price limit
+        if(broker.checkSellLimit(position))
+            return true;
+
+        // check date limit
+        LocalDate now = LocalDate.now();
+        if(position.sellDateLimit.isEqual(now) || now.isAfter(position.sellDateLimit))
+            return true;
+
+        return false;
     }
 }

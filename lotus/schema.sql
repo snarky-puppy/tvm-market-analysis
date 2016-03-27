@@ -57,22 +57,55 @@ CREATE TABLE positions (
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	trigger_id INTEGER NOT NULL,
 
-	/* 0.1% higher than trigger close price */
+	-- compounder accounting; cmp_total = cmp_min + cmp_val
+	cmp_min DOUBLE(7,2) NOT NULL,
+	cmp_val DOUBLE(7,2) NOT NULL,
+	cmp_total DOUBLE(7,2) NOT NULL,
+
+	-- IB state
+	order_id INTEGER NOT NULL,
+
+	/* buying */
+
+	-- 0.1% higher than trigger close price 
 	buy_limit DOUBLE(6,2) NOT NULL,
 
+	buy_dt DATE NOT NULL,
+
+	-- Quantity of stocks needed to fill cmp_total
 	qty INTEGER NOT NULL,
 
-	min_invest DOUBLE(7,2) NOT NULL,
-	compound_amount DOUBLE(7,2) NOT NULL,
-	total_invest DOUBLE(7,2) NOT NULL,
+	-- Total price of qty stocks (will be less than cmp_total)
+	qty_val DOUBLE(6,2) NOT NULL,
 
-	qty_filled INTEGER NOT NULL,
-	submitted BOOLEAN NOT NULL DEFAULT FALSE,
-	eod BOOLEAN NOT NULL DEFAULT FALSE,
-	closed BOOLEAN NOT NULL DEFAULT FALSE,
+	-- number of stocks actually filled
+	qty_filled INTEGER,
+
+	-- Price of stocks actually filled
+	qty_filled_val DOUBLE(6,2),
+
+	/* selling */
+	-- sell when price reaches this limit (+10%)
+	sell_limit DOUBLE(6,2) NOT NULL,
+
+	-- sell when date reaches this limit (84 days)
+	sell_dt_limit DATE NOT NULL,
+
+	-- actual sell price
+	sell_price DOUBLE(6,2),
+
+	-- date of selling
+	sell_dt_start DATE,
+	sell_dt_end DATE,
 
 	FOREIGN KEY (trigger_id)
 		REFERENCES triggers(id)
 
 );
 
+CREATE TABLE daily_log (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	
+	dt DATE NOT NULL,
+	liquidity DOUBLE(10,2) NOT NULL
+);

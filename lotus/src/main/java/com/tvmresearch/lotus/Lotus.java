@@ -1,13 +1,11 @@
 package com.tvmresearch.lotus;
 
+import com.tvmresearch.lotus.broker.Broker;
+import com.tvmresearch.lotus.broker.InteractiveBroker;
+import com.tvmresearch.lotus.broker.InteractiveBrokerAPI;
 import com.tvmresearch.lotus.db.model.Trigger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import javax.xml.crypto.Data;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Calendar;
 
 /**
  * Program entry point
@@ -23,11 +21,20 @@ public class Lotus {
         ImportTriggers importTriggers = new ImportTriggers();
         importTriggers.importAll();
 
-        Broker broker = new InteractiveBrokerAPI();
-        Compounder compounder = new Compounder(broker);
-        EventProcessor eventProcessor = new EventProcessor(broker, compounder);
-        eventProcessor.processTriggers(Trigger.getTodaysTriggers());
+        Broker broker = null;
 
+        try {
+            broker = new InteractiveBroker();
+            Compounder compounder = new Compounder(broker);
+            EventProcessor eventProcessor = new EventProcessor(broker, compounder);
+            eventProcessor.processTriggers(Trigger.getTodaysTriggers());
+            eventProcessor.processUnfilledPositions(broker.getUnfilledPositions());
+            eventProcessor.processFilledPositions(broker.getOpenPositions());
+        } finally {
+            logger.info("The Final final block");
+            if(broker != null)
+                broker.disconnect();
+        }
     }
 
 }

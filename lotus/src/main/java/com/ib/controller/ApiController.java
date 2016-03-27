@@ -146,6 +146,8 @@ public class ApiController implements EWrapper {
 		public void accountTime(String timeStamp);
 		public void accountDownloadEnd(String account);
 		public void updatePortfolio(Position position);
+
+
 	}
 
     public void reqAccountUpdates(boolean subscribe, String acctCode, IAccountHandler handler) {
