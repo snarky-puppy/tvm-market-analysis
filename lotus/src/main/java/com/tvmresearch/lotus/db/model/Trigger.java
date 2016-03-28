@@ -49,7 +49,7 @@ public class Trigger {
 
     public boolean event = false;
 
-    public RejectReason rejectReason = RejectReason.NOTEVENT;
+    public RejectReason rejectReason = RejectReason.NOTPROCESSED;
     public Double rejectData = null;
 
 
@@ -129,13 +129,13 @@ public class Trigger {
 
         final String sql = "SELECT id, exchange, symbol, trigger_date, price, zscore, avg_volume, avg_price, event, reject_reason, reject_data"
                          + " FROM triggers"
-                // XXX: TODO: should be trigger_date = ? when out of testing
-                         + " WHERE trigger_date < ? AND event = TRUE";
+                         + " WHERE trigger_date > ? AND event = TRUE AND reject_reason = ?";
 
         try {
             connection = Database.connection();
             stmt = connection.prepareStatement(sql);
-            stmt.setDate(1, java.sql.Date.valueOf(LocalDate.now()));
+            stmt.setDate(1, java.sql.Date.valueOf(LocalDate.now().minusDays(3)));
+            stmt.setString(2, RejectReason.NOTPROCESSED.name());
             rs = stmt.executeQuery();
             while(rs.next()) {
                 Trigger trigger = new Trigger();

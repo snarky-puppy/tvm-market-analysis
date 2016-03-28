@@ -16,10 +16,9 @@ public class AccountHandler extends ASyncReceiver implements com.ib.controller.A
 
     @Override
     public void accountValue(String account, String key, String value, String currency) {
-        logger.info(String.format("account=%s key=%s value=%s currency=%s",
-                account, key, value, currency));
-
         if(key.compareTo("TotalCashBalance") == 0 && currency.compareTo("USD") == 0) {
+            logger.info(String.format("account=%s key=%s value=%s currency=%s",
+                    account, key, value, currency));
             availableFunds = Double.valueOf(value);
         }
     }
