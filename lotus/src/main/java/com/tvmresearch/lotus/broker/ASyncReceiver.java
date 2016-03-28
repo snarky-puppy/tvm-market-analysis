@@ -9,8 +9,8 @@ import java.util.concurrent.Semaphore;
  * Created by horse on 27/03/2016.
  */
 public class ASyncReceiver {
-    static Semaphore semaphore = new Semaphore(0);
-    static LotusException exception = null;
+    Semaphore semaphore = new Semaphore(0);
+    LotusException exception = null;
 
     public void waitForEvent(){
         try {
@@ -29,12 +29,6 @@ public class ASyncReceiver {
 
     public void eventOccured() {
         System.out.println("Event occured");
-        semaphore.release(Integer.MAX_VALUE);
-
-    }
-
-    public static void errorOccured(TWSException e) {
-        exception = new LotusException(e);
-        semaphore.drainPermits();
+        semaphore.release(1);
     }
 }

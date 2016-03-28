@@ -54,6 +54,8 @@ public class Position {
     // date of selling
     public LocalDate sellDateStart;
     public LocalDate sellDateEnd;
+    public Integer errorCode;
+    public String errorMsg;
 
 
     public Position(Trigger trigger) {
@@ -63,7 +65,7 @@ public class Position {
 
     public void serialise() {
         Connection connection = Database.connection();
-        serialise(Database.connection());
+        serialise(connection);
         Database.close(connection);
     }
 
@@ -118,6 +120,11 @@ public class Position {
             position.sellDateStart = rs.getDate("sell_dt_start") == null ? null : rs.getDate("sell_dt_start").toLocalDate();
             position.sellDateEnd = rs.getDate("sell_dt_end") == null ? null : rs.getDate("sell_dt_end").toLocalDate();
 
+            position.errorCode = rs.getInt("error_code");
+            if(rs.wasNull())
+                position.errorCode = null;
+            position.errorMsg = rs.getString("error_msg");
+
             return position;
 
         } catch (SQLException e) {
@@ -133,16 +140,16 @@ public class Position {
         try {
             if (id == null) {
                 final String sql = "INSERT INTO positions " +
-                        "VALUES(trigger_id, cmp_min, cmp_val, cmp_total, orderId, buy_limit, buy_dt, " +
+                        "(trigger_id, cmp_min, cmp_val, cmp_total, order_id, buy_limit, buy_dt, " +
                         "qty, qty_val, qty_filled, qty_filled_val, sell_limit, sell_dt_limit, " +
-                        "sell_price, sell_dt_start, sell_dt_end) " +
-                        "VALUES("+Database.generateParams(15)+")";
+                        "sell_price, sell_dt_start, sell_dt_end, error_code, error_msg) " +
+                        "VALUES("+Database.generateParams(18)+")";
                 stmt = connection.prepareStatement(sql);
             } else {
                 final String sql = "UPDATE positions " +
                         "SET    trigger_id=?, cmp_min=?, cmp_val=?, cmp_total=?, buy_limit=?, buy_dt=?, " +
                         "qty=?, qty_val=?, qty_filled=?, qty_filled_val=?, sell_limit=?, sell_dt_limit=?, " +
-                        "sell_price=?, sell_dt_start=?, sell_dt_end=? " +
+                        "sell_price=?, sell_dt_start=?, sell_dt_end=?, error_code=?, error_msg=? " +
                         "WHERE  id = ?";
                 stmt = connection.prepareStatement(sql);
             }
@@ -189,8 +196,18 @@ public class Position {
             else
                 stmt.setDate(16, java.sql.Date.valueOf(sellDateEnd));
 
+            if(errorCode == null)
+                stmt.setNull(17, Types.NUMERIC);
+            else
+                stmt.setInt(17, errorCode);
+
+            if(errorMsg == null)
+                stmt.setNull(18, Types.VARCHAR);
+            else
+                stmt.setString(18, errorMsg);
+
             if (id != null)
-                stmt.setInt(17, id);
+                stmt.setInt(19, id);
 
             stmt.execute();
 
@@ -204,12 +221,21 @@ public class Position {
 
     public NewContract createNewContract() {
         NewContract rv = new NewContract();
-        rv.currency("USD");
+        if(trigger.exchange.compareTo("ASX") == 0)
+            rv.currency("AUD");
+        else
+            rv.currency("USD");
+
+        if(trigger.exchange.compareTo("NYSE_Arca") == 0)
+            trigger.exchange = "ARCA";
+
         rv.exchange("SMART");
         rv.symbol(trigger.symbol);
+
+        //rv.secId(trigger.symbol);
         rv.primaryExch(trigger.exchange);
         rv.secType(com.ib.controller.Types.SecType.STK);
-        return null;
+        return rv;
     }
 
     public NewOrder createNewOrder(String account) {
@@ -220,6 +246,7 @@ public class Position {
         order.orderType(OrderType.LMT);
         order.lmtPrice(buyLimit);
         order.tif(com.ib.controller.Types.TimeInForce.DAY);
+        order.transmit(true);
         return order;
     }
 }

@@ -47,4 +47,19 @@ public class NewOrderState {
 		m_commissionCurrency = orderState.m_commissionCurrency;
 		m_warningText = orderState.m_warningText;
 	}
+
+	@Override
+	public String toString() {
+		return "NewOrderState{" +
+				"m_status=" + m_status +
+				", m_initMargin='" + m_initMargin + '\'' +
+				", m_maintMargin='" + m_maintMargin + '\'' +
+				", m_equityWithLoan='" + m_equityWithLoan + '\'' +
+				", m_commission=" + m_commission +
+				", m_minCommission=" + m_minCommission +
+				", m_maxCommission=" + m_maxCommission +
+				", m_commissionCurrency='" + m_commissionCurrency + '\'' +
+				", m_warningText='" + m_warningText + '\'' +
+				'}';
+	}
 }

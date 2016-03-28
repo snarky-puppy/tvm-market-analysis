@@ -37,7 +37,7 @@ public class EventProcessor {
     }
 
     private void createBuyOrder(Trigger trigger) {
-        Position position = compounder.createBuyOrder(trigger);
+        Position position = compounder.createPosition(trigger);
         broker.buy(position);
     }
 
@@ -50,7 +50,7 @@ public class EventProcessor {
             rv = false;
         }
 
-        if(trigger.zscore <= Configuration.MIN_ZSCORE) {
+        if(trigger.zscore > Configuration.MIN_ZSCORE) {
             trigger.rejectReason = Trigger.RejectReason.ZSCORE;
             trigger.rejectData = Configuration.MIN_ZSCORE;
             rv = false;
@@ -80,6 +80,11 @@ public class EventProcessor {
             trigger.rejectData = nextInvest;
             rv = false;
         }
+
+        // The price does not conform to the minimum price variation for this contract.
+       // if(!broker.verifyTickSize(trigger, Configuration.BUY_LIMIT_FACTOR - 1)) {
+       //     trigger.rejectReason = Trigger.RejectReason.TICKSIZE;
+       // }
 
         if(rv) {
             trigger.rejectReason = Trigger.RejectReason.OK;

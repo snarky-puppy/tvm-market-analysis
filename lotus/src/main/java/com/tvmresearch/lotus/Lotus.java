@@ -2,7 +2,6 @@ package com.tvmresearch.lotus;
 
 import com.tvmresearch.lotus.broker.Broker;
 import com.tvmresearch.lotus.broker.InteractiveBroker;
-import com.tvmresearch.lotus.broker.InteractiveBrokerAPI;
 import com.tvmresearch.lotus.db.model.Trigger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

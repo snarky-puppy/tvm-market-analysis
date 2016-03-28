@@ -67,7 +67,7 @@ public class Trigger {
 
     public void serialise() {
         Connection connection = Database.connection();
-        serialise(Database.connection());
+        serialise(connection);
         Database.close(connection);
     }
 
@@ -89,7 +89,7 @@ public class Trigger {
                 final String sql = "UPDATE triggers " +
                         "SET    exchange=?, symbol=?, trigger_date=?, price=?, " +
                         "       zscore=?, avg_volume=?, avg_price=?, event=?, " +
-                        "       reject_reason=?, reject_data=?" +
+                        "       reject_reason=?, reject_data=? " +
                         "WHERE  id = ?";
                 stmt = connection.prepareStatement(sql);
             }
@@ -129,12 +129,13 @@ public class Trigger {
 
         final String sql = "SELECT id, exchange, symbol, trigger_date, price, zscore, avg_volume, avg_price, event, reject_reason, reject_data"
                          + " FROM triggers"
-                         + " WHERE trigger_date = ? AND event = TRUE";
+                // XXX: TODO: should be trigger_date = ? when out of testing
+                         + " WHERE trigger_date < ? AND event = TRUE";
 
         try {
             connection = Database.connection();
             stmt = connection.prepareStatement(sql);
-            stmt.setDate(1, new java.sql.Date(new Date().getTime()));
+            stmt.setDate(1, java.sql.Date.valueOf(LocalDate.now()));
             rs = stmt.executeQuery();
             while(rs.next()) {
                 Trigger trigger = new Trigger();
@@ -144,9 +145,9 @@ public class Trigger {
                 trigger.symbol = rs.getString(3);
                 trigger.date = rs.getDate(4) == null ? null : rs.getDate(4).toLocalDate();
                 trigger.price = rs.getDouble(5);
-                trigger.price = rs.getDouble(6);
-                trigger.price = rs.getDouble(7);
-                trigger.price = rs.getDouble(8);
+                trigger.zscore = rs.getDouble(6);
+                trigger.avgVolume = rs.getDouble(7);
+                trigger.avgPrice = rs.getDouble(8);
                 trigger.event = rs.getBoolean(9);
                 trigger.rejectReason = RejectReason.valueOf(rs.getString(10));
 
@@ -188,12 +189,11 @@ public class Trigger {
                 trigger.symbol = rs.getString(3);
                 trigger.date = rs.getDate(4) == null ? null : rs.getDate(4).toLocalDate();
                 trigger.price = rs.getDouble(5);
-                trigger.price = rs.getDouble(6);
-                trigger.price = rs.getDouble(7);
-                trigger.price = rs.getDouble(8);
+                trigger.zscore = rs.getDouble(6);
+                trigger.avgVolume = rs.getDouble(7);
+                trigger.avgPrice = rs.getDouble(8);
                 trigger.event = rs.getBoolean(9);
                 trigger.rejectReason = RejectReason.valueOf(rs.getString(10));
-
                 trigger.rejectData = rs.getDouble(11);
                 if(rs.wasNull())
                     trigger.rejectData = null;

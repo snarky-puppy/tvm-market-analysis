@@ -17,7 +17,7 @@ public class Database {
 
     private static final Logger logger = LogManager.getLogger(Database.class);
 
-    private static DataSource dataSource;
+    private final static DataSource dataSource;
 
     static {
         dataSource = new DataSource();
@@ -29,12 +29,16 @@ public class Database {
         dataSource.setMaxActive(50);
         dataSource.setMaxIdle(20);
         dataSource.setMinIdle(10);
+        dataSource.setLogAbandoned(true);
+        dataSource.setRemoveAbandoned(true);
+        dataSource.setRemoveAbandonedTimeout(10);
     }
 
     public static Connection connection() {
 
         try {
-            return dataSource.getConnection();
+            Connection connection = dataSource.getConnection();
+            return connection;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new LotusException(e);
@@ -64,8 +68,9 @@ public class Database {
 
     public static void close(Connection connection) {
         try {
-            if(connection != null)
+            if(connection != null) {
                 connection.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

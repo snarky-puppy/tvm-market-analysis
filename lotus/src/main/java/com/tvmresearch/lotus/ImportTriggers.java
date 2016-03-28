@@ -81,6 +81,11 @@ public class ImportTriggers {
 
         Trigger trigger = new Trigger();
         trigger.exchange = fields[0];
+
+        // XXX:
+        if(trigger.exchange.compareTo("ASX") == 0)
+            return;
+
         trigger.symbol = fields[1];
         // fields[2] - scenario id
         // fields[3] - subscenario

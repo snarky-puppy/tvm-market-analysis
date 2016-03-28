@@ -13,6 +13,7 @@ public class NewOrder {
 	// order id's
 	private int m_clientId;
 	private int m_orderId;
+
 	private long m_permId;
 	private int m_parentId;
 
@@ -346,4 +347,82 @@ public class NewOrder {
 			}
 		}
 	}
+
+
+	@Override
+	public String toString() {
+		return "NewOrder{" +
+				"m_clientId=" + m_clientId +
+				", m_orderId=" + m_orderId +
+				", m_permId=" + m_permId +
+				", m_parentId=" + m_parentId +
+				", m_account='" + m_account + '\'' +
+				", m_action=" + m_action +
+				", m_totalQuantity=" + m_totalQuantity +
+				", m_displaySize=" + m_displaySize +
+				", m_orderType=" + m_orderType +
+				", m_lmtPrice=" + m_lmtPrice +
+				", m_auxPrice=" + m_auxPrice +
+				", m_tif=" + m_tif +
+				", m_allOrNone=" + m_allOrNone +
+				", m_blockOrder=" + m_blockOrder +
+				", m_eTradeOnly=" + m_eTradeOnly +
+				", m_firmQuoteOnly=" + m_firmQuoteOnly +
+				", m_hidden=" + m_hidden +
+				", m_notHeld=" + m_notHeld +
+				", m_optOutSmartRouting=" + m_optOutSmartRouting +
+				", m_outsideRth=" + m_outsideRth +
+				", m_sweepToFill=" + m_sweepToFill +
+				", m_delta=" + m_delta +
+				", m_discretionaryAmt=" + m_discretionaryAmt +
+				", m_nbboPriceCap=" + m_nbboPriceCap +
+				", m_percentOffset=" + m_percentOffset +
+				", m_startingPrice=" + m_startingPrice +
+				", m_stockRangeLower=" + m_stockRangeLower +
+				", m_stockRangeUpper=" + m_stockRangeUpper +
+				", m_stockRefPrice=" + m_stockRefPrice +
+				", m_trailingPercent=" + m_trailingPercent +
+				", m_trailStopPrice=" + m_trailStopPrice +
+				", m_minQty=" + m_minQty +
+				", m_goodAfterTime='" + m_goodAfterTime + '\'' +
+				", m_goodTillDate='" + m_goodTillDate + '\'' +
+				", m_ocaGroup='" + m_ocaGroup + '\'' +
+				", m_orderRef='" + m_orderRef + '\'' +
+				", m_rule80A=" + m_rule80A +
+				", m_ocaType=" + m_ocaType +
+				", m_triggerMethod=" + m_triggerMethod +
+				", m_faGroup='" + m_faGroup + '\'' +
+				", m_faMethod=" + m_faMethod +
+				", m_faPercentage='" + m_faPercentage + '\'' +
+				", m_faProfile='" + m_faProfile + '\'' +
+				", m_volatility=" + m_volatility +
+				", m_volatilityType=" + m_volatilityType +
+				", m_continuousUpdate=" + m_continuousUpdate +
+				", m_referencePriceType=" + m_referencePriceType +
+				", m_deltaNeutralOrderType=" + m_deltaNeutralOrderType +
+				", m_deltaNeutralAuxPrice=" + m_deltaNeutralAuxPrice +
+				", m_deltaNeutralConId=" + m_deltaNeutralConId +
+				", m_scaleInitLevelSize=" + m_scaleInitLevelSize +
+				", m_scaleSubsLevelSize=" + m_scaleSubsLevelSize +
+				", m_scalePriceIncrement=" + m_scalePriceIncrement +
+				", m_scalePriceAdjustValue=" + m_scalePriceAdjustValue +
+				", m_scalePriceAdjustInterval=" + m_scalePriceAdjustInterval +
+				", m_scaleProfitOffset=" + m_scaleProfitOffset +
+				", m_scaleAutoReset=" + m_scaleAutoReset +
+				", m_scaleInitPosition=" + m_scaleInitPosition +
+				", m_scaleInitFillQty=" + m_scaleInitFillQty +
+				", m_scaleRandomPercent=" + m_scaleRandomPercent +
+				", m_scaleTable='" + m_scaleTable + '\'' +
+				", m_hedgeType=" + m_hedgeType +
+				", m_hedgeParam='" + m_hedgeParam + '\'' +
+				", m_algoStrategy=" + m_algoStrategy +
+				", m_algoParams=" + m_algoParams +
+				", m_smartComboRoutingParams=" + m_smartComboRoutingParams +
+				", m_orderComboLegs=" + m_orderComboLegs +
+				", m_whatIf=" + m_whatIf +
+				", m_transmit=" + m_transmit +
+				", m_overridePercentageConstraints=" + m_overridePercentageConstraints +
+				'}';
+	}
+
 }

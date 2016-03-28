@@ -5,6 +5,8 @@ import com.tvmresearch.lotus.db.model.CompounderState;
 import com.tvmresearch.lotus.db.model.Position;
 import com.tvmresearch.lotus.db.model.Trigger;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 
@@ -61,7 +63,7 @@ public class Compounder {
         return rv;
     }
 
-    public Position createBuyOrder(Trigger trigger) {
+    public Position createPosition(Trigger trigger) {
         Position position = new Position(trigger);
 
         position.cmpMin = state.minInvest;
@@ -75,16 +77,23 @@ public class Compounder {
             return null;
         }
 
-        position.buyLimit = trigger.price * Configuration.BUY_LIMIT_FACTOR;
+        position.buyLimit = round(trigger.price * Configuration.BUY_LIMIT_FACTOR);
         position.buyDate = LocalDate.now();
 
         position.qty = (int)Math.floor(position.cmpTotal / position.buyLimit);
         position.qtyValue = position.qty * position.buyLimit;
 
-        position.sellLimit = trigger.price * Configuration.SELL_LIMIT_FACTOR;
+        position.sellLimit = round(trigger.price * Configuration.SELL_LIMIT_FACTOR);
+
         position.sellDateLimit = position.buyDate.plusDays(Configuration.SELL_LIMIT_DAYS);
 
         return position;
+    }
+
+    private double round(double num) {
+        BigDecimal bd = new BigDecimal(num);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     //public void onPartialFill

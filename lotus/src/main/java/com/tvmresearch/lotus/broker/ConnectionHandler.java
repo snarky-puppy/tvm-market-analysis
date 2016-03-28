@@ -1,6 +1,7 @@
 package com.tvmresearch.lotus.broker;
 
 import com.ib.controller.ApiController;
+import com.tvmresearch.lotus.LotusException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,9 +53,11 @@ public class ConnectionHandler implements ApiController.IConnectionHandler {
 
     @Override
     public void message(int id, int errorCode, String errorMsg) {
-        logger.info(String.format("id=%d, errorCode=%d, msg=%s", id, errorCode, errorMsg));
-        if(id > 0) // XXX: really broken ATM
-            ASyncReceiver.errorOccured(new TWSException(id, errorCode, errorMsg));
+        // 399: Warning: your order will not be placed at the exchange until 2016-03-28 09:30:00 US/Eastern
+        if(errorCode != 399)
+            logger.error(String.format("id=%d, errorCode=%d, msg=%s", id, errorCode, errorMsg));
+        if(errorCode < 1100 && errorCode != 399)
+            throw new LotusException(new TWSException(id, errorCode, errorMsg));
     }
 
     @Override

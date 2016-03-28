@@ -51,16 +51,16 @@ CREATE TABLE active_symbols (
 LOAD DATA LOCAL INFILE 'active_symbols.csv' INTO TABLE active_symbols
 	FIELDS TERMINATED BY ','
 	LINES TERMINATED BY '\n'
-	IGNORE 1 LINES;
+	IGNORE 1 LINES (Exchange,Symbol,Sector);
 
 CREATE TABLE positions (
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	trigger_id INTEGER NOT NULL,
 
 	-- compounder accounting; cmp_total = cmp_min + cmp_val
-	cmp_min DOUBLE(7,2) NOT NULL,
-	cmp_val DOUBLE(7,2) NOT NULL,
-	cmp_total DOUBLE(7,2) NOT NULL,
+	cmp_min DOUBLE(12,2) NOT NULL,
+	cmp_val DOUBLE(12,2) NOT NULL,
+	cmp_total DOUBLE(12,2) NOT NULL,
 
 	-- IB state
 	order_id INTEGER NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE positions (
 	/* buying */
 
 	-- 0.1% higher than trigger close price 
-	buy_limit DOUBLE(6,2) NOT NULL,
+	buy_limit DOUBLE(12,2) NOT NULL,
 
 	buy_dt DATE NOT NULL,
 
@@ -76,27 +76,31 @@ CREATE TABLE positions (
 	qty INTEGER NOT NULL,
 
 	-- Total price of qty stocks (will be less than cmp_total)
-	qty_val DOUBLE(6,2) NOT NULL,
+	qty_val DOUBLE(12,2) NOT NULL,
 
 	-- number of stocks actually filled
 	qty_filled INTEGER,
 
 	-- Price of stocks actually filled
-	qty_filled_val DOUBLE(6,2),
+	qty_filled_val DOUBLE(12,2),
 
 	/* selling */
 	-- sell when price reaches this limit (+10%)
-	sell_limit DOUBLE(6,2) NOT NULL,
+	sell_limit DOUBLE(12,2) NOT NULL,
 
 	-- sell when date reaches this limit (84 days)
 	sell_dt_limit DATE NOT NULL,
 
 	-- actual sell price
-	sell_price DOUBLE(6,2),
+	sell_price DOUBLE(12,2),
 
 	-- date of selling
 	sell_dt_start DATE,
 	sell_dt_end DATE,
+
+	-- something went wrong...
+	error_code INTEGER,
+	error_msg VARCHAR(265),
 
 	FOREIGN KEY (trigger_id)
 		REFERENCES triggers(id)
@@ -107,5 +111,5 @@ CREATE TABLE daily_log (
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	
 	dt DATE NOT NULL,
-	liquidity DOUBLE(10,2) NOT NULL
+	liquidity DOUBLE(12,2) NOT NULL
 );
