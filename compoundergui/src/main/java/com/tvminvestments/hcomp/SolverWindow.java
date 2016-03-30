@@ -147,16 +147,18 @@ public class SolverWindow implements ActionListener {
     private class CalculationTask extends SwingWorker<Object, SolverResult> {
 
         private final double bank;
+        private final int profitRollover;
         private final int percent;
         private final int spread;
         private final File file;
         private int iterations;
 
-        public CalculationTask(File file, int spread, int investPercent, double totalBank, int iterations) {
+        public CalculationTask(File file, int spread, int investPercent, double totalBank, int profitRollover, int iterations) {
             this.file = file;
             this.spread = spread;
             this.percent = investPercent;
             this.bank = totalBank;
+            this.profitRollover = profitRollover;
             this.iterations = iterations;
         }
 
@@ -184,6 +186,7 @@ public class SolverWindow implements ActionListener {
                     compounder.spread = spread;
                     compounder.investPercent = percent;
                     compounder.startBank = bank;
+                    compounder.profitRollover = profitRollover;
 
                     compounder.shuffle();
                     compounder.calculate(iteration);
@@ -268,7 +271,7 @@ public class SolverWindow implements ActionListener {
                 int s = x.spread;
                 logger.info(String.format("+++++ Solving: %s, bank=%d, percent=%d, spread=%d", f.toString(), solverParameters.startBank, p, s));
 
-                CalculationTask task = new CalculationTask(f, s, p, solverParameters.startBank, solverParameters.iterations);
+                CalculationTask task = new CalculationTask(f, s, p, solverParameters.startBank, solverParameters.profitRollover, solverParameters.iterations);
                 task.execute();
 
                 logger.info("+++++ Solver iteration finished");

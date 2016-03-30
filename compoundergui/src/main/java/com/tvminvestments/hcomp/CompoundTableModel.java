@@ -3,14 +3,8 @@ package com.tvminvestments.hcomp;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
-import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by horse on 19/12/2015.
@@ -84,7 +78,7 @@ public class CompoundTableModel extends AbstractTableModel {
             case 2:
                 return compounder.get(rowIndex).date;
             case 3:
-                return compounder.get(rowIndex).realTransact;
+                return compounder.get(rowIndex).compTransact;
             case 4:
                 return compounder.get(rowIndex).bankBalance;
             case 5:

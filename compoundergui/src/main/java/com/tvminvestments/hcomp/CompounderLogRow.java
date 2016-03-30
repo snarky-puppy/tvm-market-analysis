@@ -8,11 +8,11 @@ public class CompounderLogRow {
     // starting factors
     public double spread;
     public int percent;
-    public double startBank;
+    public double balanceCash;
 
     // working factors
     public int iteration;
-    public int period;
+    public double profit;
 
     public double minInvest;
 
@@ -22,11 +22,11 @@ public class CompounderLogRow {
     public double total;
 
     public static String header() {
-        return "Percent ,Spread ,Start Bank ,Iteration ,Period ,Min Invest ,Cash ,Trades ,Total\n";
+        return "Percent ,Spread ,Iteration ,Starting Cash Balance ,True Profit ,Min Invest ,Cash ,Trades ,Total\n";
     }
 
     public String toString() {
-        return String.format("%d,%.2f,%.2f,%d,%d,%.2f,%.2f,%.2f,%.2f\n", percent, spread, startBank, iteration, period, minInvest, cash, trades, total);
+        return String.format("%d,%.2f,%d, %.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n", percent, spread, iteration, balanceCash, profit, minInvest, cash, trades, total);
     }
 
 }

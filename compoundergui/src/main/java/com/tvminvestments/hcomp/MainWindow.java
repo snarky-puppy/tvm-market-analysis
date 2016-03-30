@@ -38,6 +38,7 @@ public class MainWindow implements ActionListener {
     private JTextField balanceTotal;
     private JButton showWorkingOutButton;
     private JCheckBox shuffleCheckBox;
+    private JTextField rollover;
 
     private CompoundTableModel model;
 
@@ -51,6 +52,7 @@ public class MainWindow implements ActionListener {
         spreadText.setText(Integer.toString(model.getCompounder().spread));
         investPercentText.setText(Integer.toString(model.getCompounder().investPercent));
         bankText.setText(Double.toString(model.getCompounder().startBank));
+        rollover.setText(Integer.toString(model.getCompounder().profitRollover));
 
 
         DefaultTableCellRenderer dateRender = new DefaultTableCellRenderer() {
@@ -118,6 +120,7 @@ public class MainWindow implements ActionListener {
         model.getCompounder().spread = Integer.parseInt(spreadText.getText());
         model.getCompounder().investPercent = Integer.parseInt(investPercentText.getText());
         model.getCompounder().startBank = Double.parseDouble(bankText.getText());
+        model.getCompounder().profitRollover = Integer.parseInt(rollover.getText());
 
         if(shuffleCheckBox.isSelected())
             model.getCompounder().shuffle();

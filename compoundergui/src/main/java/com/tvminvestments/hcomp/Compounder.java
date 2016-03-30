@@ -20,6 +20,7 @@ public class Compounder {
     public double startBank = 200000.0;
     public int investPercent = 10;
     public int spread = 5;
+    public int profitRollover = 20000;
 
     public double balanceCash;
     public double balanceTrades;
@@ -41,11 +42,10 @@ public class Compounder {
         public Double transact;
         public Date date;
 
-        public Double realTransact;
+        public Double compTransact;
         public Double bankBalance;
         public Double roi;
         public Double compoundTally;
-        public Integer period;
 
         public int order;
         public double preCompoundInvestAmt;
@@ -60,7 +60,7 @@ public class Compounder {
         }
 
         public void reset() {
-            realTransact = null;
+            compTransact = null;
             bankBalance = null;
             roi = null;
             compoundTally = null;
@@ -69,15 +69,11 @@ public class Compounder {
         public String toString() {
             SimpleDateFormat f = new SimpleDateFormat("dd/MM/YYYY");
 
-            return String.format("%s\t%.2f\t%s\t%d", symbol, transact, f.format(date), period);
+            return String.format("%s\t%.2f\t%s", symbol, transact, f.format(date));
         }
 
         public boolean isInvestment() {
             return transact > 0.0;
-        }
-
-        public Integer getPeriod() {
-            return period;
         }
     }
 
@@ -108,7 +104,7 @@ public class Compounder {
     }
 
     private void addLine(String[] line, int lineNumber) throws ParseException {
-        if(line == null || line.length < 4) {
+        if(line == null || line.length < 3) {
             logger.warn(String.format("Line %d: Ignoring source line, not enough elements (should be 4)", lineNumber));
             return; // ignore row
         }
@@ -140,14 +136,6 @@ public class Compounder {
                 r.date = sdf.parse(line[2]);
             } catch(ParseException e) {
                 logger.warn(String.format("Line %d: Could not parse date (%s): ", lineNumber, line[1]), e);
-            }
-        }
-
-        if(line[3] != null && line[3].length() > 0) {
-            try {
-                r.period = Integer.parseInt(line[3]);
-            } catch(NumberFormatException e) {
-                logger.warn(String.format("Line %d: Could not parse rollover period (%s): ", lineNumber, line[1]), e);
             }
         }
 
@@ -188,35 +176,18 @@ public class Compounder {
         double tallySlice = 0.0;
 
         // number of times slice has been applied
-        int sliceSpreadCount = 0;
-
-        boolean lastWithdrawal = false;
+        int sliceCount = 0;
 
         int iter = 0;
 
-        int period = -1;
-        double minInvestment = 0.0;
+        double minInvestment = (startBank / 100) * investPercent;
+        double trueProfit = 0.0;
 
         data.stream().forEach(Row::reset);
 
-        // calculate ROI for each withdrawal
-        // Formula is: -(i + w)
-        while(iter < data.size()) {
-            Row w = data.get(iter);
-            if(w != null && w.transact != null && w.transact < 0) {
-
-                // have w, find i
-                Row i = findIfromW(w.symbol, iter - 1);
-
-                if(i != null) {
-                    //logger.debug(String.format("ROI: %s: matching I: %f", w.symbol, i.transact));
-                    double roiAmount = -(i.transact + w.transact);
-                    w.roi = roiAmount / i.transact;
-
-                } //else logger.debug(String.format("ROI: %s: no I found", w.symbol));
-            } // else logger.debug(String.format("ROI: empty or I row"));
-            iter++;
-        }
+        logRow.iteration = iteration;
+        logRow.minInvest = minInvestment;
+        logRow.balanceCash = balanceCash;
 
         // now calculate what the actual investment would have been
         iter = 0;
@@ -227,42 +198,10 @@ public class Compounder {
                 continue;
             }
 
-            if(period == -1 || period != r.period) {
-                if(period != -1) {
-                    logRow.cash = balanceCash;
-                    logRow.trades = balanceTrades;
-                    logRow.total = balanceCash + balanceTrades;
-                    CompounderLogResults.add(logRow);
-                    logRow = newLogRow();
-                }
-                // recalculate minInvestment
-                log(String.format("new_period=%d, balances: cash=%.2f, trade=%.2f, total=%.2f", r.period, balanceCash, balanceTrades, balanceCash+balanceTrades), iteration);
-                balanceCash = balanceCash + balanceTrades;
-                balanceTrades = 0.0;
-                minInvestment = ((balanceCash/100)*investPercent);
-                log(String.format("new_period=%d, minInvestment=%.2f, balanceCash=%.2f", r.period, minInvestment, balanceCash), iteration);
-                period = r.period;
-
-                logRow.iteration = iteration;
-                logRow.period = period;
-                logRow.minInvest = minInvestment;
-                logRow.startBank = balanceCash;
-            }
-
-
             // investment
             if(r.transact != null && r.transact > 0) {
 
                 double investAmt = minInvestment;
-
-                // last row was a withdrawal, so update spread counters
-                if(lastWithdrawal) {
-                    sliceSpreadCount = 0;
-                    //logger.debug(String.format("pre-tally slice: %.2f (spread=%d)", tallySlice, spread));
-                    tallySlice = compoundTally / spread;
-                    //logger.debug(String.format("post-tally slice: %.2f (spread=%d)", tallySlice, spread));
-                    lastWithdrawal = false;
-                }
 
                 if((balanceCash - investAmt) < 0) {
                     //logger.info(String.format("%s: I: not enough funds[%.2f] to cover investment[%.2f], skipping", r.symbol, totalBank, investAmt));
@@ -278,11 +217,11 @@ public class Compounder {
                     //logger.info(String.format("%s: I: Compounding, add %.2f to investment amount of %.2f", r.symbol, tallySlice, investAmt));
                     r.compoundInvestAmt = tallySlice;
                     investAmt += tallySlice;
-                    sliceSpreadCount ++;
+                    sliceCount ++;
                     compoundTally -= tallySlice;
-                    if(sliceSpreadCount == spread) {
+                    if(sliceCount == spread) {
                         compoundTally = 0;
-                        sliceSpreadCount = 0;
+                        sliceCount = 0;
                         tallySlice = 0;
                     }
                 }
@@ -296,7 +235,7 @@ public class Compounder {
                 balanceTrades += investAmt;
                 balanceCash -= investAmt;
                 r.bankBalance = balanceCash;
-                r.realTransact = investAmt;
+                r.compTransact = investAmt;
             }
 
             // withdrawal
@@ -304,35 +243,56 @@ public class Compounder {
 
                 // calculate actual ROI
                 Row i = findIfromW(r.symbol, iter - 1);
-                if(i != null && i.realTransact != null)  {
-                    double profit = i.realTransact * r.roi;
-                    double withdrawal = i.realTransact + profit;
-
-                    double roiAmt = profit;
-
-                    // redefinition of the term "profit", since it goes into a counter for distribution
-                    if(withdrawal > i.compoundInvestAmt)
-                        profit = withdrawal - i.compoundInvestAmt;
-
-                    if(r.roi > 0) {
-                        compoundTally += profit;
-                    }
-
-                    //log(String.format("%s: W: roi=%.2f, profit=%.2f, withdrawal=%.2f, compoundTally=%.2f", r.symbol, roiAmt, profit, withdrawal, compoundTally), iteration);
-
-                    r.realTransact = -withdrawal;
-
-                    balanceCash += withdrawal;
-
-                    r.compoundTally = compoundTally;
-
-                    balanceTrades -= i.realTransact;
-
-                    lastWithdrawal = true;
+                if(!(i != null && i.compTransact != null)) {
+                    // no I or I didn't go through due to lack of funds
+                    iter++;
+                    r.bankBalance = balanceCash;
+                    continue;
                 }
 
+                double roi = -(i.transact + r.transact) / i.transact;
+                double withdrawal = i.compTransact + (i.compTransact * roi);
+
+
+                // redefinition of the term "profit", since it goes into a counter for distribution
+                if(withdrawal > i.compoundInvestAmt && roi > 0) {
+                    compoundTally += withdrawal + i.compoundInvestAmt;
+                    sliceCount = 0;
+                    tallySlice = compoundTally / spread;
+                }
+
+                //log(String.format("%s: W: roi=%.2f, profit=%.2f, withdrawal=%.2f, compoundTally=%.2f", r.symbol, roiAmt, profit, withdrawal, compoundTally), iteration);
+
+                r.roi = roi;
+                r.compTransact = -withdrawal;
+                balanceCash += withdrawal;
+                r.compoundTally = compoundTally;
+                balanceTrades -= i.compTransact;
                 r.bankBalance = balanceCash;
 
+                if(withdrawal - i.compTransact > 0) {
+                    // a profit was made
+                    startBank += withdrawal - i.compTransact;
+                    trueProfit += withdrawal - i.compTransact;
+                    if(trueProfit >= profitRollover) {
+                        // recalc minInvest
+                        logRow.cash = balanceCash;
+                        logRow.trades = balanceTrades;
+                        logRow.total = balanceCash + balanceTrades;
+                        logRow.profit = trueProfit;
+                        CompounderLogResults.add(logRow);
+                        logRow = newLogRow();
+
+                        //balanceCash += ((trueProfit / profitRollover) * profitRollover);
+                        trueProfit %= profitRollover;
+                        minInvestment = (startBank / 100) * investPercent;
+
+
+                        logRow.iteration = iteration;
+                        logRow.minInvest = minInvestment;
+                        logRow.balanceCash = balanceCash;
+                    }
+                }
 
 
             }
@@ -342,6 +302,7 @@ public class Compounder {
         logRow.cash = balanceCash;
         logRow.trades = balanceTrades;
         logRow.total = balanceCash + balanceTrades;
+        logRow.profit = trueProfit;
         CompounderLogResults.add(logRow);
 
         balanceTotal = balanceCash + balanceTrades;
@@ -361,77 +322,42 @@ public class Compounder {
 
     public void shuffle() {
 
-        Map<Integer, List<Row>> periods = data.stream().collect(Collectors.groupingBy(Row::getPeriod));
+        Map<Date, List<Row>> daily = data.stream().collect(Collectors.groupingBy(Row::getDate));
 
-        periods.forEach((periodK, periodList) -> {
-
-            Map<Date, List<Row>> daily = periodList.stream().collect(Collectors.groupingBy(Row::getDate));
-
-            /*
-            logger.debug("Pre-shuffle:");
-            for(Row r : data) {
-                logger.debug(r);
-            }*/
+        /*
+        logger.debug("Pre-shuffle:");
+        for(Row r : data) {
+            logger.debug(r);
+        }*/
 
 
-            daily.forEach((k, v) -> {
-                Map<Boolean, List<Row>> investmentsAndWithdrawals = v.stream().collect(Collectors.groupingBy(Row::isInvestment));
+        daily.forEach((k, v) -> {
+            Map<Boolean, List<Row>> investmentsAndWithdrawals = v.stream().collect(Collectors.groupingBy(Row::isInvestment));
 
-                v.clear();
-                List<Row> invest = investmentsAndWithdrawals.get(true);
-                if(invest != null) {
-                    Collections.shuffle(invest);
-                    v.addAll(invest);
-                }
-
-                List<Row> withd = investmentsAndWithdrawals.get(false);
-                if(withd != null) {
-                    Collections.shuffle(withd);
-                    v.addAll(withd);
-                }
-            });
-
-            // re-insert into period list
-
-            periodList.clear();
-            SortedSet<Date> keys = new TreeSet<Date>(daily.keySet());
-            for (Date key : keys) {
-                List<Row> value = daily.get(key);
-                // do something
-                periodList.addAll(value);
+            v.clear();
+            List<Row> invest = investmentsAndWithdrawals.get(true);
+            if(invest != null) {
+                Collections.shuffle(invest);
+                v.addAll(invest);
             }
 
-            /*
-            daily.forEach((k, v) -> Collections.shuffle(v));
-
-            // now somehow make sure that any W with a matching I in this list are in the correct order
-            daily.forEach((key, list) -> {
-                int i, j;
-                for (i = 0; i < list.size(); i++) {
-                    Row r = list.get(i);
-
-                    for (j = i + 1; j < list.size(); j++) {
-                        Row r2 = list.get(j);
-                        if (r2.symbol.compareTo(r.symbol) == 0) {
-                            if (r.order > r2.order) {
-                                Collections.swap(list, i, j);
-                            }
-                        }
-                    }
-                }
-            });
-            */
+            List<Row> withd = investmentsAndWithdrawals.get(false);
+            if(withd != null) {
+                Collections.shuffle(withd);
+                v.addAll(withd);
+            }
         });
 
-        // re-insert into main array
-        data.clear();
+        // re-insert into period list
 
-        SortedSet<Integer> keys = new TreeSet<Integer>(periods.keySet());
-        for (Integer key : keys) {
-            List<Row> value = periods.get(key);
+        data.clear();
+        SortedSet<Date> keys = new TreeSet<Date>(daily.keySet());
+        for (Date key : keys) {
+            List<Row> value = daily.get(key);
             // do something
             data.addAll(value);
         }
+
 
 /*
 
