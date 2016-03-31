@@ -284,9 +284,13 @@ public class Compounder {
                         logRow = newLogRow();
 
                         //balanceCash += ((trueProfit / profitRollover) * profitRollover);
-                        trueProfit %= profitRollover;
+                        if(profitRollover == 0)
+                            trueProfit = 0;
+                        else
+                            trueProfit %= profitRollover;
                         minInvestment = (startBank / 100) * investPercent;
 
+                        logger.info(String.format("new period: trueProfit=%.2f, minInvest=%.2f", trueProfit, minInvestment));
 
                         logRow.iteration = iteration;
                         logRow.minInvest = minInvestment;
