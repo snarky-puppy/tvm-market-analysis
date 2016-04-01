@@ -27,7 +27,7 @@ public class SolveParamTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return 8;
+        return 9;
     }
 
     @Override
