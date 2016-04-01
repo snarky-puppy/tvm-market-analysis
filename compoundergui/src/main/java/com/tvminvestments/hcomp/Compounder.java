@@ -251,15 +251,20 @@ public class Compounder {
                 }
 
                 double roi = -(i.transact + r.transact) / i.transact;
-                double withdrawal = i.compTransact + (i.compTransact * roi);
-
+                double profit = i.compTransact * roi;
+                double withdrawal = i.compTransact + profit;
 
                 // redefinition of the term "profit", since it goes into a counter for distribution
-                if(withdrawal > i.compoundInvestAmt && roi > 0) {
-                    compoundTally += withdrawal + i.compoundInvestAmt;
+                if(withdrawal > i.compoundInvestAmt) {
+                    profit = withdrawal - i.compoundInvestAmt;
+                }
+
+                if(roi > 0) {
+                    compoundTally += profit;
                     sliceCount = 0;
                     tallySlice = compoundTally / spread;
                 }
+
 
                 //log(String.format("%s: W: roi=%.2f, profit=%.2f, withdrawal=%.2f, compoundTally=%.2f", r.symbol, roiAmt, profit, withdrawal, compoundTally), iteration);
 
