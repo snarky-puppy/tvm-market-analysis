@@ -18,7 +18,6 @@ import java.sql.SQLException;
 public class CompounderState {
     private static final Logger logger = LogManager.getLogger(CompounderState.class);
 
-    private final Broker broker;
     private CompounderState instance;
 
     public double startBank;
@@ -29,10 +28,9 @@ public class CompounderState {
     public int spread;
     public int investPercent;
 
-    public CompounderState(Broker broker) {
-        this.broker = broker;
-        if(!load() || DateUtil.isFirstOfMonth()) {
-            initState();
+    public CompounderState(double cashBalance) {
+        if(!load()) {
+            initState(cashBalance);
         }
         // Tally slice is recalculated daily, since I(nvestments) always before W(ithdrawals)
         tallySlice = compoundTally / spread;
@@ -89,8 +87,8 @@ public class CompounderState {
         }
     }
 
-    private void initState() {
-        startBank = broker.getAvailableFunds();
+    private void initState(double todaysFunds) {
+        startBank = todaysFunds;
         investPercent = Configuration.MIN_INVEST_PC;
         spread = Configuration.SPREAD;
         minInvest = ((startBank/100)*investPercent);

@@ -53,7 +53,7 @@ LOAD DATA LOCAL INFILE 'active_symbols.csv' INTO TABLE active_symbols
 	LINES TERMINATED BY '\n'
 	IGNORE 1 LINES (Exchange,Symbol,Sector);
 
-CREATE TABLE positions (
+CREATE TABLE investments (
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	trigger_id INTEGER NOT NULL,
 
@@ -63,7 +63,7 @@ CREATE TABLE positions (
 	cmp_total DOUBLE(12,2) NOT NULL,
 
 	-- IB state
-	order_id INTEGER NOT NULL,
+	con_id BIGINT NOT NULL,
 
 	/* buying */
 

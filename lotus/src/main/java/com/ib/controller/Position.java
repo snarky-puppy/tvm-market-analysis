@@ -41,4 +41,18 @@ public class Position {
 		m_unrealPnl = unrealPnl;
 		m_realPnl = realPnl;
 	}
+
+	@Override
+	public String toString() {
+		return "Position{" +
+				"m_contract=" + m_contract +
+				", m_account='" + m_account + '\'' +
+				", m_position=" + m_position +
+				", m_marketPrice=" + m_marketPrice +
+				", m_marketValue=" + m_marketValue +
+				", m_averageCost=" + m_averageCost +
+				", m_unrealPnl=" + m_unrealPnl +
+				", m_realPnl=" + m_realPnl +
+				'}';
+	}
 }

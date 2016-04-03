@@ -7,13 +7,15 @@ import com.tvmresearch.lotus.LotusException;
 import java.sql.*;
 import java.sql.Types;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Position record
  *
  * Created by matt on 24/03/16.
  */
-public class Position {
+public class Investment {
     public Trigger trigger;
 
     public Integer id = null;
@@ -24,7 +26,7 @@ public class Position {
     public double cmpTotal;
 
     /* ib */
-    public int orderId;
+    public long conId;
 
     /* buying */
 
@@ -57,8 +59,10 @@ public class Position {
     public Integer errorCode;
     public String errorMsg;
 
+    // todays price
+    public double todaysPrice;
 
-    public Position(Trigger trigger) {
+    public Investment(Trigger trigger) {
         this.trigger = trigger;
         this.buyDate = LocalDate.now();
     }
@@ -69,63 +73,77 @@ public class Position {
         Database.close(connection);
     }
 
-    public static Position load(String symbol) {
+    private static Investment populate(ResultSet rs) throws SQLException {
+        int investmentId = rs.getInt("id");
+        int triggerId = rs.getInt("trigger_id");
+
+        Investment investment = new Investment(Trigger.load(triggerId));
+        investment.id = investmentId;
+
+        investment.cmpMin = rs.getDouble("cmp_min");
+        investment.cmpVal = rs.getDouble("cmp_val");
+        investment.cmpTotal = rs.getDouble("cmp_total");
+
+        investment.conId = rs.getInt("con_id");
+
+            /* buying */
+        investment.buyLimit = rs.getDouble("buy_limit");
+        investment.buyDate = rs.getDate("buy_dt").toLocalDate();
+        investment.qty = rs.getInt("qty");
+        investment.qtyValue = rs.getDouble("qty_val");
+
+        investment.qtyFilled = rs.getInt("qty_filled");
+        if(rs.wasNull())
+            investment.qtyFilled = null;
+
+        investment.qtyFilledValue = rs.getDouble("qty_filled_val");
+        if(rs.wasNull())
+            investment.qtyFilledValue = null;
+
+            /* selling */
+        investment.sellLimit = rs.getDouble("sell_limit");
+        investment.sellDateLimit = rs.getDate("sell_dt_limit").toLocalDate();
+
+        investment.sellPrice = rs.getDouble("sell_price");
+        if(rs.wasNull())
+            investment.sellPrice = null;
+
+        investment.sellDateStart = rs.getDate("sell_dt_start") == null ? null : rs.getDate("sell_dt_start").toLocalDate();
+        investment.sellDateEnd = rs.getDate("sell_dt_end") == null ? null : rs.getDate("sell_dt_end").toLocalDate();
+
+        investment.errorCode = rs.getInt("error_code");
+        if(rs.wasNull())
+            investment.errorCode = null;
+        investment.errorMsg = rs.getString("error_msg");
+
+        return investment;
+    }
+
+    /**
+     * Load Investment from table, fill with details from IBKR
+     *
+     * @param position
+     * @return Investment object or null if investment was not found in the db
+     */
+    public static Investment loadAndFill(Position position) {
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
             connection = Database.connection();
-            stmt = connection.prepareStatement("SELECT * FROM positions p WHERE trigger_id = " +
-                    "(SELECT id FROM triggers WHERE symbol = ? AND p.buy_dt = trigger_date)");
+            stmt = connection.prepareStatement("SELECT * FROM investments p WHERE con_id = ?");
+            stmt.setLong(1, position.conid());
             rs = stmt.executeQuery();
 
             if(!rs.next())
                 return null;
 
-            int positionId = rs.getInt("id");
-            int triggerId = rs.getInt("trigger_id");
-
-            Position position = new Position(Trigger.load(triggerId));
-            position.id = positionId;
-
-            position.cmpMin = rs.getDouble("cmp_min");
-            position.cmpVal = rs.getDouble("cmp_val");
-            position.cmpTotal = rs.getDouble("cmp_total");
-
-            position.orderId = rs.getInt("order_id");
-
-            /* buying */
-            position.buyLimit = rs.getDouble("buy_limit");
-            position.buyDate = rs.getDate("buy_dt").toLocalDate();
-            position.qty = rs.getInt("qty");
-            position.qtyValue = rs.getDouble("qty_val");
-
-            position.qtyFilled = rs.getInt("qty_filled");
-            if(rs.wasNull())
-                position.qtyFilled = null;
-
-            position.qtyFilledValue = rs.getDouble("qty_filled_val");
-            if(rs.wasNull())
-                position.qtyFilledValue = null;
-
-            /* selling */
-            position.sellLimit = rs.getDouble("sell_limit");
-            position.sellDateLimit = rs.getDate("sell_dt_limit").toLocalDate();
-
-            position.sellPrice = rs.getDouble("sell_price");
-            if(rs.wasNull())
-                position.sellPrice = null;
-
-            position.sellDateStart = rs.getDate("sell_dt_start") == null ? null : rs.getDate("sell_dt_start").toLocalDate();
-            position.sellDateEnd = rs.getDate("sell_dt_end") == null ? null : rs.getDate("sell_dt_end").toLocalDate();
-
-            position.errorCode = rs.getInt("error_code");
-            if(rs.wasNull())
-                position.errorCode = null;
-            position.errorMsg = rs.getString("error_msg");
-
-            return position;
+            Investment investment = populate(rs);
+            investment.todaysPrice = position.marketPrice();
+            investment.qtyFilled = position.position();
+            investment.qtyFilledValue = position.marketValue();
+            return investment;
 
         } catch (SQLException e) {
             throw new LotusException(e);
@@ -139,15 +157,15 @@ public class Position {
 
         try {
             if (id == null) {
-                final String sql = "INSERT INTO positions " +
-                        "(trigger_id, cmp_min, cmp_val, cmp_total, order_id, buy_limit, buy_dt, " +
+                final String sql = "INSERT INTO investments " +
+                        "(trigger_id, cmp_min, cmp_val, cmp_total, con_id, buy_limit, buy_dt, " +
                         "qty, qty_val, qty_filled, qty_filled_val, sell_limit, sell_dt_limit, " +
                         "sell_price, sell_dt_start, sell_dt_end, error_code, error_msg) " +
                         "VALUES("+Database.generateParams(18)+")";
                 stmt = connection.prepareStatement(sql);
             } else {
-                final String sql = "UPDATE positions " +
-                        "SET    trigger_id=?, cmp_min=?, cmp_val=?, cmp_total=?, buy_limit=?, buy_dt=?, " +
+                final String sql = "UPDATE investments " +
+                        "SET    trigger_id=?, cmp_min=?, cmp_val=?, cmp_total=?, con_id=?, buy_limit=?, buy_dt=?, " +
                         "qty=?, qty_val=?, qty_filled=?, qty_filled_val=?, sell_limit=?, sell_dt_limit=?, " +
                         "sell_price=?, sell_dt_start=?, sell_dt_end=?, error_code=?, error_msg=? " +
                         "WHERE  id = ?";
@@ -160,7 +178,7 @@ public class Position {
             stmt.setDouble(3, cmpVal);
             stmt.setDouble(4, cmpTotal);
 
-            stmt.setInt(5, orderId);
+            stmt.setLong(5, conId);
 
             stmt.setDouble(6, buyLimit);
 
@@ -248,5 +266,39 @@ public class Position {
         order.tif(com.ib.controller.Types.TimeInForce.DAY);
         order.transmit(true);
         return order;
+    }
+
+    public boolean isPriceBreached() {
+        return todaysPrice >= sellLimit;
+    }
+
+    public static List<Investment> loadAll() {
+        List<Investment> rv = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Database.connection();
+            stmt = connection.prepareStatement("SELECT * FROM investments");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Investment investment = populate(rs);
+                if(investment != null)
+                    rv.add(investment);
+
+            }
+            return rv;
+
+        } catch (SQLException e) {
+            throw new LotusException(e);
+        } finally {
+            Database.close(rs, stmt, connection);
+        }
+    }
+
+    public long getConId() {
+        return conId;
     }
 }

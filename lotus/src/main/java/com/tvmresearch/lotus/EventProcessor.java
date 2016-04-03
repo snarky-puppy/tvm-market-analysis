@@ -1,7 +1,7 @@
 package com.tvmresearch.lotus;
 
 import com.tvmresearch.lotus.broker.Broker;
-import com.tvmresearch.lotus.db.model.Position;
+import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.Trigger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -33,12 +34,14 @@ public class EventProcessor {
     public void processTriggers(List<Trigger> triggerList) {
         triggerList.stream()
                 .filter(this::validateTrigger)
-                .forEach(this::createBuyOrder);
+                .forEach(this::triggerInvestment);
     }
 
-    private void createBuyOrder(Trigger trigger) {
-        Position position = compounder.createPosition(trigger);
-        broker.buy(position);
+    private void triggerInvestment(Trigger trigger) {
+        Investment investment = compounder.createInvestment(trigger);
+        if(!broker.buy(investment))
+            compounder.releaseInvestmentFunds(investment);
+        investment.serialise();
     }
 
     public boolean validateTrigger(Trigger trigger) {
@@ -75,7 +78,7 @@ public class EventProcessor {
             rv = false;
         }
 
-        if((broker.getAvailableFunds() - nextInvest) < 0) {
+        if(!compounder.fundsAvailable()) {
             trigger.rejectReason = Trigger.RejectReason.NOFUNDS;
             trigger.rejectData = nextInvest;
             rv = false;
@@ -119,45 +122,34 @@ public class EventProcessor {
         }
     }
 
-    public void processFilledPositions(List<Position> positionList) {
+    public void processInvestments(Collection<Investment> investmentList) {
         // check open positions for Sell events
-        positionList.stream()
+        investmentList.stream()
                 .filter(this::isSellEvent)
                 .forEach(this::createSellOrder);
     }
 
-    public void processUnfilledPositions(List<Position> positionList) {
-        // check open positions for filled Buy events
-        positionList.stream()
-                .filter(this::isUnfilled)
-                .forEach(this::updateFulfillment);
+    private boolean isNotFilled(Investment investment) {
+        return !(investment.qtyFilled != null && investment.qtyFilled > 0);
     }
 
-    private void updateFulfillment(Position position) {
-        broker.updateUnfilledPosition(position);
+    private void createSellOrder(Investment investment) {
+        broker.sell(investment);
     }
 
-    private boolean isUnfilled(Position position) {
-        return (position.qtyFilled == null || position.qtyFilled == 0);
-    }
-
-    private void createSellOrder(Position position) {
-        broker.sell(position);
-    }
-
-    private boolean isSellEvent(Position position) {
+    private boolean isSellEvent(Investment investment) {
 
         // ensure we are a position that has been filled
-        if(isUnfilled(position))
+        if(isNotFilled(investment))
             return false;
 
         // check price limit
-        if(broker.checkSellLimit(position))
+        if(investment.isPriceBreached())
             return true;
 
         // check date limit
         LocalDate now = LocalDate.now();
-        if(position.sellDateLimit.isEqual(now) || now.isAfter(position.sellDateLimit))
+        if(investment.sellDateLimit.isEqual(now) || now.isAfter(investment.sellDateLimit))
             return true;
 
         return false;

@@ -1,7 +1,7 @@
 package com.tvmresearch.lotus.broker;
 
 import com.ib.controller.*;
-import com.tvmresearch.lotus.db.model.Position;
+import com.tvmresearch.lotus.db.model.Investment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,14 +20,13 @@ public class InteractiveBroker implements Broker {
 
     private static final Logger logger = LogManager.getLogger(InteractiveBroker.class);
 
-    private Integer msgId;
-    private Integer orderId;
 
-    private double availableFunds;
 
     private final ConnectionHandler connectionHandler;
     private final ApiController controller;
     private final AccountHandler accountHandler;
+    private final LiveOrderHandler liveOrderHandler;
+
 
     public class IBLogger implements ApiConnection.ILogger {
         @Override
@@ -39,6 +38,8 @@ public class InteractiveBroker implements Broker {
     public InteractiveBroker() {
         connectionHandler = new ConnectionHandler();
         accountHandler = new AccountHandler();
+        liveOrderHandler = new LiveOrderHandler();
+
         controller = new ApiController(connectionHandler, new IBLogger(), new IBLogger());
 
         controller.connect("localhost", 7497, 1);
@@ -46,21 +47,28 @@ public class InteractiveBroker implements Broker {
 
         controller.reqAccountUpdates(true, connectionHandler.getAccount(), accountHandler);
         accountHandler.waitForEvent();
-        availableFunds = accountHandler.availableFunds;
 
+        controller.reqLiveOrders(liveOrderHandler);
+        liveOrderHandler.waitForEvent();
+
+        /*
+        PositionHandler positionHandler = new PositionHandler();
+        controller.reqPositions(positionHandler);
+        positionHandler.waitForEvent();
+        */
 
         /*
         StockHandler stockHandler = new StockHandler();
         controller.reqContractDetails(new NewContract(new StkContract("GIFI")), new StockHandler());
+        */
+
+
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
-
-
-
+        }
 
     }
 
@@ -70,54 +78,67 @@ public class InteractiveBroker implements Broker {
     }
 
     @Override
-    public double getAvailableFunds() {
-        return availableFunds;
+    public List<OpenOrder> getOpenOrders() {
+        return liveOrderHandler.openOrders;
     }
 
     @Override
-    public void buy(Position position) {
-        logger.info(String.format("BUY: %s/%s lim=%.2f qty=%d", position.trigger.exchange, position.trigger.symbol,
-                position.buyLimit, position.qty));
-        NewContract contract = position.createNewContract();
-        NewOrder order = position.createNewOrder(connectionHandler.getAccount());
+    public double getAvailableFunds() {
+        return accountHandler.availableFunds;
+    }
 
-        BuyOrderHandler handler = new BuyOrderHandler(position);
+    @Override
+    public boolean buy(Investment investment) {
+        logger.info(String.format("BUY: %s/%s lim=%.2f qty=%d", investment.trigger.exchange, investment.trigger.symbol,
+                investment.buyLimit, investment.qty));
+        /*
+        NewContract contract = investment.createNewContract();
+        NewOrder order = investment.createNewOrder(connectionHandler.getAccount());
+
+        BuyOrderHandler handler = new BuyOrderHandler(investment);
         controller.placeOrModifyOrder(contract, order, handler);
-        position.orderId = order.orderId();
+
         handler.waitForEvent();
         controller.removeOrderHandler(handler);
-        availableFunds -= position.qtyValue;
+
+        availableFunds -= investment.qtyValue;
+        */
+
+        if(investment.errorCode != null)
+            return false;
+        else
+            return true;
     }
 
     @Override
-    public void sell(Position position) {
-
+    public void sell(Investment investment) {
+        logger.info(String.format("SELL: %s/%s lim=%.2f qty=%d", investment.trigger.exchange, investment.trigger.symbol,
+                investment.buyLimit, investment.qty));
     }
 
+    /*
     @Override
-    public boolean checkSellLimit(Position position) {
+    public boolean checkSellLimit(Investment investment) {
 
-        double closePrice = getLastClose(position.createNewContract());
-        logger.info(String.format("%s close: %.2f, limit: %.2f", position.trigger.symbol,
-                closePrice, position.buyLimit));
+        double closePrice = getLastClose(investment.createNewContract());
+        logger.info(String.format("%s close: %.2f, limit: %.2f", investment.trigger.symbol,
+                closePrice, investment.buyLimit));
 
         return false;
     }
 
     @Override
-    public List<Position> getUnfilledPositions() {
+    public List<Investment> getUnfilledPositions() {
         return new ArrayList<>();
     }
+    */
 
     @Override
     public List<Position> getOpenPositions() {
-        return new ArrayList<>();
+        return accountHandler.positions;
     }
 
-    @Override
-    public void updateUnfilledPosition(Position position) {
 
-    }
 
     private double getLastClose(NewContract contract) {
 

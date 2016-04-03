@@ -10,6 +10,8 @@ import java.nio.file.Paths;
  */
 public class Configuration {
     public static final Path INPUT_DIR = Paths.get("/Users", "horse", "Google Drive", "Stuff from Matt", "daily_archive");
+    public static final Path REPORT_DIR = Paths.get("/Users", "horse", "Google Drive", "Stuff from Matt", "lotus");
+
     public static final double MIN_ZSCORE = -2.0;
     public static final double MIN_VOLUME = 10000000;
     public static final int RETRIGGER_MIN_DAYS = 28;

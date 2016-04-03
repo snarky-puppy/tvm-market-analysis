@@ -1,8 +1,7 @@
 package com.tvmresearch.lotus;
 
-import com.tvmresearch.lotus.broker.Broker;
 import com.tvmresearch.lotus.db.model.CompounderState;
-import com.tvmresearch.lotus.db.model.Position;
+import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.Trigger;
 
 import java.math.BigDecimal;
@@ -17,17 +16,18 @@ import java.time.LocalDate;
  */
 public class Compounder {
 
-    private final Broker broker;
+    private double cashBalance;
     private final CompounderState state;
 
-    public Compounder(Broker broker) {
-        this.broker = broker;
-        state = new CompounderState(broker);
+    public Compounder(double cash) {
+        this.cashBalance = cash;
+        state = new CompounderState(cash);
     }
 
     public double nextInvestmentAmount() {
         return state.minInvest + (state.compoundTally > 0 ? state.tallySlice : 0);
     }
+    public boolean fundsAvailable() { return nextInvestmentAmount() <= cashBalance; }
 
     /**
      * Calculate compounded amount. Can be negative!
@@ -55,45 +55,51 @@ public class Compounder {
         }
 
         double total = state.minInvest + rv;
-        double breach = broker.getAvailableFunds() - total;
+        double breach = cashBalance - total;
         if(breach < 0) {
-            // this will give us a negatice compound amount, but should mean that we still get a trade in.
+            // this will give us a negative compound amount, but should mean that we still get a trade in.
             rv -= breach;
         }
         return rv;
     }
 
-    public Position createPosition(Trigger trigger) {
-        Position position = new Position(trigger);
+    public Investment createInvestment(Trigger trigger) {
+        Investment investment = new Investment(trigger);
 
-        position.cmpMin = state.minInvest;
-        position.cmpVal = calculateCompoundAmount();
-        position.cmpTotal = position.cmpMin + position.cmpVal;
+        investment.cmpMin = state.minInvest;
+        investment.cmpVal = calculateCompoundAmount();
+        investment.cmpTotal = investment.cmpMin + investment.cmpVal;
 
-        if(position.cmpTotal < 0) {
+        if(investment.cmpTotal < 0) {
             trigger.rejectReason = Trigger.RejectReason.NOFUNDS;
-            trigger.rejectData = position.cmpTotal;
+            trigger.rejectData = investment.cmpTotal;
             trigger.serialise();
             return null;
         }
 
-        position.buyLimit = round(trigger.price * Configuration.BUY_LIMIT_FACTOR);
-        position.buyDate = LocalDate.now();
+        investment.buyLimit = round(trigger.price * Configuration.BUY_LIMIT_FACTOR);
+        investment.buyDate = LocalDate.now();
 
-        position.qty = (int)Math.floor(position.cmpTotal / position.buyLimit);
-        position.qtyValue = position.qty * position.buyLimit;
+        investment.qty = (int)Math.floor(investment.cmpTotal / investment.buyLimit);
+        investment.qtyValue = investment.qty * investment.buyLimit;
 
-        position.sellLimit = round(trigger.price * Configuration.SELL_LIMIT_FACTOR);
+        investment.sellLimit = round(trigger.price * Configuration.SELL_LIMIT_FACTOR);
 
-        position.sellDateLimit = position.buyDate.plusDays(Configuration.SELL_LIMIT_DAYS);
+        investment.sellDateLimit = investment.buyDate.plusDays(Configuration.SELL_LIMIT_DAYS);
 
-        return position;
+        cashBalance -= investment.cmpTotal;
+
+        return investment;
     }
 
     private double round(double num) {
         BigDecimal bd = new BigDecimal(num);
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    public void releaseInvestmentFunds(Investment investment) {
+        cashBalance += investment.cmpTotal;
     }
 
     //public void onPartialFill

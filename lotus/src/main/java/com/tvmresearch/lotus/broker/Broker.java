@@ -1,6 +1,7 @@
 package com.tvmresearch.lotus.broker;
 
-import com.tvmresearch.lotus.db.model.Position;
+import com.ib.controller.Position;
+import com.tvmresearch.lotus.db.model.Investment;
 
 import java.util.List;
 
@@ -13,21 +14,10 @@ public interface Broker {
 
     double getAvailableFunds();
 
-    void buy(Position position);
+    boolean buy(Investment investment);
 
-    void sell(Position position);
+    void sell(Investment investment);
 
-
-
-    // returns true if the close price of position breached the sell limit
-    boolean checkSellLimit(Position position);
-
-    /**
-     * Unfilled positions according to the broker
-     *
-     * @return list of unfilled positions
-     */
-    List<Position> getUnfilledPositions();
 
     /**
      * Filled positions and now full fledged investments
@@ -36,15 +26,11 @@ public interface Broker {
      */
     List<Position> getOpenPositions();
 
-    /**
-     * Update Position.qtyFilled
-     *
-     * @param position
-     */
-    void updateUnfilledPosition(Position position);
 
     /**
      * Disconnect from API
      */
     void disconnect();
+
+    List<OpenOrder> getOpenOrders();
 }
