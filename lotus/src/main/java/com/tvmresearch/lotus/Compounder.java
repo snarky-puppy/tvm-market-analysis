@@ -99,6 +99,8 @@ public class Compounder {
     }
 
     public void releaseInvestmentFunds(Investment investment) {
+        state.compoundTally += investment.cmpVal;
+        // TODO: fix the above
         cashBalance += investment.cmpTotal;
     }
 

@@ -17,6 +17,7 @@ import java.util.List;
 public class InvestmentDaoImpl implements InvestmentDao {
     private static final Logger logger = LogManager.getLogger(InvestmentDaoImpl.class);
 
+    /*
     @Override
     public int getQtyFilledSum(int conid) {
         Connection connection = null;
@@ -40,7 +41,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
         } finally {
             Database.close(rs, stmt, connection);
         }
-    }
+    }*/
 
     @Override
     public List<Investment> getTradesInProgress(int conId) {
@@ -65,7 +66,32 @@ public class InvestmentDaoImpl implements InvestmentDao {
             throw new LotusException(e);
         } finally {
             Database.close(rs, stmt, connection);
-        }    }
+        }
+    }
+
+    @Override
+    public List<Investment> getFilledInvestments() {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Database.connection();
+            stmt = connection.prepareStatement("SELECT * FROM investments p " +
+                    "WHERE state = 'FILLED'");
+            rs = stmt.executeQuery();
+
+            ArrayList<Investment> rv = new ArrayList<>();
+            while(rs.next()) {
+                rv.add(populate(rs));
+            }
+            return rv;
+
+        } catch (SQLException e) {
+            throw new LotusException(e);
+        } finally {
+            Database.close(rs, stmt, connection);
+        }      }
 
     @Override
     public void serialise(List<Investment> investments) {

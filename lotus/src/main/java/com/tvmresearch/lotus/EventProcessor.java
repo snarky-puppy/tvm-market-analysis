@@ -1,10 +1,7 @@
 package com.tvmresearch.lotus;
 
 import com.tvmresearch.lotus.broker.Broker;
-import com.tvmresearch.lotus.db.model.Investment;
-import com.tvmresearch.lotus.db.model.InvestmentDao;
-import com.tvmresearch.lotus.db.model.Trigger;
-import com.tvmresearch.lotus.db.model.TriggerDaoImpl;
+import com.tvmresearch.lotus.db.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,9 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Implement event processing logic
@@ -28,18 +23,22 @@ public class EventProcessor {
 
     private final Broker broker;
     private final Compounder compounder;
+    private final InvestmentDao investmentDao;
+    private final TriggerDao triggerDao;
 
-    public EventProcessor(Broker broker, Compounder compounder) {
+    public EventProcessor(Broker broker, Compounder compounder, TriggerDao triggerDao, InvestmentDao investmentDao) {
         this.broker = broker;
         this.compounder = compounder;
+        this.triggerDao = triggerDao;
+        this.investmentDao = investmentDao;
     }
 
-    public void processTriggers(TriggerDaoImpl triggerDao, InvestmentDao investmentDao) {
-
+    public void processTriggers() {
         List<Trigger> triggerList = triggerDao.getTodaysTriggers();
         triggerList.stream()
                 .filter(this::validateTrigger)
                 .map(this::triggerInvestment)
+                .filter(i -> i != null)
                 .forEach(investmentDao::serialise);
 
         triggerDao.serialise(triggerList);
@@ -47,8 +46,13 @@ public class EventProcessor {
 
     private Investment triggerInvestment(Trigger trigger) {
         Investment investment = compounder.createInvestment(trigger);
+
+        if(investment == null)
+            return null;
+
         if(!broker.buy(investment))
             compounder.releaseInvestmentFunds(investment);
+
         return investment;
 
     }
@@ -129,11 +133,18 @@ public class EventProcessor {
         }
     }
 
-    public void processInvestments(Collection<Investment> investmentList) {
+    public void processInvestments() {
         // check open positions for Sell events
-        investmentList.stream()
-                .filter(this::isSellEvent)
-                .forEach(this::createSellOrder);
+
+        /*
+        List<Investment> investmentList = investmentDao.getFilledInvestments();
+        for(Investment investment : investmentList) {
+            if(isSellEvent(investment, broker)) {
+                if(broker.sell(investment)
+            }
+        }
+        */
+
     }
 
     private boolean isNotFilled(Investment investment) {
@@ -144,11 +155,7 @@ public class EventProcessor {
         broker.sell(investment);
     }
 
-    private boolean isSellEvent(Investment investment) {
-
-        // ensure we are a position that has been filled
-        if(isNotFilled(investment))
-            return false;
+    private boolean isSellEvent(Investment investment, Broker broker) {
 
         // check price limit
         //if(investment.isPriceBreached())

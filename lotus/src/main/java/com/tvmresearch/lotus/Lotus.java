@@ -51,11 +51,9 @@ public class Lotus {
 
 
             Compounder compounder = new Compounder(broker.getAvailableFunds());
-            EventProcessor eventProcessor = new EventProcessor(broker, compounder);
-
-            eventProcessor.processTriggers(new TriggerDaoImpl(), new InvestmentDaoImpl());
-
-            //eventProcessor.processInvestments(investments);
+            EventProcessor eventProcessor = new EventProcessor(broker, compounder, new TriggerDaoImpl(), new InvestmentDaoImpl());
+            eventProcessor.processTriggers();
+            eventProcessor.processInvestments();
 
         } finally {
             logger.info("The Final final block");
@@ -88,6 +86,7 @@ public class Lotus {
                 // completed SELL order
                 investment.sellDateEnd = LocalDate.now();
                 investment.realPnL = position.realPnl();
+                investment.state = Investment.State.COMPLETE;
                 dao.serialise(investment);
 
             }
@@ -96,9 +95,9 @@ public class Lotus {
             if(position.position() > 0 && (investment.qtyFilled == null || investment.qtyFilledValue == null)) {
                 investment.qtyFilled = position.position();
                 investment.qtyFilledValue = position.marketValue();
+                investment.state = Investment.State.FILLED;
                 dao.serialise(investment);
             }
-
 
 /*
             int brokerQty = position.position();

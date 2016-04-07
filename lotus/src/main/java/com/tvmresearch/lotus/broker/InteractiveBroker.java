@@ -53,6 +53,13 @@ public class InteractiveBroker implements Broker {
             throw new LotusException("Account details were not provided");
         }
 
+        logger.info(String.format("Account: AUD=%.2f rate=%.2f USD=%.2f",
+                accountHandler.availableFunds,
+                accountHandler.exchangeRate,
+                accountHandler.availableFunds / accountHandler.exchangeRate
+
+            ));
+
 
         controller.reqLiveOrders(liveOrderHandler);
         liveOrderHandler.waitForEvent();
@@ -83,7 +90,7 @@ public class InteractiveBroker implements Broker {
 
     @Override
     public double getAvailableFunds() {
-        return accountHandler.availableFunds / conversionRate();
+        return accountHandler.availableFunds / accountHandler.exchangeRate;
     }
 
     @Override
@@ -169,9 +176,5 @@ public class InteractiveBroker implements Broker {
         historicalDataHandler.waitForEvent();
         //controller.cancelHistoricalData(historicalDataHandler);
         return historicalDataHandler.closePrice;
-    }
-
-    private double conversionRate() {
-        return accountHandler.exchangeRate;
     }
 }

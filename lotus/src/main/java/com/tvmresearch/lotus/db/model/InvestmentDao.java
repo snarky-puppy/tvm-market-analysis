@@ -9,9 +9,11 @@ import java.util.List;
  */
 public interface InvestmentDao {
 
-    int getQtyFilledSum(int conid);
+    //int getQtyFilledSum(int conid);
 
     List<Investment> getTradesInProgress(int conid);
+
+    List<Investment> getFilledInvestments();
 
     void serialise(List<Investment> investments);
 

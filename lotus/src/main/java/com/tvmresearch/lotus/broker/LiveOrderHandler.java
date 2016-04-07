@@ -17,13 +17,15 @@ public class LiveOrderHandler extends ASyncReceiver implements ApiController.ILi
     private static final Logger logger = LogManager.getLogger(LiveOrderHandler.class);
 
     //List<OpenOrder> openOrders = new ArrayList<>();
-    Map<Integer, Integer> orderIdToContractIdMap = new HashMap<>();
+    final Map<Integer, Integer> orderIdToContractIdMap = new HashMap<>();
 
     @Override
     public void openOrder(NewContract contract, NewOrder order, NewOrderState orderState) {
         logger.info(String.format("openOrder: contract=%s, order=%s, orderState=%s", contract, order, orderState));
         //openOrders.add(new OpenOrder(contract, order, orderState));
-        orderIdToContractIdMap.put(order.orderId(), contract.conid());
+        synchronized (orderIdToContractIdMap) {
+            orderIdToContractIdMap.put(order.orderId(), contract.conid());
+        }
     }
 
     @Override
