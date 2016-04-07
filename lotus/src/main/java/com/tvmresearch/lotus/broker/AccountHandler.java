@@ -23,16 +23,19 @@ public class AccountHandler extends ASyncReceiver implements com.ib.controller.A
     // k=conId, v=Investment
     public List<Position> positions = new ArrayList<>();
     public double availableFunds;
+    public double exchangeRate;
 
     @Override
     public void accountValue(String account, String key, String value, String currency) {
         //if(currency != null && currency.compareTo("USD") == 0)
 
-            logger.info(String.format("account=%s key=%s value=%s currency=%s",
-                    account, key, value, currency));
+        //logger.info(String.format("account=%s key=%s value=%s currency=%s",
+        //            account, key, value, currency));
         if(key.compareTo("ExcessLiquidity") == 0 && currency.compareTo("AUD") == 0) {
-
             availableFunds = Double.valueOf(value);
+        }
+        if(key.compareTo("ExchangeRate") == 0 && currency.compareTo("USD") == 0) {
+            exchangeRate = Double.valueOf(value);
         }
     }
 
@@ -48,7 +51,8 @@ public class AccountHandler extends ASyncReceiver implements com.ib.controller.A
 
     @Override
     public void updatePortfolio(Position position) {
-        //logger.info(position);
+        logger.info(position);
+        // TODO: report.updatePortfolio(position)
         positions.add(position);
     }
 }

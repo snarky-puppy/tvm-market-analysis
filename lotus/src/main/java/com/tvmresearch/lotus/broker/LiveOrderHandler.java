@@ -5,7 +5,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by horse on 1/04/2016.
@@ -14,12 +16,14 @@ public class LiveOrderHandler extends ASyncReceiver implements ApiController.ILi
 
     private static final Logger logger = LogManager.getLogger(LiveOrderHandler.class);
 
-    List<OpenOrder> openOrders = new ArrayList<>();
+    //List<OpenOrder> openOrders = new ArrayList<>();
+    Map<Integer, Integer> orderIdToContractIdMap = new HashMap<>();
 
     @Override
     public void openOrder(NewContract contract, NewOrder order, NewOrderState orderState) {
         logger.info(String.format("openOrder: contract=%s, order=%s, orderState=%s", contract, order, orderState));
-        openOrders.add(new OpenOrder(contract, order, orderState));
+        //openOrders.add(new OpenOrder(contract, order, orderState));
+        orderIdToContractIdMap.put(order.orderId(), contract.conid());
     }
 
     @Override

@@ -1,8 +1,9 @@
 package com.tvmresearch.lotus;
 
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.tvmresearch.lotus.db.model.Trigger;
+import com.tvmresearch.lotus.db.model.TriggerDao;
+import com.tvmresearch.lotus.db.model.TriggerDaoImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,8 +16,11 @@ import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Import trigger files - "DailyTriggerReport"
@@ -27,29 +31,24 @@ public class ImportTriggers {
 
     private static final Logger logger = LogManager.getLogger(ImportTriggers.class);
 
-    private Connection connection = null;
-
     public ImportTriggers() {
     }
 
     public void importAll() {
         try {
-            connection = Database.connection();
-            connection.setAutoCommit(false);
+            TriggerDao dao = new TriggerDaoImpl();
             Files.walk(Configuration.INPUT_DIR)
                     .filter(p -> p.toString().endsWith(".csv"))
-                    .forEach(this::importFile);
-            connection.commit();
-            connection.setAutoCommit(true);
-        } catch (IOException|SQLException e) {
+                    .map(this::importFile)
+                    .forEach(dao::serialise);
+        } catch (IOException e) {
             throw new LotusException(e);
-        } finally {
-            Database.close(connection);
         }
     }
 
-    private void importFile(Path file) {
+    private List<Trigger> importFile(Path file) {
 
+        List<Trigger> rv = new ArrayList<>();
         BufferedReader bufferedReader = null;
         boolean first = true;
 
@@ -61,9 +60,14 @@ public class ImportTriggers {
                     break;
                 if(first)
                     first = false;
-                else
-                    parseLine(line);
+                else {
+                    Trigger trigger = parseLine(line);
+                    if(trigger != null)
+                        rv.add(trigger);
+                }
             }
+            return rv;
+
         } catch (IOException e) {
             throw new LotusException(e);
         } finally {
@@ -75,7 +79,7 @@ public class ImportTriggers {
         }
     }
 
-    private void parseLine(String line) {
+    private Trigger parseLine(String line) {
         //logger.debug(line);
         String fields[] = line.split(",");
 
@@ -84,7 +88,7 @@ public class ImportTriggers {
 
         // XXX:
         if(trigger.exchange.compareTo("ASX") == 0)
-            return;
+            return null;
 
         trigger.symbol = fields[1];
         // fields[2] - scenario id
@@ -95,7 +99,8 @@ public class ImportTriggers {
         trigger.avgVolume = Double.parseDouble(fields[7]);
         trigger.avgPrice = Double.parseDouble(fields[8]);
 
-        trigger.serialise(connection);
+        return trigger;
+
     }
 
     private LocalDate parseDate(String date) {

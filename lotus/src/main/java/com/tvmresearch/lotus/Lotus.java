@@ -3,14 +3,16 @@ package com.tvmresearch.lotus;
 import com.ib.controller.Position;
 import com.tvmresearch.lotus.broker.Broker;
 import com.tvmresearch.lotus.broker.InteractiveBroker;
-import com.tvmresearch.lotus.broker.OpenOrder;
 import com.tvmresearch.lotus.db.model.Investment;
+import com.tvmresearch.lotus.db.model.InvestmentDao;
+import com.tvmresearch.lotus.db.model.InvestmentDaoImpl;
+import com.tvmresearch.lotus.db.model.TriggerDaoImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -30,8 +32,10 @@ public class Lotus {
 
     private void main() {
 
+        logger.info("Starting trigger import");
         ImportTriggers importTriggers = new ImportTriggers();
         importTriggers.importAll();
+        logger.info("Finished trigger import");
 
         Broker broker = null;
 
@@ -39,15 +43,17 @@ public class Lotus {
             broker = new InteractiveBroker();
 
             // Update our DB with any positions that were filled since the last run
-            updatePositions(broker);
+            updatePositions(broker, new InvestmentDaoImpl());
 
-            // Match the list of orders from IBKR against what we have in our db
-            processOrders(broker);
+            // TODO: after processing all completed sells, we should be able to estimate current cash balance.
+            // startBank from 1st of the month + sum of all completed trades
+            // TODO: Compare our calculations with what IBKR give us.
+
 
             Compounder compounder = new Compounder(broker.getAvailableFunds());
             EventProcessor eventProcessor = new EventProcessor(broker, compounder);
 
-            //eventProcessor.processTriggers(Trigger.getTodaysTriggers());
+            eventProcessor.processTriggers(new TriggerDaoImpl(), new InvestmentDaoImpl());
 
             //eventProcessor.processInvestments(investments);
 
@@ -58,30 +64,120 @@ public class Lotus {
         }
     }
 
-    private void processOrders(Broker broker) {
-        List<OpenOrder> openOrders = broker.getOpenOrders();
-        List<Investment> investments;
-        Map<Long, List<Investment>> contractMap = Investment.loadAll().stream().collect(Collectors.groupingBy(Investment::getConId));
+    public void updatePositions(Broker broker, InvestmentDao dao) {
 
-        // Open SELL orders
-
-        // Closed SELL orders
-
-        // Open BUY orders
-
-        // Closed BUY orders
-
-
-    }
-
-    private void updatePositions(Broker broker) {
         List<Position> positions = broker.getOpenPositions();
-        for (Position p : positions) {
-            Investment i = Investment.loadAndFill(p);
-            if (i != null) {
-                i.serialise();
+        for (Position position : positions) {
+
+
+            List<Investment> investments = dao.getTradesInProgress(position.conid());
+            if(investments.size() == 0) {
+                logger.error("No open trades for position: "+position);
+                continue;
             }
+
+            if(investments.size() > 1) {
+                logger.error("Can't handle more than one trade in progress per instrument: "+investments.get(0).trigger.symbol);
+                continue;
+            }
+
+            Investment investment = investments.get(0);
+
+            // filled SELL order
+            if(position.position() == 0 && (investment.sellDateEnd == null)) {
+                // completed SELL order
+                investment.sellDateEnd = LocalDate.now();
+                investment.realPnL = position.realPnl();
+                dao.serialise(investment);
+
+            }
+
+            // filled BUY order: qty_filled & qty_filled_val
+            if(position.position() > 0 && (investment.qtyFilled == null || investment.qtyFilledValue == null)) {
+                investment.qtyFilled = position.position();
+                investment.qtyFilledValue = position.marketValue();
+                dao.serialise(investment);
+            }
+
+
+/*
+            int brokerQty = position.position();
+
+            List<Investment> buyOrders = investments.stream()
+                    .filter(i -> i.state == Investment.State.BUY)
+                    .collect(Collectors.toList());
+            List<Investment> sellOrders = investments.stream()
+                    .filter(i -> i.state == Investment.State.SELL)
+                    .collect(Collectors.toList());
+
+            // Process BUY orders first.
+            // These since these are always DAY trades, we can be more sure of the correct qty since we'll run
+            // after the markets close.
+            // myTotalQty will still be higher since we haven't processed any SELL trades yet.
+            if(buyOrders != null && buyOrders.size() > 0) {
+                int myTotalQty = dao.getQtyFilledSum(position.conid());
+                int qtyFilled = brokerQty - myTotalQty;
+
+                // If we have two DAY trades on the same stock, and only the first one gets filled,
+                // mark the second as COMPLETE with zero filled.
+
+                for(Investment buyOrder : buyOrders) {
+                    if(qtyFilled > 0) {
+                        if(qtyFilled > buyOrder.qty) {
+                            buyOrder.qtyFilled = buyOrder.qty;
+                            qtyFilled -= buyOrder.qty;
+                        } else {
+                            buyOrder.qtyFilled = qtyFilled;
+                            qtyFilled = 0;
+                        }
+
+                        buyOrder.qtyFilledValue = position.marketPrice() * buyOrder.qtyFilled;
+                        buyOrder.state = Investment.State.FILLED;
+
+                    } else {
+                        buyOrder.qtyFilled = 0;
+                        buyOrder.qtyFilledValue = 0.0;
+                        buyOrder.errorMsg = "Not Filled";
+                        buyOrder.state = Investment.State.COMPLETE;
+                    }
+                }
+                dao.serialise(buyOrders);
+            }
+
+            // process SELL orders
+            if(sellOrders != null && sellOrders.size() > 0) {
+                int myTotalQty = dao.getQtyFilledSum(position.conid());
+                int sellQty = sellOrders.stream().mapToInt(i -> i.qtyFilled).sum();
+                int backLog = myTotalQty - brokerQty;
+
+
+                for(Investment investment : sellOrders) {
+
+                }
+            }
+*/
+            /*
+            1 position, many possible investments
+
+            2 interesting investment states:
+                - BUY
+                - SELL
+
+            filled sell order:
+                single investment:
+                    - broker positions == 0
+                    - investments in the db but no positions from broker
+                many investments:
+                    -
+
+            */
+
+
+
+
+
         }
+
     }
 
 }

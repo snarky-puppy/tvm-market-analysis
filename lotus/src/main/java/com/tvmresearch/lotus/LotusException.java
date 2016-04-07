@@ -9,4 +9,8 @@ public class LotusException extends RuntimeException {
     public LotusException(Throwable cause) {
         super(cause);
     }
+
+    public LotusException(String s) {
+        super(s);
+    }
 }

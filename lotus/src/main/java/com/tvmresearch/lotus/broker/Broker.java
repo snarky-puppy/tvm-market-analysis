@@ -2,6 +2,7 @@ package com.tvmresearch.lotus.broker;
 
 import com.ib.controller.Position;
 import com.tvmresearch.lotus.db.model.Investment;
+import com.tvmresearch.lotus.db.model.InvestmentDao;
 
 import java.util.List;
 
@@ -31,6 +32,4 @@ public interface Broker {
      * Disconnect from API
      */
     void disconnect();
-
-    List<OpenOrder> getOpenOrders();
 }

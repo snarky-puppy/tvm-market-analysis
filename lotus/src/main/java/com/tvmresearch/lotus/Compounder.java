@@ -3,6 +3,7 @@ package com.tvmresearch.lotus;
 import com.tvmresearch.lotus.db.model.CompounderState;
 import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.Trigger;
+import com.tvmresearch.lotus.db.model.TriggerDao;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -73,7 +74,6 @@ public class Compounder {
         if(investment.cmpTotal < 0) {
             trigger.rejectReason = Trigger.RejectReason.NOFUNDS;
             trigger.rejectData = investment.cmpTotal;
-            trigger.serialise();
             return null;
         }
 

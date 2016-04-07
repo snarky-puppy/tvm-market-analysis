@@ -22,15 +22,16 @@ public class BuyOrderHandler extends ASyncReceiver implements com.ib.controller.
 
     @Override
     public void orderState(NewOrderState orderState) {
-        logger.info(orderState);
-        eventOccured();
+        //logger.info(orderState);
+        //eventOccured();
     }
 
     @Override
     public void orderStatus(OrderStatus status, int filled, int remaining, double avgFillPrice, long permId, int parentId, double lastFillPrice, int clientId, String whyHeld) {
         logger.info(status);
+        investment.permId = permId;
+        investment.state = Investment.State.BUY;
         eventOccured();
-
     }
 
     @Override
@@ -40,6 +41,7 @@ public class BuyOrderHandler extends ASyncReceiver implements com.ib.controller.
             investment.errorCode = errorCode;
             investment.errorMsg = errorMsg;
             investment.conId = -1;
+            investment.state = Investment.State.ERROR;
             eventOccured();
         }
     }

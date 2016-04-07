@@ -62,8 +62,11 @@ CREATE TABLE investments (
 	cmp_val DOUBLE(12,2) NOT NULL,
 	cmp_total DOUBLE(12,2) NOT NULL,
 
-	-- IB state
-	con_id BIGINT NOT NULL,
+	/* IB state */
+	con_id BIGINT NOT NULL, -- contract
+	perm_id BIGINT NOT NULL, -- order
+
+	state ENUM('NEW', 'BUY', 'FILLED', 'SELL', 'COMPLETE', 'ERROR') NOT NULL DEFAULT 'NEW',
 
 	/* buying */
 
@@ -98,9 +101,14 @@ CREATE TABLE investments (
 	sell_dt_start DATE,
 	sell_dt_end DATE,
 
+	-- realised profit / loss
+	real_pnl DOUBLE(12,2),
+
 	-- something went wrong...
 	error_code INTEGER,
 	error_msg VARCHAR(265),
+
+	UNIQUE KEY order_idx (con_id, perm_id),
 
 	FOREIGN KEY (trigger_id)
 		REFERENCES triggers(id)

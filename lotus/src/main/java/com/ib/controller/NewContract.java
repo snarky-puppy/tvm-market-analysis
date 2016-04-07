@@ -171,25 +171,26 @@ public class NewContract implements Cloneable {
 		return m_comboLegs.size() > 0;
 	}
 
-	@Override public String toString() {
-	    StringBuilder sb = new StringBuilder();
-
-	    add( sb, "conid", m_conid);
-	    add( sb, "symbol", m_symbol);
-	    add( sb, "secType", m_secType);
-	    add( sb, "expiry", m_expiry);
-	    add( sb, "strike", m_strike);
-	    add( sb, "right", m_right);
-	    add( sb, "multiplier", m_multiplier);
-	    add( sb, "exchange", m_exchange);
-	    add( sb, "currency", m_currency);
-	    add( sb, "localSymbol", m_localSymbol);
-	    add( sb, "tradingClass", m_tradingClass);
-	    add( sb, "primaryExch", m_primaryExch);
-	    add( sb, "secIdType", m_secIdType);
-	    add( sb, "secId", m_secId);
-
-	    return sb.toString();
+	@Override
+	public String toString() {
+		return "NewContract{" +
+				"m_conid=" + m_conid +
+				", m_symbol='" + m_symbol + '\'' +
+				", m_secType=" + m_secType +
+				", m_expiry='" + m_expiry + '\'' +
+				", m_strike=" + m_strike +
+				", m_right=" + m_right +
+				", m_multiplier='" + m_multiplier + '\'' +
+				", m_exchange='" + m_exchange + '\'' +
+				", m_primaryExch='" + m_primaryExch + '\'' +
+				", m_currency='" + m_currency + '\'' +
+				", m_localSymbol='" + m_localSymbol + '\'' +
+				", m_tradingClass='" + m_tradingClass + '\'' +
+				", m_secIdType=" + m_secIdType +
+				", m_secId='" + m_secId + '\'' +
+				", m_underComp=" + m_underComp +
+				", m_comboLegs=" + m_comboLegs +
+				'}';
 	}
 
 	public static void add(StringBuilder sb, String tag, Object val) {

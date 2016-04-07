@@ -2,7 +2,9 @@ package com.tvmresearch.lotus;
 
 import com.tvmresearch.lotus.broker.Broker;
 import com.tvmresearch.lotus.db.model.Investment;
+import com.tvmresearch.lotus.db.model.InvestmentDao;
 import com.tvmresearch.lotus.db.model.Trigger;
+import com.tvmresearch.lotus.db.model.TriggerDaoImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +15,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implement event processing logic
@@ -31,17 +34,23 @@ public class EventProcessor {
         this.compounder = compounder;
     }
 
-    public void processTriggers(List<Trigger> triggerList) {
+    public void processTriggers(TriggerDaoImpl triggerDao, InvestmentDao investmentDao) {
+
+        List<Trigger> triggerList = triggerDao.getTodaysTriggers();
         triggerList.stream()
                 .filter(this::validateTrigger)
-                .forEach(this::triggerInvestment);
+                .map(this::triggerInvestment)
+                .forEach(investmentDao::serialise);
+
+        triggerDao.serialise(triggerList);
     }
 
-    private void triggerInvestment(Trigger trigger) {
+    private Investment triggerInvestment(Trigger trigger) {
         Investment investment = compounder.createInvestment(trigger);
         if(!broker.buy(investment))
             compounder.releaseInvestmentFunds(investment);
-        investment.serialise();
+        return investment;
+
     }
 
     public boolean validateTrigger(Trigger trigger) {
@@ -93,8 +102,6 @@ public class EventProcessor {
             trigger.rejectReason = Trigger.RejectReason.OK;
         }
 
-        trigger.serialise();
-
         return rv;
     }
 
@@ -144,8 +151,8 @@ public class EventProcessor {
             return false;
 
         // check price limit
-        if(investment.isPriceBreached())
-            return true;
+        //if(investment.isPriceBreached())
+        //    return true;
 
         // check date limit
         LocalDate now = LocalDate.now();

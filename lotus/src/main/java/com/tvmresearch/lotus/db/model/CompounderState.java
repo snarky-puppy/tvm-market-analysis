@@ -36,7 +36,8 @@ public class CompounderState {
         tallySlice = compoundTally / spread;
         tallySliceCnt = 0;
 
-        logger.info(String.format("compound_tally=%.2f tally_slice=%.2f", compoundTally, tallySlice));
+        logger.info(String.format("start_bank=%.2f min_invest=%.2f compound_tally=%.2f tally_slice=%.2f",
+                startBank, minInvest, compoundTally, tallySlice));
     }
 
     /**

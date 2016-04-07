@@ -1,7 +1,9 @@
 package com.tvmresearch.lotus.broker;
 
 import com.ib.controller.*;
+import com.tvmresearch.lotus.LotusException;
 import com.tvmresearch.lotus.db.model.Investment;
+import com.tvmresearch.lotus.db.model.InvestmentDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,8 +21,6 @@ import java.util.List;
 public class InteractiveBroker implements Broker {
 
     private static final Logger logger = LogManager.getLogger(InteractiveBroker.class);
-
-
 
     private final ConnectionHandler connectionHandler;
     private final ApiController controller;
@@ -45,30 +45,33 @@ public class InteractiveBroker implements Broker {
         controller.connect("localhost", 7497, 1);
         connectionHandler.waitForConnection();
 
+        logger.info("Requesting account updates");
         controller.reqAccountUpdates(true, connectionHandler.getAccount(), accountHandler);
         accountHandler.waitForEvent();
 
+        if(accountHandler.exchangeRate == 0.0 || accountHandler.availableFunds == 0.0) {
+            throw new LotusException("Account details were not provided");
+        }
+
+
         controller.reqLiveOrders(liveOrderHandler);
         liveOrderHandler.waitForEvent();
+        //controller.removeLiveOrderHandler(liveOrderHandler);
 
-        /*
-        PositionHandler positionHandler = new PositionHandler();
-        controller.reqPositions(positionHandler);
-        positionHandler.waitForEvent();
-        */
+
 
         /*
         StockHandler stockHandler = new StockHandler();
         controller.reqContractDetails(new NewContract(new StkContract("GIFI")), new StockHandler());
         */
 
-
-
+        /*
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        */
 
     }
 
@@ -77,21 +80,17 @@ public class InteractiveBroker implements Broker {
         controller.disconnect();
     }
 
-    @Override
-    public List<OpenOrder> getOpenOrders() {
-        return liveOrderHandler.openOrders;
-    }
 
     @Override
     public double getAvailableFunds() {
-        return accountHandler.availableFunds;
+        return accountHandler.availableFunds / conversionRate();
     }
 
     @Override
     public boolean buy(Investment investment) {
         logger.info(String.format("BUY: %s/%s lim=%.2f qty=%d", investment.trigger.exchange, investment.trigger.symbol,
                 investment.buyLimit, investment.qty));
-        /*
+
         NewContract contract = investment.createNewContract();
         NewOrder order = investment.createNewOrder(connectionHandler.getAccount());
 
@@ -101,8 +100,23 @@ public class InteractiveBroker implements Broker {
         handler.waitForEvent();
         controller.removeOrderHandler(handler);
 
-        availableFunds -= investment.qtyValue;
-        */
+
+        //investment.permId = n++;
+        //investment.conId = m++;
+
+        //logger.info(contract);
+
+        boolean landed;
+        do {
+            synchronized (liveOrderHandler.orderIdToContractIdMap) {
+                landed = liveOrderHandler.orderIdToContractIdMap.containsKey(order.orderId());
+            }
+            if(!landed) {
+                try { Thread.sleep(100); } catch (InterruptedException e) {   }
+            }
+        } while(!landed);
+
+        investment.conId = liveOrderHandler.orderIdToContractIdMap.get(order.orderId());
 
         if(investment.errorCode != null)
             return false;
@@ -155,5 +169,9 @@ public class InteractiveBroker implements Broker {
         historicalDataHandler.waitForEvent();
         //controller.cancelHistoricalData(historicalDataHandler);
         return historicalDataHandler.closePrice;
+    }
+
+    private double conversionRate() {
+        return accountHandler.exchangeRate;
     }
 }
