@@ -64,6 +64,8 @@ public class Compounder {
             bankBalance = null;
             roi = null;
             compoundTally = null;
+            preCompoundInvestAmt = 0.0;
+            compoundInvestAmt = 0.0;
         }
 
         public String toString() {
