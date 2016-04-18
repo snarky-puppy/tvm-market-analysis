@@ -1,0 +1,14 @@
+ERROR StatusLogger No log4j2 configuration file found. Using default configuration: logging only errors to the console.
+08:45:17.417 [main] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=502, msg=Couldn't connect to TWS.  Confirm that "Enable ActiveX and Socket Clients" is enabled on the TWS "Configure->API" menu.
+Exception in thread "main" com.tvmresearch.lotus.LotusException: com.tvmresearch.lotus.broker.TWSException
+	at com.tvmresearch.lotus.broker.ConnectionHandler.message(ConnectionHandler.java:60)
+	at com.ib.controller.ApiController.error(ApiController.java:134)
+	at com.ib.client.EClientSocket.connectionError(EClientSocket.java:258)
+	at com.ib.client.EClientSocket.eConnect(EClientSocket.java:253)
+	at com.ib.client.EClientSocket.eConnect(EClientSocket.java:234)
+	at com.ib.controller.ApiController.connect(ApiController.java:84)
+	at com.tvmresearch.lotus.broker.InteractiveBroker.<init>(InteractiveBroker.java:46)
+	at com.tvmresearch.lotus.Lotus.main(Lotus.java:43)
+	at com.tvmresearch.lotus.Lotus.main(Lotus.java:30)
+Caused by: com.tvmresearch.lotus.broker.TWSException
+	... 9 more

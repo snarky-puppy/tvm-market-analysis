@@ -32,4 +32,6 @@ public interface Broker {
      * Disconnect from API
      */
     void disconnect();
+
+    double getLastClose(Investment investment);
 }

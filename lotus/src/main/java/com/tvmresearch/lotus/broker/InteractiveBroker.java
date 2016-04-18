@@ -1,16 +1,17 @@
 package com.tvmresearch.lotus.broker;
 
+import com.ib.client.CommissionReport;
+import com.ib.client.Execution;
+import com.ib.client.ExecutionFilter;
 import com.ib.controller.*;
 import com.tvmresearch.lotus.LotusException;
 import com.tvmresearch.lotus.db.model.Investment;
-import com.tvmresearch.lotus.db.model.InvestmentDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,20 +66,42 @@ public class InteractiveBroker implements Broker {
         liveOrderHandler.waitForEvent();
         //controller.removeLiveOrderHandler(liveOrderHandler);
 
+/*
+        controller.reqExecutions(new ExecutionFilter(), new ApiController.ITradeReportHandler() {
+            private final Logger logger = LogManager.getLogger(InteractiveBroker.class);
 
+            @Override
+            public void tradeReport(String tradeKey, NewContract contract, Execution execution) {
+                logger.info(String.format("trade_key=%s contract=%s execution=%s", tradeKey, contract, execution));
+            }
+
+            @Override
+            public void tradeReportEnd() {
+
+            }
+
+            @Override
+            public void commissionReport(String tradeKey, CommissionReport commissionReport) {
+
+            }
+        });
+
+*/
 
         /*
         StockHandler stockHandler = new StockHandler();
         controller.reqContractDetails(new NewContract(new StkContract("GIFI")), new StockHandler());
         */
 
-        /*
+/*
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        */
+
+        System.exit(1);
+    */
 
     }
 
@@ -99,7 +122,7 @@ public class InteractiveBroker implements Broker {
                 investment.buyLimit, investment.qty));
 
         NewContract contract = investment.createNewContract();
-        NewOrder order = investment.createNewOrder(connectionHandler.getAccount());
+        NewOrder order = investment.createBuyOrder(connectionHandler.getAccount());
 
         BuyOrderHandler handler = new BuyOrderHandler(investment);
         controller.placeOrModifyOrder(contract, order, handler);
@@ -134,7 +157,15 @@ public class InteractiveBroker implements Broker {
     @Override
     public void sell(Investment investment) {
         logger.info(String.format("SELL: %s/%s lim=%.2f qty=%d", investment.trigger.exchange, investment.trigger.symbol,
-                investment.buyLimit, investment.qty));
+                investment.sellLimit, investment.qtyFilled));
+        NewContract contract = investment.createNewContract();
+        NewOrder order = investment.createSellOrder(connectionHandler.getAccount());
+
+        SellOrderHandler handler = new SellOrderHandler(investment);
+        controller.placeOrModifyOrder(contract, order, handler);
+
+        handler.waitForEvent();
+        //controller.removeOrderHandler(handler);
     }
 
     /*
@@ -161,9 +192,9 @@ public class InteractiveBroker implements Broker {
 
 
 
-    private double getLastClose(NewContract contract) {
-
-        logger.info(String.format("getLastClose: %s/%s", contract.primaryExch(), contract.symbol()));
+    public double getLastClose(Investment investment) {
+        NewContract contract = investment.createNewContract();
+        //logger.info(String.format("getLastClose: %s/%s", contract.primaryExch(), contract.symbol()));
         DateTimeFormatter formatter =
                 DateTimeFormatter.ofPattern("yyyyMMdd hh:mm:ss zzz")
                         .withZone(ZoneId.of("GMT"));

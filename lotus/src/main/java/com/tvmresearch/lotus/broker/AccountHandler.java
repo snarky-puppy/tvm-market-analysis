@@ -31,7 +31,7 @@ public class AccountHandler extends ASyncReceiver implements com.ib.controller.A
 
         //logger.info(String.format("account=%s key=%s value=%s currency=%s",
         //            account, key, value, currency));
-        if(key.compareTo("ExcessLiquidity") == 0 && currency.compareTo("AUD") == 0) {
+        if(key.compareTo("TotalCashValue") == 0 && currency.compareTo("AUD") == 0) {
             availableFunds = Double.valueOf(value);
         }
         if(key.compareTo("ExchangeRate") == 0 && currency.compareTo("USD") == 0) {

@@ -14,11 +14,11 @@ public class ASyncReceiver {
 
     public void waitForEvent(){
         try {
-            System.out.println("waiting...");
+            //System.out.println("waiting...");
             semaphore.acquire();
-            System.out.println("finished waiting");
+            //System.out.println("finished waiting");
             if(exception != null) {
-                System.out.printf("exxeption");
+                //System.out.printf("exxeption");
                 LotusException e = exception;
                 exception = null;
                 throw e;
@@ -28,7 +28,7 @@ public class ASyncReceiver {
     }
 
     public void eventOccured() {
-        System.out.println("Event occured");
+        //System.out.println("Event occured");
         semaphore.release(1);
     }
 }

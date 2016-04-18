@@ -81,7 +81,7 @@ public class TriggerDaoImpl implements TriggerDao {
         try {
             connection = Database.connection();
             stmt = connection.prepareStatement(sql);
-            stmt.setDate(1, java.sql.Date.valueOf(LocalDate.now().minusDays(3)));
+            stmt.setDate(1, java.sql.Date.valueOf(LocalDate.now().minusDays(5)));
             stmt.setString(2, Trigger.RejectReason.NOTPROCESSED.name());
             rs = stmt.executeQuery();
             while(rs.next()) {

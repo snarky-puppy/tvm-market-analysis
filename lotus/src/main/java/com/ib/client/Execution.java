@@ -70,4 +70,26 @@ public class Execution {
         }
         return l_bRetVal;
     }
+
+    @Override
+    public String toString() {
+        return "Execution{" +
+                "m_orderId=" + m_orderId +
+                ", m_clientId=" + m_clientId +
+                ", m_execId='" + m_execId + '\'' +
+                ", m_time='" + m_time + '\'' +
+                ", m_acctNumber='" + m_acctNumber + '\'' +
+                ", m_exchange='" + m_exchange + '\'' +
+                ", m_side='" + m_side + '\'' +
+                ", m_shares=" + m_shares +
+                ", m_price=" + m_price +
+                ", m_permId=" + m_permId +
+                ", m_liquidation=" + m_liquidation +
+                ", m_cumQty=" + m_cumQty +
+                ", m_avgPrice=" + m_avgPrice +
+                ", m_orderRef='" + m_orderRef + '\'' +
+                ", m_evRule='" + m_evRule + '\'' +
+                ", m_evMultiplier=" + m_evMultiplier +
+                '}';
+    }
 }

@@ -49,6 +49,11 @@ public class LotusTest {
 
         }
 
+        @Override
+        public double getLastClose(Investment investment) {
+            return 0;
+        }
+
     }
 
     Position createPosition(int position, double marketPrice) {

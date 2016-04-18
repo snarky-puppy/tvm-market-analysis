@@ -98,7 +98,7 @@ public class Investment {
         return rv;
     }
 
-    public NewOrder createNewOrder(String account) {
+    public NewOrder createBuyOrder(String account) {
         NewOrder order = new NewOrder();
         order.account(account);
         order.action(com.ib.controller.Types.Action.BUY);
@@ -106,6 +106,18 @@ public class Investment {
         order.orderType(OrderType.LMT);
         order.lmtPrice(buyLimit);
         order.tif(com.ib.controller.Types.TimeInForce.DAY);
+        order.transmit(true);
+        return order;
+    }
+
+    public NewOrder createSellOrder(String account) {
+        NewOrder order = new NewOrder();
+        order.account(account);
+        order.action(com.ib.controller.Types.Action.SELL);
+        order.totalQuantity(qtyFilled);
+        order.orderType(OrderType.MKT);
+        order.lmtPrice(sellLimit);
+        order.tif(com.ib.controller.Types.TimeInForce.GTC);
         order.transmit(true);
         return order;
     }

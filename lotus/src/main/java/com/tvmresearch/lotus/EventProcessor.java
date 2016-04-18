@@ -59,28 +59,28 @@ public class EventProcessor {
 
     public boolean validateTrigger(Trigger trigger) {
 
-        boolean rv = true;
+
 
         if(!trigger.event) {
             trigger.rejectReason = Trigger.RejectReason.NOTEVENT;
-            rv = false;
+            return false;
         }
 
         if(trigger.zscore > Configuration.MIN_ZSCORE) {
             trigger.rejectReason = Trigger.RejectReason.ZSCORE;
             trigger.rejectData = Configuration.MIN_ZSCORE;
-            rv = false;
+            return false;
         }
 
-        if(isActiveSymbol(trigger)) {
+        if(!isActiveSymbol(trigger)) {
             trigger.rejectReason = Trigger.RejectReason.CATEGORY;
-            rv = false;
+            return false;
         }
 
         if(trigger.avgVolume > Configuration.MIN_VOLUME) {
             trigger.rejectReason = Trigger.RejectReason.VOLUME;
             trigger.rejectData = Configuration.MIN_VOLUME;
-            rv = false;
+            return false;
         }
 
         double nextInvest = compounder.nextInvestmentAmount();
@@ -88,13 +88,13 @@ public class EventProcessor {
         if(pc >= 1.0) {
             trigger.rejectReason = Trigger.RejectReason.INVESTAMT;
             trigger.rejectData = nextInvest;
-            rv = false;
+            return false;
         }
 
         if(!compounder.fundsAvailable()) {
             trigger.rejectReason = Trigger.RejectReason.NOFUNDS;
             trigger.rejectData = nextInvest;
-            rv = false;
+            return false;
         }
 
         // The price does not conform to the minimum price variation for this contract.
@@ -102,11 +102,8 @@ public class EventProcessor {
        //     trigger.rejectReason = Trigger.RejectReason.TICKSIZE;
        // }
 
-        if(rv) {
-            trigger.rejectReason = Trigger.RejectReason.OK;
-        }
-
-        return rv;
+        trigger.rejectReason = Trigger.RejectReason.OK;
+        return true;
     }
 
     private boolean isActiveSymbol(Trigger trigger) {
@@ -135,31 +132,24 @@ public class EventProcessor {
 
     public void processInvestments() {
         // check open positions for Sell events
-
-        /*
         List<Investment> investmentList = investmentDao.getFilledInvestments();
         for(Investment investment : investmentList) {
-            if(isSellEvent(investment, broker)) {
-                if(broker.sell(investment)
+            if(isSellEvent(investment)) {
+                broker.sell(investment);
+                investmentDao.serialise(investment);
             }
         }
-        */
-
     }
 
-    private boolean isNotFilled(Investment investment) {
-        return !(investment.qtyFilled != null && investment.qtyFilled > 0);
-    }
-
-    private void createSellOrder(Investment investment) {
-        broker.sell(investment);
-    }
-
-    private boolean isSellEvent(Investment investment, Broker broker) {
+    private boolean isSellEvent(Investment investment) {
 
         // check price limit
-        //if(investment.isPriceBreached())
-        //    return true;
+        double todayPrice = broker.getLastClose(investment);
+        logger.info(String.format("[%s/%s] sell limit? %.2f >= %.2f",
+                investment.trigger.exchange, investment.trigger.symbol,
+                todayPrice, investment.sellLimit));
+        if(todayPrice >= investment.sellLimit)
+            return true;
 
         // check date limit
         LocalDate now = LocalDate.now();

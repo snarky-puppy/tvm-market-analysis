@@ -25,7 +25,6 @@ public class Lotus {
     private static final Logger logger = LogManager.getLogger(Lotus.class);
 
     public static void main(String[] args) {
-
         Lotus lotus = new Lotus();
         lotus.main();
     }
@@ -70,7 +69,7 @@ public class Lotus {
 
             List<Investment> investments = dao.getTradesInProgress(position.conid());
             if(investments.size() == 0) {
-                logger.error("No open trades for position: "+position);
+                //logger.error("No open trades for position: "+position);
                 continue;
             }
 
@@ -96,6 +95,13 @@ public class Lotus {
                 investment.qtyFilled = position.position();
                 investment.qtyFilledValue = position.marketValue();
                 investment.state = Investment.State.FILLED;
+                dao.serialise(investment);
+            }
+
+            // any left over BUYs are COMPLETE (completely unfilled)
+            if(investment.state == Investment.State.BUY && investment.qtyFilled == null) {
+                investment.state = Investment.State.COMPLETE;
+                investment.errorMsg = "Unfilled";
                 dao.serialise(investment);
             }
 
