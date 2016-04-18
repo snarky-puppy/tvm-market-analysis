@@ -190,6 +190,8 @@ public class Result {
         builder.append(String.format("%d,", pair.week4NextDayDate.get()));
         builder.append(String.format("%f,", pair.week4NextDayOpenPrice.get()));
         builder.append(String.format("%f,", pair.week4NextDayClosePrice.get()));
+        builder.append(String.format("%d,", pair.endOfYearDate.get()));
+        builder.append(String.format("%f,", pair.endOfYearPrice.get()));
         
 
         builder.append("\n");

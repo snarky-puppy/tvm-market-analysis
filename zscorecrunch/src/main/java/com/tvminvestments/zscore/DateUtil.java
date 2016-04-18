@@ -3,6 +3,7 @@ package com.tvminvestments.zscore;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
 
 import java.text.SimpleDateFormat;
@@ -117,6 +118,15 @@ public class DateUtil {
         DateComponents dc = new DateComponents(date);
         DateTime dateTime = new DateTime(dc.y, dc.m, 1, 0, 0);
         return dateTimeToInteger(dateTime);
+    }
+
+    public static int findEndOfYearWeekDate(int date) {
+        DateComponents dc = new DateComponents(date);
+        DateTime dateTime = new DateTime(dc.y, 12, 31, 0, 0);
+        int offset = 0;
+        if(dateTime.dayOfWeek().get() > DateTimeConstants.FRIDAY)
+            offset = dateTime.dayOfWeek().get() - DateTimeConstants.FRIDAY;
+        return dateTimeToInteger(new DateTime(dc.y, 12, 31-offset, 0, 0));
     }
 
     public static int distance(int start, int end) {

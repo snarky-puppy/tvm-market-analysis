@@ -390,6 +390,8 @@ public class ZScoreAlgorithm {
                 data.findNWeekData(3, pair.entryDate, pair.week3Date, pair.week3Price, pair.week3NextDayDate, pair.week3NextDayOpenPrice, pair.week3NextDayClosePrice, useAdjustedClose);
                 data.findNWeekData(4, pair.entryDate, pair.week4Date, pair.week4Price, pair.week4NextDayDate, pair.week4NextDayOpenPrice, pair.week4NextDayClosePrice, useAdjustedClose);
 
+                data.findEndOfYearPrice(pair.entryDate, pair.endOfYearDate, pair.endOfYearPrice, useAdjustedClose);
+
                 logger.debug(String.format("Found entry: %d/%f", pair.entryDate, pair.entryZScore));
 
                 /**

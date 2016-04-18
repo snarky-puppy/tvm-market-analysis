@@ -208,6 +208,9 @@ public class EntryExitPair {
     public AtomicInteger week4NextDayDate = new AtomicInteger(0);
     public AtomicDouble week4NextDayOpenPrice = new AtomicDouble(0.0);
     public AtomicDouble week4NextDayClosePrice = new AtomicDouble(0.0);
+    public AtomicDouble endOfYearPrice = new AtomicDouble(0.0);
+
+    public AtomicInteger endOfYearDate = new AtomicInteger(0);
 
 
     public EntryExitPair(ResultCode resultCode) {

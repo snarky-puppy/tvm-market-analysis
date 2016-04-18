@@ -614,4 +614,15 @@ public class CloseData {
     }
 
 
+    public void findEndOfYearPrice(int entryDate, AtomicInteger endOfYearDate, AtomicDouble endOfYearPrice, boolean useAdjustedClose) {
+        int dt = DateUtil.findEndOfYearWeekDate(entryDate);
+        endOfYearDate.set(dt);
+        int idx = findDateIndex(dt, false);
+        if(idx != -1) {
+            if(useAdjustedClose)
+                endOfYearPrice.set(adjustedClose[idx]);
+            else
+                endOfYearPrice.set(close[idx]);
+        }
+    }
 }

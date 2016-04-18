@@ -136,6 +136,8 @@ public class SearchResults {
         bufferedWriter.write("4week next day date,");
         bufferedWriter.write("4week next day open price,");
         bufferedWriter.write("4week next day close price,");
+        bufferedWriter.write("end of year date,");
+        bufferedWriter.write("end of year price,");
 
         bufferedWriter.write("\n");
     }
