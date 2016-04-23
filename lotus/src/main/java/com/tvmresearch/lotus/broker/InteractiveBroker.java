@@ -67,7 +67,7 @@ public class InteractiveBroker implements Broker {
         //controller.removeLiveOrderHandler(liveOrderHandler);
 
 /*
-        controller.reqExecutions(new ExecutionFilter(), new ApiController.ITradeReportHandler() {
+        controller.reqExecutions(new ExecutionFilter(0, connectionHandler.getAccount(), null, null, null, null, null), new ApiController.ITradeReportHandler() {
             private final Logger logger = LogManager.getLogger(InteractiveBroker.class);
 
             @Override
@@ -77,16 +77,16 @@ public class InteractiveBroker implements Broker {
 
             @Override
             public void tradeReportEnd() {
-
+                logger.info("Trade Report End");
             }
 
             @Override
             public void commissionReport(String tradeKey, CommissionReport commissionReport) {
-
+                logger.info(String.format("trade_key=%s report=%s", tradeKey, commissionReport));
             }
         });
-
 */
+
 
         /*
         StockHandler stockHandler = new StockHandler();
@@ -101,7 +101,7 @@ public class InteractiveBroker implements Broker {
         }
 
         System.exit(1);
-    */
+*/
 
     }
 

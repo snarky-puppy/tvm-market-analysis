@@ -80,11 +80,19 @@ public class Lotus {
 
             Investment investment = investments.get(0);
 
+            // any left over BUYs are COMPLETE (completely unfilled)
+            if(investment.state == Investment.State.BUY && investment.qtyFilled == null) {
+                investment.state = Investment.State.COMPLETE;
+                investment.errorMsg = "Unfilled";
+                dao.serialise(investment);
+            }
+
             // filled SELL order
             if(position.position() == 0 && (investment.sellDateEnd == null)) {
                 // completed SELL order
                 investment.sellDateEnd = LocalDate.now();
                 investment.realPnL = position.realPnl();
+                investment.sellPrice = position.marketPrice();
                 investment.state = Investment.State.COMPLETE;
                 dao.serialise(investment);
 
@@ -98,12 +106,7 @@ public class Lotus {
                 dao.serialise(investment);
             }
 
-            // any left over BUYs are COMPLETE (completely unfilled)
-            if(investment.state == Investment.State.BUY && investment.qtyFilled == null) {
-                investment.state = Investment.State.COMPLETE;
-                investment.errorMsg = "Unfilled";
-                dao.serialise(investment);
-            }
+
 
 /*
             int brokerQty = position.position();

@@ -34,4 +34,16 @@ public class CommissionReport {
         }
         return l_bRetVal;
     }
+
+    @Override
+    public String toString() {
+        return "CommissionReport{" +
+                "m_execId='" + m_execId + '\'' +
+                ", m_commission=" + m_commission +
+                ", m_currency='" + m_currency + '\'' +
+                ", m_realizedPNL=" + m_realizedPNL +
+                ", m_yield=" + m_yield +
+                ", m_yieldRedemptionDate=" + m_yieldRedemptionDate +
+                '}';
+    }
 }
