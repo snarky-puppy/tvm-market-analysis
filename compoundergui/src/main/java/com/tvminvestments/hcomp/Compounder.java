@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -198,6 +199,10 @@ public class Compounder {
             if(r == null) {
                 iter++;
                 continue;
+            }
+
+            if(logRow.date == null) {
+                logRow.date = r.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             }
 
             // investment

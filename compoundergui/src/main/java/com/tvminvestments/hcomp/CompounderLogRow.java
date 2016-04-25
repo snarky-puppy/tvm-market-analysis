@@ -1,9 +1,19 @@
 package com.tvminvestments.hcomp;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
+ * Show Working Out log row
+ *
  * Created by horse on 28/02/2016.
  */
 public class CompounderLogRow {
+
+    static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    public LocalDate date;
 
     // starting factors
     public double spread;
@@ -22,11 +32,12 @@ public class CompounderLogRow {
     public double total;
 
     public static String header() {
-        return "Percent ,Spread ,Iteration ,Starting Cash Balance ,True Profit ,Min Invest ,Cash ,Trades ,Total\n";
+        return "Date ,Percent ,Spread ,Iteration ,Starting Cash Balance ,True Profit ,Min Invest ,Cash ,Trades ,Total\n";
     }
 
     public String toString() {
-        return String.format("%d,%.2f,%d, %.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n", percent, spread, iteration, balanceCash, profit, minInvest, cash, trades, total);
+        return String.format("%s,%d,%.2f,%d, %.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n",
+                date.format(dtf), percent, spread, iteration, balanceCash, profit, minInvest, cash, trades, total);
     }
 
 }
