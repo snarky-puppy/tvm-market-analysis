@@ -74,7 +74,14 @@ public class App
 	    			String date1 = sdf1.format(sDate);
 	    			String date2 = sdf1.format(eDate);
 	    			
-	    			String URL = "https://www.google.com/search?q=" + company + "&tbs=cdr:1,cd_min:" + date1 + ",cd_max:" + date2;
+	    			// search_pattern=+"Agilent Technologies" intitle:"acquired" OR intitle:"acquires" OR intitle:"to buy" OR intitle:"to acquire" OR intitle:"to bid"
+	    			
+	    			String query = "+\"" + company + "\"";
+	    			
+	    			for (String keyword: keywords) {
+	    				query = query.concat(" OR intitle:\"" + keyword + "\"");
+	    			}
+	    			String URL = "https://www.google.com/search?q=" + query + "&tbs=cdr:1,cd_min:" + date1 + ",cd_max:" + date2;
 	    			
 	    			LOGGER.info("URL=" + URL);
 	    			
@@ -105,7 +112,8 @@ public class App
 	    					HtmlElement f = result.getFirstByXPath(".//div[@class='s']//span[@class='st']//span[@class='f']");
 	    					publishDate = f.asText().replace("-", "").trim();
 	    				} catch (Exception e) {
-	    					
+//	    					e.printStackTrace();
+	    					continue;
 	    				}
 	    				
 	    				System.out.println(company);
