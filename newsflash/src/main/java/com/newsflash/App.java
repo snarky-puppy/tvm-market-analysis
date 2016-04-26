@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
@@ -75,17 +76,22 @@ public class App
 	    			String date2 = sdf1.format(eDate);
 	    			
 	    			// search_pattern=+"Agilent Technologies" intitle:"acquired" OR intitle:"acquires" OR intitle:"to buy" OR intitle:"to acquire" OR intitle:"to bid"
-	    			
-	    			String query = "+\"" + company + "\"";
-	    			
-	    			for (String keyword: keywords) {
-	    				query = query.concat(" OR intitle:\"" + keyword + "\"");
-	    			}
+
+					String query = keywords.stream()
+							.map(s -> "intitle:\"" + s + "\"")
+							.collect(Collectors.joining(" OR ", "+\"" + company +"\" ", ""));
+
 	    			String URL = "https://www.google.com/search?q=" + query + "&tbs=cdr:1,cd_min:" + date1 + ",cd_max:" + date2;
 	    			
 	    			LOGGER.info("URL=" + URL);
 	    			
 	    			HtmlPage page = getPage(URL);
+
+					// <input type="text" name="captcha"
+					if(page.getByXPath("//input[@name='captcha']").size() > 0) {
+						LOGGER.error("CAPTCHA detected");
+						System.exit(1);
+					}
 	    			
 	    			List<HtmlElement> results = (List<HtmlElement>) page.getByXPath("//div[@class='g']");
 	    			
@@ -167,18 +173,13 @@ public class App
     	HtmlPage page = null;
     	try {
     		page = webClient.getPage(url);
-		} catch (FailingHttpStatusCodeException e) {
-			// TODO Auto-generated catch block
+
+		} catch (FailingHttpStatusCodeException | IOException e) {
 			e.printStackTrace();
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.exit(1);
 		}
-    	
-    	webClient.close();
+
+		webClient.close();
     	
 		return page;
     }
