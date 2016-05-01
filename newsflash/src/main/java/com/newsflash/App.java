@@ -1,19 +1,15 @@
 package com.newsflash;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.Logger;
+
 
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
@@ -24,11 +20,14 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.newsflash.util.ConfigLoader;
 import com.newsflash.util.SysUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class App 
 {
-	
-	private static final Logger LOGGER = Logger.getLogger(App.class);
+	private static final Logger LOGGER = LogManager.getLogger(App.class);
+
+	private static final Random random = new Random();
 	
 	public static final String companies_file = ConfigLoader.getString("companies_file");
 	public static final String keywords_file = ConfigLoader.getString("keywords_file");
@@ -41,7 +40,9 @@ public class App
     public static void main( String[] args )
     {
     	LOGGER.info("google search scraper starting...");
-    	
+
+		//System.exit(0);
+
     	try {
     		
     		LOGGER.info("companies_file=" + companies_file);
@@ -133,7 +134,7 @@ public class App
 	    			}
 
 	    			// random delay from 0 to 10 seconds
-	    			int delayTime = new Random().nextInt(10);
+	    			int delayTime = random.nextInt(10);
 	    			
 	    			LOGGER.info("random delayTime=" + delayTime + " second(s)");
 	    			
@@ -153,11 +154,13 @@ public class App
     	
     	LOGGER.info("google search scraper done");
     }
+
+
     
     public static WebClient getRandomWebClient() {
     	BrowserVersion version[] = new BrowserVersion[]{BrowserVersion.FIREFOX_45, BrowserVersion.CHROME, BrowserVersion.FIREFOX_38, BrowserVersion.INTERNET_EXPLORER_11, BrowserVersion.INTERNET_EXPLORER, BrowserVersion.EDGE, BrowserVersion.BEST_SUPPORTED};
 		
-		int index = new Random().nextInt(version.length);
+		int index = random.nextInt(version.length);
 		BrowserVersion browser = version[index];
 		
 		LOGGER.info("random browser=" + browser);
