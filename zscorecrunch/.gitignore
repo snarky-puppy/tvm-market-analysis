@@ -37,6 +37,8 @@
 build
 zscore.out
 .gradle/
+app.log
+*.jar
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/

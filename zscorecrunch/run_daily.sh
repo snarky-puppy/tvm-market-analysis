@@ -22,5 +22,5 @@ caffeinate -sim ./gradlew run -DmainClass=com.tvminvestments.zscore.app.DailyTri
 #	./gradlew run -DmainClass=com.tvminvestments.zscore.Gmailer zscore.out.gz
 #fi
 
-java -jar /Users/horse/Projects/Lotus/out/Lotus.jar > /Users/horse/Google\ Drive/Stuff\ from\ Matt/lotus/lotus-$(date +%Y%m%d-%H%M%S).log 2>&1
-/Users/horse/Projects/Lotus/mysql.sh -report
+#java -jar /Users/horse/Projects/Lotus/out/Lotus.jar > /Users/horse/Google\ Drive/Stuff\ from\ Matt/lotus/lotus-$(date +%Y%m%d-%H%M%S).log 2>&1
+#/Users/horse/Projects/Lotus/mysql.sh -report

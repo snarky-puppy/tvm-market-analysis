@@ -22,6 +22,7 @@ public class ZScoreAlgorithmDaily {
     private final String symbol;
     private final AbstractScenarioFactory scenarioFactory;
     private final Database database;
+    private final SearchResults searchResults;
 
     private int minScenarioDate;
     private int maxScenarioDate;
@@ -31,7 +32,8 @@ public class ZScoreAlgorithmDaily {
     private boolean useAdjustedClose;
 
 
-    public ZScoreAlgorithmDaily(String symbol, Database database, AbstractScenarioFactory scenarioFactory) {
+    public ZScoreAlgorithmDaily(String symbol, Database database, AbstractScenarioFactory scenarioFactory, SearchResults searchResults) {
+        this.searchResults = searchResults;
         this.scenarioFactory = scenarioFactory;
         this.symbol = symbol;
         minScenarioDate = 0;
@@ -245,7 +247,7 @@ public class ZScoreAlgorithmDaily {
             }
             if(zscore == null) {
                 logger.debug("["+symbol+"]: No zscore data for scenario");
-                SearchResults.addResult(database.getMarket(), symbol, scenario, new EntryExitPair(ResultCode.NO_ENTRY));
+                searchResults.addResult(database.getMarket(), symbol, scenario, new EntryExitPair(ResultCode.NO_ENTRY));
                 continue;
             }
 
@@ -255,7 +257,7 @@ public class ZScoreAlgorithmDaily {
 
             if(idx == -1) {
                 logger.debug("["+symbol+"]: Not enough zscore data for scenario (no tracking start date)");
-                SearchResults.addResult(database.getMarket(), symbol, scenario, new EntryExitPair(ResultCode.NO_ENTRY));
+                searchResults.addResult(database.getMarket(), symbol, scenario, new EntryExitPair(ResultCode.NO_ENTRY));
                 continue;
             }
 
@@ -283,90 +285,11 @@ public class ZScoreAlgorithmDaily {
 
                     data.avgVolumePrev30Days(pair.entryDate, pair.avgVolumePrev30);
                     data.avgPricePrev30Days(pair.entryDate, pair.avgPricePrev30, useAdjustedClose);
-/*
-                    if (idx > 0) {
-                        pair.entryPrevDayDate = zscore.date[idx - 1];
-                        if (useAdjustedClose)
-                            pair.entryPrevDayPrice = data.findAdjustedClosePriceAtDate(pair.entryPrevDayDate);
-                        else
-                            pair.entryPrevDayPrice = data.findClosePriceAtDate(pair.entryPrevDayDate);
-                    }
-
-                    // find EMA
-                    EMA ema;
-                    if (useAdjustedClose) {
-                        ema = new EMA(data.adjustedClose);
-                    } else {
-                        ema = new EMA(data.close);
-                    }
-                    int dataEntryIdx = data.findDateIndex(pair.entryDate);
-                    try {
-                        pair.ema50 = ema.calculate(50, dataEntryIdx);
-                        pair.ema100 = ema.calculate(100, dataEntryIdx);
-                        pair.ema200 = ema.calculate(200, dataEntryIdx);
-                    } catch (EMAException e) {
-                        logger.info(e.getMessage());
-                    }
-
-                    // find 60% of current
-                    data.findPCIncreaseFromEntry(pair.entryDate, 100, pair.pc100Date, pair.pc100Price, useAdjustedClose);
-                    data.findPCIncreaseFromEntry(pair.entryDate, 90, pair.pc90Date, pair.pc90Price, useAdjustedClose);
-                    data.findPCIncreaseFromEntry(pair.entryDate, 80, pair.pc80Date, pair.pc80Price, useAdjustedClose);
-                    data.findPCIncreaseFromEntry(pair.entryDate, 70, pair.pc70Date, pair.pc70Price, useAdjustedClose);
-                    data.findPCIncreaseFromEntry(pair.entryDate, 60, pair.pc60Date, pair.pc60Price, useAdjustedClose);
-                    data.findPCIncreaseFromEntry(pair.entryDate, 50, pair.pc50Date, pair.pc50Price, useAdjustedClose);
-                    data.findPCIncreaseFromEntry(pair.entryDate, 40, pair.pc40Date, pair.pc40Price, useAdjustedClose);
-                    data.findPCIncreaseFromEntry(pair.entryDate, 30, pair.pc30Date, pair.pc30Price, useAdjustedClose);
-                    data.findPCIncreaseFromEntry(pair.entryDate, 20, pair.pc20Date, pair.pc20Price, useAdjustedClose);
-                    data.findPCIncreaseFromEntry(pair.entryDate, 10, pair.pc10Date, pair.pc10Price, useAdjustedClose);
-*/
-
-                    /**
-                     * 1. Look for the highest close price after entry and note this dollar amount
-                     * 2. Provide the date of the price and
-                     * 3. The z score on that day (if you already have the z score calcd it might help us)
-                     */
-/*
-                    if (useAdjustedClose)
-                        data.findMaxAdjustedClosePriceAfterEntry(pair);
-                    else
-                        data.findMaxClosePriceAfterEntry(pair);
-                    if (pair.maxPriceDate != -1) {
-                        logger.debug(String.format("[%s]: max price after entry %d: %f/%d", symbol, pair.entryDate, pair.maxPriceAfterEntry, pair.maxPriceDate));
-                        pair.maxPriceZScore = zscore.findZScoreAtDate(pair.maxPriceDate);
-                    }
-*/
 
                     logger.debug(String.format("Found entry: %d/%f", pair.entryDate, pair.entryZScore));
-                    SearchResults.addResult(database.getMarket(), symbol, scenario, pair);
+                    searchResults.addResult(database.getMarket(), symbol, scenario, pair);
 
                 }
-
-                /*
-
-                if(zscore.zscore[idx] >= exitLimit) {
-                    // find exit point
-
-                    if (data == null)
-                        data = database.loadData(symbol);
-
-                    EntryExitPair pair = new EntryExitPair(ResultCode.EXIT);
-
-                    pair.resultCode = ResultCode.EXIT;
-                    pair.exitDate = zscore.date[idx];
-                    pair.exitZScore = zscore.zscore[idx];
-                    //pair.exitPrice = database.findClosePrice(symbol, pair.exitDate);
-                    if (useAdjustedClose)
-                        pair.exitPrice = data.findAdjustedClosePriceAtDate(pair.exitDate);
-                    else
-                        pair.exitPrice = data.findClosePriceAtDate(pair.exitDate);
-
-
-                    logger.debug(String.format("Found exit: %d/%f", pair.exitDate, pair.exitZScore));
-                    SearchResults.addResult(database.getMarket(), symbol, scenario, pair);
-                }
-                */
-
 
                 // prepare for next run at it
                 idx ++;

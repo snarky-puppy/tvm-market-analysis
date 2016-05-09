@@ -5,8 +5,8 @@ import com.tvminvestments.zscore.DateUtil;
 import com.tvminvestments.zscore.ZScoreEntry;
 import com.tvminvestments.zscore.app.Adjustment;
 import com.tvminvestments.zscore.app.Conf;
-import com.tvminvestments.zscore.importer.CSVFileImporter;
 import com.tvminvestments.zscore.RangeBounds;
+import com.tvminvestments.zscore.app.ZScore;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.apache.commons.lang3.time.StopWatch;
@@ -62,9 +62,11 @@ public class FileDBImpl {
         return Conf.getZScoreDir(market, symbol).resolve(symbol + "-"+startDate+".txt");
     }
 
-    private synchronized void ensureWriter(String symbol) {
-        if(!writeData.containsKey(symbol)) {
-            writeData.put(symbol, new HashMap<Integer, String>());
+    private void ensureWriter(String symbol) {
+        synchronized(writeData) {
+            if (!writeData.containsKey(symbol)) {
+                writeData.put(symbol, new HashMap<Integer, String>());
+            }
         }
 
     }
@@ -129,7 +131,7 @@ public class FileDBImpl {
     }
 
     public void closeAllWrites() {
-        ExecutorService executorService = Executors.newFixedThreadPool(CSVFileImporter.N_THREADS);
+        ExecutorService executorService = Executors.newFixedThreadPool(ZScore.N_THREADS);
 
         for(final String symbol : writeData.keySet()) {
             final HashMap<Integer, String> map = writeData.get(symbol);

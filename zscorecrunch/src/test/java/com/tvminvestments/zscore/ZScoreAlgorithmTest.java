@@ -72,7 +72,7 @@ public class ZScoreAlgorithmTest {
     @org.junit.Test
     public void testZscore() throws Exception {
         MockScenarioFactory scenarioFactory = new MockScenarioFactory();
-        ZScoreAlgorithm algo = new ZScoreAlgorithm(symbol, database, scenarioFactory);
+        ZScoreAlgorithm algo = new ZScoreAlgorithm(symbol, database, scenarioFactory,null);
         algo.zscore();
         Map<Integer, ZScoreEntry> data = database.loadZScores(symbol);
         assertEquals(1, data.size());
@@ -135,7 +135,7 @@ public class ZScoreAlgorithmTest {
         database.commitDataTransaction();
 
 
-        ZScoreAlgorithm algo = new ZScoreAlgorithm(symbol, database, scenarioFactory);
+        ZScoreAlgorithm algo = new ZScoreAlgorithm(symbol, database, scenarioFactory,null);
         algo.zscore();
         Map<Integer, ZScoreEntry> data = database.loadZScores(symbol);
         assertEquals(1, data.size());
@@ -402,14 +402,14 @@ S1  2
             public Set<Scenario> getScenarios(String symbol) throws Exception {
                 return scenarioSet;
             }
-        });
+        }, null);
         algo.inMemSearch(entryLimit, exitLimit);
 
 
         // OK now everything's done, we need to read back the generated CSV
         StringWriter stringWriter = new StringWriter();
         BufferedWriter bufferedWriter = new BufferedWriter(stringWriter);
-        SearchResults.writeResults(bufferedWriter, false);
+        //SearchResults.writeResults(bufferedWriter, false);
         bufferedWriter.close();
 
         logger.debug("\n"+stringWriter.toString());
@@ -456,10 +456,7 @@ S1  2
             newPair.entryDate = Integer.parseInt(columns[7]);
             newPair.entryZScore = Double.parseDouble(columns[8]);
             newPair.entryClosePrice = Double.parseDouble(columns[9]);
-            
-            newPair.exitDate = Integer.parseInt(columns[10]);
-            newPair.exitZScore = Double.parseDouble(columns[11]);
-            newPair.exitPrice = Double.parseDouble(columns[12]);
+
 
             pairs.add(newPair);
             
@@ -562,7 +559,5 @@ S1  2
         assertEquals(entryDate, pair.entryDate);
         assertEquals(entryPrice, pair.entryClosePrice, 0.3);
 
-        assertEquals(exitDate, pair.exitDate);
-        assertEquals(exitPrice, pair.exitPrice, 0.3);
     }
 }

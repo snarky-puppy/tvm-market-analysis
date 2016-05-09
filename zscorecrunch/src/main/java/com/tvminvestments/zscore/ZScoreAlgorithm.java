@@ -22,6 +22,7 @@ public class ZScoreAlgorithm {
     private final String symbol;
     private final AbstractScenarioFactory scenarioFactory;
     private final Database database;
+    private final SearchResults searchResults;
     private Map<Integer, ZScoreEntry> zscores;
 
     private int minScenarioDate;
@@ -32,7 +33,8 @@ public class ZScoreAlgorithm {
     private boolean useAdjustedClose;
 
 
-    public ZScoreAlgorithm(String symbol, Database database, AbstractScenarioFactory scenarioFactory) {
+    public ZScoreAlgorithm(String symbol, Database database, AbstractScenarioFactory scenarioFactory, SearchResults searchResults) {
+        this.searchResults = searchResults;
         this.scenarioFactory = scenarioFactory;
         this.symbol = symbol;
         minScenarioDate = 0;
@@ -230,8 +232,9 @@ public class ZScoreAlgorithm {
         }
     }
 
-    public void inMemSearch(double entryLimit, double exitLimit) throws Exception {
+    public int inMemSearch(double entryLimit, double exitLimit) throws Exception {
         Set<Scenario> scenarios = scenarioFactory.getScenarios(symbol);
+        int count = 0;
 
         for(Scenario scenario : scenarios) {
             logger.info("["+symbol+"] searching scenario: "+scenario);
@@ -244,7 +247,7 @@ public class ZScoreAlgorithm {
             }
             if(zscore == null) {
                 logger.debug("["+symbol+"]: No zscore data for scenario");
-                SearchResults.addResult(database.getMarket(), symbol, scenario, new EntryExitPair(ResultCode.NO_ENTRY));
+                //SearchResults.addResult(database.getMarket(), symbol, scenario, new EntryExitPair(ResultCode.NO_ENTRY));
                 continue;
             }
 
@@ -254,7 +257,7 @@ public class ZScoreAlgorithm {
 
             if(idx == -1) {
                 logger.debug("["+symbol+"]: Not enough zscore data for scenario (no tracking start date)");
-                SearchResults.addResult(database.getMarket(), symbol, scenario, new EntryExitPair(ResultCode.NO_ENTRY));
+                //SearchResults.addResult(database.getMarket(), symbol, scenario, new EntryExitPair(ResultCode.NO_ENTRY));
                 continue;
             }
 
@@ -264,7 +267,7 @@ public class ZScoreAlgorithm {
 
                 if(idx >= zscore.date.length || zscore.date[idx] > scenario.trackingEnd) {
                     if(iterations == 0) {
-                        SearchResults.addResult(database.getMarket(), symbol, scenario, new EntryExitPair(ResultCode.NO_ENTRY));
+                        //SearchResults.addResult(database.getMarket(), symbol, scenario, new EntryExitPair(ResultCode.NO_ENTRY));
                     }
                     go = false;
                     continue;
@@ -274,7 +277,7 @@ public class ZScoreAlgorithm {
                 int entryIdx = zscore.findIndexOfZScoreLTE(idx, entryLimit, scenario.trackingEnd);
                 if(entryIdx == -1) {
                     if(iterations == 0) {
-                        SearchResults.addResult(database.getMarket(), symbol, scenario, new EntryExitPair(ResultCode.NO_ENTRY));
+                        //SearchResults.addResult(database.getMarket(), symbol, scenario, new EntryExitPair(ResultCode.NO_ENTRY));
                     }
                     go = false;
                     continue;
@@ -285,7 +288,7 @@ public class ZScoreAlgorithm {
 
 
                 // have an entry point, note it down
-                EntryExitPair pair = new EntryExitPair(ResultCode.ENTRY_NO_EXIT);
+                EntryExitPair pair = new EntryExitPair(ResultCode.ENTRY);
                 pair.entryDate = zscore.date[entryIdx];
                 pair.entryZScore = zscore.zscore[entryIdx];
                 //pair.entryPrice = database.findClosePrice(symbol, pair.entryDate);
@@ -293,162 +296,114 @@ public class ZScoreAlgorithm {
                     pair.entryClosePrice = data.findAdjustedClosePriceAtDate(pair.entryDate);
                 else
                     pair.entryClosePrice = data.findClosePriceAtDate(pair.entryDate);
+
                 pair.entryOpenPrice = data.findOpenPriceAtDate(pair.entryDate);
-                if(entryIdx > 0) {
-                    pair.entryPrevDayDate = zscore.date[entryIdx-1];
-                    if(useAdjustedClose)
-                        pair.entryPrevDayPrice = data.findAdjustedClosePriceAtDate(pair.entryPrevDayDate);
-                    else
-                        pair.entryPrevDayPrice = data.findClosePriceAtDate(pair.entryPrevDayDate);
-                }
-
-                // find EMA
-                EMA ema;
-                if(useAdjustedClose) {
-                    ema = new EMA(data.adjustedClose);
-                } else {
-                    ema = new EMA(data.close);
-                }
-                int dataEntryIdx = data.findDateIndex(pair.entryDate);
-                try {
-                    pair.ema50 = ema.calculate(50, dataEntryIdx);
-                    pair.ema100 = ema.calculate(100, dataEntryIdx);
-                    pair.ema200 = ema.calculate(200, dataEntryIdx);
-                } catch(EMAException e) {
-                    logger.info(e.getMessage());
-                }
-
-                // find 60% of current
-                data.findPCIncreaseFromEntry(pair.entryDate, 100, pair.pc100Date, pair.pc100Price, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 90, pair.pc90Date, pair.pc90Price, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 80, pair.pc80Date, pair.pc80Price, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 70, pair.pc70Date, pair.pc70Price, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 60, pair.pc60Date, pair.pc60Price, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 50, pair.pc50Date, pair.pc50Price, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 40, pair.pc40Date, pair.pc40Price, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 30, pair.pc30Date, pair.pc30Price, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 20, pair.pc20Date, pair.pc20Price, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 10, pair.pc10Date, pair.pc10Price, useAdjustedClose);
-
-                data.findPCDecreaseFromEntry(pair.entryDate, 5, 1, pair.pcDec5Date, pair.pcDec5Price, useAdjustedClose);
-                data.findPCDecreaseFromEntry(pair.entryDate, 10, 1, pair.pcDec10Date, pair.pcDec10Price, useAdjustedClose);
-                data.findPCDecreaseFromEntry(pair.entryDate, 15, 1, pair.pcDec15Date, pair.pcDec15Price, useAdjustedClose);
-                data.findPCDecreaseFromEntry(pair.entryDate, 20, 1, pair.pcDec20Date, pair.pcDec20Price, useAdjustedClose);
-                data.findPCDecreaseFromEntry(pair.entryDate, 25, 1, pair.pcDec25Date, pair.pcDec25Price, useAdjustedClose);
-                data.findPCDecreaseFromEntry(pair.entryDate, 30, 1, pair.pcDec30Date, pair.pcDec30Price, useAdjustedClose);
-
-                data.findMinPriceFromEntry(pair.entryDate, 1, pair.entry1MonthMinDate, pair.entry1MonthMinPrice, useAdjustedClose);
-                data.findMaxPriceFromEntry(pair.entryDate, 1, pair.entry1MonthMaxDate, pair.entry1MonthMaxPrice, useAdjustedClose);
-
-
-                data.findNMonthData(1, pair.entryDate, pair.ex1Date, pair.ex1Price, useAdjustedClose);
-                data.findNMonthData(2, pair.entryDate, pair.ex2Date, pair.ex2Price, useAdjustedClose);
-                data.findNMonthData(3, pair.entryDate, pair.ex3Date, pair.ex3Price, useAdjustedClose);
-                data.findNMonthData(4, pair.entryDate, pair.ex4Date, pair.ex4Price, useAdjustedClose);
-                data.findNMonthData(5, pair.entryDate, pair.ex5Date, pair.ex5Price, useAdjustedClose);
-                data.findNMonthData(6, pair.entryDate, pair.ex6Date, pair.ex6Price, useAdjustedClose);
-                data.findNMonthData(7, pair.entryDate, pair.ex7Date, pair.ex7Price, useAdjustedClose);
-                data.findNMonthData(8, pair.entryDate, pair.ex8Date, pair.ex8Price, useAdjustedClose);
-                data.findNMonthData(9, pair.entryDate, pair.ex9Date, pair.ex9Price, useAdjustedClose);
-                data.findNMonthData(10, pair.entryDate, pair.ex10Date, pair.ex10Price, useAdjustedClose);
-                data.findNMonthData(11, pair.entryDate, pair.ex11Date, pair.ex11Price, useAdjustedClose);
-                data.findNMonthData(12, pair.entryDate, pair.ex12Date, pair.ex12Price, useAdjustedClose);
 
                 data.avgVolumePrev30Days(pair.entryDate, pair.avgVolumePrev30);
                 data.avgPricePrev30Days(pair.entryDate, pair.avgPricePrev30, useAdjustedClose);
-                data.avgVolumePost30Days(pair.entryDate, pair.avgVolumePost30);
-                data.avgPricePost30Days(pair.entryDate, pair.avgPricePost30, useAdjustedClose);
-
-                data.totalVolumePrev30Days(pair.entryDate, pair.totalVolumePrev30);
-                data.totalPricePrev30Days(pair.entryDate, pair.totalPricePrev30, useAdjustedClose);
-                data.totalVolumePost30Days(pair.entryDate, pair.totalVolumePost30);
-                data.totalPricePost30Days(pair.entryDate, pair.totalPricePost30, useAdjustedClose);
-
-                data.slopeDaysPrev(30, pair.entryDate, pair.slope30, useAdjustedClose);
-                data.slopeDaysPrev(3, pair.entryDate, pair.slope3, useAdjustedClose);
-
-                data.find2DaysLater(pair.entryDate, pair.day2Date, pair.day2Price, useAdjustedClose);
-                if(pair.day2Date.get() != 0) {
-                    data.findPCIncreaseFromEntry(pair.day2Date.get(), 10, pair.day2PC10Date, pair.day2PC10Price, useAdjustedClose);
-                }
-
-                data.find1DayLater(pair.entryDate, pair.entryNextDayOpenDate, pair.entryNextDayOpenPrice, pair.entryNextDayClosePrice, useAdjustedClose);
-
-                data.findPCIncreaseFromEntry(pair.entryDate, 10, pair.pco10Date, pair.pco10Price, pair.pco10NextDayDate, pair.pco10NextDayOpenPrice, pair.pco10NextDayClosePrice, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 11, pair.pco11Date, pair.pco11Price, pair.pco11NextDayDate, pair.pco11NextDayOpenPrice, pair.pco11NextDayClosePrice, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 12, pair.pco12Date, pair.pco12Price, pair.pco12NextDayDate, pair.pco12NextDayOpenPrice, pair.pco12NextDayClosePrice, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 13, pair.pco13Date, pair.pco13Price, pair.pco13NextDayDate, pair.pco13NextDayOpenPrice, pair.pco13NextDayClosePrice, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 14, pair.pco14Date, pair.pco14Price, pair.pco14NextDayDate, pair.pco14NextDayOpenPrice, pair.pco14NextDayClosePrice, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 15, pair.pco15Date, pair.pco15Price, pair.pco15NextDayDate, pair.pco15NextDayOpenPrice, pair.pco15NextDayClosePrice, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 16, pair.pco16Date, pair.pco16Price, pair.pco16NextDayDate, pair.pco16NextDayOpenPrice, pair.pco16NextDayClosePrice, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 17, pair.pco17Date, pair.pco17Price, pair.pco17NextDayDate, pair.pco17NextDayOpenPrice, pair.pco17NextDayClosePrice, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 18, pair.pco18Date, pair.pco18Price, pair.pco18NextDayDate, pair.pco18NextDayOpenPrice, pair.pco18NextDayClosePrice, useAdjustedClose);
-                data.findPCIncreaseFromEntry(pair.entryDate, 19, pair.pco19Date, pair.pco19Price, pair.pco19NextDayDate, pair.pco19NextDayOpenPrice, pair.pco19NextDayClosePrice, useAdjustedClose);
-
-                data.findNWeekData(1, pair.entryDate, pair.week1Date, pair.week1Price, pair.week1NextDayDate, pair.week1NextDayOpenPrice, pair.week1NextDayClosePrice, useAdjustedClose);
-                data.findNWeekData(2, pair.entryDate, pair.week2Date, pair.week2Price, pair.week2NextDayDate, pair.week2NextDayOpenPrice, pair.week2NextDayClosePrice, useAdjustedClose);
-                data.findNWeekData(3, pair.entryDate, pair.week3Date, pair.week3Price, pair.week3NextDayDate, pair.week3NextDayOpenPrice, pair.week3NextDayClosePrice, useAdjustedClose);
-                data.findNWeekData(4, pair.entryDate, pair.week4Date, pair.week4Price, pair.week4NextDayDate, pair.week4NextDayOpenPrice, pair.week4NextDayClosePrice, useAdjustedClose);
-
-                data.findEndOfYearPrice(pair.entryDate, pair.endOfYearDate, pair.endOfYearPrice, useAdjustedClose);
-
-                logger.debug(String.format("Found entry: %d/%f", pair.entryDate, pair.entryZScore));
-
-                /**
-                 * 1. Look for the highest close price after entry and note this dollar amount
-                 * 2. Provide the date of the price and
-                 * 3. The z score on that day (if you already have the z score calcd it might help us)
-                 */
-                if(useAdjustedClose)
-                    data.findMaxAdjustedClosePriceAfterEntry(pair);
-                else
-                    data.findMaxClosePriceAfterEntry(pair);
-                if(pair.maxPriceDate != -1) {
-                    logger.debug(String.format("[%s]: max price after entry %d: %f/%d", symbol, pair.entryDate, pair.maxPriceAfterEntry, pair.maxPriceDate));
-                    pair.maxPriceZScore = zscore.findZScoreAtDate(pair.maxPriceDate);
-                }
 
 
-                // find exit point
-                int exitIdx = zscore.findIndexOfZScoreGTE(entryIdx, exitLimit, scenario.trackingEnd);
-                if(exitIdx <= 0) {
-
-                    exitIdx = -exitIdx;
-                    pair.exitDate = zscore.date[exitIdx];
-                    pair.exitZScore = zscore.zscore[exitIdx];
-                    //pair.exitPrice = database.findClosePrice(symbol, pair.exitDate);
-                    if(useAdjustedClose)
-                        pair.exitPrice = data.findAdjustedClosePriceAtDate(pair.exitDate);
-                    else
-                        pair.exitPrice = data.findClosePriceAtDate(pair.exitDate);
-
-                    logger.debug(String.format("No exit: %d/%f", pair.exitDate, pair.exitZScore));
-
-                    SearchResults.addResult(database.getMarket(), symbol, scenario, pair);
-                    go = false;
-                    continue;
-                }
-
-                pair.resultCode = ResultCode.ENTRY_EXIT;
-                pair.exitDate = zscore.date[exitIdx];
-                pair.exitZScore = zscore.zscore[exitIdx];
-                //pair.exitPrice = database.findClosePrice(symbol, pair.exitDate);
-                if(useAdjustedClose)
-                    pair.exitPrice = data.findAdjustedClosePriceAtDate(pair.exitDate);
-                else
-                    pair.exitPrice = data.findClosePriceAtDate(pair.exitDate);
+                data.findPCIncreaseOpen(pair.entryDate, 1, pair.pc1OpenDate, pair.pc1OpenPrice);
+                data.findPCIncreaseOpen(pair.entryDate, 2, pair.pc2OpenDate, pair.pc2OpenPrice);
+                data.findPCIncreaseOpen(pair.entryDate, 3, pair.pc3OpenDate, pair.pc3OpenPrice);
+                data.findPCIncreaseOpen(pair.entryDate, 4, pair.pc4OpenDate, pair.pc4OpenPrice);
+                data.findPCIncreaseOpen(pair.entryDate, 5, pair.pc5OpenDate, pair.pc5OpenPrice);
+                data.findPCIncreaseOpen(pair.entryDate, 6, pair.pc6OpenDate, pair.pc6OpenPrice);
+                data.findPCIncreaseOpen(pair.entryDate, 7, pair.pc7OpenDate, pair.pc7OpenPrice);
+                data.findPCIncreaseOpen(pair.entryDate, 8, pair.pc8OpenDate, pair.pc8OpenPrice);
+                data.findPCIncreaseOpen(pair.entryDate, 9, pair.pc9OpenDate, pair.pc9OpenPrice);
+                data.findPCIncreaseOpen(pair.entryDate, 10, pair.pc10OpenDate, pair.pc10OpenPrice);
+                data.findPCIncreaseOpen(pair.entryDate, 15, pair.pc15OpenDate, pair.pc15OpenPrice);
+                data.findPCIncreaseOpen(pair.entryDate, 20, pair.pc20OpenDate, pair.pc20OpenPrice);
+                data.findPCIncreaseOpen(pair.entryDate, 25, pair.pc25OpenDate, pair.pc25OpenPrice);
 
 
-                logger.debug(String.format("Found exit: %d/%f", pair.exitDate, pair.exitZScore));
+                data.findEndOfYearPrice(19941231, new AtomicInteger(0), pair.eoy1994ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(19951231, new AtomicInteger(0), pair.eoy1995ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(19961231, new AtomicInteger(0), pair.eoy1996ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(19971231, new AtomicInteger(0), pair.eoy1997ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(19981231, new AtomicInteger(0), pair.eoy1998ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(19991231, new AtomicInteger(0), pair.eoy1999ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20001231, new AtomicInteger(0), pair.eoy2000ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20011231, new AtomicInteger(0), pair.eoy2001ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20021231, new AtomicInteger(0), pair.eoy2002ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20031231, new AtomicInteger(0), pair.eoy2003ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20041231, new AtomicInteger(0), pair.eoy2004ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20051231, new AtomicInteger(0), pair.eoy2005ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20061231, new AtomicInteger(0), pair.eoy2006ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20071231, new AtomicInteger(0), pair.eoy2007ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20081231, new AtomicInteger(0), pair.eoy2008ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20091231, new AtomicInteger(0), pair.eoy2009ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20101231, new AtomicInteger(0), pair.eoy2010ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20111231, new AtomicInteger(0), pair.eoy2011ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20121231, new AtomicInteger(0), pair.eoy2012ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20131231, new AtomicInteger(0), pair.eoy2013ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20141231, new AtomicInteger(0), pair.eoy2014ClosePrice, useAdjustedClose);
+                data.findEndOfYearPrice(20151231, new AtomicInteger(0), pair.eoy2015ClosePrice, useAdjustedClose);
 
-                SearchResults.addResult(database.getMarket(), symbol, scenario, pair);
+
+                data.findOpenNDaysLater(pair.entryDate, 0, pair.next0DayOpenDate, pair.next0DayOpenPrice);
+                data.findOpenNDaysLater(pair.entryDate, 1, pair.next1DayOpenDate, pair.next1DayOpenPrice);
+                data.findOpenNDaysLater(pair.entryDate, 2, pair.next2DayOpenDate, pair.next2DayOpenPrice);
+                data.findOpenNDaysLater(pair.entryDate, 3, pair.next3DayOpenDate, pair.next3DayOpenPrice);
+                data.findOpenNDaysLater(pair.entryDate, 4, pair.next4DayOpenDate, pair.next4DayOpenPrice);
+                data.findOpenNDaysLater(pair.entryDate, 5, pair.next5DayOpenDate, pair.next5DayOpenPrice);
+                data.findOpenNDaysLater(pair.entryDate, 6, pair.next6DayOpenDate, pair.next6DayOpenPrice);
+                data.findOpenNDaysLater(pair.entryDate, 7, pair.next7DayOpenDate, pair.next7DayOpenPrice);
+                data.findOpenNDaysLater(pair.entryDate, 8, pair.next8DayOpenDate, pair.next8DayOpenPrice);
+                data.findOpenNDaysLater(pair.entryDate, 9, pair.next9DayOpenDate, pair.next9DayOpenPrice);
+                data.findOpenNDaysLater(pair.entryDate, 10, pair.next10DayOpenDate, pair.next10DayOpenPrice);
+                data.findOpenNDaysLater(pair.entryDate, 11, pair.next11DayOpenDate, pair.next11DayOpenPrice);
+                data.findOpenNDaysLater(pair.entryDate, 12, pair.next12DayOpenDate, pair.next12DayOpenPrice);
+                data.findOpenNDaysLater(pair.entryDate, 13, pair.next13DayOpenDate, pair.next13DayOpenPrice);
+                data.findOpenNDaysLater(pair.entryDate, 14, pair.next14DayOpenDate, pair.next14DayOpenPrice);
+
+                int rsiEntryIdx = data.findDateIndex(pair.entryDate);
+                RSI rsi7 = new RSI(7, data.close);
+                rsi7.calculate(rsiEntryIdx + 0, pair.rsi7_0Days);
+                rsi7.calculate(rsiEntryIdx + 1, pair.rsi7_1Days);
+                rsi7.calculate(rsiEntryIdx + 2, pair.rsi7_2Days);
+                rsi7.calculate(rsiEntryIdx + 3, pair.rsi7_3Days);
+                rsi7.calculate(rsiEntryIdx + 4, pair.rsi7_4Days);
+                rsi7.calculate(rsiEntryIdx + 5, pair.rsi7_5Days);
+                rsi7.calculate(rsiEntryIdx + 6, pair.rsi7_6Days);
+                rsi7.calculate(rsiEntryIdx + 7, pair.rsi7_7Days);
+                rsi7.calculate(rsiEntryIdx + 8, pair.rsi7_8Days);
+                rsi7.calculate(rsiEntryIdx + 9, pair.rsi7_9Days);
+                rsi7.calculate(rsiEntryIdx + 10, pair.rsi7_10Days);
+                rsi7.calculate(rsiEntryIdx + 11, pair.rsi7_11Days);
+                rsi7.calculate(rsiEntryIdx + 12, pair.rsi7_12Days);
+                rsi7.calculate(rsiEntryIdx + 13, pair.rsi7_13Days);
+                rsi7.calculate(rsiEntryIdx + 14, pair.rsi7_14Days);
+
+                RSI rsi14 = new RSI(14, data.close);
+                rsi14.calculate(rsiEntryIdx + 0, pair.rsi14_0Days);
+                rsi14.calculate(rsiEntryIdx + 1, pair.rsi14_1Days);
+                rsi14.calculate(rsiEntryIdx + 2, pair.rsi14_2Days);
+                rsi14.calculate(rsiEntryIdx + 3, pair.rsi14_3Days);
+                rsi14.calculate(rsiEntryIdx + 4, pair.rsi14_4Days);
+                rsi14.calculate(rsiEntryIdx + 5, pair.rsi14_5Days);
+                rsi14.calculate(rsiEntryIdx + 6, pair.rsi14_6Days);
+                rsi14.calculate(rsiEntryIdx + 7, pair.rsi14_7Days);
+                rsi14.calculate(rsiEntryIdx + 8, pair.rsi14_8Days);
+                rsi14.calculate(rsiEntryIdx + 9, pair.rsi14_9Days);
+                rsi14.calculate(rsiEntryIdx + 10, pair.rsi14_10Days);
+                rsi14.calculate(rsiEntryIdx + 11, pair.rsi14_11Days);
+                rsi14.calculate(rsiEntryIdx + 12, pair.rsi14_12Days);
+                rsi14.calculate(rsiEntryIdx + 13, pair.rsi14_13Days);
+                rsi14.calculate(rsiEntryIdx + 14, pair.rsi14_14Days);
+
+                searchResults.addResult(database.getMarket(), symbol, scenario, pair);
+                count++;
 
                 // prepare for next run at it
-                idx = exitIdx;
+                idx = entryIdx + 1;
                 iterations ++;
             }
         }
         //SearchResults.mergeResults(results);
+
+        return count;
 
     }
 }

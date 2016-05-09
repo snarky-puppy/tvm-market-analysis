@@ -146,35 +146,6 @@ public class CloseData {
         }
     }
 
-    public void findMaxAdjustedClosePriceAfterEntry(EntryExitPair pair) {
-        findMaxClosePriceInternal(pair, adjustedClose);
-    }
-
-    public void findMaxClosePriceAfterEntry(EntryExitPair pair) {
-        findMaxClosePriceInternal(pair, close);
-    }
-
-    private void findMaxClosePriceInternal(EntryExitPair pair, double[] array) {
-        int idx = Arrays.binarySearch(date, pair.entryDate);
-        if(idx < 0)
-            throw new ArrayIndexOutOfBoundsException("Entry date not found");
-
-        pair.maxPriceAfterEntry = 0;
-        pair.maxPriceDate = -1;
-        pair.maxPriceZScore = 0;
-
-        while(idx < array.length) {
-            if(array[idx] > pair.maxPriceAfterEntry) {
-                pair.maxPriceAfterEntry = array[idx];
-                pair.maxPriceDate = date[idx];
-                if(idx > 0) {
-                    pair.maxPricePrevDate = date[idx-1];
-                    pair.maxPricePrev = array[idx-1];
-                }
-            }
-            idx++;
-        }
-    }
 
     public void undoAdjustments() {
         System.arraycopy(close, 0, adjustedClose, 0, close.length);
@@ -226,6 +197,29 @@ public class CloseData {
             else
                 pcPrice.set(close[idx]);
         }
+    }
+
+    public void findPCIncreaseOpen(int entryDate, int pc, AtomicInteger pcDate, AtomicDouble pcPrice) {
+        int idx = findPCIncreaseFromEntryOpenIndex(pc, entryDate);
+        if(idx == -1) {
+            pcPrice.set(0.0);
+            pcDate.set(0);
+        } else {
+            pcDate.set(date[idx]);
+            pcPrice.set(open[idx]);
+        }
+    }
+
+    private int findPCIncreaseFromEntryOpenIndex(int pc, int entryDate) {
+        int idx = findDateIndex(entryDate);
+        if(idx == -1)
+            return -1;
+        double target = open[idx] * (1.0 + ((double)pc / 100.0));
+        while(++idx < open.length) {
+            if(open[idx] >= target)
+                return idx;
+        }
+        return -1;
     }
 
     private int findPCIncreaseFromEntryIndex(int pc, int entryDate, boolean useAdjustedClose) {
@@ -287,6 +281,20 @@ public class CloseData {
         }
     }
 
+    public void findOpenNDaysLater(int entryDate, int days, AtomicInteger dayDate, AtomicDouble dayPrice) {
+        // not literal days, trading days! dummy!
+        //int newDate = DateUtil.addDays(entryDate, days);
+        //int idx = findVerifiedDateIndex(newDate, 2, false);\
+        int idx = findDateIndex(entryDate);
+        idx += days;
+        if(idx == -1 || idx >= date.length) {
+            dayDate.set(0);
+            dayPrice.set(0.0);
+        } else {
+            dayDate.set(date[idx]);
+            dayPrice.set(open[idx]);
+        }
+    }
 
     public void find2DaysLater(int entryDate, AtomicInteger day2Date, AtomicDouble day2Price, boolean useAdjustedClose) {
         int newDate = DateUtil.addDays(entryDate, 2);
@@ -617,12 +625,10 @@ public class CloseData {
     public void findEndOfYearPrice(int entryDate, AtomicInteger endOfYearDate, AtomicDouble endOfYearPrice, boolean useAdjustedClose) {
         int dt = DateUtil.findEndOfYearWeekDate(entryDate);
         endOfYearDate.set(dt);
-        int idx = findDateIndex(dt, false);
+
+        int idx = findVerifiedDateIndex(dt, 7, false);
         if(idx != -1) {
-            if(useAdjustedClose)
-                endOfYearPrice.set(adjustedClose[idx]);
-            else
-                endOfYearPrice.set(close[idx]);
+            endOfYearPrice.set(open[idx]);
         }
     }
 }

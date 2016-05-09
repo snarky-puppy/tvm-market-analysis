@@ -15,6 +15,8 @@ public class Ticker {
     private int totalSymbols;
     private int symbolsProcessed;
 
+    private final Object lock = new Object();
+
     public Ticker(Database database) {
         this.database = database;
         resetTicker();
@@ -30,9 +32,11 @@ public class Ticker {
         symbolsProcessed = 0;
     }
 
-    public synchronized void incrementTicker() {
-        symbolsProcessed++;
-        logger.info(String.format("progress: %f%%", ((float)symbolsProcessed/(float)totalSymbols) * 100));
+    public void incrementTicker() {
+        synchronized (lock) {
+            symbolsProcessed++;
+            logger.info(String.format("progress: %f%%", ((float) symbolsProcessed / (float) totalSymbols) * 100));
+        }
     }
 
 }
