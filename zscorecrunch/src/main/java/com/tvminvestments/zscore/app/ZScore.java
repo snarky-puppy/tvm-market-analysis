@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class ZScore {
 
     private static final Logger logger = LogManager.getLogger(ZScore.class);
-    public static /*final*/ int N_THREADS = (int) Math.floor(Runtime.getRuntime().availableProcessors() * 1);
+    public static /*final*/ int N_THREADS = (int) Math.floor(Runtime.getRuntime().availableProcessors() * 1.5);
     private static boolean useRestrictedOutput = false;
 
     private final Object sleepLock = new Object();
@@ -77,15 +77,17 @@ public class ZScore {
         final int min = 0;
         final int step = 10;
         final int thresh = 10;
+
+
         int result;
         synchronized (sleepLock) {
             result = sleepTimer;
         }
         int q = searchResults.queueSize();
 
-        if(q > thresh)
-            result -= step;
         if(q < thresh)
+            result -= step;
+        if(q > thresh)
             result += step;
 
         if(result > max)
@@ -116,8 +118,9 @@ public class ZScore {
                     try {
                         algo.zscore();
                         int cnt = algo.inMemSearch(entryLimit, exitLimit);
-                        logger.error("["+symbol+"] "+cnt+" results");
-                        Thread.sleep(getSleepTimer()); // delay to let @SearchResults writer catch up so we don't run out of RAM
+                        int sleep = getSleepTimer();
+                        logger.error("["+symbol+"] "+cnt+" results ("+sleep+")");
+                        Thread.sleep(sleep); // delay to let @SearchResults writer catch up so we don't run out of RAM
                     } catch (RuntimeException e) {
                         logger.error("RunTimeException: ", e);
                         System.exit(1);

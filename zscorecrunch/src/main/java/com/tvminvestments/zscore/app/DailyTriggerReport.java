@@ -75,12 +75,14 @@ public class DailyTriggerReport {
 
         }
 
-
+        searchResults.finalise();
 
         // export
         int results = searchResults.count;
         System.out.println("Results: "+results);
         String fileName = searchResults.fileName;
+
+
 
 
 
