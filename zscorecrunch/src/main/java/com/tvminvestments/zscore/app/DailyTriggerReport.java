@@ -10,9 +10,6 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -57,10 +54,12 @@ public class DailyTriggerReport {
         stopWatch.reset();
         stopWatch.start();
 
+        SearchResults searchResults = new SearchResults(null, null, useRestrictedOutput);
+
         if(args.length > 0) {
             for(String market : args) {
                 DailyTriggerReport report = new DailyTriggerReport(market);
-                report.doit();
+                report.doit(searchResults);
             }
 
         } else {
@@ -70,16 +69,23 @@ public class DailyTriggerReport {
             for (String market : markets) {
                 if (market.compareTo("OTC") != 0) {
                     DailyTriggerReport report = new DailyTriggerReport(market);
-                    report.doit();
+                    report.doit(searchResults);
                 }
             }
+
         }
 
+        searchResults.finalise();
+
         // export
-        int results = SearchResults.results.size();
+        int results = searchResults.count;
         System.out.println("Results: "+results);
-        String fileName = Util.getDailyOutFile();
-        exportResults(fileName);
+        String fileName = searchResults.fileName;
+
+
+
+
+
         Gmailer.sendNotification(results,
                 "/"+FilenameUtils.getPath(fileName),
                 FilenameUtils.getName(fileName));
@@ -88,7 +94,7 @@ public class DailyTriggerReport {
         logger.info("All jobs completed in " + stopWatch.toString());
     }
 
-    private void doit() {
+    private void doit(SearchResults searchResults) {
 
         try {
             Ticker ticker = new Ticker(database);
@@ -112,7 +118,7 @@ public class DailyTriggerReport {
 
                         @Override
                         public void run() {
-                            ZScoreAlgorithmDaily algo = new ZScoreAlgorithmDaily(symbol, database, getScenarioFactory());
+                            ZScoreAlgorithmDaily algo = new ZScoreAlgorithmDaily(symbol, database, getScenarioFactory(), searchResults);
                             algo.setUseAdjustedClose(false);
                             try {
                                 algo.zscore();
@@ -144,11 +150,11 @@ public class DailyTriggerReport {
         }
 
     }
-
+/*
     private static void exportResults(String fp) {
         try {
 
-            if(SearchResults.results.size() > 0) {
+            if(searchResults.results.size() > 0) {
                 BufferedWriter bw = new BufferedWriter(new FileWriter(fp, true));
                 SearchResults.writeResults(bw, useRestrictedOutput);
                 bw.close();
@@ -159,6 +165,7 @@ public class DailyTriggerReport {
             throw new RuntimeException(e);
         }
     }
+*/
 
     public AbstractScenarioFactory getScenarioFactory() {
         return new DailyScenarioFactory(TRACKING_DAYS);

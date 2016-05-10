@@ -84,7 +84,7 @@ public class ZScoreAlgorithmTest2 {
     public void testZscore() throws Exception {
 
         MockScenarioFactory2 scenarioFactory = new MockScenarioFactory2();
-        ZScoreAlgorithm algo = new ZScoreAlgorithm(symbol, database, scenarioFactory);
+        ZScoreAlgorithm algo = new ZScoreAlgorithm(symbol, database, scenarioFactory, null);
         algo.zscore();
 
         Map<Integer, ZScoreEntry> data = database.loadZScores(symbol);

@@ -18,6 +18,9 @@
         <processorPath useClasspath="true" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ZScoreCrunch_main" target="1.8" />
+      <module name="ZScoreCrunch_test" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
-
