@@ -28,6 +28,10 @@ dependencies {
 
     compile 'org.apache.logging.log4j:log4j-core:2.0.2'
 
+    // http://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+
+
 //    compile 'com.google.guava:guava:r05'
 
 

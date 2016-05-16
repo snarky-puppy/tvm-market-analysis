@@ -120,7 +120,7 @@ public class ZScore {
                         int cnt = algo.inMemSearch(entryLimit, exitLimit);
                         int sleep = getSleepTimer();
                         logger.error("["+symbol+"] "+cnt+" results ("+sleep+")");
-                        Thread.sleep(sleep); // delay to let @SearchResults writer catch up so we don't run out of RAM
+                        Thread.sleep(sleep); // delay to let @SearchResults writer catch up so we don't run out of RAM due to caching of results
                     } catch (RuntimeException e) {
                         logger.error("RunTimeException: ", e);
                         System.exit(1);
@@ -139,18 +139,6 @@ public class ZScore {
         logger.info("ZScore Search completed in "+stopWatch.toString());
     }
 
-/*
-    public void exportResults(boolean useRestrictedOutput) {
-        try {
-            //BufferedWriter bw = new BufferedWriter(new FileWriter(Util.getOutFile(market, getName())));
-            SearchResults.writeResults(market, getName(), useRestrictedOutput);
-            //bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-*/
 
     public static void executeDSA(String market) {
         StopWatch stopWatch = new StopWatch();

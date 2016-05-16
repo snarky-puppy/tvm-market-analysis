@@ -34,10 +34,7 @@ public class FileDBImpl {
 
     public static final int N_THREADS = Runtime.getRuntime().availableProcessors() * 2;
 
-
-
     public final String market;
-    FileChannel indexFile;
 
     // symbol:fileptr
     HashMap<String, BufferedInputStream> dataReads;

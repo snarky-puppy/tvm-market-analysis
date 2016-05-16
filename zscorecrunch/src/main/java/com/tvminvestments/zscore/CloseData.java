@@ -1,6 +1,7 @@
 package com.tvminvestments.zscore;
 
 import com.google.common.util.concurrent.AtomicDouble;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -238,6 +239,20 @@ public class CloseData {
 
     public void findNMonthData(int month, int entryDate, AtomicInteger dt, AtomicDouble price, boolean useAdjustedClose) {
         int idx = findVerifiedDateIndex(DateUtil.addMonths(entryDate, month), 14, false);
+        if(idx == -1) {
+            dt.set(0);
+            price.set(0.0);
+        } else {
+            dt.set(date[idx]);
+            if(useAdjustedClose)
+                price.set(adjustedClose[idx]);
+            else
+                price.set(close[idx]);
+        }
+    }
+
+    public void findNWeekData(int week, int entryDate, AtomicInteger dt, AtomicDouble price, boolean useAdjustedClose) {
+        int idx = findVerifiedDateIndex(DateUtil.addWeeks(entryDate, week), 7, false);
         if(idx == -1) {
             dt.set(0);
             price.set(0.0);
@@ -630,5 +645,40 @@ public class CloseData {
         if(idx != -1) {
             endOfYearPrice.set(open[idx]);
         }
+    }
+
+    public double zscore(int dt, int days) {
+        int startIdx = findDateIndex(DateUtil.minusDays(dt, days));
+        int endIdx = findDateIndex(dt);
+
+        if(startIdx < 0 || endIdx < 0)
+            return 0;
+
+        SummaryStatistics stats = new SummaryStatistics();
+
+        double zscore = 0;
+
+        while(startIdx <= endIdx) {
+            stats.addValue(close[startIdx]);
+
+            double stdev = stats.getStandardDeviation();
+            if(stdev == 0) {
+                logger.debug(String.format("NaN: %d", date[startIdx]));
+                // either this is the first value or all initial values this far have had no variance (were the same)
+                startIdx ++;
+                continue;
+            }
+            double avg = stats.getMean();
+            double closeValue;
+            closeValue = close[startIdx];
+            zscore = (closeValue - avg) / stdev;
+
+            //logger.debug(String.format("z: %d, %f, ci=%d, cei=%d", data.date[calcIndex], zscore, calcIndex, calcEndIndex));
+
+            startIdx++;
+        }
+
+
+        return zscore;
     }
 }
