@@ -11,7 +11,7 @@ use YConfig		qw(get_company_data_files);
 
 if( scalar @ARGV > 3 ) {
 	print "Error : Invalid number of arguments\n";
-	print "Usage : perl yahoo_scrape.pl <csv|xls> [start, end]\n";
+	print "Usage : perl yahoo_scrape.pl <csv|xls> [daily]\n";
 	exit;
 }
 
@@ -24,25 +24,23 @@ elsif( uc($ARGV[0]) eq 'CSV' ) {
 }
 else {
 	print "Error : Incorrect output type\n";
-	print "Usage : perl yahoo_scrape.pl <csv|xls> [start, end]\n";
+	print "Usage : perl yahoo_scrape.pl <csv|xls> [daily]\n";
 	exit;
 }
-
-#my $start = $ARGV[1] - 1;
-#if( !$start || $start < 0 || $start > $symbols_length ) {
-#	$start = 0;
-#}
-#
-#my $end = $ARGV[2];
-#$end =~ s/[^0-9]//g;
-#
-#if( !$end || $end == 0 || $end > $symbols_length ) {
-#	$end = $symbols_length;
-#}
 
 #my $companies = get_company_data_files();
 my @files = glob('CompanyData/*.csv');
 my $companies = \@files;
+
+my $daily = undef;
+
+if(defined($ARGV[1])) {
+	die "Invalid argument {$ARGV[1]}\n" unless $ARGV[1] eq "daily";
+	my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(); 
+	my $y = 1900 + $year; 
+	my $mon = $mon + 1;
+	$daily = sprintf "$y-%0.2d-%0.2d", $mon, $mday;
+}
 
 my $count = 0;
 foreach my $company ( @$companies ) {
@@ -64,8 +62,7 @@ foreach my $company ( @$companies ) {
 	#print "$company - $ofname - $#symbols_to_scrape\n";
 
 	foreach my $symbol ( @symbols_to_scrape ) {
-	print "sym=$symbol\n";
-		$final_data->{$symbol} = get_news($symbol);
+		$final_data->{$symbol} = get_news($symbol, $daily);
 	}
 
 	write_file($final_data, $output_type, $ofname);

@@ -12,10 +12,15 @@ use YConfig 		qw(get_url);
 @EXPORT_OK = 		qw( get_news );
 
 sub get_news {
-	my ( $symbol, $i ) = @_;
+	my ( $symbol, $date ) = @_;
 
 	my @final_data = ();
-	my $query_string = "/q/h?s=$symbol";
+	my $query_string;
+	if(!defined($date)) {
+		$query_string = "/q/h?s=$symbol";
+	} else {
+		$query_string = "/q/h?s=$symbol&t=$date";
+	}
 	while(1) {
 		my $content = _get_content( $query_string );
 
@@ -23,7 +28,9 @@ sub get_news {
 
 	    last if(scalar @{$data->{data}} <= 0);
 
-	    push @final_data, _prase_data($data->{data});
+	    push @final_data, _parse_data($data->{data});
+
+	    last if(defined($date));
 
 	    $query_string = $data->{nextpage}->{query_string};
 	}
@@ -92,7 +99,7 @@ sub _get_headlines_by_date {
     return $data;
 }
 
-sub _prase_data {
+sub _parse_data {
     my ($headlines) = @_;
 
     my $data = {};
