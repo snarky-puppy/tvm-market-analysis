@@ -1,5 +1,7 @@
 package Scrape;
 
+use DateTime;
+use Date::Parse;
 use URI;
 use WWW::Mechanize;
 use HTML::Entities;
@@ -28,7 +30,7 @@ sub get_news {
 
 	    last if(scalar @{$data->{data}} <= 0);
 
-	    push @final_data, _parse_data($data->{data});
+	    push @final_data, _parse_data($data->{data}, $date);
 
 	    last if(defined($date));
 
@@ -100,13 +102,23 @@ sub _get_headlines_by_date {
 }
 
 sub _parse_data {
-    my ($headlines) = @_;
+    my ($headlines, $daily) = @_;
+
+    my $parser = DateTime::Format::Strptime->new( pattern => '%d %h %Y' );
 
     my $data = {};
     foreach my $headline ( @$headlines ) {
         $headline =~ /<h3><span>(.+?)<\/span><\/h3>/g;
         my $date = $1;
         my @titles = ( $headline =~ /<li><a.*?>(.+?)<\/a><cite>/g);
+
+	if(defined($daily)) {
+		my $dt = $parser->parse_datetime($date);
+		if($dt->delta_days(DateTime->today())->delta_days > 2) {
+			#print "date too old: $dt\n";
+			next;
+		}
+	}
 
         $data->{$count++}->{$date} = [@titles];
     }
