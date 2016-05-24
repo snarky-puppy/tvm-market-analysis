@@ -37,6 +37,8 @@ sub _generate_uri {
 	$query_string = '' unless $query_string;
 	my $url = get_url() . $query_string;
 
+	print "Reading content from: $url\n";
+
 	decode_entities($url);
 
 	return URI->new( $url );

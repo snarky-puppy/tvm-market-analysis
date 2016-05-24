@@ -64,6 +64,7 @@ foreach my $company ( @$companies ) {
 	#print "$company - $ofname - $#symbols_to_scrape\n";
 
 	foreach my $symbol ( @symbols_to_scrape ) {
+	print "sym=$symbol\n";
 		$final_data->{$symbol} = get_news($symbol);
 	}
 

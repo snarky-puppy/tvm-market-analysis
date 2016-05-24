@@ -56,7 +56,7 @@ sub remove_special_char {
 	$symbol =~ s/\"//g;
 	$symbol =~ s/\^[\w+]$//g;
 	$symbol =~ s/\^$//g;
-	$symbol =~ s/\..+//g;
+	#$symbol =~ s/\..+//g;
 
 	$symbol =~ s/\s+$//g;
 	$symbol =~ s/^\s+//g;
