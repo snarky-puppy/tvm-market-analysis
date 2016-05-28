@@ -1,13 +1,16 @@
 package com.tvmresearch.lotus;
 
-import com.ib.controller.ApiConnection;
-import com.ib.controller.ApiController;
-import com.ib.controller.Bar;
-import com.ib.controller.Types;
+import com.ib.client.CommissionReport;
+import com.ib.client.Execution;
+import com.ib.client.ExecutionFilter;
+import com.ib.controller.*;
 import com.tvmresearch.lotus.broker.ConnectionHandler;
+import com.tvmresearch.lotus.broker.InteractiveBroker;
 import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.InvestmentDao;
 import com.tvmresearch.lotus.db.model.InvestmentDaoImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -47,67 +50,88 @@ public class ShowExecutions {
             controller.connect("localhost", 4002, 1);
             connectionHandler.waitForConnection();
 
-            DateTimeFormatter formatter =
-                    DateTimeFormatter.ofPattern("yyyyMMdd hh:mm:ss zzz")
-                            .withZone(ZoneId.of("GMT"));
-
-            Instant instant = Instant.now();
-            String timeLimit = formatter.format(instant);
-
-            System.out.println("Timelimit="+timeLimit);
-
-            InvestmentDao dao = new InvestmentDaoImpl();
-            List<Investment> investments = dao.getFilledInvestments();
-            for(Investment investment : investments) {
-
-                final String symbol = investment.trigger.symbol;
-                final Map<LocalDate, Double> history = new HashMap<>();
-
-                Semaphore semaphore = new Semaphore(1);
-                semaphore.acquire();
-
-                ApiController.IHistoricalDataHandler historicalDataHandler = new ApiController.IHistoricalDataHandler() {
-
-                    @Override
-                    public void historicalData(Bar bar, boolean hasGaps) {
+            System.out.println("Account="+connectionHandler.getAccount());
 
 
-                        Date dt = new Date(bar.time()*1000);
-                        LocalDate date = dt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-                        String s = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL));
+            Semaphore semaphore = new Semaphore(1);
+            semaphore.acquire();
 
 
-                        System.out.println(String.format("%s[%d](%s): %f", bar.formattedTime(), bar.time(), s, bar.close()));
-                        //LocalDate ld = new LocalDate(bar.time());
+            controller.reqLiveOrders(new ApiController.ILiveOrderHandler() {
+                @Override
+                public void openOrder(NewContract contract, NewOrder order, NewOrderState orderState) {
+                    System.out.println(String.format("openOrder: %s %s %s", contract, order, orderState));
+                }
 
-                        //history.put(ld, bar.close());
+                @Override
+                public void openOrderEnd() {
+                    semaphore.release();
 
-                        if(date.isAfter(investment.trigger.date) || date.isEqual(investment.trigger.date))
-                            dao.addHistory(investment, date, bar.close());
+                }
+
+                @Override
+                public void orderStatus(int orderId, OrderStatus status, int filled, int remaining, double avgFillPrice, long permId, int parentId, double lastFillPrice, int clientId, String whyHeld) {
+                    System.out.println(String.format("orderId=%d, status=%s, filled=%d, remaining=%d, avgFillPrice=%f, permId=%d, parentId=%d, lastFillPrice=%f, clientId=%d, whyHeld=%s",
+                    orderId,  status, filled,  remaining,  avgFillPrice,  permId,  parentId,  lastFillPrice,  clientId,  whyHeld));
+                }
+
+                @Override
+                public void handle(int orderId, int errorCode, String errorMsg) {
+                    System.out.println(String.format("orderId=%d code=%d msg=%s", orderId, errorCode, errorMsg));
+                }
+            });
+
+            semaphore.acquire();
+
+
+            controller.reqAccountUpdates(true, connectionHandler.getAccount(), new ApiController.IAccountHandler() {
+                @Override
+                public void accountValue(String account, String key, String value, String currency) {
+                    if((key.compareTo("TotalCashValue") == 0 && currency.compareTo("AUD") == 0) ||
+                       (key.compareTo("ExchangeRate") == 0 && currency.compareTo("USD") == 0)) {
+                        System.out.println(String.format("account=%s key=%s value=%s currency=%s", account, key, value, currency));
                     }
+                }
 
-                    @Override
-                    public void historicalDataEnd() {
-                        semaphore.release();
-                    }
-                };
+                @Override
+                public void accountTime(String timeStamp) {
+                    System.out.println("account: time="+timeStamp);
+                }
 
+                @Override
+                public void accountDownloadEnd(String account) {
+                    semaphore.release();
+                }
 
-                final long days = ChronoUnit.DAYS.between(investment.buyDate, LocalDate.now());
+                @Override
+                public void updatePortfolio(Position position) {
+                    System.out.println(position);
+                }
+            });
 
-                System.out.println(String.format("%s to %s - %d days",
-                        investment.buyDate.format(DateTimeFormatter.BASIC_ISO_DATE),
-                        LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE),
-                        days));
+            semaphore.acquire();
+            System.out.println("Trade Report Start");
 
-                controller.reqHistoricalData(investment.createNewContract(), timeLimit, (int) days, Types.DurationUnit.DAY,
-                        Types.BarSize._1_day, Types.WhatToShow.TRADES, true, historicalDataHandler);
+            controller.reqExecutions(new ExecutionFilter(0, connectionHandler.getAccount(), null, null, null, null, null), new ApiController.ITradeReportHandler() {
 
-                semaphore.acquire();
-                System.out.println("Finished historical gather");
+                @Override
+                public void tradeReport(String tradeKey, NewContract contract, Execution execution) {
+                    System.out.println(String.format("trade_key=%s contract=%s execution=%s", tradeKey, contract, execution));
+                }
 
-            }
+                @Override
+                public void tradeReportEnd() {
+                    System.out.println("Trade Report End");
+                    semaphore.release();
+                }
+
+                @Override
+                public void commissionReport(String tradeKey, CommissionReport commissionReport) {
+                    System.out.println(String.format("trade_key=%s report=%s", tradeKey, commissionReport));
+                }
+            });
+
+            semaphore.acquire();
 
         } finally {
             controller.disconnect();

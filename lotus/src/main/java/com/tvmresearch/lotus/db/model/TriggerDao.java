@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface TriggerDao {
 
-    void serialise(Trigger trigger);
+    //void serialise(Trigger trigger);
 
     List<Trigger> getTodaysTriggers();
 

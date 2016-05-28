@@ -34,4 +34,6 @@ public interface Broker {
     void disconnect();
 
     double getLastClose(Investment investment);
+
+    void updateHistory(InvestmentDao dao, Investment investment);
 }

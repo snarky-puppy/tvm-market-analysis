@@ -7,11 +7,14 @@ import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.InvestmentDao;
 import com.tvmresearch.lotus.db.model.InvestmentDaoImpl;
 import com.tvmresearch.lotus.db.model.TriggerDaoImpl;
+import com.tvmresearch.lotus.event.Event;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -39,7 +42,11 @@ public class Lotus {
         Broker broker = null;
 
         try {
-            broker = new InteractiveBroker();
+            ArrayBlockingQueue<Event> outputQueue = new ArrayBlockingQueue<Event>(128);
+            ArrayBlockingQueue<Event> inputQueue = new ArrayBlockingQueue<Event>(128);
+            broker = new InteractiveBroker(outputQueue, inputQueue);
+
+            updateHistory(broker, new InvestmentDaoImpl());
 
             // Update our DB with any positions that were filled since the last run
             updatePositions(broker, new InvestmentDaoImpl());
@@ -61,11 +68,18 @@ public class Lotus {
         }
     }
 
+    public void updateHistory(Broker broker, InvestmentDao dao) {
+        dao.getFilledInvestments().forEach(x -> broker.updateHistory(dao, x));
+    }
+
     public void updatePositions(Broker broker, InvestmentDao dao) {
 
+        logger.info("Start updatePositions");
         List<Position> positions = broker.getOpenPositions();
+        logger.info("Broker: "+positions.size()+" open positions");
         for (Position position : positions) {
 
+            logger.info("Update position: "+position.contract().symbol());
 
             List<Investment> investments = dao.getTradesInProgress(position.conid());
             if(investments.size() == 0) {
@@ -103,6 +117,7 @@ public class Lotus {
                 investment.qtyFilled = position.position();
                 investment.qtyFilledValue = position.marketValue();
                 investment.state = Investment.State.FILLED;
+                investment.errorMsg = null;
                 dao.serialise(investment);
             }
 

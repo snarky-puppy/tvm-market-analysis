@@ -1,23 +1,28 @@
 package com.tvmresearch.lotus.db.model;
 
+import com.mysql.jdbc.*;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.tvmresearch.lotus.Configuration;
 import com.tvmresearch.lotus.Database;
 import com.tvmresearch.lotus.LotusException;
 
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * CRUD for Trigger objects
+ *
  * Created by horse on 7/04/2016.
  */
 public class TriggerDaoImpl implements TriggerDao {
-    @Override
-    public void serialise(Trigger trigger) {
-        Connection connection = Database.connection();
+
+    private void serialise(Trigger trigger, Connection connection) {
+
         PreparedStatement stmt = null;
 
         try {
@@ -63,7 +68,7 @@ public class TriggerDaoImpl implements TriggerDao {
         } catch (SQLException e) {
             throw new LotusException(e);
         } finally {
-            Database.close(stmt, connection);
+            Database.close(stmt);
         }
     }
 
@@ -109,7 +114,8 @@ public class TriggerDaoImpl implements TriggerDao {
             throw new LotusException(e);
         } finally {
             Database.close(rs, stmt, connection);
-        }    }
+        }
+    }
 
     @Override
     public Trigger load(int id) {
@@ -187,6 +193,21 @@ public class TriggerDaoImpl implements TriggerDao {
 
     @Override
     public void serialise(List<Trigger> list) {
-        list.stream().forEach(this::serialise);
+        final Connection connection = Database.connection();
+
+        try {
+            connection.setAutoCommit(false);
+            list.stream().forEach(x -> serialise(x, connection));
+            connection.commit();
+        } catch (SQLException e) {
+            throw new LotusException(e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                throw new LotusException(e);
+            }
+            Database.close(connection);
+        }
     }
 }

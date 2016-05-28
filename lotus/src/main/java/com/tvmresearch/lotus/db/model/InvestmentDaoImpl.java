@@ -1,11 +1,17 @@
 package com.tvmresearch.lotus.db.model;
 
+import com.mysql.jdbc.*;
+import com.mysql.jdbc.Statement;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.tvmresearch.lotus.Database;
 import com.tvmresearch.lotus.LotusException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +97,8 @@ public class InvestmentDaoImpl implements InvestmentDao {
             throw new LotusException(e);
         } finally {
             Database.close(rs, stmt, connection);
-        }      }
+        }
+    }
 
     @Override
     public void serialise(List<Investment> investments) {
@@ -100,6 +107,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
 
     @Override
     public void serialise(Investment investment) {
+        ResultSet rs = null;
         PreparedStatement stmt = null;
         Connection connection = Database.connection();
 
@@ -113,14 +121,14 @@ public class InvestmentDaoImpl implements InvestmentDao {
                         "qty, qty_val, qty_filled, qty_filled_val, sell_limit, sell_dt_limit, " +
                         "sell_price, sell_dt_start, sell_dt_end, real_pnl, error_code, error_msg) " +
                         "VALUES("+Database.generateParams(21)+")";
-                stmt = connection.prepareStatement(sql);
+                stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             } else {
                 final String sql = "UPDATE investments " +
                         "SET    trigger_id=?, cmp_min=?, cmp_val=?, cmp_total=?, con_id=?, perm_id=?, state=?, buy_limit=?, buy_dt=?, " +
                         "qty=?, qty_val=?, qty_filled=?, qty_filled_val=?, sell_limit=?, sell_dt_limit=?, " +
                         "sell_price=?, sell_dt_start=?, sell_dt_end=?, real_pnl=?, error_code=?, error_msg=? " +
                         "WHERE  id = ?";
-                stmt = connection.prepareStatement(sql);
+                stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             }
 
             int idx = 1;
@@ -187,15 +195,39 @@ public class InvestmentDaoImpl implements InvestmentDao {
             if (investment.id != null)
                 stmt.setInt(idx++, investment.id);
 
-            stmt.execute();
+            stmt.executeUpdate();
+
+            rs = stmt.getGeneratedKeys();
+            if(rs.next()) {
+                investment.id = rs.getInt(1);
+            }
 
         } catch (SQLException e) {
             throw new LotusException(e);
 
         } finally {
-            Database.close(stmt);
+            Database.close(rs, stmt, connection);
         }
 
+    }
+
+    @Override
+    public void addHistory(Investment investment, LocalDate date, double close) {
+        Connection connection = Database.connection();
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement("INSERT INTO investment_history VALUES(NULL, ?, ?, ?)");
+            stmt.setInt(1, investment.id);
+            stmt.setDate(2, java.sql.Date.valueOf(date));
+            stmt.setDouble(3, close);
+            stmt.execute();
+        } catch(MySQLIntegrityConstraintViolationException e) {
+            //logger.info("Ignoring: "+e.getMessage());
+        } catch (SQLException e) {
+            throw new LotusException(e);
+        } finally {
+            Database.close(stmt, connection);
+        }
     }
 
 

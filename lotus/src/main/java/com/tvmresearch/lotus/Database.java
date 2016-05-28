@@ -86,7 +86,7 @@ public class Database {
 
     }
 
-    private static void close(ResultSet rs) {
+    public static void close(ResultSet rs) {
         try {
             if (rs != null)
                 rs.close();

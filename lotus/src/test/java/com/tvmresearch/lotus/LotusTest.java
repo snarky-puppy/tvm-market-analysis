@@ -54,6 +54,11 @@ public class LotusTest {
             return 0;
         }
 
+        @Override
+        public void updateHistory(InvestmentDao dao, Investment investment) {
+
+        }
+
     }
 
     Position createPosition(int position, double marketPrice) {

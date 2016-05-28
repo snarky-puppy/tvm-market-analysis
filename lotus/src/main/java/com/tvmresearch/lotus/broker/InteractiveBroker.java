@@ -6,13 +6,20 @@ import com.ib.client.ExecutionFilter;
 import com.ib.controller.*;
 import com.tvmresearch.lotus.LotusException;
 import com.tvmresearch.lotus.db.model.Investment;
+import com.tvmresearch.lotus.db.model.InvestmentDao;
+import com.tvmresearch.lotus.event.Event;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Semaphore;
 
 /**
  * IB API
@@ -28,6 +35,7 @@ public class InteractiveBroker implements Broker {
     private final AccountHandler accountHandler;
     private final LiveOrderHandler liveOrderHandler;
 
+    private final List<Execution> executions = new ArrayList<>();
 
     public class IBLogger implements ApiConnection.ILogger {
         @Override
@@ -36,14 +44,15 @@ public class InteractiveBroker implements Broker {
         }
     }
 
-    public InteractiveBroker() {
+    public InteractiveBroker(ArrayBlockingQueue<Event> inputQueue, ArrayBlockingQueue<Event> outputQueue) {
         connectionHandler = new ConnectionHandler();
         accountHandler = new AccountHandler();
         liveOrderHandler = new LiveOrderHandler();
 
+
         controller = new ApiController(connectionHandler, new IBLogger(), new IBLogger());
 
-        controller.connect("localhost", 7497, 1);
+        controller.connect("localhost", 4002, 1);
         connectionHandler.waitForConnection();
 
         logger.info("Requesting account updates");
@@ -66,18 +75,36 @@ public class InteractiveBroker implements Broker {
         liveOrderHandler.waitForEvent();
         //controller.removeLiveOrderHandler(liveOrderHandler);
 
-/*
+        //controller.orderStatus();
+
+        //volatile boolean tradeLogComplete = false;
+
+        class Temp {
+            public int qty;
+            public double avgPrice;
+        }
+
+
+        //Map<String, Temp> execMap = new HashMap<>();
+
         controller.reqExecutions(new ExecutionFilter(0, connectionHandler.getAccount(), null, null, null, null, null), new ApiController.ITradeReportHandler() {
             private final Logger logger = LogManager.getLogger(InteractiveBroker.class);
 
             @Override
             public void tradeReport(String tradeKey, NewContract contract, Execution execution) {
                 logger.info(String.format("trade_key=%s contract=%s execution=%s", tradeKey, contract, execution));
+               /* if(!execMap.containsKey(contract.symbol())) {
+                    Temp t = new Temp();
+                    //t.avgPrice =
+
+                }
+                */
             }
 
             @Override
             public void tradeReportEnd() {
                 logger.info("Trade Report End");
+                //tradeLogComplete = true;
             }
 
             @Override
@@ -85,7 +112,7 @@ public class InteractiveBroker implements Broker {
                 logger.info(String.format("trade_key=%s report=%s", tradeKey, commissionReport));
             }
         });
-*/
+
 
 
         /*
@@ -102,7 +129,6 @@ public class InteractiveBroker implements Broker {
 
         System.exit(1);
 */
-
     }
 
     @Override
@@ -130,12 +156,6 @@ public class InteractiveBroker implements Broker {
         handler.waitForEvent();
         controller.removeOrderHandler(handler);
 
-
-        //investment.permId = n++;
-        //investment.conId = m++;
-
-        //logger.info(contract);
-
         boolean landed;
         do {
             synchronized (liveOrderHandler.orderIdToContractIdMap) {
@@ -161,29 +181,19 @@ public class InteractiveBroker implements Broker {
         NewContract contract = investment.createNewContract();
         NewOrder order = investment.createSellOrder(connectionHandler.getAccount());
 
+        logger.info(String.format("contract=%s, order=%s", contract, order));
+
+        logger.info("1");
         SellOrderHandler handler = new SellOrderHandler(investment);
+        logger.info("2");
         controller.placeOrModifyOrder(contract, order, handler);
-
+        logger.info("3");
         handler.waitForEvent();
-        //controller.removeOrderHandler(handler);
+        logger.info("4");
+        controller.removeOrderHandler(handler);
+        logger.info("5");
     }
 
-    /*
-    @Override
-    public boolean checkSellLimit(Investment investment) {
-
-        double closePrice = getLastClose(investment.createNewContract());
-        logger.info(String.format("%s close: %.2f, limit: %.2f", investment.trigger.symbol,
-                closePrice, investment.buyLimit));
-
-        return false;
-    }
-
-    @Override
-    public List<Investment> getUnfilledPositions() {
-        return new ArrayList<>();
-    }
-    */
 
     @Override
     public List<Position> getOpenPositions() {
@@ -191,21 +201,85 @@ public class InteractiveBroker implements Broker {
     }
 
 
-
     public double getLastClose(Investment investment) {
         NewContract contract = investment.createNewContract();
-        //logger.info(String.format("getLastClose: %s/%s", contract.primaryExch(), contract.symbol()));
+
         DateTimeFormatter formatter =
                 DateTimeFormatter.ofPattern("yyyyMMdd hh:mm:ss zzz")
                         .withZone(ZoneId.of("GMT"));
 
         Instant instant = Instant.now();
         String timeLimit = formatter.format(instant);
+
+        logger.info(String.format("getLastClose: %s/%s TimeLimit=%s", contract.primaryExch(), contract.symbol(), timeLimit));
+
         HistoricalDataHandler historicalDataHandler = new HistoricalDataHandler();
         controller.reqHistoricalData(contract, timeLimit, 1, Types.DurationUnit.DAY,
                 Types.BarSize._1_day, Types.WhatToShow.TRADES, true, historicalDataHandler);
         historicalDataHandler.waitForEvent();
-        //controller.cancelHistoricalData(historicalDataHandler);
+        //controller.cancelHistoricalData(historicalDataHandler); // request is removed once completed
         return historicalDataHandler.closePrice;
+    }
+
+
+    @Override
+    public void updateHistory(InvestmentDao dao, Investment investment) {
+        NewContract contract = investment.createNewContract();
+
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("yyyyMMdd hh:mm:ss zzz")
+                        .withZone(ZoneId.of("GMT"));
+
+        Instant instant = Instant.now();
+        String timeLimit = formatter.format(instant);
+
+        logger.info(String.format("updateHistory: %s/%s TimeLimit=%s", contract.primaryExch(), contract.symbol(), timeLimit));
+        Semaphore semaphore = new Semaphore(1);
+        try {
+            semaphore.acquire();
+
+            class Pair {
+                public LocalDate date;
+                public double close;
+                Pair(LocalDate d, double c) { date = d; close = c; }
+            }
+            List<Pair> history = new ArrayList<>();
+
+            ApiController.IHistoricalDataHandler historicalDataHandler = new ApiController.IHistoricalDataHandler() {
+                @Override
+                public void historicalData(Bar bar, boolean hasGaps) {
+                    Date dt = new Date(bar.time()*1000);
+                    LocalDate date = dt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    logger.info(String.format("history: %s: %s: %f", investment.trigger.symbol, bar.formattedTime(), bar.close()));
+                    if(date.isAfter(investment.trigger.date) || date.isEqual(investment.trigger.date))
+                        history.add(new Pair(date, bar.close()));
+                }
+
+                @Override
+                public void historicalDataEnd() {
+                    semaphore.release();
+                }
+            };
+
+            final long days = ChronoUnit.DAYS.between(investment.trigger.date, LocalDate.now());
+
+            System.out.println(String.format("%s to %s - %d days",
+                    investment.buyDate.format(DateTimeFormatter.BASIC_ISO_DATE),
+                    LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE),
+                    days));
+
+
+            controller.reqHistoricalData(contract, timeLimit, (int) days, Types.DurationUnit.DAY,
+                    Types.BarSize._1_day, Types.WhatToShow.TRADES, true, historicalDataHandler);
+
+            semaphore.acquire();
+
+            for(Pair p : history) {
+                dao.addHistory(investment, p.date, p.close);
+            }
+
+        } catch (InterruptedException e) {
+            throw new LotusException(e);
+        }
     }
 }

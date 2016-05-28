@@ -2,6 +2,7 @@ package com.tvmresearch.lotus.db.model;
 
 import com.tvmresearch.lotus.db.model.Investment;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -18,4 +19,6 @@ public interface InvestmentDao {
     void serialise(List<Investment> investments);
 
     void serialise(Investment investment);
+
+    void addHistory(Investment investment, LocalDate date, double close);
 }

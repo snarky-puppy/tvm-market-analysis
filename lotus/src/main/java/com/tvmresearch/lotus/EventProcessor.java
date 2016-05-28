@@ -39,7 +39,10 @@ public class EventProcessor {
                 .filter(this::validateTrigger)
                 .map(this::triggerInvestment)
                 .filter(i -> i != null)
-                .forEach(investmentDao::serialise);
+                .forEach(i -> {
+                    investmentDao.serialise(i);
+                    broker.updateHistory(investmentDao, i);
+                });
 
         triggerDao.serialise(triggerList);
     }
@@ -58,8 +61,6 @@ public class EventProcessor {
     }
 
     public boolean validateTrigger(Trigger trigger) {
-
-
 
         if(!trigger.event) {
             trigger.rejectReason = Trigger.RejectReason.NOTEVENT;

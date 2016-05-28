@@ -31,7 +31,6 @@ public class SellOrderHandler extends ASyncReceiver implements com.ib.controller
     @Override
     public void orderStatus(OrderStatus status, int filled, int remaining, double avgFillPrice, long permId, int parentId, double lastFillPrice, int clientId, String whyHeld) {
         logger.info(status);
-
         investment.state = Investment.State.SELL;
         investment.sellDateStart = LocalDate.now();
         eventOccured();
@@ -44,8 +43,8 @@ public class SellOrderHandler extends ASyncReceiver implements com.ib.controller
             logger.error(String.format("code=%d, msg=%s [%s/%s]", errorCode, errorMsg, investment.trigger.exchange, investment.trigger.symbol));
             investment.errorCode = errorCode;
             investment.errorMsg = errorMsg;
-            investment.conId = -1;
-            investment.state = Investment.State.ERROR;
+            //investment.conId = -1;
+            //investment.state = Investment.State.ERROR;
             eventOccured();
         }
     }

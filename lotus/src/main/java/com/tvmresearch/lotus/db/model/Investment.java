@@ -89,6 +89,9 @@ public class Investment {
         if(trigger.exchange.compareTo("NYSE_Arca") == 0)
             trigger.exchange = "ARCA";
 
+        //if(trigger.exchange.equals("NASDAQ"))
+        //    trigger.exchange = "ISLAND";
+
         rv.exchange("SMART");
         rv.symbol(trigger.symbol);
 

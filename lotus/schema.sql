@@ -113,6 +113,21 @@ CREATE TABLE investments (
 	FOREIGN KEY (trigger_id)
 		REFERENCES triggers(id)
 
+	FOREIGN KEY (trigger_id)
+		REFERENCES triggers(id)
+);
+
+CREATE TABLE investment_history (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	investment_id INTEGER NOT NULL,
+
+	dt DATE NOT NULL,
+	close DOUBLE(12,2) NOT NULL,
+
+	CONSTRAINT historically_correct UNIQUE(investment_id, dt),
+
+	FOREIGN KEY (investment_id)
+		REFERENCES investments(id)
 );
 
 CREATE TABLE daily_log (
