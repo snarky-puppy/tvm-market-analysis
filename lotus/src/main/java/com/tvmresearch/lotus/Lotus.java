@@ -3,18 +3,19 @@ package com.tvmresearch.lotus;
 import com.ib.controller.Position;
 import com.tvmresearch.lotus.broker.Broker;
 import com.tvmresearch.lotus.broker.InteractiveBroker;
-import com.tvmresearch.lotus.db.model.Investment;
-import com.tvmresearch.lotus.db.model.InvestmentDao;
-import com.tvmresearch.lotus.db.model.InvestmentDaoImpl;
-import com.tvmresearch.lotus.db.model.TriggerDaoImpl;
-import com.tvmresearch.lotus.event.Event;
+import com.tvmresearch.lotus.db.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -27,39 +28,46 @@ public class Lotus {
 
     private static final Logger logger = LogManager.getLogger(Lotus.class);
 
+    private Broker broker;
+    private TriggerDao triggerDao;
+    private InvestmentDao investmentDao;
+    private Compounder compounder;
+    private BlockingQueue<Object> eventQueue = new ArrayBlockingQueue(1024);
+    private ImportTriggers importTriggers = new ImportTriggers();
+    private LocalTime lastCheck = null;
+
+    private static volatile boolean running = true;
+
     public static void main(String[] args) {
         Lotus lotus = new Lotus();
-        lotus.main();
+        lotus.mainLoop();
     }
 
-    private void main() {
+    public Lotus() {
+        triggerDao = new TriggerDaoImpl();
+        investmentDao = new InvestmentDaoImpl();
+        //compounder = new Compounder();
+    }
 
-        logger.info("Starting trigger import");
-        ImportTriggers importTriggers = new ImportTriggers();
-        importTriggers.importAll();
-        logger.info("Finished trigger import");
-
-        Broker broker = null;
+    private void mainLoop() {
 
         try {
-            ArrayBlockingQueue<Event> outputQueue = new ArrayBlockingQueue<Event>(128);
-            ArrayBlockingQueue<Event> inputQueue = new ArrayBlockingQueue<Event>(128);
-            broker = new InteractiveBroker(outputQueue, inputQueue);
+            broker = new InteractiveBroker(eventQueue);
+            compounder = new Compounder(broker.getAvailableFunds(), broker.getExchangeRate());
+            lastCheck = LocalTime.now(); // update FX check timestamp since we just fetched it
 
-            updateHistory(broker, new InvestmentDaoImpl());
+            // threads....
+            //  1. ensure ibgateway is running
+            //  2. periodically update AUD.USD
+            //  3.
 
-            // Update our DB with any positions that were filled since the last run
-            updatePositions(broker, new InvestmentDaoImpl());
-
-            // TODO: after processing all completed sells, we should be able to estimate current cash balance.
-            // startBank from 1st of the month + sum of all completed trades
-            // TODO: Compare our calculations with what IBKR give us.
-
-
-            Compounder compounder = new Compounder(broker.getAvailableFunds());
-            EventProcessor eventProcessor = new EventProcessor(broker, compounder, new TriggerDaoImpl(), new InvestmentDaoImpl());
-            eventProcessor.processTriggers();
-            eventProcessor.processInvestments();
+            while(running) {
+                updateFX();
+                processTriggers();
+                processEvents();
+                Thread.sleep(1000);
+            }
+        } catch (InterruptedException e) {
 
         } finally {
             logger.info("The Final final block");
@@ -68,18 +76,135 @@ public class Lotus {
         }
     }
 
-    public void updateHistory(Broker broker, InvestmentDao dao) {
-        dao.getFilledInvestments().forEach(x -> broker.updateHistory(dao, x));
+    private void updateFX() {
+        // update every hour should be enough
+        if(lastCheck == null || lastCheck.plusHours(1).isAfter(LocalTime.now())) {
+            lastCheck = LocalTime.now();
+            double fx = broker.getExchangeRate();
+            compounder.setFxRate(fx);
+        }
     }
 
+    private void processTriggers() {
+        importTriggers.importAll();
+        List<Trigger> triggerList = triggerDao.getTodaysTriggers();
+        for(Trigger trigger : triggerList) {
+            if(!validateTrigger(trigger)) {
+                triggerDao.serialise(trigger);
+                continue;
+            }
+
+            Investment investment = new Investment(trigger);
+
+
+
+            // create an investment for the trigger
+            /*
+            Investment investment = compounder.createInvestment(trigger);
+
+            if(investment == null)
+                return null;
+
+            if(!broker.buy(investment))
+                compounder.releaseInvestmentFunds(investment);
+    */
+
+        }
+
+        /*
+                .map(this::triggerInvestment)
+                .filter(i -> i != null)
+                .forEach(i -> {
+                    investmentDao.serialise(i);
+                    broker.updateHistory(investmentDao, i);
+                });
+        */
+        //triggerDao.serialise(triggerList);
+    }
+
+    private void processEvents() {
+
+    }
+
+    public boolean validateTrigger(Trigger trigger) {
+
+        if(!trigger.event) {
+            trigger.rejectReason = Trigger.RejectReason.NOTEVENT;
+            return false;
+        }
+
+        if(trigger.zscore > Configuration.MIN_ZSCORE) {
+            trigger.rejectReason = Trigger.RejectReason.ZSCORE;
+            trigger.rejectData = Configuration.MIN_ZSCORE;
+            return false;
+        }
+
+        if(!isActiveSymbol(trigger)) {
+            trigger.rejectReason = Trigger.RejectReason.CATEGORY;
+            return false;
+        }
+
+        if(trigger.avgVolume > Configuration.MIN_VOLUME) {
+            trigger.rejectReason = Trigger.RejectReason.VOLUME;
+            trigger.rejectData = Configuration.MIN_VOLUME;
+            return false;
+        }
+
+        double nextInvest = compounder.nextInvestmentAmount();
+        double pc = nextInvest / trigger.avgVolume;
+        if(pc >= 1.0) {
+            trigger.rejectReason = Trigger.RejectReason.INVESTAMT;
+            trigger.rejectData = nextInvest;
+            return false;
+        }
+
+        if(!compounder.fundsAvailable()) {
+            trigger.rejectReason = Trigger.RejectReason.NOFUNDS;
+            trigger.rejectData = nextInvest;
+            return false;
+        }
+
+        // The price does not conform to the minimum price variation for this contract.
+        // if(!broker.verifyTickSize(trigger, Configuration.BUY_LIMIT_FACTOR - 1)) {
+        //     trigger.rejectReason = Trigger.RejectReason.TICKSIZE;
+        // }
+
+        trigger.rejectReason = Trigger.RejectReason.OK;
+        return true;
+    }
+
+
+    private boolean isActiveSymbol(Trigger trigger) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Database.connection();
+            stmt = connection.prepareStatement("SELECT COUNT(*) FROM active_symbols WHERE exchange = ? AND symbol = ?");
+            stmt.setString(1, trigger.exchange);
+            stmt.setString(2, trigger.symbol);
+            rs = stmt.executeQuery();
+            if(rs.next()) {
+                int i = rs.getInt(1);
+                return i > 0;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new LotusException(e);
+        } finally {
+            Database.close(rs, stmt, connection);
+        }
+    }
+
+
+/*
     public void updatePositions(Broker broker, InvestmentDao dao) {
 
-        logger.info("Start updatePositions");
-        List<Position> positions = broker.getOpenPositions();
-        logger.info("Broker: "+positions.size()+" open positions");
+        Collection<Position> positions = broker.getOpenPositions();
         for (Position position : positions) {
 
-            logger.info("Update position: "+position.contract().symbol());
 
             List<Investment> investments = dao.getTradesInProgress(position.conid());
             if(investments.size() == 0) {
@@ -117,90 +242,11 @@ public class Lotus {
                 investment.qtyFilled = position.position();
                 investment.qtyFilledValue = position.marketValue();
                 investment.state = Investment.State.FILLED;
-                investment.errorMsg = null;
                 dao.serialise(investment);
             }
-
-
-
-/*
-            int brokerQty = position.position();
-
-            List<Investment> buyOrders = investments.stream()
-                    .filter(i -> i.state == Investment.State.BUY)
-                    .collect(Collectors.toList());
-            List<Investment> sellOrders = investments.stream()
-                    .filter(i -> i.state == Investment.State.SELL)
-                    .collect(Collectors.toList());
-
-            // Process BUY orders first.
-            // These since these are always DAY trades, we can be more sure of the correct qty since we'll run
-            // after the markets close.
-            // myTotalQty will still be higher since we haven't processed any SELL trades yet.
-            if(buyOrders != null && buyOrders.size() > 0) {
-                int myTotalQty = dao.getQtyFilledSum(position.conid());
-                int qtyFilled = brokerQty - myTotalQty;
-
-                // If we have two DAY trades on the same stock, and only the first one gets filled,
-                // mark the second as COMPLETE with zero filled.
-
-                for(Investment buyOrder : buyOrders) {
-                    if(qtyFilled > 0) {
-                        if(qtyFilled > buyOrder.qty) {
-                            buyOrder.qtyFilled = buyOrder.qty;
-                            qtyFilled -= buyOrder.qty;
-                        } else {
-                            buyOrder.qtyFilled = qtyFilled;
-                            qtyFilled = 0;
-                        }
-
-                        buyOrder.qtyFilledValue = position.marketPrice() * buyOrder.qtyFilled;
-                        buyOrder.state = Investment.State.FILLED;
-
-                    } else {
-                        buyOrder.qtyFilled = 0;
-                        buyOrder.qtyFilledValue = 0.0;
-                        buyOrder.errorMsg = "Not Filled";
-                        buyOrder.state = Investment.State.COMPLETE;
-                    }
-                }
-                dao.serialise(buyOrders);
-            }
-
-            // process SELL orders
-            if(sellOrders != null && sellOrders.size() > 0) {
-                int myTotalQty = dao.getQtyFilledSum(position.conid());
-                int sellQty = sellOrders.stream().mapToInt(i -> i.qtyFilled).sum();
-                int backLog = myTotalQty - brokerQty;
-
-
-                for(Investment investment : sellOrders) {
-
-                }
-            }
-*/
-            /*
-            1 position, many possible investments
-
-            2 interesting investment states:
-                - BUY
-                - SELL
-
-            filled sell order:
-                single investment:
-                    - broker positions == 0
-                    - investments in the db but no positions from broker
-                many investments:
-                    -
-
-            */
-
-
-
-
-
         }
 
     }
+*/
 
 }

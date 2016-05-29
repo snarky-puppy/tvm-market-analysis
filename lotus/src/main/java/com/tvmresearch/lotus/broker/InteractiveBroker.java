@@ -1,13 +1,11 @@
 package com.tvmresearch.lotus.broker;
 
-import com.ib.client.CommissionReport;
+import com.ib.client.*;
 import com.ib.client.Execution;
-import com.ib.client.ExecutionFilter;
 import com.ib.controller.*;
 import com.tvmresearch.lotus.LotusException;
 import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.InvestmentDao;
-import com.tvmresearch.lotus.event.Event;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,10 +13,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -30,105 +26,193 @@ public class InteractiveBroker implements Broker {
 
     private static final Logger logger = LogManager.getLogger(InteractiveBroker.class);
 
-    private final ConnectionHandler connectionHandler;
     private final ApiController controller;
-    private final AccountHandler accountHandler;
-    private final LiveOrderHandler liveOrderHandler;
+    private final BlockingQueue<Object> outputQueue;
 
-    private final List<Execution> executions = new ArrayList<>();
+    // k=symbol
+    private Map<String, Position> positions = new HashMap<>();
 
-    public class IBLogger implements ApiConnection.ILogger {
+    private String account;
+    private double availableFunds = 0.0;
+    private double exchangeRate = 0.0;
+
+
+    private class IBLogger implements ApiConnection.ILogger {
         @Override
         public void log(String string) {
             //logger.info("IB: "+string);
         }
     }
 
-    public InteractiveBroker(ArrayBlockingQueue<Event> inputQueue, ArrayBlockingQueue<Event> outputQueue) {
-        connectionHandler = new ConnectionHandler();
-        accountHandler = new AccountHandler();
-        liveOrderHandler = new LiveOrderHandler();
+
+    public InteractiveBroker(BlockingQueue<Object> outputQueue) throws InterruptedException {
+        this.outputQueue = outputQueue;
+
+        Semaphore semaphore = new Semaphore(1);
+        semaphore.acquire();
+
+        controller = new ApiController(new ApiController.IConnectionHandler() {
+
+            @Override
+            public void connected() {
+                //semaphore.release();
+                logger.info("Connected");
+            }
+
+            @Override
+            public void disconnected() {
+
+            }
+
+            @Override
+            public void accountList(ArrayList<String> list) {
+                if(account == null) {
+                    account = list.get(0);
+                    logger.info("Got account: "+account);
+                    semaphore.release();
+                }
+            }
+
+            @Override
+            public void error(Exception e) {
+                logger.error(e.getMessage(), e);
+                System.exit(1);
+            }
+
+            @Override
+            public void message(int id, int errorCode, String errorMsg) {
+                // 399: Warning: your order will not be placed at the exchange until 2016-03-28 09:30:00 US/Eastern
+                if(errorCode != 399)
+                    logger.error(String.format("id=%d, errorCode=%d, msg=%s", id, errorCode, errorMsg));
+                if(errorCode < 1100 && errorCode != 399 && errorCode != 202) {
+                    System.exit(1);
+                    //throw new LotusException(new TWSException(id, errorCode, errorMsg));
+                }
+            }
+
+            @Override
+            public void show(String string) {
+                logger.info("show: "+string);
+            }
+        }, new IBLogger(), new IBLogger());
+
+        controller.connect("localhost", 4002, 2);
+        semaphore.acquire();
 
 
-        controller = new ApiController(connectionHandler, new IBLogger(), new IBLogger());
+        controller.reqAccountUpdates(true, account, new ApiController.IAccountHandler() {
+            @Override
+            public void accountValue(String account, String key, String value, String currency) {
+                if(key.compareTo("TotalCashValue") == 0 && currency.compareTo("AUD") == 0) {
+                    availableFunds = Double.valueOf(value);
+                }
+                if(key.compareTo("ExchangeRate") == 0 && currency.compareTo("USD") == 0) {
+                    exchangeRate = Double.valueOf(value);
+                }
+            }
 
-        controller.connect("localhost", 4002, 1);
-        connectionHandler.waitForConnection();
+            @Override
+            public void accountTime(String timeStamp) {
 
-        logger.info("Requesting account updates");
-        controller.reqAccountUpdates(true, connectionHandler.getAccount(), accountHandler);
-        accountHandler.waitForEvent();
+            }
 
-        if(accountHandler.exchangeRate == 0.0 || accountHandler.availableFunds == 0.0) {
+            @Override
+            public void accountDownloadEnd(String account) {
+                logger.info("accountDownloadEnd - pre release");
+                semaphore.release();
+                logger.info("accountDownloadEnd - post release");
+            }
+
+            @Override
+            public void updatePortfolio(Position position) {
+                String symbol = position.contract().symbol();
+                positions.put(symbol, position);
+                logger.info("updatePortfolio: "+position);
+            }
+        });
+
+        semaphore.acquire();
+
+        if(exchangeRate == 0.0 || availableFunds == 0.0) {
             throw new LotusException("Account details were not provided");
         }
 
         logger.info(String.format("Account: AUD=%.2f rate=%.2f USD=%.2f",
-                accountHandler.availableFunds,
-                accountHandler.exchangeRate,
-                accountHandler.availableFunds / accountHandler.exchangeRate
+                availableFunds,
+                exchangeRate,
+                availableFunds / exchangeRate
 
             ));
 
-
-        controller.reqLiveOrders(liveOrderHandler);
-        liveOrderHandler.waitForEvent();
-        //controller.removeLiveOrderHandler(liveOrderHandler);
-
-        //controller.orderStatus();
-
-        //volatile boolean tradeLogComplete = false;
-
-        class Temp {
-            public int qty;
-            public double avgPrice;
-        }
-
-
-        //Map<String, Temp> execMap = new HashMap<>();
-
-        controller.reqExecutions(new ExecutionFilter(0, connectionHandler.getAccount(), null, null, null, null, null), new ApiController.ITradeReportHandler() {
-            private final Logger logger = LogManager.getLogger(InteractiveBroker.class);
+        controller.reqLiveOrders(new ApiController.ILiveOrderHandler() {
+            @Override
+            public void openOrder(NewContract contract, NewOrder order, NewOrderState orderState) {
+                logger.info(String.format("openOrder: contract=%s, order=%s, orderState=%s", contract, order, orderState));
+                try {
+                    outputQueue.put(new LiveOpenOrder(contract, order, orderState));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
             @Override
-            public void tradeReport(String tradeKey, NewContract contract, Execution execution) {
-                logger.info(String.format("trade_key=%s contract=%s execution=%s", tradeKey, contract, execution));
-               /* if(!execMap.containsKey(contract.symbol())) {
-                    Temp t = new Temp();
-                    //t.avgPrice =
+            public void openOrderEnd() {
 
+            }
+
+            @Override
+            public void orderStatus(int orderId, OrderStatus status, int filled, int remaining, double avgFillPrice,
+                                    long permId, int parentId, double lastFillPrice, int clientId, String whyHeld) {
+                logger.info(String.format("orderStatus: orderId=%d orderStatus=%s filled=%d remaining=%d "+
+                        "avgFillPrice=%f permId=%d parentId=%d lastFillPrice=%f clientId=%d whyHeld=%s",
+                        orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId,
+                        whyHeld));
+
+                try {
+                    outputQueue.put(new LiveOrderStatus(orderId, status, filled, remaining, avgFillPrice, permId, parentId,
+                                                        lastFillPrice, clientId, whyHeld));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                */
+            }
+
+            @Override
+            public void handle(int orderId, int errorCode, String errorMsg) {
+                logger.info(String.format("handle: orderId=%d code=%d msg=%s", orderId, errorCode, errorMsg.replaceAll("\n", ":::")));
+                try {
+                    outputQueue.put(new LiveOrderError(orderId, errorCode, errorMsg));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        controller.reqExecutions(null, new ApiController.ITradeReportHandler() {
+            @Override
+            public void tradeReport(String tradeKey, NewContract contract, Execution execution) {
+                logger.info(String.format("tradeReport: tradeKey=%s contract=%s execution=%s", tradeKey, contract, execution));
+                try {
+                    outputQueue.put(new TradeReport(tradeKey, contract, execution));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void tradeReportEnd() {
-                logger.info("Trade Report End");
-                //tradeLogComplete = true;
+
             }
 
             @Override
             public void commissionReport(String tradeKey, CommissionReport commissionReport) {
-                logger.info(String.format("trade_key=%s report=%s", tradeKey, commissionReport));
+                logger.info(String.format("commissionReport: tradeKey=%s commissionReport=%s", tradeKey, commissionReport));
+                try {
+                    outputQueue.put(new TradeCommissionReport(tradeKey, commissionReport));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
-
-
-
-        /*
-        StockHandler stockHandler = new StockHandler();
-        controller.reqContractDetails(new NewContract(new StkContract("GIFI")), new StockHandler());
-        */
-
-/*
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        System.exit(1);
-*/
     }
 
     @Override
@@ -138,72 +222,36 @@ public class InteractiveBroker implements Broker {
 
 
     @Override
-    public double getAvailableFunds() {
-        return accountHandler.availableFunds / accountHandler.exchangeRate;
-    }
-
-    @Override
-    public boolean buy(Investment investment) {
+    public void buy(Investment investment) {
         logger.info(String.format("BUY: %s/%s lim=%.2f qty=%d", investment.trigger.exchange, investment.trigger.symbol,
                 investment.buyLimit, investment.qty));
 
         NewContract contract = investment.createNewContract();
-        NewOrder order = investment.createBuyOrder(connectionHandler.getAccount());
+        NewOrder order = investment.createBuyOrder(account);
 
-        BuyOrderHandler handler = new BuyOrderHandler(investment);
-        controller.placeOrModifyOrder(contract, order, handler);
-
-        handler.waitForEvent();
-        controller.removeOrderHandler(handler);
-
-        boolean landed;
-        do {
-            synchronized (liveOrderHandler.orderIdToContractIdMap) {
-                landed = liveOrderHandler.orderIdToContractIdMap.containsKey(order.orderId());
-            }
-            if(!landed) {
-                try { Thread.sleep(100); } catch (InterruptedException e) {   }
-            }
-        } while(!landed);
-
-        investment.conId = liveOrderHandler.orderIdToContractIdMap.get(order.orderId());
-
-        if(investment.errorCode != null)
-            return false;
-        else
-            return true;
+        controller.placeOrModifyOrder(contract, order, null);
     }
 
     @Override
     public void sell(Investment investment) {
         logger.info(String.format("SELL: %s/%s lim=%.2f qty=%d", investment.trigger.exchange, investment.trigger.symbol,
                 investment.sellLimit, investment.qtyFilled));
+
         NewContract contract = investment.createNewContract();
-        NewOrder order = investment.createSellOrder(connectionHandler.getAccount());
+        NewOrder order = investment.createSellOrder(account);
 
-        logger.info(String.format("contract=%s, order=%s", contract, order));
-
-        logger.info("1");
-        SellOrderHandler handler = new SellOrderHandler(investment);
-        logger.info("2");
-        controller.placeOrModifyOrder(contract, order, handler);
-        logger.info("3");
-        handler.waitForEvent();
-        logger.info("4");
-        controller.removeOrderHandler(handler);
-        logger.info("5");
+        controller.placeOrModifyOrder(contract, order, null);
     }
 
-
     @Override
-    public List<Position> getOpenPositions() {
-        return accountHandler.positions;
+    public Collection<Position> getOpenPositions() {
+        return positions.values();
     }
 
 
     public double getLastClose(Investment investment) {
         NewContract contract = investment.createNewContract();
-
+        //logger.info(String.format("getLastClose: %s/%s", contract.primaryExch(), contract.symbol()));
         DateTimeFormatter formatter =
                 DateTimeFormatter.ofPattern("yyyyMMdd hh:mm:ss zzz")
                         .withZone(ZoneId.of("GMT"));
@@ -211,75 +259,49 @@ public class InteractiveBroker implements Broker {
         Instant instant = Instant.now();
         String timeLimit = formatter.format(instant);
 
-        logger.info(String.format("getLastClose: %s/%s TimeLimit=%s", contract.primaryExch(), contract.symbol(), timeLimit));
-
-        HistoricalDataHandler historicalDataHandler = new HistoricalDataHandler();
-        controller.reqHistoricalData(contract, timeLimit, 1, Types.DurationUnit.DAY,
-                Types.BarSize._1_day, Types.WhatToShow.TRADES, true, historicalDataHandler);
-        historicalDataHandler.waitForEvent();
-        //controller.cancelHistoricalData(historicalDataHandler); // request is removed once completed
-        return historicalDataHandler.closePrice;
-    }
-
-
-    @Override
-    public void updateHistory(InvestmentDao dao, Investment investment) {
-        NewContract contract = investment.createNewContract();
-
-        DateTimeFormatter formatter =
-                DateTimeFormatter.ofPattern("yyyyMMdd hh:mm:ss zzz")
-                        .withZone(ZoneId.of("GMT"));
-
-        Instant instant = Instant.now();
-        String timeLimit = formatter.format(instant);
-
-        logger.info(String.format("updateHistory: %s/%s TimeLimit=%s", contract.primaryExch(), contract.symbol(), timeLimit));
+        final double[] closePrice = new double[1];
+        final LocalDate[] date = new LocalDate[1];
         Semaphore semaphore = new Semaphore(1);
         try {
             semaphore.acquire();
 
-            class Pair {
-                public LocalDate date;
-                public double close;
-                Pair(LocalDate d, double c) { date = d; close = c; }
-            }
-            List<Pair> history = new ArrayList<>();
+            controller.reqHistoricalData(contract, timeLimit, 1, Types.DurationUnit.DAY,
+                    Types.BarSize._1_day, Types.WhatToShow.TRADES, true, new ApiController.IHistoricalDataHandler() {
+                        @Override
+                        public void historicalData(Bar bar, boolean hasGaps) {
+                            logger.info(String.format("%s: %f", bar.formattedTime(), bar.close()));
+                            Date dt = new Date(bar.time() * 1000);
+                            date[0] = dt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                            closePrice[0] = bar.close();
 
-            ApiController.IHistoricalDataHandler historicalDataHandler = new ApiController.IHistoricalDataHandler() {
-                @Override
-                public void historicalData(Bar bar, boolean hasGaps) {
-                    Date dt = new Date(bar.time()*1000);
-                    LocalDate date = dt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    logger.info(String.format("history: %s: %s: %f", investment.trigger.symbol, bar.formattedTime(), bar.close()));
-                    if(date.isAfter(investment.trigger.date) || date.isEqual(investment.trigger.date))
-                        history.add(new Pair(date, bar.close()));
-                }
+                        }
 
-                @Override
-                public void historicalDataEnd() {
-                    semaphore.release();
-                }
-            };
-
-            final long days = ChronoUnit.DAYS.between(investment.trigger.date, LocalDate.now());
-
-            System.out.println(String.format("%s to %s - %d days",
-                    investment.buyDate.format(DateTimeFormatter.BASIC_ISO_DATE),
-                    LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE),
-                    days));
-
-
-            controller.reqHistoricalData(contract, timeLimit, (int) days, Types.DurationUnit.DAY,
-                    Types.BarSize._1_day, Types.WhatToShow.TRADES, true, historicalDataHandler);
+                        @Override
+                        public void historicalDataEnd() {
+                            semaphore.release();
+                        }
+                    });
 
             semaphore.acquire();
-
-            for(Pair p : history) {
-                dao.addHistory(investment, p.date, p.close);
-            }
-
         } catch (InterruptedException e) {
-            throw new LotusException(e);
+            e.printStackTrace();
         }
+
+        return closePrice[0];
+    }
+
+    @Override
+    public void updateHistory(InvestmentDao dao, Investment investment) {
+
+    }
+
+    @Override
+    public double getExchangeRate() {
+        return exchangeRate;
+    }
+
+    @Override
+    public double getAvailableFunds() {
+        return availableFunds;
     }
 }

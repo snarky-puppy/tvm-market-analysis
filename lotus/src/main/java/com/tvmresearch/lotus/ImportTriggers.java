@@ -66,6 +66,7 @@ public class ImportTriggers {
                         rv.add(trigger);
                 }
             }
+            backupFile(file);
             return rv;
 
         } catch (IOException e) {
@@ -77,6 +78,11 @@ public class ImportTriggers {
             } catch (IOException e) {
             }
         }
+    }
+
+    private void backupFile(Path file) throws IOException {
+        Path newFile = Configuration.INPUT_DIR_ARCHIVE.resolve(file.getFileName());
+        Files.move(file, newFile);
     }
 
     private Trigger parseLine(String line) {

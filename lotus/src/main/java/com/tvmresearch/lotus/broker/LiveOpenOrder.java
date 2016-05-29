@@ -9,12 +9,12 @@ import com.ib.controller.NewOrderState;
  *
  * Created by horse on 3/04/2016.
  */
-public class OpenOrder {
+public class LiveOpenOrder {
     public NewContract contract;
     public NewOrder order;
     public NewOrderState orderState;
 
-    public OpenOrder(NewContract contract, NewOrder order, NewOrderState orderState) {
+    public LiveOpenOrder(NewContract contract, NewOrder order, NewOrderState orderState) {
         this.contract = contract;
         this.order = order;
         this.orderState = orderState;

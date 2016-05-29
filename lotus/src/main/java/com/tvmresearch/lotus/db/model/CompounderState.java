@@ -18,8 +18,6 @@ import java.sql.SQLException;
 public class CompounderState {
     private static final Logger logger = LogManager.getLogger(CompounderState.class);
 
-    private CompounderState instance;
-
     public double startBank;
     public double minInvest;
     public double compoundTally;

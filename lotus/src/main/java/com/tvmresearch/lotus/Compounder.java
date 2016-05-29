@@ -17,18 +17,22 @@ import java.time.LocalDate;
  */
 public class Compounder {
 
-    private double cashBalance;
+    private double cashAUD;
+    private double cashUSD;
     private final CompounderState state;
+    private double fxRate;
 
-    public Compounder(double cash) {
-        this.cashBalance = cash;
+    public Compounder(double cash, double fxRate) {
+        this.cashAUD = cash;
+        setFxRate(fxRate);
         state = new CompounderState(cash);
     }
 
     public double nextInvestmentAmount() {
         return state.minInvest + (state.compoundTally > 0 ? state.tallySlice : 0);
     }
-    public boolean fundsAvailable() { return nextInvestmentAmount() <= cashBalance; }
+    public boolean fundsAvailable() { return nextInvestmentAmount() <= cashUSD; }
+
 
     /**
      * Calculate compounded amount. Can be negative!
@@ -56,7 +60,7 @@ public class Compounder {
         }
 
         double total = state.minInvest + rv;
-        double breach = cashBalance - total;
+        double breach = cashUSD - total;
         if(breach < 0) {
             // this will give us a negative compound amount, but should mean that we still get a trade in.
             rv -= breach;
@@ -64,32 +68,39 @@ public class Compounder {
         return rv;
     }
 
-    public Investment createInvestment(Trigger trigger) {
-        Investment investment = new Investment(trigger);
+    public boolean checkout(Investment investment) {
 
         investment.cmpMin = state.minInvest;
+        if(state.compoundTally > 0) {
+
+        }
         investment.cmpVal = calculateCompoundAmount();
         investment.cmpTotal = investment.cmpMin + investment.cmpVal;
 
         if(investment.cmpTotal < 0) {
-            trigger.rejectReason = Trigger.RejectReason.NOFUNDS;
-            trigger.rejectData = investment.cmpTotal;
-            return null;
+            investment.trigger.rejectReason = Trigger.RejectReason.NOFUNDS;
+            investment.trigger.rejectData = investment.cmpTotal;
+            return false;
         }
 
-        investment.buyLimit = round(trigger.price * Configuration.BUY_LIMIT_FACTOR);
+        investment.buyLimit = round(investment.trigger.price * Configuration.BUY_LIMIT_FACTOR);
         investment.buyDate = LocalDate.now();
 
         investment.qty = (int)Math.floor(investment.cmpTotal / investment.buyLimit);
         investment.qtyValue = investment.qty * investment.buyLimit;
 
-        investment.sellLimit = round(trigger.price * Configuration.SELL_LIMIT_FACTOR);
+        investment.sellLimit = round(investment.trigger.price * Configuration.SELL_LIMIT_FACTOR);
 
         investment.sellDateLimit = investment.buyDate.plusDays(Configuration.SELL_LIMIT_DAYS);
 
-        cashBalance -= investment.cmpTotal;
+        cashUSD -= investment.cmpTotal;
 
-        return investment;
+        return true;
+    }
+
+    public void cancelCheckout(Investment investment) {
+        state.compoundTally += investment.cmpVal;
+        cashUSD += investment.cmpMin;
     }
 
     private double round(double num) {
@@ -98,10 +109,23 @@ public class Compounder {
         return bd.doubleValue();
     }
 
-    public void releaseInvestmentFunds(Investment investment) {
+    public void checkin(Investment investment) {
         state.compoundTally += investment.cmpVal;
         // TODO: fix the above
-        cashBalance += investment.cmpTotal;
+        cashUSD += investment.cmpTotal;
+    }
+
+    public void setFxRate(double fxRate) {
+        this.fxRate = fxRate;
+        cashUSD = cashAUD / fxRate;
+    }
+
+    public double getFxRate() {
+        return fxRate;
+    }
+
+    public void addProfit(double profit) {
+        state.updateCompoundTally(state.compoundTally + profit);
     }
 
     //public void onPartialFill

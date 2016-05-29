@@ -22,9 +22,9 @@ public class Database {
     static {
         dataSource = new DataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost/lotus?useSSL=false");
-        dataSource.setUsername("lotus");
-        dataSource.setPassword("lotus");
+        dataSource.setUrl("jdbc:mysql://localhost/lotus2?useSSL=false");
+        dataSource.setUsername("lotus2");
+        dataSource.setPassword("lotus2");
         dataSource.setInitialSize(10);
         dataSource.setMaxActive(50);
         dataSource.setMaxIdle(20);
@@ -44,15 +44,6 @@ public class Database {
             throw new LotusException(e);
         }
 
-        /*
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            return DriverManager.getConnection("jdbc:mysql://localhost/lotus?useSSL=false", "lotus", "lotus");
-        } catch (SQLException | ClassNotFoundException e) {
-            logger.error("Cannot connect to DB", e);
-            throw new LotusException(e);
-        }
-        */
     }
 
     public static String generateParams(int nParams) {

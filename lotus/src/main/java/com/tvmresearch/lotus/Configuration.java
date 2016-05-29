@@ -9,8 +9,9 @@ import java.nio.file.Paths;
  * Created by horse on 21/03/2016.
  */
 public class Configuration {
-    public static final Path INPUT_DIR = Paths.get("/Users", "horse", "Google Drive", "Stuff from Matt", "daily_archive");
-    public static final Path REPORT_DIR = Paths.get("/Users", "horse", "Google Drive", "Stuff from Matt", "lotus");
+    public static final Path INPUT_DIR = Paths.get("/lotus", "triggers");
+    public static final Path INPUT_DIR_ARCHIVE = Paths.get("/lotus", "old_triggers");
+    public static final Path REPORT_DIR = Paths.get("/lotus");
 
     public static final double MIN_ZSCORE = -2.0;
     public static final double MIN_VOLUME = 10000000;

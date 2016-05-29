@@ -17,5 +17,7 @@ public interface TriggerDao {
     int elapsedDays(Trigger trigger);
 
     void serialise(List<Trigger> list);
+
+    void serialise(Trigger trigger);
 }
 

@@ -4,16 +4,12 @@ import com.ib.client.Contract;
 import com.ib.controller.NewContract;
 import com.ib.controller.Position;
 import com.tvmresearch.lotus.broker.Broker;
-import com.tvmresearch.lotus.broker.OpenOrder;
 import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.InvestmentDao;
-import com.tvmresearch.lotus.db.model.InvestmentDaoImpl;
-import org.junit.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by horse on 7/04/2016.
@@ -30,7 +26,7 @@ public class LotusTest {
         }
 
         @Override
-        public boolean buy(Investment investment) {
+        public void buy(Investment investment) {
             return false;
         }
 
@@ -40,7 +36,7 @@ public class LotusTest {
         }
 
         @Override
-        public List<Position> getOpenPositions() {
+        public Collection<Position> getOpenPositions() {
             return openPositions;
         }
 

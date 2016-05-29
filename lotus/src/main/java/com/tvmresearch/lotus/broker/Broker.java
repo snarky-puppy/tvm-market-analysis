@@ -4,7 +4,7 @@ import com.ib.controller.Position;
 import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.InvestmentDao;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Broker interface
@@ -15,7 +15,7 @@ public interface Broker {
 
     double getAvailableFunds();
 
-    boolean buy(Investment investment);
+    void buy(Investment investment);
 
     void sell(Investment investment);
 
@@ -25,7 +25,7 @@ public interface Broker {
      *
      * @return list of filled positions
      */
-    List<Position> getOpenPositions();
+    Collection<Position> getOpenPositions();
 
 
     /**
@@ -36,4 +36,6 @@ public interface Broker {
     double getLastClose(Investment investment);
 
     void updateHistory(InvestmentDao dao, Investment investment);
+
+    double getExchangeRate();
 }

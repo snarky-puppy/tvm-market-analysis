@@ -1,10 +1,10 @@
-DROP DATABASE IF EXISTS lotus;
-CREATE DATABASE lotus;
-USE lotus;
+DROP DATABASE IF EXISTS lotus2;
+CREATE DATABASE lotus2;
+USE lotus2;
 
-DROP USER IF EXISTS lotus;
-CREATE USER lotus IDENTIFIED BY 'lotus';
-GRANT ALL PRIVILEGES ON lotus.* TO lotus@localhost IDENTIFIED BY 'lotus';
+DROP USER IF EXISTS lotus2;
+CREATE USER lotus2 IDENTIFIED BY 'lotus2';
+GRANT ALL PRIVILEGES ON lotus2.* TO lotus2@localhost IDENTIFIED BY 'lotus2';
 
 CREATE TABLE triggers (
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -63,10 +63,11 @@ CREATE TABLE investments (
 	cmp_total DOUBLE(12,2) NOT NULL,
 
 	/* IB state */
-	con_id BIGINT NOT NULL, -- contract
-	perm_id BIGINT NOT NULL, -- order
+	order_id BIGINT NOT NULL,
+	buy_perm_id BIGINT NOT NULL,
+	sell_perm_id BIGINT,
 
-	state ENUM('NEW', 'BUY', 'FILLED', 'SELL', 'COMPLETE', 'ERROR') NOT NULL DEFAULT 'NEW',
+	state ENUM('UNCONFIRMED', 'BUYPRESUBMITTED', 'BUY', 'BUYFILLED', 'SELLPRESUBMITTED', 'SELL', 'SELLFILLED', 'ERROR') NOT NULL DEFAULT 'UNCONFIRMED',
 
 	/* buying */
 
@@ -109,9 +110,6 @@ CREATE TABLE investments (
 	error_msg VARCHAR(265),
 
 	UNIQUE KEY order_idx (con_id, perm_id),
-
-	FOREIGN KEY (trigger_id)
-		REFERENCES triggers(id)
 
 	FOREIGN KEY (trigger_id)
 		REFERENCES triggers(id)

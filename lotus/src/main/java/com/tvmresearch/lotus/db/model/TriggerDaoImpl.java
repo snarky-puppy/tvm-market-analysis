@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -209,5 +210,10 @@ public class TriggerDaoImpl implements TriggerDao {
             }
             Database.close(connection);
         }
+    }
+
+    @Override
+    public void serialise(Trigger trigger) {
+        serialise(Arrays.asList(trigger));
     }
 }
