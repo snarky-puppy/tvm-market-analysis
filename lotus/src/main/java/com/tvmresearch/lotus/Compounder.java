@@ -34,17 +34,13 @@ public class Compounder {
     public boolean fundsAvailable() { return nextInvestmentAmount() <= cashUSD; }
 
 
-    /**
-     * Calculate compounded amount. Can be negative!
-     * Also updates the various counters so that the amount available for compounding decreases.
-     *
-     * @return compounded value
-     */
-    private double calculateCompoundAmount() {
-        double rv = 0.0;
+    public boolean checkout(Investment investment) {
 
+        state.load();
+
+        investment.cmpMin = state.minInvest;
         if(state.compoundTally > 0) {
-            rv = state.tallySlice;
+            investment.cmpVal = state.tallySlice;
             state.tallySliceCnt++;
             state.compoundTally -= state.tallySlice;
 
@@ -53,25 +49,6 @@ public class Compounder {
                 state.tallySliceCnt = 0;
                 state.tallySlice = 0.0;
             }
-
-            state.updateCompoundTally(state.compoundTally);
-        } else {
-            rv = 0;
-        }
-
-        double total = state.minInvest + rv;
-        double breach = cashUSD - total;
-        if(breach < 0) {
-            // this will give us a negative compound amount, but should mean that we still get a trade in.
-            rv -= breach;
-        }
-        return rv;
-    }
-
-    public boolean checkout(Investment investment) {
-
-        investment.cmpMin = state.minInvest;
-        if(state.compoundTally > 0) {
 
         }
         investment.cmpVal = calculateCompoundAmount();
@@ -99,6 +76,8 @@ public class Compounder {
     }
 
     public void cancelCheckout(Investment investment) {
+        state.load();
+
         state.compoundTally += investment.cmpVal;
         cashUSD += investment.cmpMin;
     }
@@ -107,12 +86,6 @@ public class Compounder {
         BigDecimal bd = new BigDecimal(num);
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
-    }
-
-    public void checkin(Investment investment) {
-        state.compoundTally += investment.cmpVal;
-        // TODO: fix the above
-        cashUSD += investment.cmpTotal;
     }
 
     public void setFxRate(double fxRate) {
@@ -125,7 +98,7 @@ public class Compounder {
     }
 
     public void addProfit(double profit) {
-        state.updateCompoundTally(state.compoundTally + profit);
+        state.addProfit(profit);
     }
 
     //public void onPartialFill

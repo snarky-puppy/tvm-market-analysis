@@ -34,6 +34,8 @@ CREATE TABLE compounder_state (
 	start_bank DOUBLE(18,2) NOT NULL,
 	min_invest DOUBLE(18,2) NOT NULL,
 	compound_tally DOUBLE(18,2) NOT NULL,
+	tally_slice DOUBLE(18,2) NOT NULL,
+	tally_slice_cnt INTEGER NOT NULL,
 	spread INTEGER NOT NULL,
 	invest_pc INTEGER NOT NULL,
 
@@ -63,7 +65,8 @@ CREATE TABLE investments (
 	cmp_total DOUBLE(12,2) NOT NULL,
 
 	/* IB state */
-	order_id BIGINT NOT NULL,
+	buy_order_id BIGINT NOT NULL,
+	sell_order_id BIGINT NOT NULL,
 	buy_perm_id BIGINT NOT NULL,
 	sell_perm_id BIGINT,
 

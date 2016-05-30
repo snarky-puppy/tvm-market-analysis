@@ -1,6 +1,5 @@
 package com.tvmresearch.lotus;
 
-import com.ib.controller.Position;
 import com.tvmresearch.lotus.broker.Broker;
 import com.tvmresearch.lotus.broker.InteractiveBroker;
 import com.tvmresearch.lotus.db.model.*;
@@ -11,13 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Program entry point
@@ -34,7 +29,7 @@ public class Lotus {
     private Compounder compounder;
     private BlockingQueue<Object> eventQueue = new ArrayBlockingQueue(1024);
     private ImportTriggers importTriggers = new ImportTriggers();
-    private LocalTime lastCheck = null;
+    private LocalTime fxUpdateTS = null;
 
     private static volatile boolean running = true;
 
@@ -51,10 +46,12 @@ public class Lotus {
 
     private void mainLoop() {
 
+        LocalTime fxCheck = LocalTime.now();
+
         try {
             broker = new InteractiveBroker(eventQueue);
             compounder = new Compounder(broker.getAvailableFunds(), broker.getExchangeRate());
-            lastCheck = LocalTime.now(); // update FX check timestamp since we just fetched it
+            fxUpdateTS = LocalTime.now(); // update FX check timestamp since we just fetched it
 
             // threads....
             //  1. ensure ibgateway is running
@@ -78,8 +75,8 @@ public class Lotus {
 
     private void updateFX() {
         // update every hour should be enough
-        if(lastCheck == null || lastCheck.plusHours(1).isAfter(LocalTime.now())) {
-            lastCheck = LocalTime.now();
+        if(fxUpdateTS == null || fxUpdateTS.plusHours(1).isAfter(LocalTime.now())) {
+            fxUpdateTS = LocalTime.now();
             double fx = broker.getExchangeRate();
             compounder.setFxRate(fx);
         }

@@ -45,8 +45,8 @@ public class InteractiveBroker implements Broker {
     }
 
 
-    public InteractiveBroker(BlockingQueue<Object> outputQueue) throws InterruptedException {
-        this.outputQueue = outputQueue;
+    public InteractiveBroker(BlockingQueue<Object> _outputQueue) throws InterruptedException {
+        this.outputQueue = _outputQueue;
 
         Semaphore semaphore = new Semaphore(1);
         semaphore.acquire();
@@ -95,6 +95,7 @@ public class InteractiveBroker implements Broker {
                 logger.info("show: "+string);
             }
         }, new IBLogger(), new IBLogger());
+
 
         controller.connect("localhost", 4002, 2);
         semaphore.acquire();

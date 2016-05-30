@@ -9,6 +9,7 @@ import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Position record
@@ -17,6 +18,8 @@ import java.util.List;
  */
 public class Investment {
     public Trigger trigger;
+
+    public Map<LocalDate, Double> history;
 
     public Integer id = null;
 
@@ -76,6 +79,7 @@ public class Investment {
         this.trigger = trigger;
         this.buyDate = LocalDate.now();
         this.state = State.NEW;
+        this.history = history;
     }
 
 
