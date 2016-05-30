@@ -7,6 +7,8 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 
 
 import java.sql.*;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Database interface
@@ -100,5 +102,19 @@ public class Database {
     public static void close(ResultSet rs, PreparedStatement stmt) {
         close(rs);
         close(stmt);
+    }
+
+    public static String generateInsertParams(String[] fields) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("(");
+        sb.append(String.join(",", fields));
+        sb.append(") VALUES(");
+        sb.append(generateParams(fields.length));
+        sb.append(")");
+        return sb.toString();
+    }
+
+    public static String generateInsertSQL(String table, String[] fields) {
+        return "INSERT INTO "+table+generateInsertParams(fields);
     }
 }

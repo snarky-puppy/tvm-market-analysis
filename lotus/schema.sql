@@ -33,6 +33,7 @@ CREATE TABLE compounder_state (
 
 	start_bank DOUBLE(18,2) NOT NULL,
 	min_invest DOUBLE(18,2) NOT NULL,
+	cash DOUBLE(18,2) NOT NULL,
 	compound_tally DOUBLE(18,2) NOT NULL,
 	tally_slice DOUBLE(18,2) NOT NULL,
 	tally_slice_cnt INTEGER NOT NULL,

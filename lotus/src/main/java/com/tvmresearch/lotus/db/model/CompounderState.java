@@ -21,22 +21,22 @@ public class CompounderState {
 
     public double startBank;
     public double minInvest;
+    public double cash;
     public double compoundTally;
     public double tallySlice;
     public int tallySliceCnt;
     public int spread;
     public int investPercent;
 
-    public CompounderState(double cashBalance) {
+    public CompounderState(double brokerCash) {
+        this.startBank = brokerCash;
+        this.cash = brokerCash;
         if(!load()) {
-            initState(cashBalance);
+            initState();
         }
-        // Tally slice is recalculated daily, since I(nvestments) always before W(ithdrawals)
-        //tallySlice = compoundTally / spread;
-        //tallySliceCnt = 0;
 
-        logger.info(String.format("start_bank=%.2f min_invest=%.2f compound_tally=%.2f tally_slice=%.2f",
-                startBank, minInvest, compoundTally, tallySlice));
+        logger.info(String.format("start_bank=%.2f cash=%.2f min_invest=%.2f compound_tally=%.2f tally_slice=%.2f, tally_slice_cnt=%d",
+                startBank, cash, minInvest, compoundTally, tallySlice, tallySliceCnt));
     }
 
     /**
@@ -65,14 +65,20 @@ public class CompounderState {
         }
     }
 
-    /**
-     * Update compound tally value after processing Withdrawals.
-     *
-     * @param compoundTally
-     */
-    public void addProfit(double compoundTally) {
+    public void save() {
+        if(isStateSaved())
+            update();
+        else {
+            startBank = cash;
+            initState();
+        }
+
+    }
+
+    private void update() {
         final String sql = "UPDATE compounder_state " +
-                "SET compound_tally = compound_tally + ?, " +
+                "SET cash = ?, " +
+                "    compound_tally = compound_tally + ?, " +
                 "    tally_slice = 0, " +
                 "    tally_slice_cnt = 0 " +
                 "WHERE dt = ?";
@@ -81,8 +87,12 @@ public class CompounderState {
         try {
             connection = Database.connection();
             stmt = connection.prepareStatement(sql);
-            stmt.setDouble(1, compoundTally);
-            stmt.setDate(2, java.sql.Date.valueOf(firstOfThisMonth()));
+            int idx = 1;
+            stmt.setDouble(idx++, cash);
+            stmt.setDouble(idx++, compoundTally);
+            stmt.setDouble(idx++, tallySlice);
+            stmt.setInt(idx++, tallySliceCnt);
+            stmt.setDate(idx, java.sql.Date.valueOf(firstOfThisMonth()));
             stmt.execute();
 
         } catch (SQLException e) {
@@ -92,27 +102,42 @@ public class CompounderState {
         }
     }
 
-    private void initState(double todaysFunds) {
-        startBank = todaysFunds;
+    private void initState() {
         investPercent = Configuration.MIN_INVEST_PC;
         spread = Configuration.SPREAD;
         minInvest = ((startBank/100)*investPercent);
         compoundTally = previousCompoundTally();
+        tallySlice = compoundTally / spread;
+        tallySliceCnt = 0;
 
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
-            final String sql = "INSERT INTO compounder_state(dt, start_bank, min_invest, compound_tally, spread, invest_pc) " +
-                    "VALUES(?, ?, ?, ?, ?, ?)";
+            final String sql = Database.generateInsertSQL("compounder_state", new String[] {
+                            "dt",
+                            "start_bank",
+                            "min_invest",
+                            "cash",
+                            "compound_tally",
+                            "tally_slice",
+                            "tally_slice_cnt",
+                            "spread",
+                            "invest_pc"});
+
+
             connection = Database.connection();
             stmt = connection.prepareStatement(sql);
 
-            stmt.setDate(1, java.sql.Date.valueOf(firstOfThisMonth()));
-            stmt.setDouble(2, startBank);
-            stmt.setDouble(3, minInvest);
-            stmt.setDouble(4, compoundTally);
-            stmt.setInt(5, spread);
-            stmt.setInt(6, investPercent);
+            int idx = 1;
+            stmt.setDate(idx++, java.sql.Date.valueOf(firstOfThisMonth()));
+            stmt.setDouble(idx++, startBank);
+            stmt.setDouble(idx++, minInvest);
+            stmt.setDouble(idx++, cash);
+            stmt.setDouble(idx++, compoundTally);
+            stmt.setDouble(idx++, tallySlice);
+            stmt.setInt(idx++, tallySliceCnt);
+            stmt.setInt(idx++, spread);
+            stmt.setInt(idx, investPercent);
 
             stmt.execute();
 
@@ -124,7 +149,7 @@ public class CompounderState {
         }
     }
 
-    public boolean load() {
+    private boolean isStateSaved() {
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -132,18 +157,50 @@ public class CompounderState {
         try {
             connection = Database.connection();
             stmt = connection.prepareStatement(
-                    "SELECT start_bank, min_invest, compound_tally, tally_slice, tally_slice_cnt, spread, invest_pc " +
+                    "SELECT COUNT(*) FROM compounder_state WHERE dt = ?");
+            stmt.setDate(1, java.sql.Date.valueOf(firstOfThisMonth()));
+            rs = stmt.executeQuery();
+            if(rs.next()) {
+                return true;
+            } else
+                return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new LotusException(e);
+        } finally {
+            Database.close(rs, stmt, connection);
+        }
+    }
+
+    private boolean load() {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Database.connection();
+            stmt = connection.prepareStatement(
+                    "SELECT start_bank, " +
+                            " min_invest," +
+                            " cash," +
+                            " compound_tally," +
+                            " tally_slice," +
+                            " tally_slice_cnt," +
+                            " spread," +
+                            " invest_pc " +
                     "FROM compounder_state WHERE dt = ?");
             stmt.setDate(1, java.sql.Date.valueOf(firstOfThisMonth()));
             rs = stmt.executeQuery();
             if(rs.next()) {
-                startBank = rs.getDouble(1);
-                minInvest = rs.getDouble(2);
-                compoundTally = rs.getDouble(3);
-                tallySlice = rs.getDouble(4);
-                tallySliceCnt = rs.getInt(5);
-                spread = rs.getInt(6);
-                investPercent = rs.getInt(7);
+                int idx = 1;
+                startBank = rs.getDouble(idx++);
+                minInvest = rs.getDouble(idx++);
+                cash = rs.getDouble(idx++);
+                compoundTally = rs.getDouble(idx++);
+                tallySlice = rs.getDouble(idx++);
+                tallySliceCnt = rs.getInt(idx++);
+                spread = rs.getInt(idx++);
+                investPercent = rs.getInt(idx);
                 return true;
             } else
                 return false;

@@ -78,7 +78,8 @@ public class Lotus {
         if(fxUpdateTS == null || fxUpdateTS.plusHours(1).isAfter(LocalTime.now())) {
             fxUpdateTS = LocalTime.now();
             double fx = broker.getExchangeRate();
-            compounder.setFxRate(fx);
+            double cash = broker.getAvailableFunds();
+            compounder.setFundRate(cash, fx);
         }
     }
 

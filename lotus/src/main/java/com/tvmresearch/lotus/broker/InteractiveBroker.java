@@ -83,7 +83,7 @@ public class InteractiveBroker implements Broker {
             public void message(int id, int errorCode, String errorMsg) {
                 // 399: Warning: your order will not be placed at the exchange until 2016-03-28 09:30:00 US/Eastern
                 if(errorCode != 399)
-                    logger.error(String.format("id=%d, errorCode=%d, msg=%s", id, errorCode, errorMsg));
+                    logger.error(String.format("message: id=%d, errorCode=%d, msg=%s", id, errorCode, errorMsg));
                 if(errorCode < 1100 && errorCode != 399 && errorCode != 202) {
                     System.exit(1);
                     //throw new LotusException(new TWSException(id, errorCode, errorMsg));
@@ -105,9 +105,11 @@ public class InteractiveBroker implements Broker {
             @Override
             public void accountValue(String account, String key, String value, String currency) {
                 if(key.compareTo("TotalCashValue") == 0 && currency.compareTo("AUD") == 0) {
+                    logger.info("accountValue: TotalCashValue="+value);
                     availableFunds = Double.valueOf(value);
                 }
                 if(key.compareTo("ExchangeRate") == 0 && currency.compareTo("USD") == 0) {
+                    logger.info("accountValue: ExchangeRate="+value);
                     exchangeRate = Double.valueOf(value);
                 }
             }
@@ -220,7 +222,6 @@ public class InteractiveBroker implements Broker {
     public void disconnect() {
         controller.disconnect();
     }
-
 
     @Override
     public void buy(Investment investment) {

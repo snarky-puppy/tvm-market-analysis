@@ -17,26 +17,22 @@ import java.time.LocalDate;
  */
 public class Compounder {
 
-    private double cashAUD;
-    private double cashUSD;
     private final CompounderState state;
     private double fxRate;
 
     public Compounder(double cash, double fxRate) {
-        this.cashAUD = cash;
-        setFxRate(fxRate);
-        state = new CompounderState(cash);
+        this.fxRate = fxRate;
+
+        // initialise things if they don't exist
+        state = new CompounderState(cash / fxRate);
     }
 
     public double nextInvestmentAmount() {
         return state.minInvest + (state.compoundTally > 0 ? state.tallySlice : 0);
     }
-    public boolean fundsAvailable() { return nextInvestmentAmount() <= cashUSD; }
+    public boolean fundsAvailable() { return nextInvestmentAmount() <= state.cash; }
 
-
-    public boolean checkout(Investment investment) {
-
-        state.load();
+    public boolean apply(Investment investment) {
 
         investment.cmpMin = state.minInvest;
         if(state.compoundTally > 0) {
@@ -51,7 +47,6 @@ public class Compounder {
             }
 
         }
-        investment.cmpVal = calculateCompoundAmount();
         investment.cmpTotal = investment.cmpMin + investment.cmpVal;
 
         if(investment.cmpTotal < 0) {
@@ -75,8 +70,7 @@ public class Compounder {
         return true;
     }
 
-    public void cancelCheckout(Investment investment) {
-        state.load();
+    public void cancel(Investment investment) {
 
         state.compoundTally += investment.cmpVal;
         cashUSD += investment.cmpMin;
@@ -88,17 +82,18 @@ public class Compounder {
         return bd.doubleValue();
     }
 
-    public void setFxRate(double fxRate) {
-        this.fxRate = fxRate;
-        cashUSD = cashAUD / fxRate;
-    }
-
     public double getFxRate() {
         return fxRate;
     }
 
-    public void addProfit(double profit) {
+    public void processProfit(Investment investment) {
         state.addProfit(profit);
+    }
+
+    public void updateCashAndRate(double cash, double fx) {
+        this.fxRate = fx;
+        state.cash = cash / fx;
+        state.save();
     }
 
     //public void onPartialFill
