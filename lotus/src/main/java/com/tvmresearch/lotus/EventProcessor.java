@@ -20,12 +20,13 @@ import java.util.List;
 public class EventProcessor {
 
     private static final Logger logger = LogManager.getLogger(EventProcessor.class);
-
+/*
     private final Broker broker;
     private final Compounder compounder;
     private final InvestmentDao investmentDao;
     private final TriggerDao triggerDao;
-
+    */
+/*
     public EventProcessor(Broker broker, Compounder compounder, TriggerDao triggerDao, InvestmentDao investmentDao) {
         this.broker = broker;
         this.compounder = compounder;
@@ -159,4 +160,5 @@ public class EventProcessor {
 
         return false;
     }
+    */
 }

@@ -1,5 +1,6 @@
 package com.tvmresearch.lotus.db.model;
 
+import com.mysql.fabric.xmlrpc.base.Data;
 import com.mysql.jdbc.*;
 import com.mysql.jdbc.Statement;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
@@ -22,6 +23,41 @@ import java.util.List;
  */
 public class InvestmentDaoImpl implements InvestmentDao {
     private static final Logger logger = LogManager.getLogger(InvestmentDaoImpl.class);
+
+    static String insertSQL;
+    static String updateSQL;
+
+    static {
+        final String[] fields = {
+                "trigger_id",
+                "cmp_min",
+                "cmp_val",
+                "cmp_total",
+                "buy_order_id",
+                "sell_order_id",
+                "buy_perm_id",
+                "sell_perm_id",
+                "con_id",
+                "state",
+                "buy_limit",
+                "buy_dt",
+                "qty",
+                "qty_val",
+                "qty_filled",
+                "qty_filled_val",
+                "sell_limit",
+                "sell_dt_limit",
+                "sell_price",
+                "sell_dt_start",
+                "sell_dt_end",
+                "real_pnl",
+                "error_code",
+                "error_msg"
+        };
+
+        insertSQL = Database.generateInsertSQL("investments", fields);
+        updateSQL = Database.generateUpdateSQL("investments", "id", fields);
+    }
 
     /*
     @Override
@@ -107,28 +143,20 @@ public class InvestmentDaoImpl implements InvestmentDao {
 
     @Override
     public void serialise(Investment investment) {
+
+
         ResultSet rs = null;
         PreparedStatement stmt = null;
         Connection connection = Database.connection();
 
-        logger.debug(String.format("%s/%s: %d/%d", investment.trigger.symbol, investment.trigger.exchange,
-                investment.conId, investment.permId));
+        logger.debug(String.format("symbol=%s exchange=%s: conId=%d", investment.trigger.symbol, investment.trigger.exchange,
+                investment.conId));
 
         try {
             if (investment.id == null) {
-                final String sql = "INSERT INTO investments " +
-                        "(trigger_id, cmp_min, cmp_val, cmp_total, con_id, perm_id, state, buy_limit, buy_dt, " +
-                        "qty, qty_val, qty_filled, qty_filled_val, sell_limit, sell_dt_limit, " +
-                        "sell_price, sell_dt_start, sell_dt_end, real_pnl, error_code, error_msg) " +
-                        "VALUES("+Database.generateParams(21)+")";
-                stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                stmt = connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
             } else {
-                final String sql = "UPDATE investments " +
-                        "SET    trigger_id=?, cmp_min=?, cmp_val=?, cmp_total=?, con_id=?, perm_id=?, state=?, buy_limit=?, buy_dt=?, " +
-                        "qty=?, qty_val=?, qty_filled=?, qty_filled_val=?, sell_limit=?, sell_dt_limit=?, " +
-                        "sell_price=?, sell_dt_start=?, sell_dt_end=?, real_pnl=?, error_code=?, error_msg=? " +
-                        "WHERE  id = ?";
-                stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                stmt = connection.prepareStatement(updateSQL, Statement.RETURN_GENERATED_KEYS);
             }
 
             int idx = 1;
@@ -139,8 +167,12 @@ public class InvestmentDaoImpl implements InvestmentDao {
             stmt.setDouble(idx++, investment.cmpVal);
             stmt.setDouble(idx++, investment.cmpTotal);
 
+            stmt.setLong(idx++, investment.buyOrderId);
+            stmt.setLong(idx++, investment.sellOrderId);
+            stmt.setLong(idx++, investment.buyPermId);
+            stmt.setLong(idx++, investment.sellPermId);
             stmt.setLong(idx++, investment.conId);
-            stmt.setLong(idx++, investment.permId);
+
             stmt.setString(idx++, investment.state.name());
 
             stmt.setDouble(idx++, investment.buyLimit);
@@ -159,7 +191,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
             else
                 stmt.setDouble(idx++, investment.qtyFilledValue);
 
-            /* selling */
+            //* selling
             stmt.setDouble(idx++, investment.sellLimit);
             stmt.setDate(idx++, java.sql.Date.valueOf(investment.sellDateLimit));
             if(investment.sellPrice == null)
@@ -193,7 +225,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
                 stmt.setString(idx++, investment.errorMsg);
 
             if (investment.id != null)
-                stmt.setInt(idx++, investment.id);
+                stmt.setInt(idx, investment.id);
 
             stmt.executeUpdate();
 
@@ -208,7 +240,6 @@ public class InvestmentDaoImpl implements InvestmentDao {
         } finally {
             Database.close(rs, stmt, connection);
         }
-
     }
 
     @Override
@@ -242,11 +273,15 @@ public class InvestmentDaoImpl implements InvestmentDao {
         investment.cmpVal = rs.getDouble("cmp_val");
         investment.cmpTotal = rs.getDouble("cmp_total");
 
+        investment.buyOrderId = rs.getLong("buy_order_id");
+        investment.sellOrderId = rs.getLong("sell_order_id");
+        investment.buyPermId = rs.getLong("buy_perm_id");
+        investment.sellPermId = rs.getLong("sell_perm_id");
         investment.conId = rs.getLong("con_id");
-        investment.permId = rs.getLong("perm_id");
+
         investment.state = Investment.State.valueOf(rs.getString("state"));
 
-            /* buying */
+        //* buying
         investment.buyLimit = rs.getDouble("buy_limit");
         investment.buyDate = rs.getDate("buy_dt").toLocalDate();
         investment.qty = rs.getInt("qty");
@@ -260,7 +295,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
         if(rs.wasNull())
             investment.qtyFilledValue = null;
 
-            /* selling */
+        //* selling
         investment.sellLimit = rs.getDouble("sell_limit");
         investment.sellDateLimit = rs.getDate("sell_dt_limit").toLocalDate();
 

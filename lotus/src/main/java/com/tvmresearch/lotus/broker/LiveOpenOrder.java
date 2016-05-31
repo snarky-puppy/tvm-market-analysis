@@ -127,6 +127,6 @@ orderState=NewOrderState{m_status=PreSubmitted,
  m_warningText='null'}
 
          */
-        investmentDao.find(order.orderId(), contract.symbol());
+        //investmentDao.find(order.orderId(), contract.symbol());
     }
 }

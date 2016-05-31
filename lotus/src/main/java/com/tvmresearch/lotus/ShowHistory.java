@@ -5,8 +5,6 @@ import com.ib.controller.ApiController;
 import com.ib.controller.Bar;
 import com.ib.controller.Types;
 import com.tvmresearch.lotus.broker.Broker;
-import com.tvmresearch.lotus.broker.ConnectionHandler;
-import com.tvmresearch.lotus.broker.HistoricalDataHandler;
 import com.tvmresearch.lotus.broker.InteractiveBroker;
 import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.InvestmentDao;
@@ -34,7 +32,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by horse on 21/05/2016.
  */
 public class ShowHistory {
-
+/*
 
     public static class IBLogger implements ApiConnection.ILogger {
         @Override
@@ -120,4 +118,5 @@ public class ShowHistory {
             controller.disconnect();
         }
     }
+    */
 }

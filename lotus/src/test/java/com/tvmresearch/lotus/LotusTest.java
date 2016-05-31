@@ -16,6 +16,7 @@ import java.util.List;
  */
 public class LotusTest {
 
+    /*
     class TestUpdatePositionsBroker implements Broker {
 
         List<Position> openPositions = new ArrayList<>();
@@ -63,6 +64,7 @@ public class LotusTest {
         Position p = new Position(contract, "ACC", position, marketPrice, 0, 0, 0, 0);
         return p;
     }
+    */
 
 
     @org.junit.Test

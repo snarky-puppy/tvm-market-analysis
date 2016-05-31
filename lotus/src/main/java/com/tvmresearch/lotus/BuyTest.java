@@ -83,7 +83,7 @@ public class BuyTest {
                 public void show(String string) {
                     log("show: "+string);
                 }
-            }, new ShowExecutions.IBLogger(), new ShowExecutions.IBLogger());
+            }, new IBLogger(), new IBLogger());
 
             controller.connect("localhost", 4002, 1);
 
@@ -95,12 +95,12 @@ public class BuyTest {
             InvestmentDao dao = new InvestmentDaoImpl();
 
             Trigger trigger = new Trigger();
-            trigger.symbol = "AAPL";
-            trigger.exchange = "NASDAQ";
+            trigger.symbol = "A";
+            trigger.exchange = "NYSE";
             trigger.date = LocalDate.now();
             trigger.rejectReason = OK;
             Investment investment = new Investment(trigger);
-            investment.qty = 1;
+            investment.qty = 100;
             investment.qtyFilled = 1;
 
             NewContract contract = investment.createNewContract();
@@ -236,7 +236,7 @@ public class BuyTest {
             Thread.sleep(30000);
             log("-- /little sleep --");
 
-            controller.cancelOrder(order.orderId());
+            //controller.cancelOrder(order.orderId());
 
             System.out.println("--------------- SLEEPING (forever) --------------------------------");
             while(true) {

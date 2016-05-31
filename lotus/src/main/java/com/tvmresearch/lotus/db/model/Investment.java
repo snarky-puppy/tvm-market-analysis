@@ -34,6 +34,8 @@ public class Investment {
     public long buyPermId;
     public long sellPermId;
 
+    public long conId;
+
     public State state;
 
     /* buying */

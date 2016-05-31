@@ -9,6 +9,7 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Database interface
@@ -116,5 +117,15 @@ public class Database {
 
     public static String generateInsertSQL(String table, String[] fields) {
         return "INSERT INTO "+table+generateInsertParams(fields);
+    }
+
+    public static String generateUpdateSQL(String table, String idField, String[] fields) {
+        return "UPDATE "+table+" SET " + generateUpdateParams(fields)+" WHERE "+idField+" = ?";
+    }
+
+    private static String generateUpdateParams(String[] fields) {
+        return Arrays.stream(fields)
+                .map(s -> s + "=?")
+                .collect(Collectors.joining(", "));
     }
 }

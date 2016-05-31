@@ -78,6 +78,7 @@ CREATE TABLE investments (
 	sell_order_id BIGINT,
 	buy_perm_id BIGINT,
 	sell_perm_id BIGINT,
+	con_id INTEGER NOT NULL,
 
 	state ENUM(
 		'UNCONFIRMED', 

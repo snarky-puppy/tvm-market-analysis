@@ -4,7 +4,6 @@ import com.ib.client.CommissionReport;
 import com.ib.client.Execution;
 import com.ib.client.ExecutionFilter;
 import com.ib.controller.*;
-import com.tvmresearch.lotus.broker.ConnectionHandler;
 import com.tvmresearch.lotus.broker.InteractiveBroker;
 import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.InvestmentDao;
@@ -31,7 +30,7 @@ import java.util.concurrent.Semaphore;
  */
 public class ShowExecutions {
 
-
+/*
     public static class IBLogger implements ApiConnection.ILogger {
         @Override
         public void log(String string) {
@@ -137,4 +136,5 @@ public class ShowExecutions {
             controller.disconnect();
         }
     }
+    */
 }
