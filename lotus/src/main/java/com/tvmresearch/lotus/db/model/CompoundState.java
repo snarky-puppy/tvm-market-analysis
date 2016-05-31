@@ -1,7 +1,6 @@
 package com.tvmresearch.lotus.db.model;
 
 import com.tvmresearch.lotus.*;
-import com.tvmresearch.lotus.broker.Broker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,8 +15,8 @@ import java.time.LocalDate;
  *
  * Created by horse on 23/03/2016.
  */
-public class CompounderState {
-    private static final Logger logger = LogManager.getLogger(CompounderState.class);
+public class CompoundState {
+    private static final Logger logger = LogManager.getLogger(CompoundState.class);
 
     public double startBank;
     public double minInvest;
@@ -28,7 +27,7 @@ public class CompounderState {
     public int spread;
     public int investPercent;
 
-    public CompounderState(double brokerCash) {
+    public CompoundState(double brokerCash) {
         this.startBank = brokerCash;
         this.cash = brokerCash;
         if(!load()) {
@@ -72,7 +71,6 @@ public class CompounderState {
             startBank = cash;
             initState();
         }
-
     }
 
     private void update() {
@@ -106,7 +104,8 @@ public class CompounderState {
         investPercent = Configuration.MIN_INVEST_PC;
         spread = Configuration.SPREAD;
         minInvest = ((startBank/100)*investPercent);
-        compoundTally = previousCompoundTally();
+        if(compoundTally == 0.0)
+            compoundTally = previousCompoundTally();
         tallySlice = compoundTally / spread;
         tallySliceCnt = 0;
 
@@ -160,9 +159,9 @@ public class CompounderState {
                     "SELECT COUNT(*) FROM compounder_state WHERE dt = ?");
             stmt.setDate(1, java.sql.Date.valueOf(firstOfThisMonth()));
             rs = stmt.executeQuery();
-            if(rs.next()) {
+            if(rs.next())
                 return true;
-            } else
+            else
                 return false;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -218,5 +217,11 @@ public class CompounderState {
 
     private LocalDate firstOfLastMonth() {
         return LocalDate.now().withDayOfMonth(1).minusMonths(1);
+    }
+
+    public void resetTally() {
+        compoundTally = 0.0;
+        tallySliceCnt = 0;
+        tallySlice = 0.0;
     }
 }

@@ -20,7 +20,7 @@ public class Configuration {
     public static final int MIN_INVEST_PC = 7;
 
     // buy limit is close price + 0.1 %
-    public static final double BUY_LIMIT_FACTOR = 1.01;
-    public static final double SELL_LIMIT_FACTOR = 1.10;
+    public static final double BUY_LIMIT_FACTOR = 1.001;
+    public static final double SELL_LIMIT_FACTOR = 1.101;
     public static int SELL_LIMIT_DAYS = 84;
 }

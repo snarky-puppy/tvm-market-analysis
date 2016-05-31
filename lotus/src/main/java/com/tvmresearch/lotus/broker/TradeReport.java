@@ -7,7 +7,7 @@ import com.ib.controller.NewContract;
 /**
  * Created by horse on 29/05/2016.
  */
-public class TradeReport {
+public class TradeReport  extends IBMessage {
     public final Execution execution;
     public final String tradeKey;
     public final NewContract contract;

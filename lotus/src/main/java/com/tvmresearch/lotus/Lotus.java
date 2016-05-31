@@ -1,15 +1,17 @@
 package com.tvmresearch.lotus;
 
-import com.tvmresearch.lotus.broker.Broker;
-import com.tvmresearch.lotus.broker.InteractiveBroker;
+import com.tvmresearch.lotus.broker.*;
 import com.tvmresearch.lotus.db.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.concurrent.*;
@@ -27,9 +29,11 @@ public class Lotus {
     private TriggerDao triggerDao;
     private InvestmentDao investmentDao;
     private Compounder compounder;
-    private BlockingQueue<Object> eventQueue = new ArrayBlockingQueue(1024);
+    private ArrayBlockingQueue<IBMessage> eventQueue = new ArrayBlockingQueue<>(1024);
     private ImportTriggers importTriggers = new ImportTriggers();
     private LocalTime fxUpdateTS = null;
+
+    private int buyOrderCount = 0;
 
     private static volatile boolean running = true;
 
@@ -79,7 +83,7 @@ public class Lotus {
             fxUpdateTS = LocalTime.now();
             double fx = broker.getExchangeRate();
             double cash = broker.getAvailableFunds();
-            compounder.setFundRate(cash, fx);
+            compounder.updateCashAndRate(cash, fx);
         }
     }
 
@@ -87,41 +91,40 @@ public class Lotus {
         importTriggers.importAll();
         List<Trigger> triggerList = triggerDao.getTodaysTriggers();
         for(Trigger trigger : triggerList) {
-            if(!validateTrigger(trigger)) {
+            if (!validateTrigger(trigger)) {
                 triggerDao.serialise(trigger);
                 continue;
             }
-
             Investment investment = new Investment(trigger);
 
+            if (!compounder.apply(investment)) {
+                logger.error("failed to apply compounding: " + investment);
+            } else {
 
+                investment.buyLimit = round(investment.trigger.price * Configuration.BUY_LIMIT_FACTOR);
+                investment.buyDate = LocalDate.now();
 
-            // create an investment for the trigger
-            /*
-            Investment investment = compounder.createInvestment(trigger);
+                investment.qty = (int) Math.floor(investment.cmpTotal / investment.buyLimit);
+                investment.qtyValue = investment.qty * investment.buyLimit;
 
-            if(investment == null)
-                return null;
+                investment.sellLimit = round(investment.trigger.price * Configuration.SELL_LIMIT_FACTOR);
 
-            if(!broker.buy(investment))
-                compounder.releaseInvestmentFunds(investment);
-    */
+                investment.sellDateLimit = investment.buyDate.plusDays(Configuration.SELL_LIMIT_DAYS);
 
+                broker.buy(investment);
+                buyOrderCount ++;
+            }
+            investmentDao.serialise(investment);
+            triggerDao.serialise(trigger);
         }
-
-        /*
-                .map(this::triggerInvestment)
-                .filter(i -> i != null)
-                .forEach(i -> {
-                    investmentDao.serialise(i);
-                    broker.updateHistory(investmentDao, i);
-                });
-        */
-        //triggerDao.serialise(triggerList);
     }
 
-    private void processEvents() {
+    private void processEvents() throws InterruptedException {
 
+        IBMessage msg = null;
+        while((msg = eventQueue.poll(1, TimeUnit.SECONDS)) != null) {
+            msg.process(compounder, triggerDao, investmentDao);
+        }
     }
 
     public boolean validateTrigger(Trigger trigger) {
@@ -247,4 +250,9 @@ public class Lotus {
     }
 */
 
+    private double round(double num) {
+        BigDecimal bd = new BigDecimal(num);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
 }

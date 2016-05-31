@@ -1,13 +1,9 @@
 package com.tvmresearch.lotus;
 
-import com.tvmresearch.lotus.db.model.CompounderState;
+import com.tvmresearch.lotus.db.model.CompoundState;
 import com.tvmresearch.lotus.db.model.Investment;
-import com.tvmresearch.lotus.db.model.Trigger;
-import com.tvmresearch.lotus.db.model.TriggerDao;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 /**
@@ -17,14 +13,16 @@ import java.time.LocalDate;
  */
 public class Compounder {
 
-    private final CompounderState state;
+    private static final Logger logger = LogManager.getLogger(Compounder.class);
+
+    private final CompoundState state;
     private double fxRate;
 
     public Compounder(double cash, double fxRate) {
         this.fxRate = fxRate;
 
         // initialise things if they don't exist
-        state = new CompounderState(cash / fxRate);
+        state = new CompoundState(cash / fxRate);
     }
 
     public double nextInvestmentAmount() {
@@ -34,60 +32,79 @@ public class Compounder {
 
     public boolean apply(Investment investment) {
 
+        logger.info(String.format("apply: min=%.2f cmp=%.2f slice=%.2f cnt=%d cash=%.2f",
+                state.minInvest, state.compoundTally, state.tallySlice, state.tallySliceCnt, state.cash));
+
         investment.cmpMin = state.minInvest;
-        if(state.compoundTally > 0) {
-            investment.cmpVal = state.tallySlice;
-            state.tallySliceCnt++;
-            state.compoundTally -= state.tallySlice;
-
-            if(state.tallySliceCnt == state.spread) {
-                state.compoundTally = 0.0;
-                state.tallySliceCnt = 0;
-                state.tallySlice = 0.0;
-            }
-
-        }
-        investment.cmpTotal = investment.cmpMin + investment.cmpVal;
-
-        if(investment.cmpTotal < 0) {
-            investment.trigger.rejectReason = Trigger.RejectReason.NOFUNDS;
-            investment.trigger.rejectData = investment.cmpTotal;
+        if(state.cash < state.minInvest) {
+            String msg = String.format("apply: not enough cash for minInvest: cash=%.2f minInvest=%.2f",
+                    state.cash, state.minInvest);
+            logger.error(msg);
+            investment.errorCode = 1;
+            investment.errorMsg = msg;
             return false;
         }
 
-        investment.buyLimit = round(investment.trigger.price * Configuration.BUY_LIMIT_FACTOR);
-        investment.buyDate = LocalDate.now();
+        if(state.compoundTally > 0) {
+            if(state.cash < (investment.cmpMin + state.tallySlice)) {
+                logger.error(String.format("apply: investment tally but not enough funds to cover it: " +
+                                "cash=%.2f investAmt=%.2f (tallySlice=%.2f + cmpMin=%.2f)",
+                        state.cash, (investment.cmpMin + state.tallySlice), state.tallySlice, investment.cmpMin));
+                state.resetTally();
+            } else {
+                investment.cmpVal = state.tallySlice;
+                state.tallySliceCnt++;
+                state.compoundTally -= state.tallySlice;
 
-        investment.qty = (int)Math.floor(investment.cmpTotal / investment.buyLimit);
-        investment.qtyValue = investment.qty * investment.buyLimit;
+                if (state.tallySliceCnt == state.spread) {
+                    state.resetTally();
+                }
+            }
+        } else
+            investment.cmpVal = 0.0;
+        investment.cmpTotal = investment.cmpMin + investment.cmpVal;
 
-        investment.sellLimit = round(investment.trigger.price * Configuration.SELL_LIMIT_FACTOR);
+        state.cash -= investment.cmpTotal;
 
-        investment.sellDateLimit = investment.buyDate.plusDays(Configuration.SELL_LIMIT_DAYS);
-
-        cashUSD -= investment.cmpTotal;
-
-        return true;
+        if(state.cash < 0) {
+            logger.error("apply: REAL BAD: cash < 0! resetting to 0!");
+            state.cash = 0;
+            state.save();
+            return false;
+        } else {
+            state.save();
+            return true;
+        }
     }
 
     public void cancel(Investment investment) {
-
         state.compoundTally += investment.cmpVal;
-        cashUSD += investment.cmpMin;
+        state.cash += investment.cmpMin;
+
+        // reverse tally
+        if(investment.cmpVal > 0) {
+            if(state.tallySliceCnt == 0) {
+                state.tallySliceCnt = state.spread - 1;
+                state.tallySlice = investment.cmpVal;
+            } else {
+                state.tallySliceCnt --;
+                // assume tallySlice still has a value
+            }
+        }
+        state.save();
     }
 
-    private double round(double num) {
-        BigDecimal bd = new BigDecimal(num);
-        bd = bd.setScale(2, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-    }
 
-    public double getFxRate() {
-        return fxRate;
-    }
+    public void processWithdrawal(Investment investment) {
+        double withdrawal = investment.sellPrice;
+        double profit = withdrawal - investment.qtyFilledValue;
 
-    public void processProfit(Investment investment) {
-        state.addProfit(profit);
+        state.compoundTally += profit;
+        state.cash += withdrawal;
+        state.tallySliceCnt = 0;
+        state.tallySlice = state.compoundTally / state.spread;
+
+        state.save();
     }
 
     public void updateCashAndRate(double cash, double fx) {
@@ -95,6 +112,4 @@ public class Compounder {
         state.cash = cash / fx;
         state.save();
     }
-
-    //public void onPartialFill
 }

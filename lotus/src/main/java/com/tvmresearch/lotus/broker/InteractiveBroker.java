@@ -27,7 +27,7 @@ public class InteractiveBroker implements Broker {
     private static final Logger logger = LogManager.getLogger(InteractiveBroker.class);
 
     private final ApiController controller;
-    private final BlockingQueue<Object> outputQueue;
+    private final BlockingQueue<IBMessage> outputQueue;
 
     // k=symbol
     private Map<String, Position> positions = new HashMap<>();
@@ -45,7 +45,7 @@ public class InteractiveBroker implements Broker {
     }
 
 
-    public InteractiveBroker(BlockingQueue<Object> _outputQueue) throws InterruptedException {
+    public InteractiveBroker(BlockingQueue<IBMessage> _outputQueue) throws InterruptedException {
         this.outputQueue = _outputQueue;
 
         Semaphore semaphore = new Semaphore(1);
@@ -232,6 +232,7 @@ public class InteractiveBroker implements Broker {
         NewOrder order = investment.createBuyOrder(account);
 
         controller.placeOrModifyOrder(contract, order, null);
+        investment.buyOrderId = order.orderId();
     }
 
     @Override
@@ -243,6 +244,7 @@ public class InteractiveBroker implements Broker {
         NewOrder order = investment.createSellOrder(account);
 
         controller.placeOrModifyOrder(contract, order, null);
+        investment.sellOrderId = order.orderId();
     }
 
     @Override

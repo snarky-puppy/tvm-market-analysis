@@ -29,8 +29,11 @@ public class Investment {
     public double cmpTotal;
 
     /* ib */
-    public long conId;
-    public long permId;
+    public long buyOrderId;
+    public long sellOrderId;
+    public long buyPermId;
+    public long sellPermId;
+
     public State state;
 
     /* buying */
@@ -68,17 +71,20 @@ public class Investment {
     public String errorMsg;
 
     public enum State {
-        NEW,
+        UNCONFIRMED,
+        BUYPRESUBMITTED,
         BUY,
-        FILLED,
+        BUYFILLED,
+        SELLPRESUBMITTED,
         SELL,
-        ERROR, COMPLETE
+        SELLFILLED,
+        ERROR
     }
 
     public Investment(Trigger trigger) {
         this.trigger = trigger;
         this.buyDate = LocalDate.now();
-        this.state = State.NEW;
+        this.state = State.UNCONFIRMED;
         this.history = history;
     }
 

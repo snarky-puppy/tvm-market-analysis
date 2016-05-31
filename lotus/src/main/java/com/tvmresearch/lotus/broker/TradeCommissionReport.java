@@ -5,7 +5,7 @@ import com.ib.client.CommissionReport;
 /**
  * Created by horse on 29/05/2016.
  */
-public class TradeCommissionReport {
+public class TradeCommissionReport extends IBMessage {
     private final String tradeKey;
     private final CommissionReport commissionReport;
 

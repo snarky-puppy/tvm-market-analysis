@@ -3,7 +3,7 @@ package com.tvmresearch.lotus.broker;
 /**
  * Created by horse on 29/05/2016.
  */
-public class LiveOrderError {
+public class LiveOrderError  extends IBMessage  {
     public int orderId;
     public int errorCode;
     public String errorMsg;

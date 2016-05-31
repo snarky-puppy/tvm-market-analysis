@@ -20,7 +20,15 @@ CREATE TABLE triggers (
 	avg_price DOUBLE(18,6) NOT NULL,
 
 	event BOOLEAN NOT NULL DEFAULT false,
-	reject_reason ENUM('NOTEVENT', 'NOTPROCESSED', 'ZSCORE', 'CATEGORY', 'VOLUME', 'INVESTAMT', 'NOFUNDS', 'OK') NOT NULL DEFAULT 'NOTEVENT',
+	reject_reason ENUM(
+		'NOTEVENT', 
+		'NOTPROCESSED', 
+		'ZSCORE', 
+		'CATEGORY', 
+		'VOLUME', 
+		'INVESTAMT', 
+		'NOFUNDS', 
+		'OK') NOT NULL DEFAULT 'NOTEVENT',
 	reject_data DOUBLE(18,6),
 
 	UNIQUE KEY trigger_uniq (exchange, symbol, trigger_date)
@@ -66,12 +74,20 @@ CREATE TABLE investments (
 	cmp_total DOUBLE(12,2) NOT NULL,
 
 	/* IB state */
-	buy_order_id BIGINT NOT NULL,
-	sell_order_id BIGINT NOT NULL,
-	buy_perm_id BIGINT NOT NULL,
+	buy_order_id BIGINT,
+	sell_order_id BIGINT,
+	buy_perm_id BIGINT,
 	sell_perm_id BIGINT,
 
-	state ENUM('UNCONFIRMED', 'BUYPRESUBMITTED', 'BUY', 'BUYFILLED', 'SELLPRESUBMITTED', 'SELL', 'SELLFILLED', 'ERROR') NOT NULL DEFAULT 'UNCONFIRMED',
+	state ENUM(
+		'UNCONFIRMED', 
+		'BUYPRESUBMITTED', 
+		'BUY', 
+		'BUYFILLED', 
+		'SELLPRESUBMITTED', 
+		'SELL', 
+		'SELLFILLED', 
+		'ERROR') NOT NULL DEFAULT 'UNCONFIRMED',
 
 	/* buying */
 
