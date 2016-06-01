@@ -24,8 +24,8 @@ import java.util.List;
 public class InvestmentDaoImpl implements InvestmentDao {
     private static final Logger logger = LogManager.getLogger(InvestmentDaoImpl.class);
 
-    static String insertSQL;
-    static String updateSQL;
+    private static String insertSQL;
+    private static String updateSQL;
 
     static {
         final String[] fields = {
@@ -59,32 +59,6 @@ public class InvestmentDaoImpl implements InvestmentDao {
         updateSQL = Database.generateUpdateSQL("investments", "id", fields);
     }
 
-    /*
-    @Override
-    public int getQtyFilledSum(int conid) {
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            connection = Database.connection();
-            stmt = connection.prepareStatement("SELECT SUM(qtyFilled) FROM investments " +
-                    " WHERE con_id = ?" +
-                    "   AND state = 'FILLED'   "
-            );
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-            return 0;
-        } catch (SQLException e) {
-            throw new LotusException(e);
-        } finally {
-            Database.close(rs, stmt, connection);
-        }
-    }*/
-
     @Override
     public List<Investment> getTradesInProgress(int conId) {
         Connection connection = null;
@@ -99,7 +73,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
             rs = stmt.executeQuery();
 
             ArrayList<Investment> rv = new ArrayList<>();
-            while(rs.next()) {
+            while (rs.next()) {
                 rv.add(populate(rs));
             }
             return rv;
@@ -124,7 +98,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
             rs = stmt.executeQuery();
 
             ArrayList<Investment> rv = new ArrayList<>();
-            while(rs.next()) {
+            while (rs.next()) {
                 rv.add(populate(rs));
             }
             return rv;
@@ -181,12 +155,12 @@ public class InvestmentDaoImpl implements InvestmentDao {
             stmt.setInt(idx++, investment.qty);
             stmt.setDouble(idx++, investment.qtyValue);
 
-            if(investment.qtyFilled == null)
+            if (investment.qtyFilled == null)
                 stmt.setNull(idx++, Types.NUMERIC);
             else
                 stmt.setInt(idx++, investment.qtyFilled);
 
-            if(investment.qtyFilledValue == null)
+            if (investment.qtyFilledValue == null)
                 stmt.setNull(idx++, Types.NUMERIC);
             else
                 stmt.setDouble(idx++, investment.qtyFilledValue);
@@ -194,32 +168,32 @@ public class InvestmentDaoImpl implements InvestmentDao {
             //* selling
             stmt.setDouble(idx++, investment.sellLimit);
             stmt.setDate(idx++, java.sql.Date.valueOf(investment.sellDateLimit));
-            if(investment.sellPrice == null)
+            if (investment.sellPrice == null)
                 stmt.setNull(idx++, Types.NUMERIC);
             else
                 stmt.setDouble(idx++, investment.sellPrice);
 
-            if(investment.sellDateStart == null)
+            if (investment.sellDateStart == null)
                 stmt.setNull(idx++, Types.DATE);
             else
                 stmt.setDate(idx++, java.sql.Date.valueOf(investment.sellDateStart));
 
-            if(investment.sellDateEnd == null)
+            if (investment.sellDateEnd == null)
                 stmt.setNull(idx++, Types.DATE);
             else
                 stmt.setDate(idx++, java.sql.Date.valueOf(investment.sellDateEnd));
 
-            if(investment.realPnL == null)
+            if (investment.realPnL == null)
                 stmt.setNull(idx++, Types.NUMERIC);
             else
                 stmt.setDouble(idx++, investment.realPnL);
 
-            if(investment.errorCode == null)
+            if (investment.errorCode == null)
                 stmt.setNull(idx++, Types.NUMERIC);
             else
                 stmt.setInt(idx++, investment.errorCode);
 
-            if(investment.errorMsg == null)
+            if (investment.errorMsg == null)
                 stmt.setNull(idx++, Types.VARCHAR);
             else
                 stmt.setString(idx++, investment.errorMsg);
@@ -230,7 +204,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
             stmt.executeUpdate();
 
             rs = stmt.getGeneratedKeys();
-            if(rs.next()) {
+            if (rs.next()) {
                 investment.id = rs.getInt(1);
             }
 
@@ -252,12 +226,40 @@ public class InvestmentDaoImpl implements InvestmentDao {
             stmt.setDate(2, java.sql.Date.valueOf(date));
             stmt.setDouble(3, close);
             stmt.execute();
-        } catch(MySQLIntegrityConstraintViolationException e) {
+        } catch (MySQLIntegrityConstraintViolationException e) {
             //logger.info("Ignoring: "+e.getMessage());
         } catch (SQLException e) {
             throw new LotusException(e);
         } finally {
             Database.close(stmt, connection);
+        }
+    }
+
+    @Override
+    public Investment findUnconfirmed(String symbol) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Database.connection();
+            stmt = connection.prepareStatement(
+                    "SELECT * FROM investments " +
+                    "WHERE state = 'UNCONFIRMED' AND trigger_id IN " +
+                    "(SELECT id FROM triggers WHERE symbol = ? AND reject_reason = 'OK')");
+            stmt.setString(1, symbol);
+            rs = stmt.executeQuery();
+
+            if (rs.next())
+                return populate(rs);
+            else
+                return null;
+
+
+        } catch (SQLException e) {
+            throw new LotusException(e);
+        } finally {
+            Database.close(rs, stmt, connection);
         }
     }
 
@@ -288,11 +290,11 @@ public class InvestmentDaoImpl implements InvestmentDao {
         investment.qtyValue = rs.getDouble("qty_val");
 
         investment.qtyFilled = rs.getInt("qty_filled");
-        if(rs.wasNull())
+        if (rs.wasNull())
             investment.qtyFilled = null;
 
         investment.qtyFilledValue = rs.getDouble("qty_filled_val");
-        if(rs.wasNull())
+        if (rs.wasNull())
             investment.qtyFilledValue = null;
 
         //* selling
@@ -300,18 +302,18 @@ public class InvestmentDaoImpl implements InvestmentDao {
         investment.sellDateLimit = rs.getDate("sell_dt_limit").toLocalDate();
 
         investment.sellPrice = rs.getDouble("sell_price");
-        if(rs.wasNull())
+        if (rs.wasNull())
             investment.sellPrice = null;
 
         investment.sellDateStart = rs.getDate("sell_dt_start") == null ? null : rs.getDate("sell_dt_start").toLocalDate();
         investment.sellDateEnd = rs.getDate("sell_dt_end") == null ? null : rs.getDate("sell_dt_end").toLocalDate();
 
         investment.realPnL = rs.getDouble("real_pnl");
-        if(rs.wasNull())
+        if (rs.wasNull())
             investment.realPnL = null;
 
         investment.errorCode = rs.getInt("error_code");
-        if(rs.wasNull())
+        if (rs.wasNull())
             investment.errorCode = null;
         investment.errorMsg = rs.getString("error_msg");
 

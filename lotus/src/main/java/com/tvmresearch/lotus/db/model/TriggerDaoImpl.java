@@ -1,6 +1,7 @@
 package com.tvmresearch.lotus.db.model;
 
 import com.mysql.jdbc.*;
+import com.mysql.jdbc.Statement;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.tvmresearch.lotus.Configuration;
 import com.tvmresearch.lotus.Database;
@@ -24,10 +25,10 @@ public class TriggerDaoImpl implements TriggerDao {
 
     private void serialise(Trigger trigger, Connection connection) {
 
+        ResultSet rs = null;
         PreparedStatement stmt = null;
 
         try {
-
             if (trigger.id == null) {
                 int elapsedDays = elapsedDays(trigger);
                 if (elapsedDays == -1 || elapsedDays > Configuration.RETRIGGER_MIN_DAYS) {
@@ -36,14 +37,16 @@ public class TriggerDaoImpl implements TriggerDao {
                 } else {
                     trigger.rejectReason = Trigger.RejectReason.NOTEVENT;
                 }
-                stmt = connection.prepareStatement("INSERT INTO triggers VALUES(NULL," + Database.generateParams(10) + ")");
+                stmt = connection.prepareStatement(
+                        "INSERT INTO triggers VALUES(NULL," + Database.generateParams(10) + ")",
+                        Statement.RETURN_GENERATED_KEYS);
             } else {
                 final String sql = "UPDATE triggers " +
                         "SET    exchange=?, symbol=?, trigger_date=?, price=?, " +
                         "       zscore=?, avg_volume=?, avg_price=?, event=?, " +
                         "       reject_reason=?, reject_data=? " +
                         "WHERE  id = ?";
-                stmt = connection.prepareStatement(sql);
+                stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             }
 
             stmt.setString(1, trigger.exchange);
@@ -63,13 +66,17 @@ public class TriggerDaoImpl implements TriggerDao {
             if (trigger.id != null)
                 stmt.setInt(11, trigger.id);
 
-            stmt.execute();
+            stmt.executeUpdate();
+            rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                trigger.id = rs.getInt(1);
+            }
         } catch(MySQLIntegrityConstraintViolationException e) {
             // ignore
         } catch (SQLException e) {
             throw new LotusException(e);
         } finally {
-            Database.close(stmt);
+            Database.close(rs, stmt);
         }
     }
 

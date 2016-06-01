@@ -1,4 +1,4 @@
-package com.tvmresearch.lotus;
+package com.tvmresearch.lotus.test;
 
 import com.ib.client.CommissionReport;
 import com.ib.client.Execution;

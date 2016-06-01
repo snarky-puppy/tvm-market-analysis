@@ -1,4 +1,4 @@
-package com.tvmresearch.lotus;
+package com.tvmresearch.lotus.test;
 
 import com.ib.controller.ApiConnection;
 import com.ib.controller.ApiController;

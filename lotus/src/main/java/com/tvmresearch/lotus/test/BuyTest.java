@@ -1,9 +1,10 @@
-package com.tvmresearch.lotus;
+package com.tvmresearch.lotus.test;
 
 import com.ib.client.CommissionReport;
 import com.ib.client.Execution;
 import com.ib.client.ExecutionFilter;
 import com.ib.controller.*;
+import com.tvmresearch.lotus.broker.IBLogger;
 import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.InvestmentDao;
 import com.tvmresearch.lotus.db.model.InvestmentDaoImpl;

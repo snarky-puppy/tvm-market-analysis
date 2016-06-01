@@ -1,9 +1,7 @@
-package com.tvmresearch.lotus.broker;
+package com.tvmresearch.lotus.message;
 
 import com.ib.client.CommissionReport;
-import com.tvmresearch.lotus.Compounder;
-import com.tvmresearch.lotus.db.model.InvestmentDao;
-import com.tvmresearch.lotus.db.model.TriggerDao;
+import com.tvmresearch.lotus.Lotus;
 
 /**
  * Created by horse on 29/05/2016.
@@ -18,7 +16,7 @@ public class TradeCommissionReport extends IBMessage {
     }
 
     @Override
-    public void process(Compounder compounder, TriggerDao triggerDao, InvestmentDao investmentDao) {
-
+    public void process(Lotus lotus) {
+        lotus.processTradeCommissionReport(this);
     }
 }

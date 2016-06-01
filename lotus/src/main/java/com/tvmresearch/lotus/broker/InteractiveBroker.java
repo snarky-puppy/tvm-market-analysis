@@ -6,6 +6,7 @@ import com.ib.controller.*;
 import com.tvmresearch.lotus.LotusException;
 import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.InvestmentDao;
+import com.tvmresearch.lotus.message.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

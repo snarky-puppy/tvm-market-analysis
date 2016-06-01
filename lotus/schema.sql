@@ -78,7 +78,7 @@ CREATE TABLE investments (
 	sell_order_id BIGINT,
 	buy_perm_id BIGINT,
 	sell_perm_id BIGINT,
-	con_id INTEGER NOT NULL,
+	con_id INTEGER,
 
 	state ENUM(
 		'UNCONFIRMED', 
@@ -95,7 +95,7 @@ CREATE TABLE investments (
 	-- 0.1% higher than trigger close price 
 	buy_limit DOUBLE(12,2) NOT NULL,
 
-	buy_dt DATE NOT NULL,
+	buy_dt DATE,
 
 	-- Quantity of stocks needed to fill cmp_total
 	qty INTEGER NOT NULL,
@@ -130,7 +130,7 @@ CREATE TABLE investments (
 	error_code INTEGER,
 	error_msg VARCHAR(265),
 
-	UNIQUE KEY order_idx (con_id, perm_id),
+	UNIQUE KEY order_idx (trigger_id),
 
 	FOREIGN KEY (trigger_id)
 		REFERENCES triggers(id)

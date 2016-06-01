@@ -1,9 +1,7 @@
-package com.tvmresearch.lotus.broker;
+package com.tvmresearch.lotus.message;
 
 import com.ib.controller.OrderStatus;
-import com.tvmresearch.lotus.Compounder;
-import com.tvmresearch.lotus.db.model.InvestmentDao;
-import com.tvmresearch.lotus.db.model.TriggerDao;
+import com.tvmresearch.lotus.Lotus;
 
 /**
  * Created by horse on 29/05/2016.
@@ -36,11 +34,7 @@ public class LiveOrderStatus extends IBMessage {
     }
 
     @Override
-    public void process(Compounder compounder, TriggerDao triggerDao, InvestmentDao investmentDao) {
-        // This method is called whenever the status of an order changes.
-        // It is also fired after reconnecting to TWS if the client has any open orders.
-        // https://www.interactivebrokers.com/en/software/api/apiguide/java/orderstatus.htm
-
-
+    public void process(Lotus lotus) {
+        lotus.processOrderStatus(this);
     }
 }

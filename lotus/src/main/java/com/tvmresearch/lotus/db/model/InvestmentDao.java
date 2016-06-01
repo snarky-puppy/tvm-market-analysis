@@ -21,4 +21,6 @@ public interface InvestmentDao {
     void serialise(Investment investment);
 
     void addHistory(Investment investment, LocalDate date, double close);
+
+    Investment findUnconfirmed(String symbol);
 }

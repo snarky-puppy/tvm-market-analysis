@@ -20,7 +20,7 @@ public class Database {
 
     private static final Logger logger = LogManager.getLogger(Database.class);
 
-    private final static DataSource dataSource;
+    private static DataSource dataSource;
 
     static {
         dataSource = new DataSource();
@@ -40,13 +40,16 @@ public class Database {
     public static Connection connection() {
 
         try {
-            Connection connection = dataSource.getConnection();
-            return connection;
+            return dataSource.getConnection();
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw new LotusException(e);
         }
+    }
 
+    public static void setDataSource(DataSource ds) {
+        dataSource = ds;
     }
 
     public static String generateParams(int nParams) {

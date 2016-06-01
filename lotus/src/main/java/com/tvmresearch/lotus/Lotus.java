@@ -2,6 +2,7 @@ package com.tvmresearch.lotus;
 
 import com.tvmresearch.lotus.broker.*;
 import com.tvmresearch.lotus.db.model.*;
+import com.tvmresearch.lotus.message.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,7 +34,8 @@ public class Lotus {
     private ImportTriggers importTriggers = new ImportTriggers();
     private LocalTime fxUpdateTS = null;
 
-    private int buyOrderCount = 0;
+    private int outstandingBuyOrders = 0;
+    private int outstandingSellOrders = 0;
 
     private static volatile boolean running = true;
 
@@ -49,8 +51,6 @@ public class Lotus {
     }
 
     private void mainLoop() {
-
-        LocalTime fxCheck = LocalTime.now();
 
         try {
             broker = new InteractiveBroker(eventQueue);
@@ -69,7 +69,7 @@ public class Lotus {
                 Thread.sleep(1000);
             }
         } catch (InterruptedException e) {
-
+            logger.info("Sleep interrupted", e);
         } finally {
             logger.info("The Final final block");
             if(broker != null)
@@ -102,7 +102,7 @@ public class Lotus {
             } else {
 
                 investment.buyLimit = round(investment.trigger.price * Configuration.BUY_LIMIT_FACTOR);
-                investment.buyDate = LocalDate.now();
+                //investment.buyDate = LocalDate.now();
 
                 investment.qty = (int) Math.floor(investment.cmpTotal / investment.buyLimit);
                 investment.qtyValue = investment.qty * investment.buyLimit;
@@ -112,18 +112,10 @@ public class Lotus {
                 investment.sellDateLimit = investment.buyDate.plusDays(Configuration.SELL_LIMIT_DAYS);
 
                 broker.buy(investment);
-                buyOrderCount ++;
+                outstandingBuyOrders ++;
             }
             investmentDao.serialise(investment);
             triggerDao.serialise(trigger);
-        }
-    }
-
-    private void processEvents() throws InterruptedException {
-
-        IBMessage msg = null;
-        while((msg = eventQueue.poll(1, TimeUnit.SECONDS)) != null) {
-            msg.process(compounder, triggerDao, investmentDao);
         }
     }
 
@@ -254,5 +246,37 @@ public class Lotus {
         BigDecimal bd = new BigDecimal(num);
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+
+    private void processEvents() throws InterruptedException {
+        IBMessage msg = null;
+        while((msg = eventQueue.poll(1, TimeUnit.SECONDS)) != null) {
+            msg.process(this);
+        }
+    }
+
+
+    public void processTradeReport(TradeReport tradeReport) {
+
+    }
+
+    public void processTradeCommissionReport(TradeCommissionReport tradeCommissionReport) {
+
+    }
+
+    public void processOrderStatus(LiveOrderStatus liveOrderStatus) {
+        // This method is called whenever the status of an order changes.
+        // It is also fired after reconnecting to TWS if the client has any open orders.
+        // https://www.interactivebrokers.com/en/software/api/apiguide/java/orderstatus.htm
+
+    }
+
+    public void processOrderError(LiveOrderError liveOrderError) {
+
+    }
+
+    public void processOpenOrder(LiveOpenOrder liveOpenOrder) {
+
     }
 }

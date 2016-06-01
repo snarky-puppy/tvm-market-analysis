@@ -1,11 +1,9 @@
-package com.tvmresearch.lotus.broker;
+package com.tvmresearch.lotus.message;
 
 import com.ib.controller.NewContract;
 import com.ib.controller.NewOrder;
 import com.ib.controller.NewOrderState;
-import com.tvmresearch.lotus.Compounder;
-import com.tvmresearch.lotus.db.model.InvestmentDao;
-import com.tvmresearch.lotus.db.model.TriggerDao;
+import com.tvmresearch.lotus.Lotus;
 
 /**
  * Tuple for passing around order data
@@ -25,7 +23,8 @@ public class LiveOpenOrder extends IBMessage {
 
 
     @Override
-    public void process(Compounder compounder, TriggerDao triggerDao, InvestmentDao investmentDao) {
+    public void process(Lotus lotus) {
+        lotus.processOpenOrder(this);
         /*
         2016-05-31 14:00:09.462 [EReader] INFO  LiveOrderHandler - openOrder: 
 contract=NewContract{m_conid=265598,
