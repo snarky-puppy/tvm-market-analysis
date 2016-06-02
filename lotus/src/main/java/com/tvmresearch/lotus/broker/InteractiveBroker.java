@@ -132,6 +132,12 @@ public class InteractiveBroker implements Broker {
                 String symbol = position.contract().symbol();
                 positions.put(symbol, position);
                 logger.info("updatePortfolio: "+position);
+                try {
+                    outputQueue.put(new PositionUpdate(position));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
@@ -191,7 +197,7 @@ public class InteractiveBroker implements Broker {
             }
         });
 
-        controller.reqExecutions(null, new ApiController.ITradeReportHandler() {
+        controller.reqExecutions(new ExecutionFilter(0, account, null, null, null, null, null), new ApiController.ITradeReportHandler() {
             @Override
             public void tradeReport(String tradeKey, NewContract contract, Execution execution) {
                 logger.info(String.format("tradeReport: tradeKey=%s contract=%s execution=%s", tradeKey, contract, execution));

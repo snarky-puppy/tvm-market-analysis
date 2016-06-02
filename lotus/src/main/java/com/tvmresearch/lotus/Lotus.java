@@ -1,5 +1,6 @@
 package com.tvmresearch.lotus;
 
+import com.ib.controller.Position;
 import com.tvmresearch.lotus.broker.*;
 import com.tvmresearch.lotus.db.model.*;
 import com.tvmresearch.lotus.message.*;
@@ -12,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.concurrent.*;
@@ -31,7 +33,11 @@ public class Lotus {
     private Compounder compounder;
     private ArrayBlockingQueue<IBMessage> eventQueue = new ArrayBlockingQueue<>(1024);
     private ImportTriggers importTriggers = new ImportTriggers();
-    private LocalTime fxUpdateTS = null;
+    private LocalDateTime cashUpdateTS = null;
+    private LocalDateTime nextHistoryUpdateTS = null;
+
+    private static final int historyUpdateHour = 11; // 12pm local == 10pm EST
+    private static final int cashUpdateHours = 1;
 
     private int outstandingBuyOrders = 0;
     private int outstandingSellOrders = 0;
@@ -54,7 +60,7 @@ public class Lotus {
         try {
             broker = new InteractiveBroker(eventQueue);
             compounder = new Compounder(broker.getAvailableFunds());
-            fxUpdateTS = LocalTime.now(); // update FX check timestamp since we just fetched it
+            cashUpdateTS = LocalDateTime.now().plusHours(cashUpdateHours); // update cash check timestamp since we just fetched it
 
             // threads....
             //  1. ensure ibgateway is running
@@ -62,8 +68,9 @@ public class Lotus {
             //  3.
 
             while(running) {
-                updateFX();
-                processTriggers();
+                updateCash();
+                //processTriggers();
+                updateHistory();
                 processEvents();
                 Thread.sleep(1000);
             }
@@ -76,10 +83,34 @@ public class Lotus {
         }
     }
 
-    private void updateFX() {
-        // update every hour should be enough
-        if(fxUpdateTS == null || fxUpdateTS.plusHours(1).isAfter(LocalTime.now())) {
-            fxUpdateTS = LocalTime.now();
+    private void updateHistory() {
+
+        boolean run = false;
+
+        if(nextHistoryUpdateTS == null) {
+            // if before the true update hour, run now and schedule for true update hour today
+            if(LocalDateTime.now().getHour() < historyUpdateHour) {
+                nextHistoryUpdateTS = LocalDateTime.now().withHour(historyUpdateHour).withMinute(0).withSecond(0);
+            } else {
+                // schedule for true update hour tomorrow
+                nextHistoryUpdateTS = LocalDateTime.now().withHour(historyUpdateHour).withMinute(0).withSecond(0).plusDays(1);
+            }
+
+            run = true;
+        } else if(LocalDateTime.now().isAfter(nextHistoryUpdateTS)) {
+            nextHistoryUpdateTS = LocalDateTime.now().withHour(historyUpdateHour).withMinute(0).withSecond(0);
+            run = true;
+        }
+
+        if(run) {
+            logger.info("updateHistory: do it");
+        }
+    }
+
+    private void updateCash() {
+
+        if(cashUpdateTS == null || LocalDateTime.now().isAfter(cashUpdateTS) && outstandingBuyOrders == 0) {
+            cashUpdateTS = LocalDateTime.now().plusHours(cashUpdateHours);
             double brokerCash = broker.getAvailableFunds();
             double compoundCash = compounder.getCash();
             double diff = compoundCash - brokerCash;
@@ -280,6 +311,10 @@ public class Lotus {
     }
 
     public void processOpenOrder(LiveOpenOrder liveOpenOrder) {
+
+    }
+
+    public void processPosition(Position position) {
 
     }
 }

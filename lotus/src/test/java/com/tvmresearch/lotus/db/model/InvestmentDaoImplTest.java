@@ -46,16 +46,6 @@ public class InvestmentDaoImplTest {
 
 
     @Test
-    public void getTradesInProgress() throws Exception {
-
-    }
-
-    @Test
-    public void getFilledInvestments() throws Exception {
-
-    }
-
-    @Test
     public void serialise() throws Exception {
 
         TriggerDao triggerDao = new TriggerDaoImpl();
