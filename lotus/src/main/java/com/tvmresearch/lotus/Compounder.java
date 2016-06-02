@@ -16,13 +16,15 @@ public class Compounder {
     private static final Logger logger = LogManager.getLogger(Compounder.class);
 
     private final CompoundState state;
-    private double fxRate;
 
-    public Compounder(double cash, double fxRate) {
-        this.fxRate = fxRate;
+    public Compounder(double cash) {
 
         // initialise things if they don't exist
-        state = new CompoundState(cash / fxRate);
+        state = new CompoundState(cash);
+    }
+
+    public Compounder() {
+        state = new CompoundState();
     }
 
     public double nextInvestmentAmount() {
@@ -96,20 +98,28 @@ public class Compounder {
 
 
     public void processWithdrawal(Investment investment) {
-        double withdrawal = investment.sellPrice;
-        double profit = withdrawal - investment.qtyFilledValue;
+        double withdrawal = investment.sellFillVal;
+        double profit = withdrawal - investment.buyFillValue;
 
-        state.compoundTally += profit;
+        logger.info(String.format("withdrawal: profit=%.2f", profit));
+
         state.cash += withdrawal;
-        state.tallySliceCnt = 0;
-        state.tallySlice = state.compoundTally / state.spread;
+
+        if(profit > 0) {
+            state.compoundTally += profit;
+            state.tallySliceCnt = 0;
+            state.tallySlice = state.compoundTally / state.spread;
+        }
 
         state.save();
     }
 
-    public void updateCashAndRate(double cash, double fx) {
-        this.fxRate = fx;
-        state.cash = cash / fx;
+    public void setCash(double cash) {
+        state.cash = cash;
         state.save();
+    }
+
+    public double getCash() {
+        return state.cash;
     }
 }

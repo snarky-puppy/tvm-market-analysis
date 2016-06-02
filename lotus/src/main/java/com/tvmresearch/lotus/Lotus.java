@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.concurrent.*;
@@ -54,7 +53,7 @@ public class Lotus {
 
         try {
             broker = new InteractiveBroker(eventQueue);
-            compounder = new Compounder(broker.getAvailableFunds(), broker.getExchangeRate());
+            compounder = new Compounder(broker.getAvailableFunds());
             fxUpdateTS = LocalTime.now(); // update FX check timestamp since we just fetched it
 
             // threads....
@@ -81,9 +80,13 @@ public class Lotus {
         // update every hour should be enough
         if(fxUpdateTS == null || fxUpdateTS.plusHours(1).isAfter(LocalTime.now())) {
             fxUpdateTS = LocalTime.now();
-            double fx = broker.getExchangeRate();
-            double cash = broker.getAvailableFunds();
-            compounder.updateCashAndRate(cash, fx);
+            double brokerCash = broker.getAvailableFunds();
+            double compoundCash = compounder.getCash();
+            double diff = compoundCash - brokerCash;
+            if(diff < 0)
+                diff = -diff;
+            logger.info(String.format("updateCash: %.2f difference (ib=$%.2f compounder=$%.2f)",
+                    diff, brokerCash, compoundCash));
         }
     }
 

@@ -8,10 +8,10 @@ trap "rm -f $tmp" EXIT
 
 cd $(dirname $0)
 
-if [ -f /usr/bin/mysql ] ; then
-	BIN=/usr/bin/mysql
-else
+if [ -f /usr/local/mysql/bin/mysql ] ; then
 	BIN=/usr/local/mysql/bin/mysql 
+else
+	BIN=/usr/bin/mysql
 fi
 
 if [ ! -f schema.sql ] ; then

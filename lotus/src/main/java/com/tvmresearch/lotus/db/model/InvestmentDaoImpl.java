@@ -44,10 +44,11 @@ public class InvestmentDaoImpl implements InvestmentDao {
                 "qty",
                 "qty_val",
                 "qty_filled",
-                "qty_filled_val",
+                "buy_fill_val",
                 "sell_limit",
                 "sell_dt_limit",
-                "sell_price",
+                "avg_sell_price",
+                "sell_fill_val",
                 "sell_dt_start",
                 "sell_dt_end",
                 "real_pnl",
@@ -160,18 +161,23 @@ public class InvestmentDaoImpl implements InvestmentDao {
             else
                 stmt.setInt(idx++, investment.qtyFilled);
 
-            if (investment.qtyFilledValue == null)
+            if (investment.buyFillValue == null)
                 stmt.setNull(idx++, Types.NUMERIC);
             else
-                stmt.setDouble(idx++, investment.qtyFilledValue);
+                stmt.setDouble(idx++, investment.buyFillValue);
 
             //* selling
             stmt.setDouble(idx++, investment.sellLimit);
             stmt.setDate(idx++, java.sql.Date.valueOf(investment.sellDateLimit));
-            if (investment.sellPrice == null)
+            if (investment.avgSellPrice == null)
                 stmt.setNull(idx++, Types.NUMERIC);
             else
-                stmt.setDouble(idx++, investment.sellPrice);
+                stmt.setDouble(idx++, investment.avgSellPrice);
+
+            if(investment.sellFillVal == null)
+                stmt.setNull(idx++, Types.NUMERIC);
+            else
+                stmt.setDouble(idx++, investment.sellFillVal);
 
             if (investment.sellDateStart == null)
                 stmt.setNull(idx++, Types.DATE);
@@ -293,17 +299,21 @@ public class InvestmentDaoImpl implements InvestmentDao {
         if (rs.wasNull())
             investment.qtyFilled = null;
 
-        investment.qtyFilledValue = rs.getDouble("qty_filled_val");
+        investment.buyFillValue = rs.getDouble("buy_fill_val");
         if (rs.wasNull())
-            investment.qtyFilledValue = null;
+            investment.buyFillValue = null;
 
         //* selling
         investment.sellLimit = rs.getDouble("sell_limit");
         investment.sellDateLimit = rs.getDate("sell_dt_limit").toLocalDate();
 
-        investment.sellPrice = rs.getDouble("sell_price");
+        investment.avgSellPrice = rs.getDouble("avg_sell_price");
         if (rs.wasNull())
-            investment.sellPrice = null;
+            investment.avgSellPrice = null;
+
+        investment.sellFillVal = rs.getDouble("sell_fill_val");
+        if (rs.wasNull())
+            investment.sellFillVal = null;
 
         investment.sellDateStart = rs.getDate("sell_dt_start") == null ? null : rs.getDate("sell_dt_start").toLocalDate();
         investment.sellDateEnd = rs.getDate("sell_dt_end") == null ? null : rs.getDate("sell_dt_end").toLocalDate();

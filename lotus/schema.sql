@@ -107,7 +107,7 @@ CREATE TABLE investments (
 	qty_filled INTEGER,
 
 	-- Price of stocks actually filled
-	qty_filled_val DOUBLE(12,2),
+	buy_fill_val DOUBLE(12,2),
 
 	/* selling */
 	-- sell when price reaches this limit (+10%)
@@ -116,12 +116,16 @@ CREATE TABLE investments (
 	-- sell when date reaches this limit (84 days)
 	sell_dt_limit DATE NOT NULL,
 
-	-- actual sell price
-	sell_price DOUBLE(12,2),
+	-- average sell price
+	avg_sell_price DOUBLE(12,2),
+
+	-- total withdrawal
+	sell_fill_val DOUBLE(12,2),
 
 	-- date of selling
 	sell_dt_start DATE,
 	sell_dt_end DATE,
+
 
 	-- realised profit / loss
 	real_pnl DOUBLE(12,2),

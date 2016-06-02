@@ -38,6 +38,12 @@ public class CompoundState {
                 startBank, cash, minInvest, compoundTally, tallySlice, tallySliceCnt));
     }
 
+    public CompoundState() {
+        if(!load()) {
+            throw new IllegalStateException("cash value not set in db. Use the other constructor.");
+        }
+    }
+
     /**
      * Previous months compound tally value
      * @return Previous months compound tally value
@@ -76,9 +82,9 @@ public class CompoundState {
     private void update() {
         final String sql = "UPDATE compounder_state " +
                 "SET cash = ?, " +
-                "    compound_tally = compound_tally + ?, " +
-                "    tally_slice = 0, " +
-                "    tally_slice_cnt = 0 " +
+                "    compound_tally = ?, " +
+                "    tally_slice = ?, " +
+                "    tally_slice_cnt = ? " +
                 "WHERE dt = ?";
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -159,10 +165,7 @@ public class CompoundState {
                     "SELECT COUNT(*) FROM compounder_state WHERE dt = ?");
             stmt.setDate(1, java.sql.Date.valueOf(firstOfThisMonth()));
             rs = stmt.executeQuery();
-            if(rs.next())
-                return true;
-            else
-                return false;
+            return rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new LotusException(e);

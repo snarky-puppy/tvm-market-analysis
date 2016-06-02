@@ -51,7 +51,7 @@ public class Investment {
     // qty stocks actually filled
     public Integer qtyFilled;
     // value of stocsk actually filled
-    public Double qtyFilledValue;
+    public Double buyFillValue;
 
     /* selling */
 
@@ -60,12 +60,17 @@ public class Investment {
     // sell when date reaches this limit (84 days)
     public LocalDate sellDateLimit;
 
-    // actual sell price
-    public Double sellPrice;
+    // average sell price
+    public Double avgSellPrice;
+
+    // total value of withdrawal
+    public Double sellFillVal;
 
     // date of selling
     public LocalDate sellDateStart;
     public LocalDate sellDateEnd;
+
+
 
     public Double realPnL;
 
