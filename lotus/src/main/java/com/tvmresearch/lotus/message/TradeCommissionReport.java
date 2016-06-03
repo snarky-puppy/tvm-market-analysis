@@ -17,6 +17,6 @@ public class TradeCommissionReport extends IBMessage {
 
     @Override
     public void process(Lotus lotus) {
-        lotus.processTradeCommissionReport(this);
+        lotus.processTradeCommissionReport(tradeKey, commissionReport);
     }
 }

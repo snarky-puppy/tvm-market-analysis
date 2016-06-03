@@ -35,6 +35,7 @@ public class LiveOrderStatus extends IBMessage {
 
     @Override
     public void process(Lotus lotus) {
-        lotus.processOrderStatus(this);
+        lotus.processOrderStatus(orderId, status, filled, remaining,
+                avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld);
     }
 }

@@ -88,6 +88,7 @@ CREATE TABLE investments (
 		'SELLPRESUBMITTED', 
 		'SELL', 
 		'SELLFILLED', 
+		'ORDERFAILED',
 		'ERROR') NOT NULL DEFAULT 'UNCONFIRMED',
 
 	/* buying */

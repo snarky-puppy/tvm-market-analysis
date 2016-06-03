@@ -1,6 +1,8 @@
 package com.tvmresearch.lotus;
 
-import com.ib.controller.Position;
+import com.ib.client.CommissionReport;
+import com.ib.client.Execution;
+import com.ib.controller.*;
 import com.tvmresearch.lotus.broker.*;
 import com.tvmresearch.lotus.db.model.*;
 import com.tvmresearch.lotus.message.*;
@@ -69,7 +71,7 @@ public class Lotus {
 
             while(running) {
                 updateCash();
-                //processTriggers();
+                processTriggers();
                 updateHistory();
                 processEvents();
                 Thread.sleep(1000);
@@ -88,16 +90,20 @@ public class Lotus {
         boolean run = false;
 
         if(nextHistoryUpdateTS == null) {
-            // if before the true update hour, run now and schedule for true update hour today
+            // first update
+            // if before the true update hour, schedule for true update hour later today
             if(LocalDateTime.now().getHour() < historyUpdateHour) {
                 nextHistoryUpdateTS = LocalDateTime.now().withHour(historyUpdateHour).withMinute(0).withSecond(0);
             } else {
-                // schedule for true update hour tomorrow
+                // after the true update hour, schedule for true update hour tomorrow
                 nextHistoryUpdateTS = LocalDateTime.now().withHour(historyUpdateHour).withMinute(0).withSecond(0).plusDays(1);
             }
 
+            // either way, update now
             run = true;
+
         } else if(LocalDateTime.now().isAfter(nextHistoryUpdateTS)) {
+            // business as usual
             nextHistoryUpdateTS = LocalDateTime.now().withHour(historyUpdateHour).withMinute(0).withSecond(0);
             run = true;
         }
@@ -116,8 +122,11 @@ public class Lotus {
             double diff = compoundCash - brokerCash;
             if(diff < 0)
                 diff = -diff;
-            logger.info(String.format("updateCash: %.2f difference (ib=$%.2f compounder=$%.2f)",
-                    diff, brokerCash, compoundCash));
+            logger.info(String.format("updateCash: %.2f difference (ib=%.2f compounder=%.2f) buyOrders=%d",
+                    diff, brokerCash, compoundCash, outstandingBuyOrders));
+            if(outstandingBuyOrders == 0) {
+                compounder.setCash(brokerCash);
+            }
         }
     }
 
@@ -284,37 +293,55 @@ public class Lotus {
 
 
     private void processEvents() throws InterruptedException {
-        IBMessage msg = null;
+        IBMessage msg;
         while((msg = eventQueue.poll(1, TimeUnit.SECONDS)) != null) {
             msg.process(this);
         }
     }
 
+    public void processPosition(Position position) {
+        // position report
+    }
 
-    public void processTradeReport(TradeReport tradeReport) {
+    public void processOpenOrder(NewContract contract, NewOrder order, NewOrderState orderState) {
+        Investment investment = investmentDao.findOrder(order.orderId());
+        if(order.action() == Types.Action.BUY) {
+
+        } else if(order.action() == Types.Action.SELL) {
+
+        } else {
+            logger.error("processOpenOrder: undefined order action: "+order.action());
+        }
+    }
+
+    public void processTradeReport(String tradeKey, NewContract contract, Execution execution) {
 
     }
 
-    public void processTradeCommissionReport(TradeCommissionReport tradeCommissionReport) {
+    public void processTradeCommissionReport(String tradeKey, CommissionReport commissionReport) {
 
     }
 
-    public void processOrderStatus(LiveOrderStatus liveOrderStatus) {
+    public void processOrderStatus(int orderId, OrderStatus status, int filled, int remaining, double avgFillPrice, long permId, int parentId, double lastFillPrice, int clientId, String whyHeld) {
         // This method is called whenever the status of an order changes.
         // It is also fired after reconnecting to TWS if the client has any open orders.
         // https://www.interactivebrokers.com/en/software/api/apiguide/java/orderstatus.htm
-
     }
 
-    public void processOrderError(LiveOrderError liveOrderError) {
+    public void processOrderError(int orderId, int errorCode, String errorMsg) {
+        /*
+        399: Warning: your order will not be placed at the exchange until 2016-05-31 09:30:00 US/Eastern
 
-    }
+         */
+        if(errorCode == 399)
+            return;
 
-    public void processOpenOrder(LiveOpenOrder liveOpenOrder) {
-
-    }
-
-    public void processPosition(Position position) {
+        Investment investment = investmentDao.findOrder(orderId);
+        compounder.cancel(investment);
+        investment.state = Investment.State.ORDERFAILED;
+        investment.errorMsg = errorMsg;
+        investment.errorCode = errorCode;
+        investmentDao.serialise(investment);
 
     }
 }

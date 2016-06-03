@@ -85,7 +85,7 @@ public class Investment {
         SELLPRESUBMITTED,
         SELL,
         SELLFILLED,
-        ERROR
+        ORDERFAILED, ERROR
     }
 
     public Investment(Trigger trigger) {

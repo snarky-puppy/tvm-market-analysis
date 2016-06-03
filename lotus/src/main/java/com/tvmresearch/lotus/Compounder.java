@@ -83,6 +83,8 @@ public class Compounder {
         state.compoundTally += investment.cmpVal;
         state.cash += investment.cmpMin;
 
+        logger.info("investment cancel: returning cash to compounder: "+investment.cmpTotal);
+
         // reverse tally
         if(investment.cmpVal > 0) {
             if(state.tallySliceCnt == 0) {
@@ -93,6 +95,7 @@ public class Compounder {
                 // assume tallySlice still has a value
             }
         }
+
         state.save();
     }
 
@@ -115,6 +118,7 @@ public class Compounder {
     }
 
     public void setCash(double cash) {
+        logger.info("setCash: "+cash);
         state.cash = cash;
         state.save();
     }

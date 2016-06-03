@@ -269,6 +269,35 @@ public class InvestmentDaoImpl implements InvestmentDao {
         }
     }
 
+    @Override
+    public Investment findOrder(int orderId) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Database.connection();
+            stmt = connection.prepareStatement(
+                    "SELECT * FROM investments " +
+                            "WHERE buy_order_id = ? OR sell_order_id = ?");
+            stmt.setLong(1, orderId);
+            stmt.setLong(2, orderId);
+            rs = stmt.executeQuery();
+
+            if (rs.next())
+                return populate(rs);
+            else
+                return null;
+
+
+        } catch (SQLException e) {
+            throw new LotusException(e);
+        } finally {
+            Database.close(rs, stmt, connection);
+        }
+
+    }
+
 
     private Investment populate(ResultSet rs) throws SQLException {
         int investmentId = rs.getInt("id");
