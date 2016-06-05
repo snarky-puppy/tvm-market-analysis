@@ -29,6 +29,17 @@ public class Trigger {
 
     private static final Logger logger = LogManager.getLogger(Trigger.class);
 
+    public enum RejectReason {
+        NOTEVENT,
+        NOTPROCESSED,
+        ZSCORE,
+        CATEGORY,
+        VOLUME,
+        INVESTAMT,
+        NOFUNDS,
+        OK
+    }
+
     public Trigger() {}
 
     public Integer id = null;
@@ -50,34 +61,25 @@ public class Trigger {
     public boolean event = false;
 
     public RejectReason rejectReason = RejectReason.NOTPROCESSED;
+
     public Double rejectData = null;
-
-
-    public enum RejectReason {
-        NOTEVENT,
-        NOTPROCESSED,
-        ZSCORE,
-        CATEGORY,
-        VOLUME,
-        INVESTAMT,
-        NOFUNDS,
-        OK
-    }
 
     @Override
     public String toString() {
-        return "Trigger{" +
-                "id=" + id +
-                ", exchange='" + exchange + '\'' +
-                ", symbol='" + symbol + '\'' +
-                ", date=" + date +
-                ", price=" + price +
-                ", zscore=" + zscore +
-                ", avgVolume=" + avgVolume +
-                ", avgPrice=" + avgPrice +
-                ", event=" + event +
-                ", rejectReason=" + rejectReason +
-                ", rejectData=" + rejectData +
-                '}';
+        final StringBuffer sb = new StringBuffer("Trigger{");
+        sb.append("id=").append(id);
+        sb.append(", exchange='").append(exchange).append('\'');
+        sb.append(", symbol='").append(symbol).append('\'');
+        sb.append(", date=").append(date);
+        sb.append(", price=").append(price);
+        sb.append(", zscore=").append(zscore);
+        sb.append(", avgVolume=").append(avgVolume);
+        sb.append(", avgPrice=").append(avgPrice);
+        sb.append(", event=").append(event);
+        sb.append(", rejectReason=").append(rejectReason);
+        sb.append(", rejectData=").append(rejectData);
+        sb.append('}');
+        return sb.toString();
     }
+
 }

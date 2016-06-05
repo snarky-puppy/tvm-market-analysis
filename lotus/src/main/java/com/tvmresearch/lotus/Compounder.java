@@ -37,16 +37,18 @@ public class Compounder {
         logger.info(String.format("apply: min=%.2f cmp=%.2f slice=%.2f cnt=%d cash=%.2f",
                 state.minInvest, state.compoundTally, state.tallySlice, state.tallySliceCnt, state.cash));
 
-        investment.cmpMin = state.minInvest;
+        // last minute sanity check
         if(state.cash < state.minInvest) {
             String msg = String.format("apply: not enough cash for minInvest: cash=%.2f minInvest=%.2f",
                     state.cash, state.minInvest);
             logger.error(msg);
             investment.errorCode = 1;
             investment.errorMsg = msg;
+            investment.state = Investment.State.ERROR;
             return false;
         }
 
+        investment.cmpMin = state.minInvest;
         if(state.compoundTally > 0) {
             if(state.cash < (investment.cmpMin + state.tallySlice)) {
                 logger.error(String.format("apply: investment tally but not enough funds to cover it: " +
@@ -68,8 +70,13 @@ public class Compounder {
 
         state.cash -= investment.cmpTotal;
 
+        // another last minute sanity check.. this is really an ALARM situation
         if(state.cash < 0) {
-            logger.error("apply: REAL BAD: cash < 0! resetting to 0!");
+            String msg = "apply: REAL BAD: cash < 0! resetting to 0!";
+            logger.error(msg);
+            investment.errorCode = 2;
+            investment.errorMsg = msg;
+            investment.state = Investment.State.ERROR;
             state.cash = 0;
             state.save();
             return false;

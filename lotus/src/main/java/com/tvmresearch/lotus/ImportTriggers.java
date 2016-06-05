@@ -52,6 +52,8 @@ public class ImportTriggers {
         BufferedReader bufferedReader = null;
         boolean first = true;
 
+        logger.info("importFile: "+file);
+
         try {
              bufferedReader = new BufferedReader(new FileReader(file.toFile()));
             for (;;) {

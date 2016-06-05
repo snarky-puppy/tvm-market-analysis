@@ -69,7 +69,7 @@ public class Lotus {
 
             while(running) {
                 updateCash();
-                //processTriggers();
+                processTriggers();
                 updateHistory();
                 processEvents();
                 Thread.sleep(1000);
@@ -98,7 +98,7 @@ public class Lotus {
 
             run = true;
         } else if(LocalDateTime.now().isAfter(nextHistoryUpdateTS)) {
-            nextHistoryUpdateTS = LocalDateTime.now().withHour(historyUpdateHour).withMinute(0).withSecond(0);
+            nextHistoryUpdateTS = LocalDateTime.now().withHour(historyUpdateHour).withMinute(0).withSecond(0).plusDays(1);
             run = true;
         }
 
@@ -129,10 +129,11 @@ public class Lotus {
                 triggerDao.serialise(trigger);
                 continue;
             }
+            logger.info("processTriggers: "+trigger);
             Investment investment = new Investment(trigger);
 
             if (!compounder.apply(investment)) {
-                logger.error("failed to apply compounding: " + investment);
+                logger.error("processTriggers: failed to apply compounding: " + investment);
             } else {
 
                 investment.buyLimit = round(investment.trigger.price * Configuration.BUY_LIMIT_FACTOR);
