@@ -24,7 +24,7 @@ public class LiveOpenOrder extends IBMessage {
 
     @Override
     public void process(Lotus lotus) {
-        lotus.processOpenOrder(this);
+        lotus.processOpenOrder(contract, order, orderState);
         /*
         2016-05-31 14:00:09.462 [EReader] INFO  LiveOrderHandler - openOrder: 
 contract=NewContract{m_conid=265598,

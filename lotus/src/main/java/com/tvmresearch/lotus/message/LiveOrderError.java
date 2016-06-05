@@ -18,6 +18,6 @@ public class LiveOrderError extends IBMessage {
 
     @Override
     public void process(Lotus lotus) {
-        lotus.processOrderError(this);
+        lotus.processOrderError(orderId, errorCode, errorMsg);
     }
 }

@@ -20,6 +20,7 @@ public class TradeReport  extends IBMessage {
 
     @Override
     public void process(Lotus lotus) {
-        lotus.processTradeReport(this);
+
+        lotus.processTradeReport(tradeKey, contract, execution);
     }
 }

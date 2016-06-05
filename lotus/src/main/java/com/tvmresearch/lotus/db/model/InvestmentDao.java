@@ -23,4 +23,6 @@ public interface InvestmentDao {
     void addHistory(Investment investment, LocalDate date, double close);
 
     Investment findUnconfirmed(String symbol);
+
+    Investment findOrder(int orderId);
 }
