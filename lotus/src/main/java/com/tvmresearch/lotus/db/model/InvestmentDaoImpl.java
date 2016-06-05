@@ -286,8 +286,10 @@ public class InvestmentDaoImpl implements InvestmentDao {
 
             if (rs.next())
                 return populate(rs);
-            else
+            else {
+                logger.warn(String.format("findOrder: orderId %d not found", orderId));
                 return null;
+            }
 
 
         } catch (SQLException e) {

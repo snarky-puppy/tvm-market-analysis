@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.ConnectException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,11 +49,19 @@ public class Lotus {
     private int outstandingBuyOrders = 0;
     private int outstandingSellOrders = 0;
 
-    private static volatile boolean running = true;
+    public volatile boolean running = true;
+    public static volatile boolean intentionalShutdown = false;
 
-    public static void main(String[] args) {
-        Lotus lotus = new Lotus();
-        lotus.mainLoop();
+    public static void main(String[] args) throws InterruptedException {
+
+        while(!intentionalShutdown) {
+            logger.info("--- LOTUS STARTUP ---");
+            Lotus lotus = new Lotus();
+            lotus.mainLoop();
+            logger.info("--- LOTUS RECONNECT ---");
+            Thread.sleep(10000);
+        }
+        logger.info("--- LOTUS SHUTDOWN ---");
     }
 
     public Lotus() {
@@ -65,6 +74,7 @@ public class Lotus {
 
         try {
             broker = new InteractiveBroker(eventQueue);
+            running = true;
             compounder = new Compounder(broker.getAvailableFunds());
             cashUpdateTS = LocalDateTime.now().plusHours(cashUpdateHours); // update cash check timestamp since we just fetched it
 
@@ -82,6 +92,10 @@ public class Lotus {
             }
         } catch (InterruptedException e) {
             logger.info("Sleep interrupted", e);
+
+        } catch (ConnectException e) {
+            logger.info("Not connected to IB");
+            
         } finally {
             logger.info("The Final final block");
             if(broker != null)
@@ -394,15 +408,27 @@ public class Lotus {
 
          */
         logger.info(String.format("processOrderError: id=%d code=%d msg=%s", orderId, errorCode, errorMsg));
-        if(errorCode == 399)
-            return;
+        switch(errorCode) {
+            case 1100: // Connectivity between IB and Trader Workstation has been lost.
+            case 399: // Warning: your order will not be placed at the exchange until 2016-05-31 09:30:00 US/Eastern
+                return;
 
-        Investment investment = investmentDao.findOrder(orderId);
-        compounder.cancel(investment);
-        investment.state = Investment.State.ORDERFAILED;
-        investment.errorMsg = errorMsg;
-        investment.errorCode = errorCode;
-        investmentDao.serialise(investment);
+            default:
+                if(orderId > 0) {
+                    Investment investment = investmentDao.findOrder(orderId);
+                    if(investment != null) {
+                        compounder.cancel(investment);
+                        investment.state = Investment.State.ORDERFAILED;
+                        investment.errorMsg = errorMsg;
+                        investment.errorCode = errorCode;
+                        investmentDao.serialise(investment);
+                    }
+                }
 
+        }
+    }
+
+    public void processDisconnect() {
+        running = false;
     }
 }

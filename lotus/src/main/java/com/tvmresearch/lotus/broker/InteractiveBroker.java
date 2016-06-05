@@ -10,6 +10,7 @@ import com.tvmresearch.lotus.message.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.net.ConnectException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -46,11 +47,13 @@ public class InteractiveBroker implements Broker {
     }
 
 
-    public InteractiveBroker(BlockingQueue<IBMessage> _outputQueue) throws InterruptedException {
+    public InteractiveBroker(BlockingQueue<IBMessage> _outputQueue) throws InterruptedException, ConnectException {
         this.outputQueue = _outputQueue;
 
         Semaphore semaphore = new Semaphore(1);
         semaphore.acquire();
+
+        final Boolean[] connectFailed = {false};
 
         controller = new ApiController(new ApiController.IConnectionHandler() {
 
@@ -76,8 +79,9 @@ public class InteractiveBroker implements Broker {
 
             @Override
             public void error(Exception e) {
-                logger.error(e.getMessage(), e);
-                System.exit(1);
+                logger.error("error: "+e.getMessage(), e);
+                queueDisconnect();
+
             }
 
             @Override
@@ -85,10 +89,11 @@ public class InteractiveBroker implements Broker {
                 // 399: Warning: your order will not be placed at the exchange until 2016-03-28 09:30:00 US/Eastern
                 if(errorCode != 399)
                     logger.error(String.format("message: id=%d, errorCode=%d, msg=%s", id, errorCode, errorMsg));
-                //if(errorCode < 1100 && errorCode != 399 && errorCode != 202) {
-                //System.exit(1);
-                    //throw new LotusException(new TWSException(id, errorCode, errorMsg));
-                //}
+
+                if(errorCode == 502) { // Couldn't connect to TWS.  Confirm that "Enable ActiveX and Socket Clients" is enabled on the TWS "Configure->API" menu.
+                    connectFailed[0] = true;
+                    semaphore.release();
+                }
             }
 
             @Override
@@ -100,6 +105,10 @@ public class InteractiveBroker implements Broker {
 
         controller.connect("localhost", 4002, 2);
         semaphore.acquire();
+
+        if(connectFailed[0]) {
+            throw new ConnectException();
+        }
 
 
         controller.reqAccountUpdates(true, account, new ApiController.IAccountHandler() {
@@ -190,7 +199,7 @@ public class InteractiveBroker implements Broker {
             public void handle(int orderId, int errorCode, String errorMsg) {
                 logger.info(String.format("handle: orderId=%d code=%d msg=%s", orderId, errorCode, errorMsg.replaceAll("\n", ":::")));
                 try {
-                    outputQueue.put(new LiveOrderError(orderId, errorCode, errorMsg));
+                    outputQueue.put(new LiveOrderError(orderId, errorCode, errorMsg.replaceAll("\n", ":::")));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -223,6 +232,15 @@ public class InteractiveBroker implements Broker {
                 }
             }
         });
+    }
+
+    private void queueDisconnect() {
+        try {
+            outputQueue.put(new IBDisconnect());
+        } catch (InterruptedException e2) {
+            e2.printStackTrace();
+            System.exit(1);
+        }
     }
 
     @Override
