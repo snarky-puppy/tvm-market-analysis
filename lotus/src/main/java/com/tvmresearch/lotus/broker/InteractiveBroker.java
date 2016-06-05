@@ -85,10 +85,10 @@ public class InteractiveBroker implements Broker {
                 // 399: Warning: your order will not be placed at the exchange until 2016-03-28 09:30:00 US/Eastern
                 if(errorCode != 399)
                     logger.error(String.format("message: id=%d, errorCode=%d, msg=%s", id, errorCode, errorMsg));
-                if(errorCode < 1100 && errorCode != 399 && errorCode != 202) {
-                    System.exit(1);
+                //if(errorCode < 1100 && errorCode != 399 && errorCode != 202) {
+                //System.exit(1);
                     //throw new LotusException(new TWSException(id, errorCode, errorMsg));
-                }
+                //}
             }
 
             @Override

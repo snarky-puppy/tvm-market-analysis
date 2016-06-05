@@ -16,6 +16,8 @@ import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -83,7 +85,7 @@ public class ImportTriggers {
     }
 
     private void backupFile(Path file) throws IOException {
-        Path newFile = Configuration.INPUT_DIR_ARCHIVE.resolve(file.getFileName());
+        Path newFile = Configuration.INPUT_DIR_ARCHIVE.resolve(file.getFileName()+LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
         Files.move(file, newFile);
     }
 

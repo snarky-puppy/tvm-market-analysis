@@ -15,10 +15,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.concurrent.*;
+
+import static com.ib.controller.Types.Action.BUY;
+import static com.ib.controller.Types.Action.SELL;
 
 /**
  * Program entry point
@@ -307,13 +311,35 @@ public class Lotus {
 
     public void processOpenOrder(NewContract contract, NewOrder order, NewOrderState orderState) {
         Investment investment = investmentDao.findOrder(order.orderId());
-        if(order.action() == Types.Action.BUY) {
 
-        } else if(order.action() == Types.Action.SELL) {
-
-        } else {
-            logger.error("processOpenOrder: undefined order action: "+order.action());
+        if(investment == null) {
+            logger.warn("processOpenOrder: unknown orderId");
+            return;
         }
+
+        switch(orderState.status()) {
+            case PreSubmitted:
+                if(order.action() == BUY) {
+                    investment.buyPermId = order.permId();
+                    investment.state = Investment.State.BUYPRESUBMITTED;
+                    investment.conId = contract.conid();
+                } else {
+                    investment.sellPermId = order.permId();
+                }
+                break;
+            case Filled:
+
+                break;
+            case Cancelled:
+            case ApiCancelled:
+                break;
+
+            default:
+                logger.error("processOpenOrder: undefined order status: "+orderState.status());
+                break;
+        }
+
+        investmentDao.serialise(investment);
     }
 
     public void processTradeReport(String tradeKey, NewContract contract, Execution execution) {
@@ -328,6 +354,38 @@ public class Lotus {
         // This method is called whenever the status of an order changes.
         // It is also fired after reconnecting to TWS if the client has any open orders.
         // https://www.interactivebrokers.com/en/software/api/apiguide/java/orderstatus.htm
+
+        Investment investment = investmentDao.findOrder(orderId);
+        if(investment == null) {
+            logger.warn("processOrderStatus: unknown orderId");
+            return;
+        }
+
+        switch(status) {
+            case Filled:
+                if(investment.state == Investment.State.BUYPRESUBMITTED || investment.state == Investment.State.BUY) {
+                    investment.state = Investment.State.BUYFILLED;
+                    investment.qtyFilled = filled;
+                    investment.buyDate = LocalDate.now();
+                    investment.buyFillValue = filled * avgFillPrice;
+                }
+                if(investment.state == Investment.State.SELLPRESUBMITTED || investment.state == Investment.State.SELL) {
+                    investment.state = Investment.State.SELLFILLED;
+                    investment.sellDateEnd = LocalDate.now();
+                    investment.sellFillVal = filled * avgFillPrice;
+                }
+                break;
+            case Cancelled:
+            case ApiCancelled:
+            case PreSubmitted:
+                break;
+
+            default:
+                logger.error("processOrderStatus: undefined order status: "+status);
+                break;
+        }
+
+        investmentDao.serialise(investment);
     }
 
     public void processOrderError(int orderId, int errorCode, String errorMsg) {
@@ -335,6 +393,7 @@ public class Lotus {
         399: Warning: your order will not be placed at the exchange until 2016-05-31 09:30:00 US/Eastern
 
          */
+        logger.info(String.format("processOrderError: id=%d code=%d msg=%s", orderId, errorCode, errorMsg));
         if(errorCode == 399)
             return;
 
