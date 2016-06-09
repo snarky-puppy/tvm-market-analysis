@@ -155,7 +155,6 @@ public class Test {
 
         };
         System.out.println(String.format("%.6f", slope(dates, close)));
-
         System.out.println(DateUtil.minusDays(20150114, 30));
 
     }

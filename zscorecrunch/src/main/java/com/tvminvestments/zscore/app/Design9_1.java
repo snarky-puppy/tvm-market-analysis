@@ -300,6 +300,9 @@ public class Design9_1 {
 
 
             int idx = data.findDateIndex(news.date);
+            if(data.date[idx] == news.date)
+                idx++;
+
             for(int i = 0; i < Result.range && idx < data.date.length; i++, idx++) {
                 r.date[i] = data.date[idx];
                 r.open[i] = data.open[idx];

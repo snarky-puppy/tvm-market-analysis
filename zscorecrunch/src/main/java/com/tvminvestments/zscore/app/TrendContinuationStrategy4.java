@@ -2,6 +2,7 @@ package com.tvminvestments.zscore.app;
 
 import com.google.common.util.concurrent.AtomicDouble;
 import com.tvminvestments.zscore.CloseData;
+import com.tvminvestments.zscore.EMAException;
 import com.tvminvestments.zscore.db.Database;
 import com.tvminvestments.zscore.db.DatabaseFactory;
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Design9.1 - news
@@ -31,6 +33,46 @@ public class TrendContinuationStrategy4 {
     // k=market
     private static final Map<String, ArrayBlockingQueue<Result>> queues = new HashMap<>();
     private static final List<ResultWriter> writerThreads = new ArrayList<>();
+
+
+    public static void main(String[] args) throws Exception {
+
+        try {
+            ExecutorService executorService = Executors.newFixedThreadPool(4); // only 4 markets
+
+            final boolean isTest = false;
+
+            if(isTest) {
+                executorService.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        TrendContinuationStrategy4 trendContinuationStrategy4 = new TrendContinuationStrategy4();
+                        trendContinuationStrategy4.run("test");
+                    }
+                });
+
+            } else {
+                for (final String market : Conf.listAllMarkets()) {
+                    executorService.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            TrendContinuationStrategy4 trendContinuationStrategy4 = new TrendContinuationStrategy4();
+                            trendContinuationStrategy4.run(market);
+                        }
+                    });
+                }
+            }
+            executorService.shutdown();
+            executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.DAYS);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        } finally {
+            stopAllWriterThreads();
+        }
+    }
+
 
 
     class Result {
@@ -77,7 +119,7 @@ public class TrendContinuationStrategy4 {
         public String toString() {
             final StringBuffer sb = new StringBuffer("");
             sb.append(date);
-            sb.append("\"").append(symbol).append("\"");
+            sb.append(",\"").append(symbol).append("\"");
             sb.append(",\"").append(exchange).append("\"");
             sb.append(",\"").append(category).append("\"");
             sb.append(",").append(prev30AvgPrice);
@@ -222,17 +264,18 @@ public class TrendContinuationStrategy4 {
         }
     }
 
-    public static void main(String[] args) throws Exception {
+    private void run(String market) {
+
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
 
         try {
-            ExecutorService executorService = Executors.newFixedThreadPool(8); // cpu is quite idle
-
-            for (final String market : Conf.listAllMarkets()) {
+            ArrayBlockingQueue<Result> queue = getQueue(market);
+            Database db = DatabaseFactory.createDatabase(market);
+            for (String symbol : db.listSymbols()) {
                 executorService.submit(new Runnable() {
                     @Override
                     public void run() {
-                        TrendContinuationStrategy4 trendContinuationStrategy4 = new TrendContinuationStrategy4();
-                        trendContinuationStrategy4.run(market);
+                        processSymbol(db, queue, symbol);
                     }
                 });
             }
@@ -242,56 +285,166 @@ public class TrendContinuationStrategy4 {
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
-        } finally {
-            stopAllWriterThreads();
         }
+
     }
 
-    private void run(String market) {
+    private void processSymbol(Database db, ArrayBlockingQueue<Result> queue, String symbol) {
+
         final boolean useAdjustedClose = false;
 
+        double [] vma50history = new double[5];
+        int vmaHistoryIdx = 0;
+
         try {
-            Database db = DatabaseFactory.createDatabase(market);
-            for(String symbol : db.listSymbols()) {
-                CloseData data = db.loadData(symbol);
+            CloseData data = db.loadData(symbol);
+
+
+            boolean ema30EverCrossed50 = false;
+            boolean ema50EverCrossed100 = false;
+            double high = 0.0;
+
+            // we can only have a meaningful start from the 100th day since
+            // one of the triggers is an 100 day average
+
+            // gather high from previous 99 days
+            int idx = 0;
+            do {
+                high = Math.max(high, data.close[idx]);
+                idx++;
+            } while(idx < 99 && idx < data.close.length);
+
+            // start off on day 100 to give the averages something to chew
+            while(idx < data.close.length) {
+                // ema
+                double ema30 = ema(data.close, idx, 30);
+                double ema50 = ema(data.close, idx, 50);
+                double ema100 = ema(data.close, idx, 100);
+                double vma20 = simpleMovingAverage(data.volume, idx, 20);
+                double vma50 = simpleMovingAverage(data.volume, idx, 50);
+                vma50history[vmaHistoryIdx++ % vma50history.length] = vma50;
+
+                boolean highest = data.close[idx] > high;
+                high = Math.max(high, data.close[idx]);
+
+                boolean vma20Flag = vma20 > 50000;
+                boolean dailyVolFlag = false;
+
+                for(int i = 0; i < vma50history.length && !dailyVolFlag; i++) {
+                    if(data.volume[idx] > vma50history[i] * 1.5)
+                        dailyVolFlag = true;
+                }
+
+                if(ema30 > ema50) {
+                    ema30EverCrossed50 = true;
+                }
+
+                if(ema50 > ema100) {
+                    ema50EverCrossed100 = true;
+                }
+
+                boolean trigger = dailyVolFlag && vma20Flag && highest &&
+                                    ema30EverCrossed50 && ema50EverCrossed100;
+
+                if(trigger) {
+                    Result r = new Result();
+                    r.date = data.date[idx];
+                    r.symbol = symbol;
+                    r.exchange = db.getMarket();
+                    r.category = "";
+
+                    AtomicDouble aDbl = new AtomicDouble(0.0);
+                    data.avgPricePrev30Days(r.date, aDbl, useAdjustedClose);
+                    r.prev30AvgPrice = aDbl.get();
+
+
+                    data.avgVolumePrev30Days(r.date, aDbl);
+                    r.prev30AvgVol = aDbl.get();
+
+                    r.price = data.close[idx];
+
+                    r.zScore30Day = data.zscore(r.date, 30);
+
+                    if(idx + 1 < data.close.length) {
+                        r.nextDayOpenDate = data.date[idx+1];
+                        r.nextDayOpenPrice = data.close[idx+1];
+                    }
+
+                    r.ema30 = ema30;
+                    r.ema50 = ema50;
+                    r.ema100 = ema100;
+
+                    r.vma20 = vma20;
+                    r.vma50 = vma50;
+
+                    AtomicInteger aInt = new AtomicInteger(0);
+                    for(int i = 0; i < Result.weekRange; i++) {
+                        data.findNWeekData(i+1, r.date, aInt, aDbl, useAdjustedClose);
+                        r.weekDate[i] = aInt.get();
+                        r.weekPrice[i] = aDbl.get();
+                    }
+
+                    for(int t = 3, i = 0; i < Result.monthRange; i++, t += 3) {
+                        data.findNMonthData(t, r.date, aInt, aDbl, useAdjustedClose);
+                        r.monthDate[i] = aInt.get();
+                        r.monthPrice[i] = aDbl.get();
+                    }
+
+                    for(int t = 3, i = 0; i < Result.lowMonthRange; i++, t += 3) {
+                        data.findMinPriceFromEntry(r.date, t, aInt, aDbl, useAdjustedClose);
+                        r.lowMonthDate[i] = aInt.get();
+                        r.lowMonthPrice[i] = aDbl.get();
+                    }
+
+                    for(int t = 3, i = 0; i < Result.maxMonthRange; i++, t += 3) {
+                        data.findMinPriceFromEntry(r.date, t, aInt, aDbl, useAdjustedClose);
+                        r.maxMonthDate[i] = aInt.get();
+                        r.maxMonthPrice[i] = aDbl.get();
+                    }
+
+                    enqueueResult(queue, r);
+                }
+                idx++;
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
+            System.exit(1);
         }
 
-        for(NewsRow news : loadNews(file)) {
-            Result r = new Result();
+    }
 
-            r.category = category;
-            r.symbol = news.symbol;
-            r.headline = news.news;
-            r.exchange = symbolToExchange.get(r.symbol);
-
-            CloseData data = getCloseData(r.symbol);
-            if(data == null)
-                continue;
-
-            AtomicDouble aDbl = new AtomicDouble(0.0);
-            data.avgPricePrev30Days(news.date, aDbl, useAdjustedClose);
-            r.prev30AvgPrice = aDbl.get();
-
-
-            data.avgVolumePrev30Days(news.date, aDbl);
-            r.prev30AvgVol = aDbl.get();
-            r.headlineDate = news.date;
-
-
-            int idx = data.findDateIndex(news.date);
-            for(int i = 0; i < Result.range && idx < data.date.length; i++, idx++) {
-                r.date[i] = data.date[idx];
-                r.open[i] = data.open[idx];
-                r.volume[i] = data.volume[idx];
-            }
-
-            enqueueResult(category, r);
+    public double ema(double[] close, int startIdx, int days) throws EMAException {
+        if(days <= 1) {
+            //throw new EMAException("not enough days for meaningful EMA: "+days);
+            return -1;
         }
+        if(days > startIdx + 1) {
+            //throw new EMAException("not enough data to calculate "+days+"day EMA");
+            return -1;
+        }
+
+        double ema = 0.0;
+
+        // start with SMA
+        double prevDaysEMA = simpleMovingAverage(close, startIdx, days);
+
+        // multiplier
+        double k = (2 / (days + 1));
+
+        for(int idx = startIdx - days + 1; idx <= startIdx; idx++) {
+            ema = close[idx] * k + prevDaysEMA * (1 - k);
+            prevDaysEMA = ema;
+        }
+
+        return ema;
+    }
+
+    private double simpleMovingAverage(double[] data, int startIdx, int days) {
+        double sum = 0.0;
+        for (int i = startIdx - days + 1; i <= startIdx ; i++) {
+            sum += data[i];
+        }
+        return sum / days;
     }
 
     private void enqueueResult(ArrayBlockingQueue<Result> queue, Result result) {
