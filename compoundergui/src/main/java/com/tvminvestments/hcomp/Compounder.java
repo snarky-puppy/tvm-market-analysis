@@ -48,6 +48,8 @@ public class Compounder {
         public Double roi;
         public Double compoundTally;
 
+        public Double totalAssets;
+
         public int order;
         public double preCompoundInvestAmt;
         public double compoundInvestAmt;
@@ -213,6 +215,7 @@ public class Compounder {
                 if((balanceCash - investAmt) < 0) {
                     //logger.info(String.format("%s: I: not enough funds[%.2f] to cover investment[%.2f], skipping", r.symbol, totalBank, investAmt));
                     r.bankBalance = balanceCash;
+                    r.totalAssets = balanceCash + balanceTrades;
                     iter++;
                     continue;
                 }
@@ -254,6 +257,7 @@ public class Compounder {
                     // no I or I didn't go through due to lack of funds
                     iter++;
                     r.bankBalance = balanceCash;
+                    r.totalAssets = balanceCash + balanceTrades;
                     continue;
                 }
 
@@ -309,9 +313,9 @@ public class Compounder {
                         logRow.balanceCash = balanceCash;
                     }
                 }
-
-
             }
+
+            r.totalAssets = balanceCash + balanceTrades;
             iter ++;
         }
 

@@ -80,6 +80,7 @@ public class MainWindow implements ActionListener {
                             case 3:
                             case 4:
                             case 6:
+                            case 7:
                                 value = currency.format(value);
                                 break;
                             case 5:

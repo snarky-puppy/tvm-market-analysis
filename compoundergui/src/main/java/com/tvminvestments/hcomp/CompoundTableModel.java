@@ -22,7 +22,8 @@ public class CompoundTableModel extends AbstractTableModel {
             new ColumnDef("Real Transact", Double.class),
             new ColumnDef("Bank Balance", Double.class),
             new ColumnDef("ROI%", Double.class),
-            new ColumnDef("Compound Tally", Double.class)
+            new ColumnDef("Compound Tally", Double.class),
+            new ColumnDef("Total Assets", Double.class)
     };
 
 
@@ -85,6 +86,8 @@ public class CompoundTableModel extends AbstractTableModel {
                 return compounder.get(rowIndex).roi;
             case 6:
                 return compounder.get(rowIndex).compoundTally;
+            case 7:
+                return compounder.get(rowIndex).totalAssets;
         }
         return null;
     }
