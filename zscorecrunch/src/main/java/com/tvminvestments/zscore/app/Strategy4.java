@@ -250,16 +250,15 @@ public class Strategy4 {
             CloseData data = db.loadData(symbol);
             double[] c = data.close;
 
-            // gather high from previous 99 days
             int idx = 0;
             // 21 days is how many we need for the slope calc and dollar volume.
             // if we trigger with less than the hold time left then we can still report it.
             while(idx + 21 - 1 < data.close.length) {
                 double p1, p2, p3;
 
-                p1 = ((c[idx] - c[idx + 7-1])/c[idx+7-1])*100;
-                p2 = ((c[idx] - c[idx + 14-1])/c[idx+14-1])*100;
-                p3 = ((c[idx] - c[idx + 21-1])/c[idx+21-1])*100;
+                p1 = change(c[idx], c[idx + 7-1]);
+                p2 = change(c[idx], c[idx + 14-1]);
+                p3 = change(c[idx], c[idx + 21-1]);
 
                 SimpleRegression simpleRegression = new SimpleRegression();
 
@@ -289,17 +288,18 @@ public class Strategy4 {
                         r.dollarVolume = avgVolume * avgClose;
 
 
-                        int i = idx + 21  + 28 - 1;
+                        int n = idx + 21;
+                        int i = n + 7 - 1;
                         if(i < data.open.length) {
                             r.holdPl28Date = data.date[i];
-                            r.holdPl28Pc = ((data.open[idx + 21] - data.open[i])/data.open[i])*100;
+                            r.holdPl28Pc = change(data.open[n], data.open[i]);
                             r.holdPl28Price = data.open[i];
                         }
 
-                        i = idx + 21 + 35 - 1;
+                        i = n + 14 - 1;
                         if(i < data.open.length) {
                             r.holdPl35Date = data.date[i];
-                            r.holdPl35Pc = ((data.open[idx + 21] - data.open[i])/data.open[i])*100;
+                            r.holdPl35Pc = change(data.open[n], data.open[i]);
                             r.holdPl35Price = data.open[i];
                         }
                         enqueueResult(queue, r);
@@ -311,7 +311,10 @@ public class Strategy4 {
             e.printStackTrace();
             System.exit(1);
         }
+    }
 
+    public double change(double start, double end) {
+        return ((end - start)/start);
     }
 
     public double ema(double[] close, int startIdx, int days) throws EMAException {
