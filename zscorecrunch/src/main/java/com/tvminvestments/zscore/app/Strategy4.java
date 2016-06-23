@@ -138,7 +138,7 @@ public class Strategy4 {
         ResultWriter(String category, BlockingQueue<Result> blockingQueue) {
             try {
                 this.blockingQueue = blockingQueue;
-                writer = new BufferedWriter(new FileWriter("strategy4-"+category+".csv"));
+                writer = new BufferedWriter(new FileWriter("strategy4-noslopefilter-"+category+".csv"));
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -268,7 +268,7 @@ public class Strategy4 {
 
                 double slope = simpleRegression.getSlope();
 
-                if(slope <= -0.2) {
+                //if(slope <= -0.2) {
                     double avgVolume = new Mean().evaluate(data.volume, idx, 21);
                     double avgClose = new Mean().evaluate(data.close, idx, 21);
                     if(avgClose * avgVolume >= 10000000) {
@@ -304,7 +304,7 @@ public class Strategy4 {
                         }
                         enqueueResult(queue, r);
                     }
-                }
+                //}
                 idx++;
             }
         } catch (Exception e) {
