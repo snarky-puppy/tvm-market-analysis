@@ -134,7 +134,7 @@ public class EventProcessor {
 
     public void processInvestments() {
         // check open positions for Sell events
-        List<Investment> investmentList = investmentDao.getFilledInvestments();
+        List<Investment> investmentList = investmentDao.getPositions();
         for(Investment investment : investmentList) {
             if(isSellEvent(investment)) {
                 broker.sell(investment);

@@ -62,7 +62,7 @@ public class ShowHistory {
             System.out.println("Timelimit="+timeLimit);
 
             InvestmentDao dao = new InvestmentDaoImpl();
-            List<Investment> investments = dao.getFilledInvestments();
+            List<Investment> investments = dao.getPositions();
             for(Investment investment : investments) {
 
                 final String symbol = investment.trigger.symbol;

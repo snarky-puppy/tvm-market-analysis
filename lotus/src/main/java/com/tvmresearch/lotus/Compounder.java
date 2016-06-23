@@ -56,9 +56,15 @@ public class Compounder {
                         state.cash, (investment.cmpMin + state.tallySlice), state.tallySlice, investment.cmpMin));
                 state.resetTally();
             } else {
-                investment.cmpVal = state.tallySlice;
-                state.tallySliceCnt++;
-                state.compoundTally -= state.tallySlice;
+                if(state.tallySlice > state.compoundTally) {
+                    // this may happen due to rounding errors of about $0.01
+                    investment.cmpVal = state.compoundTally;
+                    state.resetTally();
+                } else {
+                    investment.cmpVal = state.tallySlice;
+                    state.tallySliceCnt++;
+                    state.compoundTally -= state.tallySlice;
+                }
 
                 if (state.tallySliceCnt == state.spread) {
                     state.resetTally();
@@ -88,7 +94,7 @@ public class Compounder {
 
     public void cancel(Investment investment) {
         state.compoundTally += investment.cmpVal;
-        state.cash += investment.cmpMin;
+        state.cash += investment.cmpTotal;
 
         logger.info("investment cancel: returning cash to compounder: "+investment.cmpTotal);
 
@@ -132,5 +138,17 @@ public class Compounder {
 
     public double getCash() {
         return state.cash;
+    }
+
+    public double getCompoundTally() {
+        return state.compoundTally;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Compounder{");
+        sb.append("state=").append(state);
+        sb.append('}');
+        return sb.toString();
     }
 }

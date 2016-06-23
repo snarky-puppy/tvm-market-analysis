@@ -52,6 +52,8 @@ public class Investment {
     public Integer qtyFilled;
     // value of stocsk actually filled
     public Double buyFillValue;
+    // IB commission
+    public Double buyCommission;
 
     /* selling */
 
@@ -70,28 +72,46 @@ public class Investment {
     public LocalDate sellDateStart;
     public LocalDate sellDateEnd;
 
+    // IB commission
+    public Double sellCommission;
 
-
+    public Double marketPrice;
+    public Double marketValue;
+    public Double avgCost;
     public Double realPnL;
 
     public Integer errorCode;
+
     public String errorMsg;
 
+    /*
+case BUYUNCONFIRMED:
+case BUYPRESUBMITTED:
+case BUYOPEN:
+case BUYFILLED:
+case SELLUNCONFIRMED:
+case SELLPRESUBMITTED:
+case SELLOPEN:
+case SELLFILLED:
+     */
+
     public enum State {
-        UNCONFIRMED,
+        BUYUNCONFIRMED,
         BUYPRESUBMITTED,
-        BUY,
+        BUYOPEN,
         BUYFILLED,
+        SELLUNCONFIRMED,
         SELLPRESUBMITTED,
-        SELL,
+        SELLOPEN,
         SELLFILLED,
+        CLOSED,
         ORDERFAILED, ERROR
     }
 
     public Investment(Trigger trigger) {
         this.trigger = trigger;
         this.buyDate = LocalDate.now();
-        this.state = State.UNCONFIRMED;
+        this.state = State.BUYUNCONFIRMED;
         this.history = history;
     }
 
@@ -140,5 +160,45 @@ public class Investment {
         order.tif(com.ib.controller.Types.TimeInForce.GTC);
         order.transmit(true);
         return order;
+    }
+
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Investment{");
+        sb.append("trigger=").append(trigger);
+        sb.append(", history=").append(history);
+        sb.append(", id=").append(id);
+        sb.append(", cmpMin=").append(cmpMin);
+        sb.append(", cmpVal=").append(cmpVal);
+        sb.append(", cmpTotal=").append(cmpTotal);
+        sb.append(", buyOrderId=").append(buyOrderId);
+        sb.append(", sellOrderId=").append(sellOrderId);
+        sb.append(", buyPermId=").append(buyPermId);
+        sb.append(", sellPermId=").append(sellPermId);
+        sb.append(", conId=").append(conId);
+        sb.append(", state=").append(state);
+        sb.append(", buyLimit=").append(buyLimit);
+        sb.append(", buyDate=").append(buyDate);
+        sb.append(", qty=").append(qty);
+        sb.append(", qtyValue=").append(qtyValue);
+        sb.append(", qtyFilled=").append(qtyFilled);
+        sb.append(", buyFillValue=").append(buyFillValue);
+        sb.append(", buyCommission=").append(buyCommission);
+        sb.append(", sellLimit=").append(sellLimit);
+        sb.append(", sellDateLimit=").append(sellDateLimit);
+        sb.append(", avgSellPrice=").append(avgSellPrice);
+        sb.append(", sellFillVal=").append(sellFillVal);
+        sb.append(", sellDateStart=").append(sellDateStart);
+        sb.append(", sellDateEnd=").append(sellDateEnd);
+        sb.append(", sellCommission=").append(sellCommission);
+        sb.append(", marketPrice=").append(marketPrice);
+        sb.append(", marketValue=").append(marketValue);
+        sb.append(", avgCost=").append(avgCost);
+        sb.append(", realPnL=").append(realPnL);
+        sb.append(", errorCode=").append(errorCode);
+        sb.append(", errorMsg='").append(errorMsg).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

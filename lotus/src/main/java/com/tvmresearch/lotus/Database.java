@@ -25,7 +25,7 @@ public class Database {
     static {
         dataSource = new DataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost/lotus2?useSSL=false");
+        dataSource.setUrl("jdbc:mysql://localhost/lotus2?useSSL=false&autoReconnect=true");
         dataSource.setUsername("lotus2");
         dataSource.setPassword("lotus2");
         dataSource.setInitialSize(10);

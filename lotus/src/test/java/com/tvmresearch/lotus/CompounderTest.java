@@ -147,6 +147,7 @@ public class CompounderTest {
         // same as previous test but check some profit back in
         double cash = 1000;
 
+        // initialise compounder
         new Compounder(cash);
         assertTrue(new Compounder().fundsAvailable());
 
@@ -155,7 +156,7 @@ public class CompounderTest {
         assertEquals(minInvest, new Compounder().nextInvestmentAmount(), 0.001);
 
         double profit = 0;
-        // add some profit to the compounder
+        // add 500 profit to the compounder
         {
             Investment investment = new Investment(null);
             investment.buyFillValue = 500.0;
@@ -164,7 +165,10 @@ public class CompounderTest {
             cash += investment.sellFillVal;
             profit += investment.sellFillVal - investment.buyFillValue;
             assertEquals(cash, new Compounder().getCash(), 0.001);
+            assertEquals(profit, new Compounder().getCompoundTally(), 0.001);
         }
+
+        System.out.println("1: "+new Compounder());
 
         // apply and then cancel some investments
         Investment[] arry = new Investment[Configuration.SPREAD];
@@ -173,9 +177,18 @@ public class CompounderTest {
             assertEquals(minInvest + slice, new Compounder().nextInvestmentAmount(), 0.001);
             arry[i] = new Investment(null);
             assertTrue(new Compounder().apply(arry[i]));
+            assertEquals(minInvest, arry[i].cmpMin, 0.001);
+            assertEquals(slice, arry[i].cmpVal, 0.01);
+            assertEquals(minInvest + slice, arry[i].cmpTotal, 0.01);
+
         }
-        // should be no profit remaining
+
+        System.out.println("2: "+new Compounder());
+
+        // should be no profit remaining - back to minInvest amount
         assertEquals(minInvest, new Compounder().nextInvestmentAmount(), 0.001);
+        assertEquals(0.0, new Compounder().getCompoundTally(), 0.001);
+        assertEquals(cash - (minInvest * Configuration.SPREAD) - profit, new Compounder().getCash(), 0.01);
 
         // now cancel everything
         for(int i = 0; i < Configuration.SPREAD; i++) {

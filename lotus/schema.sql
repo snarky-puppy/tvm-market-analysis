@@ -81,15 +81,17 @@ CREATE TABLE investments (
 	con_id INTEGER,
 
 	state ENUM(
-		'UNCONFIRMED', 
+		'BUYUNCONFIRMED', 
 		'BUYPRESUBMITTED', 
-		'BUY', 
+		'BUYOPEN', 
 		'BUYFILLED', 
+		'SELLUNCONFIRMED', 
 		'SELLPRESUBMITTED', 
-		'SELL', 
+		'SELLOPEN', 
 		'SELLFILLED', 
+		'CLOSED', 
 		'ORDERFAILED',
-		'ERROR') NOT NULL DEFAULT 'UNCONFIRMED',
+		'ERROR') NOT NULL DEFAULT 'ERROR',
 
 	/* buying */
 
@@ -110,6 +112,9 @@ CREATE TABLE investments (
 	-- Price of stocks actually filled
 	buy_fill_val DOUBLE(12,2),
 
+	-- IB cost of BUY order
+	buy_commission DOUBLE(12,2),
+
 	/* selling */
 	-- sell when price reaches this limit (+10%)
 	sell_limit DOUBLE(12,2) NOT NULL,
@@ -127,9 +132,15 @@ CREATE TABLE investments (
 	sell_dt_start DATE,
 	sell_dt_end DATE,
 
+	-- IB sell commission total
+	sell_commission DOUBLE(12,2),
 
-	-- realised profit / loss
+	-- updated profit / loss
+	market_price DOUBLE(12,2),
+	market_value DOUBLE(12,2),
+	avg_cost DOUBLE(12,2),
 	real_pnl DOUBLE(12,2),
+
 
 	-- something went wrong...
 	error_code INTEGER,

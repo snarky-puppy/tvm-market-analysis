@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Semaphore;
@@ -27,6 +28,8 @@ import java.util.concurrent.Semaphore;
 public class InteractiveBroker implements Broker {
 
     private static final Logger logger = LogManager.getLogger(InteractiveBroker.class);
+
+    private static final int clientId = 2;
 
     private final ApiController controller;
     private final BlockingQueue<IBMessage> outputQueue;
@@ -103,7 +106,7 @@ public class InteractiveBroker implements Broker {
         }, new IBLogger(), new IBLogger());
 
 
-        controller.connect("localhost", 4002, 2);
+        controller.connect("localhost", 4002, clientId);
         semaphore.acquire();
 
         if(connectFailed[0]) {
@@ -206,7 +209,7 @@ public class InteractiveBroker implements Broker {
             }
         });
 
-        controller.reqExecutions(new ExecutionFilter(0, account, null, null, null, null, null), new ApiController.ITradeReportHandler() {
+        controller.reqExecutions(new ExecutionFilter(clientId, account, null, null, null, null, null), new ApiController.ITradeReportHandler() {
             @Override
             public void tradeReport(String tradeKey, NewContract contract, Execution execution) {
                 logger.info(String.format("tradeReport: tradeKey=%s contract=%s execution=%s", tradeKey, contract, execution));
@@ -320,7 +323,55 @@ public class InteractiveBroker implements Broker {
     }
 
     @Override
-    public void updateHistory(InvestmentDao dao, Investment investment) {
+    public void updateHistory(InvestmentDao dao, Investment investment, long missingDays) {
+        NewContract contract = investment.createNewContract();
+
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("yyyyMMdd hh:mm:ss zzz")
+                        .withZone(ZoneId.of("GMT"));
+
+        Instant instant = Instant.now();
+        String timeLimit = formatter.format(instant);
+
+        logger.info(String.format("updateHistory: %s/%s TimeLimit=%s", contract.primaryExch(), contract.symbol(), timeLimit));
+        Semaphore semaphore = new Semaphore(1);
+        try {
+            semaphore.acquire();
+
+            class Pair {
+                public LocalDate date;
+                public double close;
+                Pair(LocalDate d, double c) { date = d; close = c; }
+            }
+            List<Pair> history = new ArrayList<>();
+
+            ApiController.IHistoricalDataHandler historicalDataHandler = new ApiController.IHistoricalDataHandler() {
+                @Override
+                public void historicalData(Bar bar, boolean hasGaps) {
+                    Date dt = new Date(bar.time()*1000);
+                    LocalDate date = dt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    logger.info(String.format("history: %s: %s: %f", investment.trigger.symbol, bar.formattedTime(), bar.close()));
+                    history.add(new Pair(date, bar.close()));
+                }
+
+                @Override
+                public void historicalDataEnd() {
+                    semaphore.release();
+                }
+            };
+
+            controller.reqHistoricalData(contract, timeLimit, (int) missingDays, Types.DurationUnit.DAY,
+                    Types.BarSize._1_day, Types.WhatToShow.TRADES, true, historicalDataHandler);
+
+            semaphore.acquire();
+
+            for(Pair p : history) {
+                dao.addHistory(investment, p.date, p.close);
+            }
+
+        } catch (InterruptedException e) {
+            throw new LotusException(e);
+        }
 
     }
 
@@ -330,7 +381,12 @@ public class InteractiveBroker implements Broker {
     }
 
     @Override
-    public double getAvailableFunds() {
+    public double getAvailableFundsUSD() {
+        return availableFunds / exchangeRate;
+    }
+
+    @Override
+    public double getAvailableFundsAUD() {
         return availableFunds;
     }
 }

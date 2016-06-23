@@ -1,13 +1,15 @@
 package com.tvmresearch.lotus;
 
 import com.mysql.fabric.xmlrpc.base.Data;
-import com.tvmresearch.lotus.db.model.Trigger;
+import com.tvmresearch.lotus.db.model.*;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by horse on 1/06/2016.
@@ -70,6 +72,24 @@ public class DBUtil {
         trigger.rejectReason = Trigger.RejectReason.NOTPROCESSED;
 
         return trigger;
+    }
+
+    public static Investment createInvestment(Trigger trigger) {
+        assertNotNull(trigger);
+
+        Investment investment = new Investment(trigger);
+        investment.cmpMin = 10000;
+        investment.cmpVal = 0;
+        investment.cmpTotal = 10000;
+
+        investment.buyLimit = 100;
+        investment.qty = 10;
+        investment.qtyValue = 10000;
+
+        investment.sellLimit = 110;
+        investment.sellDateLimit = LocalDate.now().plusWeeks(6);
+
+        return investment;
     }
 
 }

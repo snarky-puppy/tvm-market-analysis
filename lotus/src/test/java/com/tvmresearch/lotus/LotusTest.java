@@ -22,7 +22,7 @@ public class LotusTest {
         List<Position> openPositions = new ArrayList<>();
 
         @Override
-        public double getAvailableFunds() {
+        public double getAvailableFundsUSD() {
             return 0;
         }
 

@@ -1,5 +1,9 @@
 package com.tvmresearch.lotus;
 
+import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 /**
@@ -11,21 +15,28 @@ public class Test {
         System.out.println(i);
     }
 
-    static class T {
-        public int i;
-        public T(int i) { this.i = i; }
+
+    private static double round(double num) {
+        BigDecimal bd = new BigDecimal(num);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public static void main(String[] args) {
-        ArrayList<T> arr = new ArrayList<>();
-        arr.add(new T(1));
-        arr.add(new T(2));
-        arr.add(new T(3));
 
 
+        double inf = 1.7976931348623157E308;
 
-        int sum = arr.stream().mapToInt(t -> t.i).sum();
-        System.out.println(sum);
+        if(inf > 99999) {
+            System.out.println("Infinite");
+        } else
+            System.out.println("not infinite");
+
+        System.out.println(round(inf));
+
+        double value = 1.7976931;
+
+        System.out.println(Math.floor(value * 100) / 100);
 
     }
 }

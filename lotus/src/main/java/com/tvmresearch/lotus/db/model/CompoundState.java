@@ -27,6 +27,21 @@ public class CompoundState {
     public int spread;
     public int investPercent;
 
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("CompoundState{");
+        sb.append("startBank=").append(startBank);
+        sb.append(", minInvest=").append(minInvest);
+        sb.append(", cash=").append(cash);
+        sb.append(", compoundTally=").append(compoundTally);
+        sb.append(", tallySlice=").append(tallySlice);
+        sb.append(", tallySliceCnt=").append(tallySliceCnt);
+        sb.append(", spread=").append(spread);
+        sb.append(", investPercent=").append(investPercent);
+        sb.append('}');
+        return sb.toString();
+    }
+
     public CompoundState(double brokerCash) {
         this.startBank = brokerCash;
         this.cash = brokerCash;

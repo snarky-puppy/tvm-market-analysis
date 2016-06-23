@@ -96,8 +96,8 @@ public class BuyTest {
             InvestmentDao dao = new InvestmentDaoImpl();
 
             Trigger trigger = new Trigger();
-            trigger.symbol = "A";
-            trigger.exchange = "NYSE";
+            trigger.symbol = "NTM";
+            trigger.exchange = "ASX";
             trigger.date = LocalDate.now();
             trigger.rejectReason = OK;
             Investment investment = new Investment(trigger);
@@ -121,8 +121,8 @@ public class BuyTest {
                 }
             });
 
-            /*
-            controller.reqAccountUpdates(true, connectionHandler.getAccount(), new ApiController.IAccountHandler() {
+
+            controller.reqAccountUpdates(true, account, new ApiController.IAccountHandler() {
                 @Override
                 public void accountValue(String account, String key, String value, String currency) {
                     log("ACCOUNT: account=%s key=%s value=%s currency=%s", account, key, value, currency);
@@ -140,10 +140,10 @@ public class BuyTest {
 
                 @Override
                 public void updatePortfolio(Position position) {
-                    log("ACCOUNT: portfolio: %s/%d", position.contract().symbol(), position.position());
+                    log("ACCOUNT: portfolio: %s", position);
                 }
             });
-            */
+
 
             controller.reqLiveOrders(new ApiController.ILiveOrderHandler() {
                 @Override
@@ -183,7 +183,7 @@ public class BuyTest {
 
 */
 
-            controller.placeOrModifyOrder(contract, order, new ApiController.IOrderHandler() {
+            controller.placeOrModifyOrder(contract, order, null); /*new ApiController.IOrderHandler() {
                 @Override
                 public void orderState(NewOrderState orderState) {
                     // this one gets called for a BUY
@@ -204,10 +204,11 @@ public class BuyTest {
                         semaphore.release();
                     }
                 }
-            });
+            });*/
 
+            //log("WAIT for place order");
 
-            semaphore.acquire();
+            //semaphore.acquire();
 
             System.out.println("REQ EXECUTIONS Start");
             controller.reqExecutions(new ExecutionFilter(0, account, null, null, null, null, null), new ApiController.ITradeReportHandler() {
@@ -220,7 +221,7 @@ public class BuyTest {
                 @Override
                 public void tradeReportEnd() {
                     System.out.println("REQ EXECUTIONS End");
-                    semaphore.release();
+                    //semaphore.release();
                 }
 
                 @Override
@@ -229,7 +230,7 @@ public class BuyTest {
                 }
             });
 
-            semaphore.acquire();
+            //semaphore.acquire();
 
             System.out.println("Order Id="+ order.orderId());
 

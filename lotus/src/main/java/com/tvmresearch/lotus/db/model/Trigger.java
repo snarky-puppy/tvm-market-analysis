@@ -74,7 +74,7 @@ public class Trigger {
         sb.append(", price=").append(price);
         sb.append(", zscore=").append(zscore);
         sb.append(", avgVolume=").append(avgVolume);
-        sb.append(", avgPrice=").append(avgPrice);
+        sb.append(", avgCost=").append(avgPrice);
         sb.append(", event=").append(event);
         sb.append(", rejectReason=").append(rejectReason);
         sb.append(", rejectData=").append(rejectData);

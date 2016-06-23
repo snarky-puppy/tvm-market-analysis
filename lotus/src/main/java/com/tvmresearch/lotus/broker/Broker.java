@@ -13,7 +13,7 @@ import java.util.Collection;
  */
 public interface Broker {
 
-    double getAvailableFunds();
+    double getAvailableFundsUSD();
 
     void buy(Investment investment);
 
@@ -35,7 +35,9 @@ public interface Broker {
 
     double getLastClose(Investment investment);
 
-    void updateHistory(InvestmentDao dao, Investment investment);
+    void updateHistory(InvestmentDao dao, Investment investment, long missingDays);
 
     double getExchangeRate();
+
+    double getAvailableFundsAUD();
 }

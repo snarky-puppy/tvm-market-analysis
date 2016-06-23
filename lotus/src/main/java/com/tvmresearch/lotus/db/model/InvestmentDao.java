@@ -1,20 +1,16 @@
 package com.tvmresearch.lotus.db.model;
 
-import com.tvmresearch.lotus.db.model.Investment;
-
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by horse on 7/04/2016.
  */
 public interface InvestmentDao {
 
-    //int getQtyFilledSum(int conid);
 
-    List<Investment> getTradesInProgress(int conid);
-
-    List<Investment> getFilledInvestments();
+    List<Investment> getPositions();
 
     void serialise(List<Investment> investments);
 
@@ -25,4 +21,12 @@ public interface InvestmentDao {
     Investment findUnconfirmed(String symbol);
 
     Investment findOrder(int orderId);
+
+    Investment findConId(int conid);
+
+    Map<LocalDate,Double> getHistory(Investment investment);
+
+    long getHistoricalMissingDays(Investment investment);
+
+    double getLastHistoricalClose(Investment investment);
 }
