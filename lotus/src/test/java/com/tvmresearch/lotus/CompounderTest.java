@@ -103,6 +103,7 @@ public class CompounderTest {
         double cash = 1000;
 
         new Compounder(cash);
+        assertEquals(cash, new Compounder().getCash(), 0.001);
         assertTrue(new Compounder().fundsAvailable());
 
         // minInvest = starting cash/100*invest%

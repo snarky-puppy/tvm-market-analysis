@@ -35,7 +35,7 @@ public interface Broker {
 
     double getLastClose(Investment investment);
 
-    void updateHistory(InvestmentDao dao, Investment investment, long missingDays);
+    void updateHistory(InvestmentDao dao, Investment investment, int missingDays);
 
     double getExchangeRate();
 

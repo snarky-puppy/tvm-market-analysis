@@ -50,9 +50,6 @@ public class Lotus {
     private static final int historyUpdateHour = 11; // 12pm local == 10pm EST
     private static final int cashUpdateHours = 1;
 
-    private int outstandingBuyOrders = 0;
-    private int outstandingSellOrders = 0;
-
     public volatile boolean running = true;
     public static volatile boolean intentionalShutdown = false;
 
@@ -184,7 +181,7 @@ public class Lotus {
 
         if(run) {
             for(Investment investment : investmentDao.getPositions()) {
-                long missingDays = investmentDao.getHistoricalMissingDays(investment);
+                int missingDays = investmentDao.getHistoricalMissingDays(investment);
                 if(missingDays > 0)
                     broker.updateHistory(investmentDao, investment, missingDays);
             }
@@ -193,7 +190,8 @@ public class Lotus {
 
     private void updateCash() {
 
-        if(cashUpdateTS == null || LocalDateTime.now().isAfter(cashUpdateTS) && outstandingBuyOrders == 0) {
+        int outstandingBuyOrders = investmentDao.outstandingBuyOrders();
+        if((cashUpdateTS == null || LocalDateTime.now().isAfter(cashUpdateTS)) && outstandingBuyOrders == 0) {
             cashUpdateTS = LocalDateTime.now().plusHours(cashUpdateHours);
             double brokerCash = broker.getAvailableFundsUSD();
             double compoundCash = compounder.getCash();
@@ -202,9 +200,8 @@ public class Lotus {
                 diff = -diff;
             logger.info(String.format("updateCash: %.2f difference (ib=%.2f compounder=%.2f) buyOrders=%d",
                     diff, brokerCash, compoundCash, outstandingBuyOrders));
-            if(outstandingBuyOrders == 0) {
-                compounder.setCash(brokerCash);
-            }
+
+            compounder.setCash(brokerCash);
         }
     }
 
@@ -223,6 +220,8 @@ public class Lotus {
                 logger.error("processTriggers: failed to apply compounding: " + investment);
             } else {
 
+                investment.state = BUYUNCONFIRMED;
+
                 investment.buyLimit = round(investment.trigger.price * Configuration.BUY_LIMIT_FACTOR);
                 investment.qty = (int) Math.floor(investment.cmpTotal / investment.buyLimit);
                 investment.qtyValue = investment.qty * investment.buyLimit;
@@ -231,7 +230,6 @@ public class Lotus {
                 investment.sellDateLimit = investment.buyDate.plusDays(Configuration.SELL_LIMIT_DAYS);
 
                 broker.buy(investment);
-                outstandingBuyOrders ++;
             }
             investmentDao.serialise(investment);
             triggerDao.serialise(trigger);
@@ -523,8 +521,6 @@ public class Lotus {
                 logger.error("processOrderStatus: undefined order status: "+status);
                 break;
         }
-
-
     }
 
     public void processOrderError(int orderId, int errorCode, String errorMsg) {

@@ -348,7 +348,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
     }
 
     @Override
-    public long getHistoricalMissingDays(Investment investment) {
+    public int getHistoricalMissingDays(Investment investment) {
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -368,7 +368,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
                     historyStart = rs.getDate("dt").toLocalDate();
             }
 
-            return DAYS.between(historyStart, LocalDate.now());
+            return (int)DAYS.between(historyStart, LocalDate.now());
 
         } catch (SQLException e) {
             throw new LotusException(e);
@@ -404,6 +404,34 @@ public class InvestmentDaoImpl implements InvestmentDao {
         }
     }
 
+    @Override
+    public int outstandingBuyOrders() {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Database.connection();
+            stmt = connection.prepareStatement(
+                    "SELECT COUNT(*) AS cnt FROM investments " +
+                            "WHERE state IN (?,?,?);");
+            stmt.setString(1, String.valueOf(Investment.State.BUYUNCONFIRMED));
+            stmt.setString(2, String.valueOf(Investment.State.BUYPRESUBMITTED));
+            stmt.setString(3, String.valueOf(Investment.State.BUYOPEN));
+
+            rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                return rs.getInt("cnt");
+            }
+
+            return 0;
+        } catch (SQLException e) {
+            throw new LotusException(e);
+        } finally {
+            Database.close(rs, stmt, connection);
+        }
+    }
 
     private Investment populate(ResultSet rs) throws SQLException {
         int investmentId = rs.getInt("id");

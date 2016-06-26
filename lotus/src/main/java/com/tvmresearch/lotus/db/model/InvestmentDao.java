@@ -26,7 +26,9 @@ public interface InvestmentDao {
 
     Map<LocalDate,Double> getHistory(Investment investment);
 
-    long getHistoricalMissingDays(Investment investment);
+    int getHistoricalMissingDays(Investment investment);
 
     double getLastHistoricalClose(Investment investment);
+
+    int outstandingBuyOrders();
 }

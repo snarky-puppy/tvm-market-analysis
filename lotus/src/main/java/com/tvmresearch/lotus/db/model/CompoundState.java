@@ -44,10 +44,12 @@ public class CompoundState {
 
     public CompoundState(double brokerCash) {
         this.startBank = brokerCash;
-        this.cash = brokerCash;
         if(!load()) {
+            this.cash = brokerCash;
             initState();
         }
+        // cash from IBKR will be more up to date than cash from DB
+        this.cash = brokerCash;
 
         logger.info(String.format("start_bank=%.2f cash=%.2f min_invest=%.2f compound_tally=%.2f tally_slice=%.2f, tally_slice_cnt=%d",
                 startBank, cash, minInvest, compoundTally, tallySlice, tallySliceCnt));

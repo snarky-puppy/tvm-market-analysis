@@ -1,10 +1,8 @@
 package com.tvmresearch.lotus.test;
 
-import com.ib.controller.ApiConnection;
-import com.ib.controller.ApiController;
-import com.ib.controller.Bar;
-import com.ib.controller.Types;
+import com.ib.controller.*;
 import com.tvmresearch.lotus.broker.Broker;
+import com.tvmresearch.lotus.broker.IBLogger;
 import com.tvmresearch.lotus.broker.InteractiveBroker;
 import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.InvestmentDao;
@@ -13,16 +11,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -32,7 +25,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by horse on 21/05/2016.
  */
 public class ShowHistory {
-/*
 
     public static class IBLogger implements ApiConnection.ILogger {
         @Override
@@ -40,83 +32,146 @@ public class ShowHistory {
             //logger.info("IB: "+string);
         }
     }
+    private static void log(String s) {
+        System.out.println(s);
+    }
+
+    private static void log(String fmt, Object ...o) {
+        System.out.println(String.format(fmt, o));
+    }
+
+    static String account = null;
+
 
     public static void main(String[] args) throws InterruptedException {
         ApiController controller = null;
-        ConnectionHandler connectionHandler = new ConnectionHandler();
         final SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd"); // format for display
 
+
         try {
-            controller = new ApiController(connectionHandler, new IBLogger(), new IBLogger());
+            Semaphore semaphore = new Semaphore(1);
+            semaphore.acquire();
+
+            controller = new ApiController(new ApiController.IConnectionHandler() {
+
+                @Override
+                public void connected() {
+                    //semaphore.release();
+                    log("Connected");
+                }
+
+                @Override
+                public void disconnected() {
+
+                }
+
+                @Override
+                public void accountList(ArrayList<String> list) {
+                    if(account == null) {
+                        account = list.get(0);
+                        log("Got account: "+account);
+                        semaphore.release();
+                    }
+                }
+
+                @Override
+                public void error(Exception e) {
+                    log("error: "+e.getMessage(), e);
+                    System.exit(1);
+                }
+
+                @Override
+                public void message(int id, int errorCode, String errorMsg) {
+                    // 399: Warning: your order will not be placed at the exchange until 2016-03-28 09:30:00 US/Eastern
+                    if(errorCode != 399)
+                        log(String.format("message: id=%d, errorCode=%d, msg=%s", id, errorCode, errorMsg));
+                    if(errorCode < 1100 && errorCode != 162 && errorCode != 399 && errorCode != 202) {
+                        System.exit(1);
+                        //throw new LotusException(new TWSException(id, errorCode, errorMsg));
+                    }
+                    if(errorCode == 162)
+                        semaphore.release();
+                }
+
+                @Override
+                public void show(String string) {
+                    log("show: "+string);
+                }
+            }, new com.tvmresearch.lotus.broker.IBLogger(), new com.tvmresearch.lotus.broker.IBLogger());
+
 
             controller.connect("localhost", 4002, 1);
-            connectionHandler.waitForConnection();
 
+            semaphore.acquire();
+
+
+            ApiController.IHistoricalDataHandler historicalDataHandler = new ApiController.IHistoricalDataHandler() {
+
+                int cnt = 0;
+
+                @Override
+                public void historicalData(Bar bar, boolean hasGaps) {
+
+
+                    Date dt = new Date(bar.time()*1000);
+                    LocalDate date = dt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                    String s = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL));
+
+                    System.out.println(String.format("%d: %s[%d](%s): %f", ++cnt, bar.formattedTime(), bar.time(), s, bar.close()));
+                }
+
+                @Override
+                public void historicalDataEnd() {
+                    semaphore.release();
+                }
+            };
+
+
+
+            NewContract contract = new NewContract();
+            contract.symbol("PRGO");
+            contract.exchange("SMART");
+            contract.primaryExch("NYSE");
+            contract.secType(com.ib.controller.Types.SecType.STK);
+
+            int missingDays = 70;
+
+            final int maxDays = 30;
             DateTimeFormatter formatter =
                     DateTimeFormatter.ofPattern("yyyyMMdd hh:mm:ss zzz")
                             .withZone(ZoneId.of("GMT"));
 
-            Instant instant = Instant.now();
-            String timeLimit = formatter.format(instant);
-
-            System.out.println("Timelimit="+timeLimit);
-
-            InvestmentDao dao = new InvestmentDaoImpl();
-            List<Investment> investments = dao.getPositions();
-            for(Investment investment : investments) {
-
-                final String symbol = investment.trigger.symbol;
-                final Map<LocalDate, Double> history = new HashMap<>();
-
-                Semaphore semaphore = new Semaphore(1);
-                semaphore.acquire();
-
-                ApiController.IHistoricalDataHandler historicalDataHandler = new ApiController.IHistoricalDataHandler() {
-
-                    @Override
-                    public void historicalData(Bar bar, boolean hasGaps) {
 
 
-                        Date dt = new Date(bar.time()*1000);
-                        LocalDate date = dt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            do {
+                int fetchedDays = missingDays;
+                LocalDate end = LocalDate.now();
 
-                        String s = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL));
+                if(missingDays > maxDays) {
+                    end = end.minusDays(missingDays - maxDays);
+                    fetchedDays = maxDays;
+                }
 
+                String timeLimit = formatter.format(end.atStartOfDay());
+                System.out.println("Timelimit="+timeLimit);
 
-                        System.out.println(String.format("%s[%d](%s): %f", bar.formattedTime(), bar.time(), s, bar.close()));
-                        //LocalDate ld = new LocalDate(bar.time());
-
-                        //history.put(ld, bar.close());
-
-                        if(date.isAfter(investment.trigger.date) || date.isEqual(investment.trigger.date))
-                            dao.addHistory(investment, date, bar.close());
-                    }
-
-                    @Override
-                    public void historicalDataEnd() {
-                        semaphore.release();
-                    }
-                };
-
-
-                final long days = ChronoUnit.DAYS.between(investment.buyDate, LocalDate.now());
-
-                System.out.println(String.format("%s to %s - %d days",
-                        investment.buyDate.format(DateTimeFormatter.BASIC_ISO_DATE),
-                        LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE),
-                        days));
-
-                controller.reqHistoricalData(investment.createNewContract(), timeLimit, (int) days, Types.DurationUnit.DAY,
+                controller.reqHistoricalData(contract, timeLimit, fetchedDays, Types.DurationUnit.DAY,
                         Types.BarSize._1_day, Types.WhatToShow.TRADES, true, historicalDataHandler);
-
                 semaphore.acquire();
-                System.out.println("Finished historical gather");
 
-            }
+                missingDays -= fetchedDays;
+
+            } while(missingDays > 0);
+
+
+
+            System.out.println("Finished historical gather");
+
 
         } finally {
             controller.disconnect();
         }
     }
-    */
+
 }

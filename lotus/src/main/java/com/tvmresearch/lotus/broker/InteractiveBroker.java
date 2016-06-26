@@ -323,17 +323,13 @@ public class InteractiveBroker implements Broker {
     }
 
     @Override
-    public void updateHistory(InvestmentDao dao, Investment investment, long missingDays) {
+    public void updateHistory(InvestmentDao dao, Investment investment, int missingDays) {
         NewContract contract = investment.createNewContract();
 
         DateTimeFormatter formatter =
                 DateTimeFormatter.ofPattern("yyyyMMdd hh:mm:ss zzz")
                         .withZone(ZoneId.of("GMT"));
 
-        Instant instant = Instant.now();
-        String timeLimit = formatter.format(instant);
-
-        logger.info(String.format("updateHistory: %s/%s TimeLimit=%s", contract.primaryExch(), contract.symbol(), timeLimit));
         Semaphore semaphore = new Semaphore(1);
         try {
             semaphore.acquire();
@@ -360,10 +356,47 @@ public class InteractiveBroker implements Broker {
                 }
             };
 
+
+            ////////////////////////////////
+
+            final int maxDays = 30;
+
+            logger.info(String.format("updateHistory: %s/%s missingDays=%d", contract.primaryExch(), contract.symbol(), missingDays));
+
+            do {
+                int fetchedDays = missingDays;
+                LocalDate end = LocalDate.now();
+
+                if(missingDays > maxDays) {
+                    end = end.minusDays(missingDays - maxDays);
+                    fetchedDays = maxDays;
+                }
+
+                String timeLimit = formatter.format(end.atStartOfDay());
+
+                controller.reqHistoricalData(contract, timeLimit, fetchedDays, Types.DurationUnit.DAY,
+                        Types.BarSize._1_day, Types.WhatToShow.TRADES, true, historicalDataHandler);
+                semaphore.acquire();
+
+                missingDays -= fetchedDays;
+
+            } while(missingDays > 0);
+
+            ////////////////////////////////
+
+            /*
+            Instant instant = Instant.now();
+            String timeLimit = formatter.format(instant);
+
+            logger.info(String.format("updateHistory: %s/%s TimeLimit=%s", contract.primaryExch(), contract.symbol(), timeLimit));
+
             controller.reqHistoricalData(contract, timeLimit, (int) missingDays, Types.DurationUnit.DAY,
                     Types.BarSize._1_day, Types.WhatToShow.TRADES, true, historicalDataHandler);
 
             semaphore.acquire();
+            */
+
+            ////////////////////////////////
 
             for(Pair p : history) {
                 dao.addHistory(investment, p.date, p.close);

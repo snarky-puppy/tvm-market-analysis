@@ -30,7 +30,7 @@ public class TriggerDaoImpl implements TriggerDao {
 
         try {
             if (trigger.id == null) {
-                int elapsedDays = elapsedDays(trigger);
+                int elapsedDays = elapsedDays(trigger, connection);
                 if (elapsedDays == -1 || elapsedDays > Configuration.RETRIGGER_MIN_DAYS) {
                     trigger.event = true;
                     trigger.rejectReason = Trigger.RejectReason.NOTPROCESSED;
@@ -171,6 +171,16 @@ public class TriggerDaoImpl implements TriggerDao {
     @Override
     public int elapsedDays(Trigger trigger) {
         Connection connection = Database.connection();
+        try {
+            return elapsedDays(trigger, connection);
+        } finally {
+            Database.close(connection);
+        }
+
+    }
+
+
+    private int elapsedDays(Trigger trigger, Connection connection) {
         PreparedStatement stmt = null;
 
         String sql = "SELECT trigger_date" +
@@ -195,9 +205,10 @@ public class TriggerDaoImpl implements TriggerDao {
         } catch (SQLException e) {
             throw new LotusException(e);
         } finally {
-            Database.close(stmt, connection);
+            Database.close(stmt);
         }
     }
+
 
     @Override
     public void serialise(List<Trigger> list) {
