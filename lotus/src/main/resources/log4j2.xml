@@ -16,10 +16,21 @@
         <ASync name="ASync">
             <AppenderRef ref="RollingFile"/>
         </ASync>
+
+        <SMTP name="Mail" subject="Error Log" to="mwlazlo@gmail.com" from="mwlazlo@gmail.com"
+              smtpHost="smtp.gmail.com" smtpProtocol="smtps" smtpPort="587"
+              smtpUsername="mwlazlo@gmail.com" smtpPassword="ophndaodnrgiaaqn"
+              bufferSize="50">
+        </SMTP>
+
     </Appenders>
     <Loggers>
+        <Logger name="EmailLogger" level="error">
+            <AppenderRef ref="Mail"/>
+        </Logger>
+
         <Root level="DEBUG">
-            <AppenderRef ref="Console" level="info"/>
+            <AppenderRef ref="Console"/>
             <AppenderRef ref="RollingFile"/>
         </Root>
     </Loggers>

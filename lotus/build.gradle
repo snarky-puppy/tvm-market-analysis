@@ -11,6 +11,8 @@ repositories {
 }
 
 dependencies {
+    compile 'javax.mail:mail:1.5.0-b01'
+
     compile 'org.apache.logging.log4j:log4j-core:2.0.2'
 
     //compile 'org.hsqldb:hsqldb:2.3.3'

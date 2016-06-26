@@ -93,6 +93,18 @@ case SELLUNCONFIRMED:
 case SELLPRESUBMITTED:
 case SELLOPEN:
 case SELLFILLED:
+
+BUYUNCONFIRMED - order not sent to IB
+BUYPRESUBMITTED - order sent to IB, not yet sent to market
+BUYOPEN - order placed at market
+BUYFILLED - order filled, it is now our position
+SELLUNCONFIRMED - order not sent to IB
+SELLPRESUBMITTED - order sent to IB, not yet sent to market
+SELLOPEN - order placed at market
+SELLFILLED - order in the process of being traded
+CLOSED - order completely traded
+ORDERFAILED - something went wrong with the IB transaction
+ERROR - something went wrong on our end (Compounder realised there wasn't enough funds)
      */
 
     public enum State {
