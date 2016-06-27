@@ -7,7 +7,7 @@ import com.tvmresearch.lotus.Lotus;
 /**
  * Created by horse on 29/05/2016.
  */
-public class TradeReport  extends IBMessage {
+public class TradeReport extends IBMessage {
     public final Execution execution;
     public final String tradeKey;
     public final NewContract contract;

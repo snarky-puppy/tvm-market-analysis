@@ -8,8 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +18,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
  * Data Access Object - Investment
- *
+ * <p>
  * Created by horse on 7/04/2016.
  */
 public class InvestmentDaoImpl implements InvestmentDao {
@@ -106,7 +104,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
         PreparedStatement stmt = null;
         Connection connection = Database.connection();
 
-        logger.debug("serialise: "+ investment);
+        logger.debug("serialise: " + investment);
 
         try {
             if (investment.id == null) {
@@ -236,8 +234,8 @@ public class InvestmentDaoImpl implements InvestmentDao {
             connection = Database.connection();
             stmt = connection.prepareStatement(
                     "SELECT * FROM investments " +
-                    "WHERE state = ? AND trigger_id IN " +
-                    "(SELECT id FROM triggers WHERE symbol = ? AND reject_reason = 'OK')");
+                            "WHERE state = ? AND trigger_id IN " +
+                            "(SELECT id FROM triggers WHERE symbol = ? AND reject_reason = 'OK')");
             stmt.setString(1, String.valueOf(Investment.State.BUYUNCONFIRMED));
             stmt.setString(2, symbol);
             rs = stmt.executeQuery();
@@ -331,11 +329,11 @@ public class InvestmentDaoImpl implements InvestmentDao {
 
             Map<LocalDate, Double> rv = new HashMap<>();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 rv.put(rs.getDate("dt").toLocalDate(), rs.getDouble("close"));
             }
 
-            if(rv.size() == 0)
+            if (rv.size() == 0)
                 return null;
             else
                 return rv;
@@ -363,12 +361,12 @@ public class InvestmentDaoImpl implements InvestmentDao {
 
             LocalDate historyStart = investment.trigger.date;
 
-            if(rs.next()) {
-                if(rs.getDate("dt") != null)
+            if (rs.next()) {
+                if (rs.getDate("dt") != null)
                     historyStart = rs.getDate("dt").toLocalDate();
             }
 
-            return (int)DAYS.between(historyStart, LocalDate.now());
+            return (int) DAYS.between(historyStart, LocalDate.now());
 
         } catch (SQLException e) {
             throw new LotusException(e);
@@ -393,7 +391,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
 
             LocalDate historyStart = investment.trigger.date;
 
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getDouble("close");
             }
             return -1;
@@ -421,7 +419,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
 
             rs = stmt.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("cnt");
             }
 

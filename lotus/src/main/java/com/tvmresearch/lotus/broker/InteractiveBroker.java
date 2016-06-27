@@ -1,7 +1,8 @@
 package com.tvmresearch.lotus.broker;
 
-import com.ib.client.*;
+import com.ib.client.CommissionReport;
 import com.ib.client.Execution;
+import com.ib.client.ExecutionFilter;
 import com.ib.controller.*;
 import com.tvmresearch.lotus.LotusException;
 import com.tvmresearch.lotus.db.model.Investment;
@@ -15,14 +16,13 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Semaphore;
 
 /**
  * IB API
- *
+ * <p>
  * Created by horse on 27/03/2016.
  */
 public class InteractiveBroker implements Broker {
@@ -40,14 +40,6 @@ public class InteractiveBroker implements Broker {
     private String account;
     private double availableFunds = 0.0;
     private double exchangeRate = 0.0;
-
-
-    private class IBLogger implements ApiConnection.ILogger {
-        @Override
-        public void log(String string) {
-            //logger.info("IB: "+string);
-        }
-    }
 
 
     public InteractiveBroker(BlockingQueue<IBMessage> _outputQueue) throws InterruptedException, ConnectException {
@@ -73,16 +65,16 @@ public class InteractiveBroker implements Broker {
 
             @Override
             public void accountList(ArrayList<String> list) {
-                if(account == null) {
+                if (account == null) {
                     account = list.get(0);
-                    logger.info("Got account: "+account);
+                    logger.info("Got account: " + account);
                     semaphore.release();
                 }
             }
 
             @Override
             public void error(Exception e) {
-                logger.error("error: "+e.getMessage(), e);
+                logger.error("error: " + e.getMessage(), e);
                 queueDisconnect();
 
             }
@@ -90,10 +82,10 @@ public class InteractiveBroker implements Broker {
             @Override
             public void message(int id, int errorCode, String errorMsg) {
                 // 399: Warning: your order will not be placed at the exchange until 2016-03-28 09:30:00 US/Eastern
-                if(errorCode != 399)
+                if (errorCode != 399)
                     logger.error(String.format("message: id=%d, errorCode=%d, msg=%s", id, errorCode, errorMsg));
 
-                if(errorCode == 502) { // Couldn't connect to TWS.  Confirm that "Enable ActiveX and Socket Clients" is enabled on the TWS "Configure->API" menu.
+                if (errorCode == 502) { // Couldn't connect to TWS.  Confirm that "Enable ActiveX and Socket Clients" is enabled on the TWS "Configure->API" menu.
                     connectFailed[0] = true;
                     semaphore.release();
                 }
@@ -101,7 +93,7 @@ public class InteractiveBroker implements Broker {
 
             @Override
             public void show(String string) {
-                logger.info("show: "+string);
+                logger.info("show: " + string);
             }
         }, new IBLogger(), new IBLogger());
 
@@ -109,7 +101,7 @@ public class InteractiveBroker implements Broker {
         controller.connect("localhost", 4002, clientId);
         semaphore.acquire();
 
-        if(connectFailed[0]) {
+        if (connectFailed[0]) {
             throw new ConnectException();
         }
 
@@ -117,12 +109,12 @@ public class InteractiveBroker implements Broker {
         controller.reqAccountUpdates(true, account, new ApiController.IAccountHandler() {
             @Override
             public void accountValue(String account, String key, String value, String currency) {
-                if(key.compareTo("TotalCashValue") == 0 && currency.compareTo("AUD") == 0) {
-                    logger.info("accountValue: TotalCashValue="+value);
+                if (key.compareTo("TotalCashValue") == 0 && currency.compareTo("AUD") == 0) {
+                    logger.info("accountValue: TotalCashValue=" + value);
                     availableFunds = Double.valueOf(value);
                 }
-                if(key.compareTo("ExchangeRate") == 0 && currency.compareTo("USD") == 0) {
-                    logger.info("accountValue: ExchangeRate="+value);
+                if (key.compareTo("ExchangeRate") == 0 && currency.compareTo("USD") == 0) {
+                    logger.info("accountValue: ExchangeRate=" + value);
                     exchangeRate = Double.valueOf(value);
                 }
             }
@@ -143,7 +135,7 @@ public class InteractiveBroker implements Broker {
             public void updatePortfolio(Position position) {
                 String symbol = position.contract().symbol();
                 positions.put(symbol, position);
-                logger.info("updatePortfolio: "+position);
+                logger.info("updatePortfolio: " + position);
                 try {
                     outputQueue.put(new PositionUpdate(position));
                 } catch (InterruptedException e) {
@@ -155,7 +147,7 @@ public class InteractiveBroker implements Broker {
 
         semaphore.acquire();
 
-        if(exchangeRate == 0.0 || availableFunds == 0.0) {
+        if (exchangeRate == 0.0 || availableFunds == 0.0) {
             throw new LotusException("Account details were not provided");
         }
 
@@ -164,7 +156,7 @@ public class InteractiveBroker implements Broker {
                 exchangeRate,
                 availableFunds / exchangeRate
 
-            ));
+        ));
 
         controller.reqLiveOrders(new ApiController.ILiveOrderHandler() {
             @Override
@@ -185,14 +177,14 @@ public class InteractiveBroker implements Broker {
             @Override
             public void orderStatus(int orderId, OrderStatus status, int filled, int remaining, double avgFillPrice,
                                     long permId, int parentId, double lastFillPrice, int clientId, String whyHeld) {
-                logger.info(String.format("orderStatus: orderId=%d orderStatus=%s filled=%d remaining=%d "+
-                        "avgFillPrice=%f permId=%d parentId=%d lastFillPrice=%f clientId=%d whyHeld=%s",
+                logger.info(String.format("orderStatus: orderId=%d orderStatus=%s filled=%d remaining=%d " +
+                                "avgFillPrice=%f permId=%d parentId=%d lastFillPrice=%f clientId=%d whyHeld=%s",
                         orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId,
                         whyHeld));
 
                 try {
                     outputQueue.put(new LiveOrderStatus(orderId, status, filled, remaining, avgFillPrice, permId, parentId,
-                                                        lastFillPrice, clientId, whyHeld));
+                            lastFillPrice, clientId, whyHeld));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -280,7 +272,6 @@ public class InteractiveBroker implements Broker {
         return positions.values();
     }
 
-
     public double getLastClose(Investment investment) {
         NewContract contract = investment.createNewContract();
         //logger.info(String.format("getLastClose: %s/%s", contract.primaryExch(), contract.symbol()));
@@ -337,14 +328,18 @@ public class InteractiveBroker implements Broker {
             class Pair {
                 public LocalDate date;
                 public double close;
-                Pair(LocalDate d, double c) { date = d; close = c; }
+
+                Pair(LocalDate d, double c) {
+                    date = d;
+                    close = c;
+                }
             }
             List<Pair> history = new ArrayList<>();
 
             ApiController.IHistoricalDataHandler historicalDataHandler = new ApiController.IHistoricalDataHandler() {
                 @Override
                 public void historicalData(Bar bar, boolean hasGaps) {
-                    Date dt = new Date(bar.time()*1000);
+                    Date dt = new Date(bar.time() * 1000);
                     LocalDate date = dt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     logger.info(String.format("history: %s: %s: %f", investment.trigger.symbol, bar.formattedTime(), bar.close()));
                     history.add(new Pair(date, bar.close()));
@@ -367,7 +362,7 @@ public class InteractiveBroker implements Broker {
                 int fetchedDays = missingDays;
                 LocalDate end = LocalDate.now();
 
-                if(missingDays > maxDays) {
+                if (missingDays > maxDays) {
                     end = end.minusDays(missingDays - maxDays);
                     fetchedDays = maxDays;
                 }
@@ -380,7 +375,7 @@ public class InteractiveBroker implements Broker {
 
                 missingDays -= fetchedDays;
 
-            } while(missingDays > 0);
+            } while (missingDays > 0);
 
             ////////////////////////////////
 
@@ -398,7 +393,7 @@ public class InteractiveBroker implements Broker {
 
             ////////////////////////////////
 
-            for(Pair p : history) {
+            for (Pair p : history) {
                 dao.addHistory(investment, p.date, p.close);
             }
 
@@ -421,5 +416,12 @@ public class InteractiveBroker implements Broker {
     @Override
     public double getAvailableFundsAUD() {
         return availableFunds;
+    }
+
+    private class IBLogger implements ApiConnection.ILogger {
+        @Override
+        public void log(String string) {
+            //logger.info("IB: "+string);
+        }
     }
 }

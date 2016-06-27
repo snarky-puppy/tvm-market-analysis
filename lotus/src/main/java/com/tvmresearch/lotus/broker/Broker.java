@@ -8,7 +8,7 @@ import java.util.Collection;
 
 /**
  * Broker interface
- *
+ * <p>
  * Created by horse on 23/03/2016.
  */
 public interface Broker {

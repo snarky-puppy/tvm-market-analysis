@@ -1,19 +1,19 @@
 package com.tvmresearch.lotus;
 
-import com.tvmresearch.lotus.db.model.Trigger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Database interface
- *
+ * <p>
  * Created by horse on 19/03/2016.
  */
 public class Database {
@@ -54,10 +54,10 @@ public class Database {
 
     public static String generateParams(int nParams) {
         StringBuilder builder = new StringBuilder();
-        while(nParams > 0) {
+        while (nParams > 0) {
             builder.append("?");
-            nParams --;
-            if(nParams > 0)
+            nParams--;
+            if (nParams > 0)
                 builder.append(',');
         }
         return builder.toString();
@@ -65,7 +65,7 @@ public class Database {
 
     public static void close(Connection connection) {
         try {
-            if(connection != null) {
+            if (connection != null) {
                 connection.close();
             }
         } catch (SQLException e) {
@@ -75,8 +75,8 @@ public class Database {
 
     public static void close(PreparedStatement stmt) {
         try {
-            if(stmt != null)
-            stmt.close();
+            if (stmt != null)
+                stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -119,11 +119,11 @@ public class Database {
     }
 
     public static String generateInsertSQL(String table, String[] fields) {
-        return "INSERT INTO "+table+generateInsertParams(fields);
+        return "INSERT INTO " + table + generateInsertParams(fields);
     }
 
     public static String generateUpdateSQL(String table, String idField, String[] fields) {
-        return "UPDATE "+table+" SET " + generateUpdateParams(fields)+" WHERE "+idField+" = ?";
+        return "UPDATE " + table + " SET " + generateUpdateParams(fields) + " WHERE " + idField + " = ?";
     }
 
     private static String generateUpdateParams(String[] fields) {

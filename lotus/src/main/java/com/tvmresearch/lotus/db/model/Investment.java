@@ -1,19 +1,15 @@
 package com.tvmresearch.lotus.db.model;
 
-import com.ib.controller.*;
-import com.tvmresearch.lotus.Database;
-import com.tvmresearch.lotus.LotusException;
+import com.ib.controller.NewContract;
+import com.ib.controller.NewOrder;
+import com.ib.controller.OrderType;
 
-import java.sql.*;
-import java.sql.Types;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Position record
- *
+ * <p>
  * Created by matt on 24/03/16.
  */
 public class Investment {
@@ -107,19 +103,6 @@ ORDERFAILED - something went wrong with the IB transaction
 ERROR - something went wrong on our end (Compounder realised there wasn't enough funds)
      */
 
-    public enum State {
-        BUYUNCONFIRMED,
-        BUYPRESUBMITTED,
-        BUYOPEN,
-        BUYFILLED,
-        SELLUNCONFIRMED,
-        SELLPRESUBMITTED,
-        SELLOPEN,
-        SELLFILLED,
-        CLOSED,
-        ORDERFAILED, ERROR
-    }
-
     public Investment(Trigger trigger) {
         this.trigger = trigger;
         this.buyDate = LocalDate.now();
@@ -127,15 +110,14 @@ ERROR - something went wrong on our end (Compounder realised there wasn't enough
         this.history = history;
     }
 
-
     public NewContract createNewContract() {
         NewContract rv = new NewContract();
-        if(trigger.exchange.compareTo("ASX") == 0)
+        if (trigger.exchange.compareTo("ASX") == 0)
             rv.currency("AUD");
         else
             rv.currency("USD");
 
-        if(trigger.exchange.compareTo("NYSE_Arca") == 0)
+        if (trigger.exchange.compareTo("NYSE_Arca") == 0)
             trigger.exchange = "ARCA";
 
         //if(trigger.exchange.equals("NASDAQ"))
@@ -174,7 +156,6 @@ ERROR - something went wrong on our end (Compounder realised there wasn't enough
         return order;
     }
 
-
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Investment{");
@@ -212,5 +193,19 @@ ERROR - something went wrong on our end (Compounder realised there wasn't enough
         sb.append(", errorMsg='").append(errorMsg).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+
+    public enum State {
+        BUYUNCONFIRMED,
+        BUYPRESUBMITTED,
+        BUYOPEN,
+        BUYFILLED,
+        SELLUNCONFIRMED,
+        SELLPRESUBMITTED,
+        SELLOPEN,
+        SELLFILLED,
+        CLOSED,
+        ORDERFAILED, ERROR
     }
 }

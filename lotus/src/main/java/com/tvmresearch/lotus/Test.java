@@ -1,10 +1,7 @@
 package com.tvmresearch.lotus;
 
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 
 /**
  * Created by horse on 23/03/2016.
@@ -27,7 +24,7 @@ public class Test {
 
         double inf = 1.7976931348623157E308;
 
-        if(inf > 99999) {
+        if (inf > 99999) {
             System.out.println("Infinite");
         } else
             System.out.println("not infinite");

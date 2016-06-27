@@ -1,6 +1,5 @@
 package com.tvmresearch.lotus.db.model;
 
-import com.mysql.jdbc.*;
 import com.mysql.jdbc.Statement;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.tvmresearch.lotus.Configuration;
@@ -8,8 +7,6 @@ import com.tvmresearch.lotus.Database;
 import com.tvmresearch.lotus.LotusException;
 
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -18,7 +15,7 @@ import java.util.List;
 
 /**
  * CRUD for Trigger objects
- *
+ * <p>
  * Created by horse on 7/04/2016.
  */
 public class TriggerDaoImpl implements TriggerDao {
@@ -71,7 +68,7 @@ public class TriggerDaoImpl implements TriggerDao {
             if (rs.next()) {
                 trigger.id = rs.getInt(1);
             }
-        } catch(MySQLIntegrityConstraintViolationException e) {
+        } catch (MySQLIntegrityConstraintViolationException e) {
             // ignore
         } catch (SQLException e) {
             throw new LotusException(e);
@@ -97,7 +94,7 @@ public class TriggerDaoImpl implements TriggerDao {
             stmt.setDate(1, java.sql.Date.valueOf(LocalDate.now().minusDays(5)));
             stmt.setString(2, Trigger.RejectReason.NOTPROCESSED.name());
             rs = stmt.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 Trigger trigger = new Trigger();
 
                 trigger.id = rs.getInt(1);
@@ -112,7 +109,7 @@ public class TriggerDaoImpl implements TriggerDao {
                 trigger.rejectReason = Trigger.RejectReason.valueOf(rs.getString(10));
 
                 trigger.rejectData = rs.getDouble(11);
-                if(rs.wasNull())
+                if (rs.wasNull())
                     trigger.rejectData = null;
 
                 rv.add(trigger);
@@ -141,7 +138,7 @@ public class TriggerDaoImpl implements TriggerDao {
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 Trigger trigger = new Trigger();
 
                 trigger.id = rs.getInt(1);
@@ -155,7 +152,7 @@ public class TriggerDaoImpl implements TriggerDao {
                 trigger.event = rs.getBoolean(9);
                 trigger.rejectReason = Trigger.RejectReason.valueOf(rs.getString(10));
                 trigger.rejectData = rs.getDouble(11);
-                if(rs.wasNull())
+                if (rs.wasNull())
                     trigger.rejectData = null;
 
                 return trigger;
@@ -197,7 +194,7 @@ public class TriggerDaoImpl implements TriggerDao {
             stmt.setDate(3, java.sql.Date.valueOf(trigger.date));
             ResultSet rs = stmt.executeQuery();
             int nDays = -1;
-            if(rs.next()) {
+            if (rs.next()) {
                 LocalDate lastDate = rs.getDate(1).toLocalDate();
                 nDays = (int) ChronoUnit.DAYS.between(lastDate, trigger.date);
             }

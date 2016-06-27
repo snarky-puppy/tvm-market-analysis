@@ -7,7 +7,7 @@ import com.tvmresearch.lotus.Lotus;
 
 /**
  * Tuple for passing around order data
- *
+ * <p>
  * Created by horse on 3/04/2016.
  */
 public class LiveOpenOrder extends IBMessage {

@@ -19,20 +19,20 @@ import static com.tvmresearch.lotus.db.model.Trigger.RejectReason.OK;
 
 /**
  * Buy a single stock
- *
+ * <p>
  * Created by horse on 27/05/2016.
  */
 public class BuyTest {
+
+    private static String account = null;
 
     private static void log(String s) {
         System.out.println(s);
     }
 
-    private static void log(String fmt, Object ...o) {
+    private static void log(String fmt, Object... o) {
         System.out.println(String.format(fmt, o));
     }
-
-    private static String account = null;
 
     public static void main(String[] args) throws InterruptedException {
         ApiController controller = null;
@@ -56,9 +56,9 @@ public class BuyTest {
 
                 @Override
                 public void accountList(ArrayList<String> list) {
-                    if(account == null) {
+                    if (account == null) {
                         account = list.get(0);
-                        log("Got account: "+account);
+                        log("Got account: " + account);
                         semaphore.release();
                     }
                 }
@@ -72,9 +72,9 @@ public class BuyTest {
                 @Override
                 public void message(int id, int errorCode, String errorMsg) {
                     // 399: Warning: your order will not be placed at the exchange until 2016-03-28 09:30:00 US/Eastern
-                    if(errorCode != 399)
+                    if (errorCode != 399)
                         log(String.format("message: id=%d, errorCode=%d, msg=%s", id, errorCode, errorMsg));
-                    if(errorCode < 1100 && errorCode != 399 && errorCode != 202) {
+                    if (errorCode < 1100 && errorCode != 399 && errorCode != 202) {
                         System.exit(1);
                         //throw new LotusException(new TWSException(id, errorCode, errorMsg));
                     }
@@ -82,7 +82,7 @@ public class BuyTest {
 
                 @Override
                 public void show(String string) {
-                    log("show: "+string);
+                    log("show: " + string);
                 }
             }, new IBLogger(), new IBLogger());
 
@@ -162,7 +162,7 @@ public class BuyTest {
                     // This method is called whenever the status of an order changes.
                     // It is also fired after reconnecting to TWS if the client has any open orders.
 
-                    log("LIVE ORDERS: orderStatus: orderId=%d orderStatus=%s filled=%d remaining=%d "+
+                    log("LIVE ORDERS: orderStatus: orderId=%d orderStatus=%s filled=%d remaining=%d " +
                                     "avgFillPrice=%f permId=%d parentId=%d lastFillPrice=%f clientId=%d whyHeld=%s",
                             orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId,
                             whyHeld);
@@ -232,7 +232,7 @@ public class BuyTest {
 
             //semaphore.acquire();
 
-            System.out.println("Order Id="+ order.orderId());
+            System.out.println("Order Id=" + order.orderId());
 
             log("-- little sleep --");
             Thread.sleep(30000);
@@ -241,14 +241,14 @@ public class BuyTest {
             //controller.cancelOrder(order.orderId());
 
             System.out.println("--------------- SLEEPING (forever) --------------------------------");
-            while(true) {
+            while (true) {
                 Thread.sleep(60000);
             }
             //System.out.println("------------FINISHED SLEEPING----------------------------");
 
 
         } finally {
-            if(controller != null)
+            if (controller != null)
                 controller.disconnect();
         }
 

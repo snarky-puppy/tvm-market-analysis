@@ -1,20 +1,11 @@
 package com.tvmresearch.lotus;
 
-import com.tvmresearch.lotus.broker.Broker;
-import com.tvmresearch.lotus.db.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.List;
-
 /**
  * Implement event processing logic
- *
+ * <p>
  * Created by matt on 23/03/16.
  */
 public class EventProcessor {

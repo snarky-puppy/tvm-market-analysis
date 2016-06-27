@@ -3,9 +3,10 @@ package com.tvmresearch.lotus;
 import com.ib.client.CommissionReport;
 import com.ib.client.Execution;
 import com.ib.controller.*;
-import com.tvmresearch.lotus.broker.*;
+import com.tvmresearch.lotus.broker.Broker;
+import com.tvmresearch.lotus.broker.InteractiveBroker;
 import com.tvmresearch.lotus.db.model.*;
-import com.tvmresearch.lotus.message.*;
+import com.tvmresearch.lotus.message.IBMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,21 +21,26 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import static com.tvmresearch.lotus.db.model.Investment.State.*;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
  * Program entry point
- *
+ * <p>
  * Created by matt on 23/03/16.
  */
 public class Lotus {
 
     private static final Logger logger = LogManager.getLogger(Lotus.class);
-
+    private static final int sellCheckHour = 13; // 2pm local == 12pm EST
+    private static final int sellCheckMinute = 10; // 12:10AM EST
+    private static final int historyUpdateHour = 11; // 12pm local == 10pm EST
+    private static final int cashUpdateHours = 1;
+    public static volatile boolean intentionalShutdown = false;
+    public volatile boolean running = true;
     private Broker broker;
     private TriggerDao triggerDao;
     private InvestmentDao investmentDao;
@@ -44,18 +50,15 @@ public class Lotus {
     private LocalDateTime cashUpdateTS = null;
     private LocalDateTime nextHistoryUpdateTS = null;
     private LocalDateTime nextSellCheckTS = null;
-    private static final int sellCheckHour = 13; // 2pm local == 12pm EST
-    private static final int sellCheckMinute = 10; // 12:10AM EST
 
-    private static final int historyUpdateHour = 11; // 12pm local == 10pm EST
-    private static final int cashUpdateHours = 1;
-
-    public volatile boolean running = true;
-    public static volatile boolean intentionalShutdown = false;
+    public Lotus() {
+        triggerDao = new TriggerDaoImpl();
+        investmentDao = new InvestmentDaoImpl();
+    }
 
     public static void main(String[] args) throws InterruptedException {
 
-        while(!intentionalShutdown) {
+        while (!intentionalShutdown) {
             logger.info("--- LOTUS STARTUP ---");
             Lotus lotus = new Lotus();
             lotus.mainLoop();
@@ -63,11 +66,6 @@ public class Lotus {
             Thread.sleep(10000);
         }
         logger.info("--- LOTUS SHUTDOWN ---");
-    }
-
-    public Lotus() {
-        triggerDao = new TriggerDaoImpl();
-        investmentDao = new InvestmentDaoImpl();
     }
 
     private void mainLoop() {
@@ -83,7 +81,7 @@ public class Lotus {
             //  2. periodically update AUD.USD
             //  3.
 
-            while(running) {
+            while (running) {
                 updateCash();
                 processTriggers();
                 updateHistory();
@@ -99,7 +97,7 @@ public class Lotus {
 
         } finally {
             logger.info("The Final final block");
-            if(broker != null)
+            if (broker != null)
                 broker.disconnect();
         }
     }
@@ -107,10 +105,10 @@ public class Lotus {
     private void doSellCheck() {
         boolean run = false;
 
-        if(nextSellCheckTS == null) {
+        if (nextSellCheckTS == null) {
             // first update
             // if before the true update hour, schedule for true update hour later today
-            if(LocalDateTime.now().getHour() < sellCheckHour) {
+            if (LocalDateTime.now().getHour() < sellCheckHour) {
                 nextSellCheckTS = LocalDateTime.now().withHour(sellCheckHour).withMinute(sellCheckMinute).withSecond(0);
             } else {
                 // after the true update hour, schedule for true update hour tomorrow
@@ -120,20 +118,20 @@ public class Lotus {
             // either way, update now
             run = true;
 
-        } else if(LocalDateTime.now().isAfter(nextSellCheckTS)) {
+        } else if (LocalDateTime.now().isAfter(nextSellCheckTS)) {
             // business as usual
             nextSellCheckTS = LocalDateTime.now().withHour(sellCheckHour).withMinute(sellCheckMinute).withSecond(0).plusDays(1);
             run = true;
         }
 
-        if(run) {
-            for(Investment investment : investmentDao.getPositions()) {
+        if (run) {
+            for (Investment investment : investmentDao.getPositions()) {
                 double close = investmentDao.getLastHistoricalClose(investment);
                 boolean sellLimitExceed = false;
-                if(close > 0) {
+                if (close > 0) {
                     sellLimitExceed = close >= investment.sellLimit;
                     logger.info(String.format("doSellCheck: %s/%s: lastClose[%.2f] >= sellLimit[%.2f]? %s",
-                        investment.trigger.exchange, investment.trigger.symbol, close, investment.sellLimit,
+                            investment.trigger.exchange, investment.trigger.symbol, close, investment.sellLimit,
                             sellLimitExceed ? "Yes" : "No"));
                 }
                 boolean dtLimitExceeded = LocalDate.now().isAfter(investment.sellDateLimit)
@@ -144,9 +142,9 @@ public class Lotus {
                 logger.info(String.format("doSellCheck: %s/%s: now >= sellDateLimit[%s]? %s",
                         investment.trigger.exchange, investment.trigger.symbol,
                         investment.sellDateLimit.format(DateTimeFormatter.ISO_LOCAL_DATE),
-                        dtLimitExceeded ? "Yes" : "No ("+remaining+" days remaining)"));
+                        dtLimitExceeded ? "Yes" : "No (" + remaining + " days remaining)"));
 
-                if(dtLimitExceeded || sellLimitExceed) {
+                if (dtLimitExceeded || sellLimitExceed) {
                     broker.sell(investment);
                     // messages from ibkr are queued through a pipe, so no possiblity of race here
                     investment.state = SELLUNCONFIRMED;
@@ -160,10 +158,10 @@ public class Lotus {
 
         boolean run = false;
 
-        if(nextHistoryUpdateTS == null) {
+        if (nextHistoryUpdateTS == null) {
             // first update
             // if before the true update hour, schedule for true update hour later today
-            if(LocalDateTime.now().getHour() < historyUpdateHour) {
+            if (LocalDateTime.now().getHour() < historyUpdateHour) {
                 nextHistoryUpdateTS = LocalDateTime.now().withHour(historyUpdateHour).withMinute(0).withSecond(0);
             } else {
                 // after the true update hour, schedule for true update hour tomorrow
@@ -173,16 +171,16 @@ public class Lotus {
             // either way, update now
             run = true;
 
-        } else if(LocalDateTime.now().isAfter(nextHistoryUpdateTS)) {
+        } else if (LocalDateTime.now().isAfter(nextHistoryUpdateTS)) {
             // business as usual
             nextHistoryUpdateTS = LocalDateTime.now().withHour(historyUpdateHour).withMinute(0).withSecond(0).plusDays(1);
             run = true;
         }
 
-        if(run) {
-            for(Investment investment : investmentDao.getPositions()) {
+        if (run) {
+            for (Investment investment : investmentDao.getPositions()) {
                 int missingDays = investmentDao.getHistoricalMissingDays(investment);
-                if(missingDays > 0)
+                if (missingDays > 0)
                     broker.updateHistory(investmentDao, investment, missingDays);
             }
         }
@@ -191,12 +189,12 @@ public class Lotus {
     private void updateCash() {
 
         int outstandingBuyOrders = investmentDao.outstandingBuyOrders();
-        if((cashUpdateTS == null || LocalDateTime.now().isAfter(cashUpdateTS)) && outstandingBuyOrders == 0) {
+        if ((cashUpdateTS == null || LocalDateTime.now().isAfter(cashUpdateTS)) && outstandingBuyOrders == 0) {
             cashUpdateTS = LocalDateTime.now().plusHours(cashUpdateHours);
             double brokerCash = broker.getAvailableFundsUSD();
             double compoundCash = compounder.getCash();
             double diff = compoundCash - brokerCash;
-            if(diff < 0)
+            if (diff < 0)
                 diff = -diff;
             logger.info(String.format("updateCash: %.2f difference (ib=%.2f compounder=%.2f) buyOrders=%d",
                     diff, brokerCash, compoundCash, outstandingBuyOrders));
@@ -208,12 +206,12 @@ public class Lotus {
     private void processTriggers() {
         importTriggers.importAll();
         List<Trigger> triggerList = triggerDao.getTodaysTriggers();
-        for(Trigger trigger : triggerList) {
+        for (Trigger trigger : triggerList) {
             if (!validateTrigger(trigger)) {
                 triggerDao.serialise(trigger);
                 continue;
             }
-            logger.info("processTriggers: "+trigger);
+            logger.info("processTriggers: " + trigger);
             Investment investment = new Investment(trigger);
 
             if (!compounder.apply(investment)) {
@@ -238,23 +236,23 @@ public class Lotus {
 
     public boolean validateTrigger(Trigger trigger) {
 
-        if(!trigger.event) {
+        if (!trigger.event) {
             trigger.rejectReason = Trigger.RejectReason.NOTEVENT;
             return false;
         }
 
-        if(trigger.zscore > Configuration.MIN_ZSCORE) {
+        if (trigger.zscore > Configuration.MIN_ZSCORE) {
             trigger.rejectReason = Trigger.RejectReason.ZSCORE;
             trigger.rejectData = Configuration.MIN_ZSCORE;
             return false;
         }
 
-        if(!isActiveSymbol(trigger)) {
+        if (!isActiveSymbol(trigger)) {
             trigger.rejectReason = Trigger.RejectReason.CATEGORY;
             return false;
         }
 
-        if(trigger.avgVolume > Configuration.MIN_VOLUME) {
+        if (trigger.avgVolume > Configuration.MIN_VOLUME) {
             trigger.rejectReason = Trigger.RejectReason.VOLUME;
             trigger.rejectData = Configuration.MIN_VOLUME;
             return false;
@@ -262,13 +260,13 @@ public class Lotus {
 
         double nextInvest = compounder.nextInvestmentAmount();
         double pc = nextInvest / trigger.avgVolume;
-        if(pc >= 1.0) {
+        if (pc >= 1.0) {
             trigger.rejectReason = Trigger.RejectReason.INVESTAMT;
             trigger.rejectData = nextInvest;
             return false;
         }
 
-        if(!compounder.fundsAvailable()) {
+        if (!compounder.fundsAvailable()) {
             trigger.rejectReason = Trigger.RejectReason.NOFUNDS;
             trigger.rejectData = nextInvest;
             return false;
@@ -295,7 +293,7 @@ public class Lotus {
             stmt.setString(1, trigger.exchange);
             stmt.setString(2, trigger.symbol);
             rs = stmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 int i = rs.getInt(1);
                 return i > 0;
             }
@@ -318,19 +316,19 @@ public class Lotus {
 
     private void processEvents() throws InterruptedException {
         IBMessage msg;
-        while((msg = eventQueue.poll(1, TimeUnit.SECONDS)) != null) {
+        while ((msg = eventQueue.poll(1, TimeUnit.SECONDS)) != null) {
             msg.process(this);
         }
     }
 
     public void processPosition(Position position) {
         Investment investment = investmentDao.findConId(position.conid());
-        if(investment == null) {
-            logger.info("Position not found: "+position.contract().symbol()+"/"+position.contract().exchange());
+        if (investment == null) {
+            logger.info("Position not found: " + position.contract().symbol() + "/" + position.contract().exchange());
             return;
         }
 
-        switch(investment.state) {
+        switch (investment.state) {
             case BUYUNCONFIRMED:
             case BUYPRESUBMITTED:
             case BUYOPEN:
@@ -351,8 +349,8 @@ public class Lotus {
             case SELLUNCONFIRMED:
             case SELLPRESUBMITTED:
             case SELLOPEN:
-                if(position.position() == 0) {
-                    logger.warn("Missed SELL order confirmation: "+investment.trigger.symbol);
+                if (position.position() == 0) {
+                    logger.warn("Missed SELL order confirmation: " + investment.trigger.symbol);
                     investment.state = SELLFILLED;
                     investment.errorCode = 69;
                     investment.errorMsg = "Missed SELL order confirmation";
@@ -361,7 +359,7 @@ public class Lotus {
                 }
                 break;
             case SELLFILLED:
-                if(position.position() == 0) {
+                if (position.position() == 0) {
                     investment.state = CLOSED;
                     compounder.processWithdrawal(investment);
                     investmentDao.serialise(investment);
@@ -388,7 +386,7 @@ public class Lotus {
     public void processOpenOrder(NewContract contract, NewOrder order, NewOrderState orderState) {
         Investment investment = investmentDao.findOrder(order.orderId());
 
-        if(investment == null) {
+        if (investment == null) {
             logger.warn("processOpenOrder: unknown orderId");
             return;
         }
@@ -407,9 +405,9 @@ public class Lotus {
            order.commission
          */
 
-        switch(orderState.status()) {
+        switch (orderState.status()) {
             case PreSubmitted:
-                if(order.action() == Types.Action.BUY) {
+                if (order.action() == Types.Action.BUY) {
                     investment.buyPermId = order.permId();
                     investment.state = BUYPRESUBMITTED;
                     investment.conId = contract.conid();
@@ -420,7 +418,7 @@ public class Lotus {
                 investmentDao.serialise(investment);
                 break;
             case Submitted:
-                if(order.action() == Types.Action.BUY) {
+                if (order.action() == Types.Action.BUY) {
                     investment.state = BUYOPEN;
                 } else {
                     investment.state = SELLOPEN;
@@ -429,7 +427,7 @@ public class Lotus {
                 investmentDao.serialise(investment);
                 break;
             case Filled:
-                if(order.action() == Types.Action.BUY) {
+                if (order.action() == Types.Action.BUY) {
                     investment.state = BUYFILLED;
                     investment.buyCommission = truncDouble(orderState.commission());
                 } else {
@@ -443,7 +441,7 @@ public class Lotus {
                 break;
 
             default:
-                logger.error("processOpenOrder: undefined order status: "+orderState.status());
+                logger.error("processOpenOrder: undefined order status: " + orderState.status());
                 break;
         }
 
@@ -464,7 +462,7 @@ public class Lotus {
         // https://www.interactivebrokers.com/en/software/api/apiguide/java/orderstatus.htm
 
         Investment investment = investmentDao.findOrder(orderId);
-        if(investment == null) {
+        if (investment == null) {
             logger.warn("processOrderStatus: unknown orderId");
             return;
         }
@@ -479,9 +477,9 @@ public class Lotus {
 
          */
 
-        switch(status) {
+        switch (status) {
             case Filled:
-                switch(investment.state) {
+                switch (investment.state) {
                     case BUYUNCONFIRMED:
                     case BUYPRESUBMITTED:
                     case BUYOPEN:
@@ -495,7 +493,7 @@ public class Lotus {
                     case SELLUNCONFIRMED:
                     case SELLPRESUBMITTED:
                     case SELLOPEN:
-                        if(remaining == 0) {
+                        if (remaining == 0) {
                             investment.state = SELLFILLED;
                             investment.sellDateEnd = LocalDate.now();
                         }
@@ -505,7 +503,7 @@ public class Lotus {
                         break;
                     case SELLFILLED:
                     default:
-                        logger.error("Weird state: "+investment);
+                        logger.error("Weird state: " + investment);
                         investment.state = ERROR;
                         investmentDao.serialise(investment);
                         break;
@@ -518,7 +516,7 @@ public class Lotus {
                 break;
 
             default:
-                logger.error("processOrderStatus: undefined order status: "+status);
+                logger.error("processOrderStatus: undefined order status: " + status);
                 break;
         }
     }
@@ -529,15 +527,15 @@ public class Lotus {
 
          */
         logger.info(String.format("processOrderError: id=%d code=%d msg=%s", orderId, errorCode, errorMsg));
-        switch(errorCode) {
+        switch (errorCode) {
             case 1100: // Connectivity between IB and Trader Workstation has been lost.
             case 399: // Warning: your order will not be placed at the exchange until 2016-05-31 09:30:00 US/Eastern
                 return;
 
             default:
-                if(orderId > 0) {
+                if (orderId > 0) {
                     Investment investment = investmentDao.findOrder(orderId);
-                    if(investment != null) {
+                    if (investment != null) {
                         compounder.cancel(investment);
                         investment.state = Investment.State.ORDERFAILED;
                         investment.errorMsg = errorMsg;
@@ -554,7 +552,7 @@ public class Lotus {
     }
 
     private double truncDouble(double d) {
-        if(d > 999999999)
+        if (d > 999999999)
             return 0;
         return Math.floor(d * 1000) / 1000;
     }

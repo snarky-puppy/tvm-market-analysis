@@ -18,7 +18,7 @@ public class LiveOrderStatus extends IBMessage {
     public double lastFillPrice;
     public int clientId;
     public String whyHeld;
-    
+
     public LiveOrderStatus(int orderId, OrderStatus status, int filled, int remaining, double avgFillPrice, long permId,
                            int parentId, double lastFillPrice, int clientId, String whyHeld) {
         this.orderId = orderId;

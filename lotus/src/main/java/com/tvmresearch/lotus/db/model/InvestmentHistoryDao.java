@@ -1,8 +1,5 @@
 package com.tvmresearch.lotus.db.model;
 
-import java.time.LocalDate;
-import java.util.Map;
-
 /**
  * Created by matt on 30/05/16.
  */

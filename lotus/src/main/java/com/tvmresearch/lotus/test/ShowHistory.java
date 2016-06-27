@@ -1,24 +1,15 @@
 package com.tvmresearch.lotus.test;
 
 import com.ib.controller.*;
-import com.tvmresearch.lotus.broker.Broker;
-import com.tvmresearch.lotus.broker.IBLogger;
-import com.tvmresearch.lotus.broker.InteractiveBroker;
-import com.tvmresearch.lotus.db.model.Investment;
-import com.tvmresearch.lotus.db.model.InvestmentDao;
-import com.tvmresearch.lotus.db.model.InvestmentDaoImpl;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.text.SimpleDateFormat;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 
 /**
@@ -26,22 +17,15 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class ShowHistory {
 
-    public static class IBLogger implements ApiConnection.ILogger {
-        @Override
-        public void log(String string) {
-            //logger.info("IB: "+string);
-        }
-    }
+    static String account = null;
+
     private static void log(String s) {
         System.out.println(s);
     }
 
-    private static void log(String fmt, Object ...o) {
+    private static void log(String fmt, Object... o) {
         System.out.println(String.format(fmt, o));
     }
-
-    static String account = null;
-
 
     public static void main(String[] args) throws InterruptedException {
         ApiController controller = null;
@@ -67,35 +51,35 @@ public class ShowHistory {
 
                 @Override
                 public void accountList(ArrayList<String> list) {
-                    if(account == null) {
+                    if (account == null) {
                         account = list.get(0);
-                        log("Got account: "+account);
+                        log("Got account: " + account);
                         semaphore.release();
                     }
                 }
 
                 @Override
                 public void error(Exception e) {
-                    log("error: "+e.getMessage(), e);
+                    log("error: " + e.getMessage(), e);
                     System.exit(1);
                 }
 
                 @Override
                 public void message(int id, int errorCode, String errorMsg) {
                     // 399: Warning: your order will not be placed at the exchange until 2016-03-28 09:30:00 US/Eastern
-                    if(errorCode != 399)
+                    if (errorCode != 399)
                         log(String.format("message: id=%d, errorCode=%d, msg=%s", id, errorCode, errorMsg));
-                    if(errorCode < 1100 && errorCode != 162 && errorCode != 399 && errorCode != 202) {
+                    if (errorCode < 1100 && errorCode != 162 && errorCode != 399 && errorCode != 202) {
                         System.exit(1);
                         //throw new LotusException(new TWSException(id, errorCode, errorMsg));
                     }
-                    if(errorCode == 162)
+                    if (errorCode == 162)
                         semaphore.release();
                 }
 
                 @Override
                 public void show(String string) {
-                    log("show: "+string);
+                    log("show: " + string);
                 }
             }, new com.tvmresearch.lotus.broker.IBLogger(), new com.tvmresearch.lotus.broker.IBLogger());
 
@@ -113,7 +97,7 @@ public class ShowHistory {
                 public void historicalData(Bar bar, boolean hasGaps) {
 
 
-                    Date dt = new Date(bar.time()*1000);
+                    Date dt = new Date(bar.time() * 1000);
                     LocalDate date = dt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
                     String s = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL));
@@ -126,7 +110,6 @@ public class ShowHistory {
                     semaphore.release();
                 }
             };
-
 
 
             NewContract contract = new NewContract();
@@ -143,18 +126,17 @@ public class ShowHistory {
                             .withZone(ZoneId.of("GMT"));
 
 
-
             do {
                 int fetchedDays = missingDays;
                 LocalDate end = LocalDate.now();
 
-                if(missingDays > maxDays) {
+                if (missingDays > maxDays) {
                     end = end.minusDays(missingDays - maxDays);
                     fetchedDays = maxDays;
                 }
 
                 String timeLimit = formatter.format(end.atStartOfDay());
-                System.out.println("Timelimit="+timeLimit);
+                System.out.println("Timelimit=" + timeLimit);
 
                 controller.reqHistoricalData(contract, timeLimit, fetchedDays, Types.DurationUnit.DAY,
                         Types.BarSize._1_day, Types.WhatToShow.TRADES, true, historicalDataHandler);
@@ -162,8 +144,7 @@ public class ShowHistory {
 
                 missingDays -= fetchedDays;
 
-            } while(missingDays > 0);
-
+            } while (missingDays > 0);
 
 
             System.out.println("Finished historical gather");
@@ -171,6 +152,13 @@ public class ShowHistory {
 
         } finally {
             controller.disconnect();
+        }
+    }
+
+    public static class IBLogger implements ApiConnection.ILogger {
+        @Override
+        public void log(String string) {
+            //logger.info("IB: "+string);
         }
     }
 

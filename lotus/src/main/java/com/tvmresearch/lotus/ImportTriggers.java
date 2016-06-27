@@ -7,26 +7,20 @@ import com.tvmresearch.lotus.db.model.TriggerDaoImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Import trigger files - "DailyTriggerReport"
- *
+ * <p>
  * Created by horse on 21/03/2016.
  */
 public class ImportTriggers {
@@ -34,6 +28,11 @@ public class ImportTriggers {
     private static final Logger logger = LogManager.getLogger(ImportTriggers.class);
 
     public ImportTriggers() {
+    }
+
+    public static void main(String[] args) {
+        ImportTriggers importTriggers = new ImportTriggers();
+        importTriggers.importAll();
     }
 
     public void importAll() {
@@ -54,19 +53,19 @@ public class ImportTriggers {
         BufferedReader bufferedReader = null;
         boolean first = true;
 
-        logger.info("importFile: "+file);
+        logger.info("importFile: " + file);
 
         try {
-             bufferedReader = new BufferedReader(new FileReader(file.toFile()));
-            for (;;) {
+            bufferedReader = new BufferedReader(new FileReader(file.toFile()));
+            for (; ; ) {
                 String line = bufferedReader.readLine();
                 if (line == null)
                     break;
-                if(first)
+                if (first)
                     first = false;
                 else {
                     Trigger trigger = parseLine(line);
-                    if(trigger != null)
+                    if (trigger != null)
                         rv.add(trigger);
                 }
             }
@@ -77,7 +76,7 @@ public class ImportTriggers {
             throw new LotusException(e);
         } finally {
             try {
-                if(bufferedReader != null)
+                if (bufferedReader != null)
                     bufferedReader.close();
             } catch (IOException e) {
             }
@@ -85,7 +84,7 @@ public class ImportTriggers {
     }
 
     private void backupFile(Path file) throws IOException {
-        Path newFile = Configuration.INPUT_DIR_ARCHIVE.resolve(file.getFileName()+LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
+        Path newFile = Configuration.INPUT_DIR_ARCHIVE.resolve(file.getFileName() + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
         Files.move(file, newFile);
     }
 
@@ -97,7 +96,7 @@ public class ImportTriggers {
         trigger.exchange = fields[0];
 
         // XXX:
-        if(trigger.exchange.compareTo("ASX") == 0)
+        if (trigger.exchange.compareTo("ASX") == 0)
             return null;
 
         trigger.symbol = fields[1];
@@ -119,11 +118,5 @@ public class ImportTriggers {
         int m = (dt - (y * 10000)) / 100;
         int d = (dt - (y * 10000)) - (m * 100);
         return LocalDate.of(y, m, d);
-    }
-
-
-    public static void main(String[] args) {
-        ImportTriggers importTriggers = new ImportTriggers();
-        importTriggers.importAll();
     }
 }

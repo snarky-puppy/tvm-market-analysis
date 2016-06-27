@@ -1,30 +1,5 @@
 package com.tvmresearch.lotus.test;
 
-import com.ib.client.CommissionReport;
-import com.ib.client.Execution;
-import com.ib.client.ExecutionFilter;
-import com.ib.controller.*;
-import com.tvmresearch.lotus.broker.InteractiveBroker;
-import com.tvmresearch.lotus.db.model.Investment;
-import com.tvmresearch.lotus.db.model.InvestmentDao;
-import com.tvmresearch.lotus.db.model.InvestmentDaoImpl;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Semaphore;
-
-
 /**
  * Created by horse on 21/05/2016.
  */

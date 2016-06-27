@@ -24,7 +24,7 @@ public interface InvestmentDao {
 
     Investment findConId(int conid);
 
-    Map<LocalDate,Double> getHistory(Investment investment);
+    Map<LocalDate, Double> getHistory(Investment investment);
 
     int getHistoricalMissingDays(Investment investment);
 

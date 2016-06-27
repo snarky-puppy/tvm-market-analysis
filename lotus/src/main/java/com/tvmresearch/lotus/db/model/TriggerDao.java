@@ -3,7 +3,6 @@ package com.tvmresearch.lotus.db.model;
 import java.util.List;
 
 /**
- *
  * Created by horse on 7/04/2016.
  */
 public interface TriggerDao {

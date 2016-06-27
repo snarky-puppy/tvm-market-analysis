@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Compounder code
- *
+ * <p>
  * Created by horse on 23/03/2016.
  */
 public class Compounder {
@@ -30,7 +30,10 @@ public class Compounder {
     public double nextInvestmentAmount() {
         return state.minInvest + (state.compoundTally > 0 ? state.tallySlice : 0);
     }
-    public boolean fundsAvailable() { return nextInvestmentAmount() <= state.cash; }
+
+    public boolean fundsAvailable() {
+        return nextInvestmentAmount() <= state.cash;
+    }
 
     public boolean apply(Investment investment) {
 
@@ -38,7 +41,7 @@ public class Compounder {
                 state.minInvest, state.compoundTally, state.tallySlice, state.tallySliceCnt, state.cash));
 
         // last minute sanity check
-        if(state.cash < state.minInvest) {
+        if (state.cash < state.minInvest) {
             String msg = String.format("apply: not enough cash for minInvest: cash=%.2f minInvest=%.2f",
                     state.cash, state.minInvest);
             logger.error(msg);
@@ -49,14 +52,14 @@ public class Compounder {
         }
 
         investment.cmpMin = state.minInvest;
-        if(state.compoundTally > 0) {
-            if(state.cash < (investment.cmpMin + state.tallySlice)) {
+        if (state.compoundTally > 0) {
+            if (state.cash < (investment.cmpMin + state.tallySlice)) {
                 logger.error(String.format("apply: investment tally but not enough funds to cover it: " +
                                 "cash=%.2f investAmt=%.2f (tallySlice=%.2f + cmpMin=%.2f)",
                         state.cash, (investment.cmpMin + state.tallySlice), state.tallySlice, investment.cmpMin));
                 state.resetTally();
             } else {
-                if(state.tallySlice > state.compoundTally) {
+                if (state.tallySlice > state.compoundTally) {
                     // this may happen due to rounding errors of about $0.01
                     investment.cmpVal = state.compoundTally;
                     state.resetTally();
@@ -77,7 +80,7 @@ public class Compounder {
         state.cash -= investment.cmpTotal;
 
         // another last minute sanity check.. this is really an ALARM situation
-        if(state.cash < 0) {
+        if (state.cash < 0) {
             String msg = "apply: REAL BAD: cash < 0! resetting to 0!";
             logger.error(msg);
             investment.errorCode = 2;
@@ -96,15 +99,15 @@ public class Compounder {
         state.compoundTally += investment.cmpVal;
         state.cash += investment.cmpTotal;
 
-        logger.info("investment cancel: returning cash to compounder: "+investment.cmpTotal);
+        logger.info("investment cancel: returning cash to compounder: " + investment.cmpTotal);
 
         // reverse tally
-        if(investment.cmpVal > 0) {
-            if(state.tallySliceCnt == 0) {
+        if (investment.cmpVal > 0) {
+            if (state.tallySliceCnt == 0) {
                 state.tallySliceCnt = state.spread - 1;
                 state.tallySlice = investment.cmpVal;
             } else {
-                state.tallySliceCnt --;
+                state.tallySliceCnt--;
                 // assume tallySlice still has a value
             }
         }
@@ -121,7 +124,7 @@ public class Compounder {
 
         state.cash += withdrawal;
 
-        if(profit > 0) {
+        if (profit > 0) {
             state.compoundTally += profit;
             state.tallySliceCnt = 0;
             state.tallySlice = state.compoundTally / state.spread;
@@ -130,14 +133,14 @@ public class Compounder {
         state.save();
     }
 
-    public void setCash(double cash) {
-        logger.info("setCash: "+cash);
-        state.cash = cash;
-        state.save();
-    }
-
     public double getCash() {
         return state.cash;
+    }
+
+    public void setCash(double cash) {
+        logger.info("setCash: " + cash);
+        state.cash = cash;
+        state.save();
     }
 
     public double getCompoundTally() {
