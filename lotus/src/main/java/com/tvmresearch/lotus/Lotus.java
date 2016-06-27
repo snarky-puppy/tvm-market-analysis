@@ -133,9 +133,10 @@ public class Lotus {
                 boolean sellLimitExceed = false;
                 if (close > 0) {
                     sellLimitExceed = close >= investment.sellLimit;
+                    double remaining = investment.sellLimit - close;
                     logger.info(String.format("doSellCheck: %s/%s: lastClose[%.2f] >= sellLimit[%.2f]? %s",
                             investment.trigger.exchange, investment.trigger.symbol, close, investment.sellLimit,
-                            sellLimitExceed ? "Yes" : "No"));
+                            sellLimitExceed ? "Yes" : String.format("No (%.2f remaining)", remaining)));
                 }
                 boolean dtLimitExceeded = LocalDate.now().isAfter(investment.sellDateLimit)
                         || LocalDate.now().isEqual(investment.sellDateLimit);
@@ -389,7 +390,7 @@ public class Lotus {
     public void processOpenOrder(NewContract contract, NewOrder order, NewOrderState orderState) {
         Investment investment = investmentDao.findOrder(order.orderId());
 
-        if (investment == null) {
+        if (investment == null || order.orderId() == 0) {
             logger.warn("processOpenOrder: unknown orderId");
             return;
         }
@@ -465,7 +466,7 @@ public class Lotus {
         // https://www.interactivebrokers.com/en/software/api/apiguide/java/orderstatus.htm
 
         Investment investment = investmentDao.findOrder(orderId);
-        if (investment == null) {
+        if (investment == null || orderId == 0) {
             logger.warn("processOrderStatus: unknown orderId");
             return;
         }
