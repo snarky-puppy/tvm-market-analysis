@@ -239,6 +239,34 @@ public class InvestmentDaoImpl implements InvestmentDao {
     }
 
     @Override
+    public double sumOfOutstandingBuyOrders() {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Database.connection();
+            stmt = connection.prepareStatement(
+                    "SELECT SUM(cmp_total) AS total FROM investments " +
+                            "WHERE state IN (?,?,?);");
+            stmt.setString(1, String.valueOf(Investment.State.BUYUNCONFIRMED));
+            stmt.setString(2, String.valueOf(Investment.State.BUYPRESUBMITTED));
+            stmt.setString(3, String.valueOf(Investment.State.BUYOPEN));
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+
+            return 0;
+        } catch (SQLException e) {
+            throw new LotusException(e);
+        } finally {
+            Database.close(rs, stmt, connection);
+        }    }
+
+    @Override
     public Investment findUnconfirmed(String symbol) {
         Connection connection = null;
         PreparedStatement stmt = null;

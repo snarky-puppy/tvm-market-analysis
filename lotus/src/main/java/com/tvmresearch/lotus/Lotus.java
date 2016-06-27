@@ -81,7 +81,7 @@ public class Lotus {
         try {
             broker = new InteractiveBroker(eventQueue);
             running = true;
-            compounder = new Compounder(broker.getAvailableFundsUSD());
+            compounder = new Compounder(broker.getAvailableFundsUSD() - investmentDao.sumOfOutstandingBuyOrders());
             cashUpdateTS = LocalDateTime.now().plusHours(cashUpdateHours); // update timestamp since we just fetched it
 
             while (running) {

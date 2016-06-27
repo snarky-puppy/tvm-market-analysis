@@ -35,4 +35,6 @@ public interface InvestmentDao {
     int outstandingBuyOrders();
 
     void addHistory(Investment investment, List<HistoricalDataPoint> history);
+
+    double sumOfOutstandingBuyOrders();
 }
