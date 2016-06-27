@@ -4,6 +4,8 @@ import com.ib.client.CommissionReport;
 import com.ib.client.Execution;
 import com.ib.client.ExecutionFilter;
 import com.ib.controller.*;
+import com.tvmresearch.lotus.DateUtil;
+import com.tvmresearch.lotus.HistoricalDataPoint;
 import com.tvmresearch.lotus.LotusException;
 import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.InvestmentDao;
@@ -81,13 +83,21 @@ public class InteractiveBroker implements Broker {
 
             @Override
             public void message(int id, int errorCode, String errorMsg) {
-                // 399: Warning: your order will not be placed at the exchange until 2016-03-28 09:30:00 US/Eastern
-                if (errorCode != 399)
-                    logger.error(String.format("message: id=%d, errorCode=%d, msg=%s", id, errorCode, errorMsg));
 
-                if (errorCode == 502) { // Couldn't connect to TWS.  Confirm that "Enable ActiveX and Socket Clients" is enabled on the TWS "Configure->API" menu.
-                    connectFailed[0] = true;
-                    semaphore.release();
+                switch(errorCode) {
+                    case 399:
+                        // 399: Warning: your order will not be placed at the exchange until 2016-03-28 09:30:00 US/Eastern
+                        // ignore it
+                        break;
+                    case 502:
+                        // 502: Couldn't connect to TWS.  Confirm that "Enable ActiveX and Socket Clients" is enabled on the TWS "Configure->API" menu.
+                        logger.error(String.format("message: id=%d, errorCode=%d, msg=%s", id, errorCode, errorMsg));
+                        connectFailed[0] = true;
+                        semaphore.release();
+                        break;
+                    default:
+                        logger.error(String.format("message: id=%d, errorCode=%d, msg=%s", id, errorCode, errorMsg));
+                        break;
                 }
             }
 
@@ -325,16 +335,7 @@ public class InteractiveBroker implements Broker {
         try {
             semaphore.acquire();
 
-            class Pair {
-                public LocalDate date;
-                public double close;
-
-                Pair(LocalDate d, double c) {
-                    date = d;
-                    close = c;
-                }
-            }
-            List<Pair> history = new ArrayList<>();
+            List<HistoricalDataPoint> history = new ArrayList<>();
 
             ApiController.IHistoricalDataHandler historicalDataHandler = new ApiController.IHistoricalDataHandler() {
                 @Override
@@ -342,7 +343,7 @@ public class InteractiveBroker implements Broker {
                     Date dt = new Date(bar.time() * 1000);
                     LocalDate date = dt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     logger.info(String.format("history: %s: %s: %f", investment.trigger.symbol, bar.formattedTime(), bar.close()));
-                    history.add(new Pair(date, bar.close()));
+                    history.add(new HistoricalDataPoint(date, bar.close()));
                 }
 
                 @Override
@@ -350,7 +351,6 @@ public class InteractiveBroker implements Broker {
                     semaphore.release();
                 }
             };
-
 
             ////////////////////////////////
 
@@ -363,7 +363,7 @@ public class InteractiveBroker implements Broker {
                 LocalDate end = LocalDate.now();
 
                 if (missingDays > maxDays) {
-                    end = end.minusDays(missingDays - maxDays);
+                    end = DateUtil.minusBusinessDays(end, missingDays - maxDays);
                     fetchedDays = maxDays;
                 }
 
@@ -377,25 +377,7 @@ public class InteractiveBroker implements Broker {
 
             } while (missingDays > 0);
 
-            ////////////////////////////////
-
-            /*
-            Instant instant = Instant.now();
-            String timeLimit = formatter.format(instant);
-
-            logger.info(String.format("updateHistory: %s/%s TimeLimit=%s", contract.primaryExch(), contract.symbol(), timeLimit));
-
-            controller.reqHistoricalData(contract, timeLimit, (int) missingDays, Types.DurationUnit.DAY,
-                    Types.BarSize._1_day, Types.WhatToShow.TRADES, true, historicalDataHandler);
-
-            semaphore.acquire();
-            */
-
-            ////////////////////////////////
-
-            for (Pair p : history) {
-                dao.addHistory(investment, p.date, p.close);
-            }
+            dao.addHistory(investment, history);
 
         } catch (InterruptedException e) {
             throw new LotusException(e);

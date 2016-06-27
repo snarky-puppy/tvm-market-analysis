@@ -56,11 +56,14 @@ public class CompounderTest {
 
         // Now, minInvest > (cash/rate)-(minInvest*(floor(cash/rate/minInvest)))
         assertFalse(new Compounder().fundsAvailable());
+        System.out.println("next apply() will fail");
         assertFalse(new Compounder().apply(new Investment(null)));
+        System.out.println("end of failed apply().");
 
-        // some investments didn't work out, check back in and re-test
+        // one investment didn't work out, check back in and re-test
         Investment investment = new Investment(null);
         investment.cmpMin = minInvest;
+        investment.cmpTotal = minInvest;
         new Compounder().cancel(investment);
 
         // we should have enough cash for one more investment

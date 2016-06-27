@@ -3,6 +3,8 @@ package com.tvmresearch.lotus.db.model;
 import com.mysql.jdbc.Statement;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.tvmresearch.lotus.Database;
+import com.tvmresearch.lotus.DateUtil;
+import com.tvmresearch.lotus.HistoricalDataPoint;
 import com.tvmresearch.lotus.LotusException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -206,20 +208,32 @@ public class InvestmentDaoImpl implements InvestmentDao {
     }
 
     @Override
-    public void addHistory(Investment investment, LocalDate date, double close) {
+    public void addHistory(Investment investment, List<HistoricalDataPoint> history) {
         Connection connection = Database.connection();
         PreparedStatement stmt = null;
         try {
+            connection.setAutoCommit(false);
             stmt = connection.prepareStatement("INSERT INTO investment_history VALUES(NULL, ?, ?, ?)");
-            stmt.setInt(1, investment.id);
-            stmt.setDate(2, java.sql.Date.valueOf(date));
-            stmt.setDouble(3, close);
-            stmt.execute();
-        } catch (MySQLIntegrityConstraintViolationException e) {
-            //logger.info("Ignoring: "+e.getMessage());
+
+            for(HistoricalDataPoint historicalDataPoint : history) {
+                try {
+                    stmt.setInt(1, investment.id);
+                    stmt.setDate(2, java.sql.Date.valueOf(historicalDataPoint.date));
+                    stmt.setDouble(3, historicalDataPoint.close);
+                    stmt.execute();
+
+                } catch (MySQLIntegrityConstraintViolationException e) {
+                    // ignore duplicate
+                }
+            }
         } catch (SQLException e) {
             throw new LotusException(e);
         } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                throw new LotusException(e);
+            }
             Database.close(stmt, connection);
         }
     }
@@ -244,7 +258,6 @@ public class InvestmentDaoImpl implements InvestmentDao {
                 return populate(rs);
             else
                 return null;
-
 
         } catch (SQLException e) {
             throw new LotusException(e);
@@ -275,7 +288,6 @@ public class InvestmentDaoImpl implements InvestmentDao {
                 return null;
             }
 
-
         } catch (SQLException e) {
             throw new LotusException(e);
         } finally {
@@ -304,7 +316,6 @@ public class InvestmentDaoImpl implements InvestmentDao {
                 logger.warn(String.format("findOrder: conId %d not found", conid));
                 return null;
             }
-
 
         } catch (SQLException e) {
             throw new LotusException(e);
@@ -366,7 +377,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
                     historyStart = rs.getDate("dt").toLocalDate();
             }
 
-            return (int) DAYS.between(historyStart, LocalDate.now());
+            return (int) DateUtil.businessDaysBetween(historyStart, LocalDate.now());
 
         } catch (SQLException e) {
             throw new LotusException(e);
@@ -388,8 +399,6 @@ public class InvestmentDaoImpl implements InvestmentDao {
                             "WHERE investment_id = ? ORDER BY dt DESC LIMIT 1");
             stmt.setLong(1, investment.id);
             rs = stmt.executeQuery();
-
-            LocalDate historyStart = investment.trigger.date;
 
             if (rs.next()) {
                 return rs.getDouble("close");

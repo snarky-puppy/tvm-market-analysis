@@ -58,14 +58,22 @@ public class Lotus {
 
     public static void main(String[] args) throws InterruptedException {
 
-        while (!intentionalShutdown) {
-            logger.info("--- LOTUS STARTUP ---");
-            Lotus lotus = new Lotus();
-            lotus.mainLoop();
-            logger.info("--- LOTUS RECONNECT ---");
-            Thread.sleep(10000);
+        try {
+            while (!intentionalShutdown) {
+                logger.info("--- LOTUS STARTUP ---");
+                Lotus lotus = new Lotus();
+                lotus.mainLoop();
+                logger.info("--- LOTUS RECONNECT ---");
+                Thread.sleep(10000);
+            }
+            logger.info("--- LOTUS SHUTDOWN ---");
+
+        } catch(LotusException e) {
+            logger.error("Fatal Lotus exception", e);
+
+        } catch(Exception e) {
+            logger.error("Fatal uncaught exception", e);
         }
-        logger.info("--- LOTUS SHUTDOWN ---");
     }
 
     private void mainLoop() {
@@ -74,12 +82,7 @@ public class Lotus {
             broker = new InteractiveBroker(eventQueue);
             running = true;
             compounder = new Compounder(broker.getAvailableFundsUSD());
-            cashUpdateTS = LocalDateTime.now().plusHours(cashUpdateHours); // update cash check timestamp since we just fetched it
-
-            // threads....
-            //  1. ensure ibgateway is running
-            //  2. periodically update AUD.USD
-            //  3.
+            cashUpdateTS = LocalDateTime.now().plusHours(cashUpdateHours); // update timestamp since we just fetched it
 
             while (running) {
                 updateCash();
@@ -137,7 +140,7 @@ public class Lotus {
                 boolean dtLimitExceeded = LocalDate.now().isAfter(investment.sellDateLimit)
                         || LocalDate.now().isEqual(investment.sellDateLimit);
 
-                long remaining = DAYS.between(investment.sellDateLimit, LocalDate.now());
+                long remaining = DAYS.between(LocalDate.now(), investment.sellDateLimit);
 
                 logger.info(String.format("doSellCheck: %s/%s: now >= sellDateLimit[%s]? %s",
                         investment.trigger.exchange, investment.trigger.symbol,

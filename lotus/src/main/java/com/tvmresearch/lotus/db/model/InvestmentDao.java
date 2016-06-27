@@ -1,5 +1,7 @@
 package com.tvmresearch.lotus.db.model;
 
+import com.tvmresearch.lotus.HistoricalDataPoint;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +18,7 @@ public interface InvestmentDao {
 
     void serialise(Investment investment);
 
-    void addHistory(Investment investment, LocalDate date, double close);
+
 
     Investment findUnconfirmed(String symbol);
 
@@ -31,4 +33,6 @@ public interface InvestmentDao {
     double getLastHistoricalClose(Investment investment);
 
     int outstandingBuyOrders();
+
+    void addHistory(Investment investment, List<HistoricalDataPoint> history);
 }
