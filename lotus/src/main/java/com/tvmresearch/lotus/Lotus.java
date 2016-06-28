@@ -497,6 +497,7 @@ public class Lotus {
                     case SELLUNCONFIRMED:
                     case SELLPRESUBMITTED:
                     case SELLOPEN:
+                    case SELLFILLED:
                         if (remaining == 0) {
                             investment.state = SELLFILLED;
                             investment.sellDateEnd = LocalDate.now();
@@ -505,7 +506,6 @@ public class Lotus {
                         investment.avgSellPrice = avgFillPrice;
                         investmentDao.serialise(investment);
                         break;
-                    case SELLFILLED:
                     default:
                         logger.error("Weird state: " + investment);
                         investment.state = ERROR;

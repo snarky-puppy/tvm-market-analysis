@@ -34,7 +34,7 @@ public class Database {
         dataSource.setMinIdle(10);
         dataSource.setLogAbandoned(true);
         dataSource.setRemoveAbandoned(true);
-        dataSource.setRemoveAbandonedTimeout(10);
+        dataSource.setRemoveAbandonedTimeout(60);
     }
 
     public static Connection connection() {
@@ -69,6 +69,7 @@ public class Database {
                 connection.close();
             }
         } catch (SQLException e) {
+            logger.error("Closing Connection", e);
             e.printStackTrace();
         }
     }
@@ -78,6 +79,7 @@ public class Database {
             if (stmt != null)
                 stmt.close();
         } catch (SQLException e) {
+            logger.error("Closing PreparedStatement", e);
             e.printStackTrace();
         }
 
@@ -88,6 +90,7 @@ public class Database {
             if (rs != null)
                 rs.close();
         } catch (SQLException e) {
+            logger.error("Closing ResultSet", e);
             e.printStackTrace();
         }
     }

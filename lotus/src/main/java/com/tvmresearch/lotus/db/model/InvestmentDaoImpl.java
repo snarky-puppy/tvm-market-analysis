@@ -104,11 +104,12 @@ public class InvestmentDaoImpl implements InvestmentDao {
 
         ResultSet rs = null;
         PreparedStatement stmt = null;
-        Connection connection = Database.connection();
+        Connection connection = null;
 
         logger.debug("serialise: " + investment);
 
         try {
+            connection = Database.connection();
             if (investment.id == null) {
                 stmt = connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
             } else {
@@ -209,9 +210,10 @@ public class InvestmentDaoImpl implements InvestmentDao {
 
     @Override
     public void addHistory(Investment investment, List<HistoricalDataPoint> history) {
-        Connection connection = Database.connection();
+        Connection connection = null;
         PreparedStatement stmt = null;
         try {
+            connection = Database.connection();
             connection.setAutoCommit(false);
             stmt = connection.prepareStatement("INSERT INTO investment_history VALUES(NULL, ?, ?, ?)");
 
@@ -232,7 +234,6 @@ public class InvestmentDaoImpl implements InvestmentDao {
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
-                throw new LotusException(e);
             }
             Database.close(stmt, connection);
         }
@@ -264,7 +265,8 @@ public class InvestmentDaoImpl implements InvestmentDao {
             throw new LotusException(e);
         } finally {
             Database.close(rs, stmt, connection);
-        }    }
+        }
+    }
 
     @Override
     public Investment findUnconfirmed(String symbol) {

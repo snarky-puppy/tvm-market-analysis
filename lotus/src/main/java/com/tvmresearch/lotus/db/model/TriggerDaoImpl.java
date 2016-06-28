@@ -167,8 +167,9 @@ public class TriggerDaoImpl implements TriggerDao {
 
     @Override
     public int elapsedDays(Trigger trigger) {
-        Connection connection = Database.connection();
+        Connection connection = null;
         try {
+            connection = Database.connection();
             return elapsedDays(trigger, connection);
         } finally {
             Database.close(connection);
