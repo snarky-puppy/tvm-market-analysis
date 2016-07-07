@@ -40,10 +40,10 @@ public class DBUtil {
         dataSource.setUrl("jdbc:mysql://localhost/lotustest?useSSL=false");
         dataSource.setUsername("lotustest");
         dataSource.setPassword("lotustest");
-        dataSource.setInitialSize(10);
-        dataSource.setMaxActive(50);
-        dataSource.setMaxIdle(20);
-        dataSource.setMinIdle(10);
+        dataSource.setInitialSize(1);
+        dataSource.setMaxActive(1);
+        dataSource.setMaxIdle(1);
+        dataSource.setMinIdle(1);
         dataSource.setLogAbandoned(true);
         dataSource.setRemoveAbandoned(true);
         dataSource.setRemoveAbandonedTimeout(10);

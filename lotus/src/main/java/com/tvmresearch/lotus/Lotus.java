@@ -9,6 +9,7 @@ import com.tvmresearch.lotus.db.model.*;
 import com.tvmresearch.lotus.message.IBMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -78,11 +79,47 @@ public class Lotus {
 
     private void mainLoop() {
 
+        running = true;
+
+        Thread dbStatsLogger = new Thread() {
+
+            int size;
+            int active;
+            int idle;
+            int wait;
+
+            @Override
+            public void run() {
+                while(running && !intentionalShutdown) {
+                    try {
+                        DataSource ds = Database.getDatasource();
+                        if(ds.getSize() != size ||
+                                ds.getActive() != active ||
+                                ds.getIdle() != idle ||
+                                ds.getWaitCount() != wait) {
+
+                            size = ds.getSize();
+                            active = ds.getActive();
+                            idle = ds.getIdle();
+                            wait = ds.getWaitCount();
+                            logger.info(String.format("stats: size=%d, active=%d, idle=%d, wait=%d",
+                                    size, active, idle, wait));
+                        }
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                }
+            }
+        };
+
         try {
             broker = new InteractiveBroker(eventQueue);
             running = true;
             compounder = new Compounder(broker.getAvailableFundsUSD() - investmentDao.sumOfOutstandingBuyOrders());
             cashUpdateTS = LocalDateTime.now().plusHours(cashUpdateHours); // update timestamp since we just fetched it
+
+            dbStatsLogger.start();
 
             while (running) {
                 updateCash();
@@ -92,6 +129,7 @@ public class Lotus {
                 doSellCheck();
                 Thread.sleep(1000);
             }
+
         } catch (InterruptedException e) {
             logger.info("Sleep interrupted", e);
 
@@ -100,6 +138,12 @@ public class Lotus {
 
         } finally {
             logger.info("The Final final block");
+
+            try {
+                running = false;
+                dbStatsLogger.join();
+            } catch (InterruptedException e) {}
+
             if (broker != null)
                 broker.disconnect();
         }
@@ -552,6 +596,7 @@ public class Lotus {
     }
 
     public void processDisconnect() {
+        logger.info("processDisconnect");
         running = false;
     }
 

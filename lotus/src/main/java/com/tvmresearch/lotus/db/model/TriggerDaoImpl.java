@@ -123,8 +123,7 @@ public class TriggerDaoImpl implements TriggerDao {
     }
 
     @Override
-    public Trigger load(int id) {
-        Connection connection = null;
+    public Trigger load(int id, Connection connection) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -134,7 +133,6 @@ public class TriggerDaoImpl implements TriggerDao {
                 + " WHERE id = ?";
 
         try {
-            connection = Database.connection();
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
@@ -161,7 +159,7 @@ public class TriggerDaoImpl implements TriggerDao {
         } catch (SQLException e) {
             throw new LotusException(e);
         } finally {
-            Database.close(rs, stmt, connection);
+            Database.close(rs, stmt);
         }
     }
 

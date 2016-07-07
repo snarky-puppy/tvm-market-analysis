@@ -134,4 +134,8 @@ public class Database {
                 .map(s -> s + "=?")
                 .collect(Collectors.joining(", "));
     }
+
+    public static DataSource getDatasource() {
+        return dataSource;
+    }
 }

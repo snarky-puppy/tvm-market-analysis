@@ -1,5 +1,8 @@
 package com.tvmresearch.lotus.db.model;
 
+import com.tvmresearch.lotus.Database;
+
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -11,7 +14,7 @@ public interface TriggerDao {
 
     List<Trigger> getTodaysTriggers();
 
-    Trigger load(int id);
+    Trigger load(int id, Connection connection);
 
     int elapsedDays(Trigger trigger);
 

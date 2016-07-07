@@ -62,7 +62,6 @@ public class InteractiveBroker implements Broker {
 
             @Override
             public void disconnected() {
-
             }
 
             @Override

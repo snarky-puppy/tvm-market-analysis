@@ -1,5 +1,6 @@
 package com.tvmresearch.lotus.db.model;
 
+import com.mysql.fabric.xmlrpc.base.Data;
 import com.tvmresearch.lotus.DBUtil;
 import com.tvmresearch.lotus.Database;
 import com.tvmresearch.lotus.LotusException;
@@ -14,9 +15,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
+import static com.tvmresearch.lotus.db.model.Investment.State.BUYFILLED;
+import static com.tvmresearch.lotus.db.model.Investment.State.BUYPRESUBMITTED;
 import static org.junit.Assert.*;
 
 /**
@@ -58,7 +60,7 @@ public class InvestmentDaoImplTest {
     public void serialise() throws Exception {
 
         TriggerDao triggerDao = new TriggerDaoImpl();
-        Trigger trigger = triggerDao.load(1);
+        Trigger trigger = triggerDao.load(1, Database.connection());
         assertNotNull(trigger);
 
         Investment investment = DBUtil.createInvestment(trigger);
@@ -155,5 +157,43 @@ public class InvestmentDaoImplTest {
         Investment investment = DBUtil.createInvestment(trigger);
         dao.serialise(investment);
         assertEquals(1, dao.getHistoricalMissingDays(investment));
+    }
+
+
+    @Test
+    public void testVolume() {
+        final int count = 1000;
+        Investment[] investments = new Investment[count];
+        InvestmentDao investmentDao = new InvestmentDaoImpl();
+        TriggerDao triggerDao = new TriggerDaoImpl();
+
+        for(int i = 0; i < count; i++) {
+            investments[i] = DBUtil.createInvestment(DBUtil.createTrigger(String.format("AVT%d", i)));
+            investments[i].conId = i;
+            investments[i].buyOrderId = i+1;
+            investments[i].state = BUYPRESUBMITTED;
+            triggerDao.serialise(investments[i].trigger);
+            investmentDao.serialise(investments[i]);
+        }
+
+        System.out.println("Finished initialising");
+
+        for(int i = 0; i < count; i++) {
+            System.out.println(Database.utilisation());
+            System.out.println(String.format("%d: 1", i));
+            Investment investment = investmentDao.findConId(i);
+            System.out.println(String.format("%d: 2", i));
+            Investment investment2 = investmentDao.findOrder(i+1);
+            System.out.println(String.format("%d: 3", i));
+            assertNotNull(investment);
+            assertNotNull(investment2);
+            assertEquals(investment.conId, investment2.conId);
+
+            investment.state = BUYFILLED;
+            investment.qtyFilled = 1;
+            investmentDao.serialise(investment);
+            System.out.println(String.format("%d: 4", i));
+        }
+
     }
 }

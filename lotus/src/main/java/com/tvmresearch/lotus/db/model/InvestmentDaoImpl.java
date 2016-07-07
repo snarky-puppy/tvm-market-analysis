@@ -1,5 +1,6 @@
 package com.tvmresearch.lotus.db.model;
 
+import com.mysql.jdbc.*;
 import com.mysql.jdbc.Statement;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.tvmresearch.lotus.Database;
@@ -10,6 +11,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,7 +85,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
 
             ArrayList<Investment> rv = new ArrayList<>();
             while (rs.next()) {
-                rv.add(populate(rs));
+                rv.add(populate(rs, connection));
             }
             return rv;
 
@@ -285,7 +288,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
             rs = stmt.executeQuery();
 
             if (rs.next())
-                return populate(rs);
+                return populate(rs, connection);
             else
                 return null;
 
@@ -312,7 +315,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
             rs = stmt.executeQuery();
 
             if (rs.next())
-                return populate(rs);
+                return populate(rs, connection);
             else {
                 logger.warn(String.format("findOrder: orderId %d not found", orderId));
                 return null;
@@ -341,7 +344,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
             rs = stmt.executeQuery();
 
             if (rs.next())
-                return populate(rs);
+                return populate(rs, connection);
             else {
                 logger.warn(String.format("findOrder: conId %d not found", conid));
                 return null;
@@ -470,11 +473,11 @@ public class InvestmentDaoImpl implements InvestmentDao {
         }
     }
 
-    private Investment populate(ResultSet rs) throws SQLException {
+    private Investment populate(ResultSet rs, Connection connection) throws SQLException {
         int investmentId = rs.getInt("id");
         int triggerId = rs.getInt("trigger_id");
 
-        Investment investment = new Investment(new TriggerDaoImpl().load(triggerId));
+        Investment investment = new Investment(new TriggerDaoImpl().load(triggerId, connection));
         investment.id = investmentId;
 
         investment.cmpMin = rs.getDouble("cmp_min");
