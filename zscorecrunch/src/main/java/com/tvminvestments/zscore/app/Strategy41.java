@@ -3,12 +3,17 @@ package com.tvminvestments.zscore.app;
 import com.google.common.util.concurrent.AtomicDouble;
 import com.tvminvestments.zscore.CloseData;
 import com.tvminvestments.zscore.EMAException;
+import com.tvminvestments.zscore.SymbolExchangeMapping;
 import com.tvminvestments.zscore.db.Database;
 import com.tvminvestments.zscore.db.DatabaseFactory;
 import org.apache.commons.math3.stat.descriptive.moment.Mean;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -22,14 +27,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Design9.1 - news
  * Created by horse on 16/05/2016.
  */
-public class Strategy4 {
+public class Strategy41 {
 
-    private static final Logger logger = LogManager.getLogger(Strategy4.class);
+    private static final Logger logger = LogManager.getLogger(Strategy41.class);
 
     private static Random random = new Random();
 
-    private final static Map<String, Database> exchangeDB = new HashMap<>();
-    private final static Map<String, CloseData> symbolData = new HashMap<>();
+    private static SymbolExchangeMapping mapping;
 
     // k=category
     private static final Map<String, ArrayBlockingQueue<Result>> queues = new HashMap<>();
@@ -37,8 +41,10 @@ public class Strategy4 {
 
     public static void main(String[] args) throws Exception {
 
+        mapping = new SymbolExchangeMapping();
+
         try {
-            ExecutorService executorService = Executors.newFixedThreadPool(4); // only 4 markets
+            ExecutorService executorService = Executors.newFixedThreadPool(16);
 
             final boolean isTest = false;
 
@@ -46,18 +52,18 @@ public class Strategy4 {
                 executorService.submit(new Runnable() {
                     @Override
                     public void run() {
-                        Strategy4 strategy4 = new Strategy4();
-                        strategy4.run("test");
+                        Strategy41 strategy4 = new Strategy41();
+                        strategy4.processSymbol("A");
                     }
                 });
 
             } else {
-                for (final String market : Conf.listAllMarkets()) {
+                for (final String symbol : getSymbolsList()) {
                     executorService.submit(new Runnable() {
                         @Override
                         public void run() {
-                            Strategy4 strategy4 = new Strategy4();
-                            strategy4.run(market);
+                            Strategy41 strategy4 = new Strategy41();
+                            strategy4.processSymbol(symbol);
                         }
                     });
                 }
@@ -73,11 +79,6 @@ public class Strategy4 {
         }
     }
 
-    class NewsRow {
-        public int date;
-        public String symbol;
-        public String news;
-    }
 
     class Result {
         public String symbol;
@@ -129,16 +130,16 @@ public class Strategy4 {
 
     static private class ResultWriter extends Thread {
 
-        private final BlockingQueue<Result> blockingQueue;
+        private final BlockingQueue<Result> queue;
         private boolean finalised = false;
         private BufferedWriter writer;
         private boolean header = false;
 
 
-        ResultWriter(String category, BlockingQueue<Result> blockingQueue) {
+        ResultWriter(String market, BlockingQueue<Result> blockingQueue) {
             try {
-                this.blockingQueue = blockingQueue;
-                writer = new BufferedWriter(new FileWriter("strategy4-noslopefilter-"+category+".csv"));
+                queue = blockingQueue;
+                writer = new BufferedWriter(new FileWriter("strategy4.1-"+market+".csv"));
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -154,7 +155,7 @@ public class Strategy4 {
             try {
                 Result r = null;
                 do {
-                    r = blockingQueue.poll(1000, TimeUnit.MILLISECONDS);
+                    r = queue.poll(1000, TimeUnit.MILLISECONDS);
                     if (r != null) {
                         try {
                             writeResults(r);
@@ -220,35 +221,23 @@ public class Strategy4 {
         }
     }
 
-    private void run(String market) {
 
-        ExecutorService executorService = Executors.newFixedThreadPool(4);
-
+    private void processSymbol(String symbol) {
         try {
-            ArrayBlockingQueue<Result> queue = getQueue(market);
-            Database db = DatabaseFactory.createDatabase(market);
-            for (String symbol : db.listSymbols()) {
-                executorService.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        processSymbol(db, queue, symbol);
-                    }
-                });
+
+            if(!mapping.hasSymbol(symbol)) {
+                Result r = new Result();
+                r.symbol = symbol;
+                r.exchange = "SYMBOLNOTFOUND";
+                enqueueResult(getQueue("NOTFOUND"), r);
+                return;
             }
-            executorService.shutdown();
-            executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.DAYS);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-    }
-
-    private void processSymbol(Database db, ArrayBlockingQueue<Result> queue, String symbol) {
-        try {
+            ArrayBlockingQueue<Result> queue = getQueue(mapping.symbolToMarketName(symbol));
+            Database db = mapping.symbolToDatabase(symbol);
             CloseData data = db.loadData(symbol);
             double[] c = data.close;
+            int nresults = 0;
 
             int idx = 0;
             // 21 days is how many we need for the slope calc and dollar volume.
@@ -302,11 +291,20 @@ public class Strategy4 {
                             r.holdPl35Pc = change(data.open[n], data.open[i]);
                             r.holdPl35Price = data.open[i];
                         }
+                        nresults ++;
                         enqueueResult(queue, r);
                     }
                 //}
                 idx++;
             }
+
+            if(nresults == 0) {
+                Result r = new Result();
+                r.symbol = symbol;
+                r.exchange = "NOMATCHES ("+db.getMarket()+")";
+                enqueueResult(queue, r);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -376,9 +374,9 @@ public class Strategy4 {
                 writerThreads.add(resultWriter);
                 queues.put(market, queue);
                 resultWriter.start();
-            } else
-                queue = queues.get(market);
+            }
         }
+        queue = queues.get(market);
         return queue;
     }
 
@@ -392,5 +390,36 @@ public class Strategy4 {
                 e.printStackTrace();
             }
         }
+    }
+
+    private static List<String> getSymbolsList() {
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(new File("doc/SampP 500 Historical Components amp Change History SiblisResearch.xlsx"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        XSSFWorkbook workbook = null;
+        try {
+            workbook = new XSSFWorkbook(fileInputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        Iterator<Row> iter = sheet.iterator();
+        boolean first = true;
+        List<String> rv = new ArrayList<>();
+        while(iter.hasNext()) {
+            Row row = iter.next();
+            if (first) {
+                first = false;
+            } else {
+                Cell cell = row.getCell(0);
+                rv.add(cell.getStringCellValue());
+            }
+        }
+        return rv;
     }
 }

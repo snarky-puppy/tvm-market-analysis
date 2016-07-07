@@ -27,9 +27,6 @@ public class TrendContinuationStrategy4 {
 
     private static Random random = new Random();
 
-    private final static Map<String, Database> exchangeDB = new HashMap<>();
-    private final static Map<String, CloseData> symbolData = new HashMap<>();
-
     // k=market
     private static final Map<String, ArrayBlockingQueue<Result>> queues = new HashMap<>();
     private static final List<ResultWriter> writerThreads = new ArrayList<>();
@@ -115,6 +112,11 @@ public class TrendContinuationStrategy4 {
         public Integer[] maxMonthDate = new Integer[maxMonthRange];
         public Double[] maxMonthPrice = new Double[maxMonthRange];
 
+        // 10,20,30,40,50 % price target
+        public static final int priceTargetRange = 5;
+        public Integer[] priceTargetDate = new Integer[priceTargetRange];
+        public Double[] priceTargetPrice = new Double[priceTargetRange];
+
         @Override
         public String toString() {
             final StringBuffer sb = new StringBuffer("");
@@ -138,6 +140,7 @@ public class TrendContinuationStrategy4 {
             appendDatePricePair(sb, monthDate, monthPrice);
             appendDatePricePair(sb, lowMonthDate, lowMonthPrice);
             appendDatePricePair(sb, maxMonthDate, maxMonthPrice);
+            appendDatePricePair(sb, priceTargetDate, priceTargetPrice);
 
             sb.append('\n');
             return sb.toString();
@@ -168,7 +171,7 @@ public class TrendContinuationStrategy4 {
         ResultWriter(String market, BlockingQueue<Result> blockingQueue) {
             try {
                 this.blockingQueue = blockingQueue;
-                writer = new BufferedWriter(new FileWriter("strategy4-"+market+".csv"));
+                writer = new BufferedWriter(new FileWriter("strategy4-trendcontinuation-"+market+".csv"));
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -247,6 +250,11 @@ public class TrendContinuationStrategy4 {
             for(int r = 3, i = 0; i < Result.maxMonthRange; i++, r += 3) {
                 bw.append(String.format("%d month max date,", r));
                 bw.append(String.format("%d month max price,", r));
+            }
+
+            for(int r = 10, i = 0; i < Result.priceTargetRange; i++, r += 10) {
+                bw.append(String.format("%d%% price target date,", r));
+                bw.append(String.format("%d%% price target price,", r));
             }
 
 
@@ -401,6 +409,14 @@ public class TrendContinuationStrategy4 {
                         r.maxMonthDate[i] = aInt.get();
                         r.maxMonthPrice[i] = aDbl.get();
                     }
+
+
+                    for(int t = 10, i = 0; i < Result.priceTargetRange; i++, t += 10) {
+                        data.findPCIncreaseFromEntry(r.date, t, aInt, aDbl, useAdjustedClose);
+                        r.priceTargetDate[i] = aInt.get();
+                        r.priceTargetPrice[i] = aDbl.get();
+                    }
+
 
                     enqueueResult(queue, r);
                 }

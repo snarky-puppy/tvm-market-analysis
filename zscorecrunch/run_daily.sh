@@ -17,10 +17,9 @@ while [ -n "$(ps -ef | grep VirtualBoxVM | grep 'Windows 7')" ]; do sleep 60; do
 caffeinate -sim ./gradlew run -DmainClass=com.tvminvestments.zscore.app.DailyTriggerReport >zscore.out 2>&1 #| tee zscore.out | grep progress
 #caffeinate -sim ./gradlew run -DmainClass=com.tvminvestments.zscore.app.DailyTriggerReport -PappProp="$*" >zscore.out 2>&1 #| tee zscore.out | grep progress
 
-#if [ -n "$(grep -i exception zscore.out)"] ; then
-#	gzip zscore.out
-#	./gradlew run -DmainClass=com.tvminvestments.zscore.Gmailer zscore.out.gz
-#fi
 
-#java -jar /Users/horse/Projects/Lotus/out/Lotus.jar > /Users/horse/Google\ Drive/Stuff\ from\ Matt/lotus/lotus-$(date +%Y%m%d-%H%M%S).log 2>&1
-#/Users/horse/Projects/Lotus/mysql.sh -report
+if [ $(date +%Y%m%d) -ge 20160701  ] ; then
+	mv /lotus/daily_archive/*.csv /lotus/triggers 
+else
+	mv /lotus/daily_archive/*.csv /lotus/old_triggers 
+fi
