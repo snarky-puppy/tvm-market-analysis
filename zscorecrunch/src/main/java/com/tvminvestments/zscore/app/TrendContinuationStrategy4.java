@@ -117,6 +117,12 @@ public class TrendContinuationStrategy4 {
         public Integer[] priceTargetDate = new Integer[priceTargetRange];
         public Double[] priceTargetPrice = new Double[priceTargetRange];
 
+        public Integer lastRecordedDate;
+        public Double lastRecordedPrice;
+
+        public Integer endOfYearDate;
+        public Double endOfYearPrice;
+
         @Override
         public String toString() {
             final StringBuffer sb = new StringBuffer("");
@@ -141,6 +147,11 @@ public class TrendContinuationStrategy4 {
             appendDatePricePair(sb, lowMonthDate, lowMonthPrice);
             appendDatePricePair(sb, maxMonthDate, maxMonthPrice);
             appendDatePricePair(sb, priceTargetDate, priceTargetPrice);
+
+            sb.append(",").append(lastRecordedDate);
+            sb.append(",").append(lastRecordedPrice);
+            sb.append(",").append(endOfYearDate);
+            sb.append(",").append(endOfYearPrice);
 
             sb.append('\n');
             return sb.toString();
@@ -257,6 +268,9 @@ public class TrendContinuationStrategy4 {
                 bw.append(String.format("%d%% price target price,", r));
             }
 
+            bw.append("Last recorded Date,Last recorded Price,");
+            bw.append("End of year Date,End of year Price,");
+
 
             bw.append('\n');
             writer.write(bw.toString());
@@ -365,7 +379,7 @@ public class TrendContinuationStrategy4 {
                     data.avgPricePrev30Days(r.date, aDbl, useAdjustedClose);
                     r.prev30AvgPrice = aDbl.get();
 
-
+                    aDbl.set(0.0);
                     data.avgVolumePrev30Days(r.date, aDbl);
                     r.prev30AvgVol = aDbl.get();
 
@@ -387,36 +401,54 @@ public class TrendContinuationStrategy4 {
 
                     AtomicInteger aInt = new AtomicInteger(0);
                     for(int i = 0; i < Result.weekRange; i++) {
+                        aInt.set(0);
+                        aDbl.set(0.0);
                         data.findNWeekData(i+1, r.date, aInt, aDbl, useAdjustedClose);
                         r.weekDate[i] = aInt.get();
                         r.weekPrice[i] = aDbl.get();
                     }
 
                     for(int t = 3, i = 0; i < Result.monthRange; i++, t += 3) {
+                        aInt.set(0);
+                        aDbl.set(0.0);
                         data.findNMonthData(t, r.date, aInt, aDbl, useAdjustedClose);
                         r.monthDate[i] = aInt.get();
                         r.monthPrice[i] = aDbl.get();
                     }
 
                     for(int t = 3, i = 0; i < Result.lowMonthRange; i++, t += 3) {
+                        aInt.set(0);
+                        aDbl.set(0.0);
                         data.findMinPriceFromEntry(r.date, t, aInt, aDbl, useAdjustedClose);
                         r.lowMonthDate[i] = aInt.get();
                         r.lowMonthPrice[i] = aDbl.get();
                     }
 
                     for(int t = 3, i = 0; i < Result.maxMonthRange; i++, t += 3) {
-                        data.findMinPriceFromEntry(r.date, t, aInt, aDbl, useAdjustedClose);
+                        aInt.set(0);
+                        aDbl.set(0.0);
+                        data.findMaxPriceFromEntry(r.date, t, aInt, aDbl, useAdjustedClose);
                         r.maxMonthDate[i] = aInt.get();
                         r.maxMonthPrice[i] = aDbl.get();
                     }
 
 
                     for(int t = 10, i = 0; i < Result.priceTargetRange; i++, t += 10) {
+                        aInt.set(0);
+                        aDbl.set(0.0);
                         data.findPCIncreaseFromEntry(r.date, t, aInt, aDbl, useAdjustedClose);
                         r.priceTargetDate[i] = aInt.get();
                         r.priceTargetPrice[i] = aDbl.get();
                     }
 
+                    // last recorded
+                    r.lastRecordedDate = data.date[data.date.length - 1];
+                    r.lastRecordedPrice = data.close[data.close.length - 1];
+
+                    // end of year
+                    data.findEndOfYearPrice(r.date, aInt, aDbl, useAdjustedClose);
+                    r.endOfYearDate = aInt.get();
+                    r.endOfYearPrice = aDbl.get();
 
                     enqueueResult(queue, r);
                 }

@@ -386,6 +386,8 @@ public class CloseData {
      * @param useAdjustedClose
      */
     public void findMinPriceFromEntry(int entryDate, int months, AtomicInteger dt, AtomicDouble price, boolean useAdjustedClose) {
+        dt.set(0);
+        price.set(0.0);
        int entryIdx = findDateIndex(entryDate);
         if(entryIdx == -1)
             return;
@@ -410,6 +412,8 @@ public class CloseData {
     }
 
     public void findMaxPriceFromEntry(int entryDate, int months, AtomicInteger dt, AtomicDouble price, boolean useAdjustedClose) {
+        dt.set(0);
+        price.set(0.0);
         int entryIdx = findDateIndex(entryDate);
         if(entryIdx == -1)
             return;
@@ -434,6 +438,7 @@ public class CloseData {
     }
 
     public void avgVolumePrev30Days(int entryDate, AtomicDouble avgVolumePrev30) {
+        avgVolumePrev30.set(0.0);
         int entryIdx = findDateIndex(entryDate);
         if(entryIdx == -1)
             return;
@@ -451,6 +456,7 @@ public class CloseData {
     }
 
     public void avgPricePrev30Days(int entryDate, AtomicDouble avgPricePrev30, boolean useAdjustedClose) {
+        avgPricePrev30.set(0.0);
         int entryIdx = findDateIndex(entryDate);
         if(entryIdx == -1)
             return;
@@ -471,6 +477,7 @@ public class CloseData {
     }
 
     public void avgVolumePost30Days(int entryDate, AtomicDouble avgVolumePost30) {
+        avgVolumePost30.set(0.0);
         int entryIdx = findDateIndex(entryDate);
         if(entryIdx == -1)
             return;
@@ -488,6 +495,7 @@ public class CloseData {
     }
 
     public void avgPricePost30Days(int entryDate, AtomicDouble avgPricePost30, boolean useAdjustedClose) {
+        avgPricePost30.set(0.0);
         int entryIdx = findDateIndex(entryDate);
         if(entryIdx == -1)
             return;
@@ -508,6 +516,7 @@ public class CloseData {
     }
 
     public void totalVolumePrev30Days(int entryDate, AtomicDouble totalVolumePrev30) {
+        totalVolumePrev30.set(0.0);
         int entryIdx = findDateIndex(entryDate);
         if(entryIdx == -1)
             return;
@@ -527,6 +536,7 @@ public class CloseData {
     }
 
     public void totalPricePrev30Days(int entryDate, AtomicDouble totalPricePrev30, boolean useAdjustedClose) {
+        totalPricePrev30.set(0.0);
         int entryIdx = findDateIndex(entryDate);
         if(entryIdx == -1)
             return;
@@ -547,6 +557,7 @@ public class CloseData {
     }
 
     public void totalVolumePost30Days(int entryDate, AtomicDouble totalVolumePost30) {
+        totalVolumePost30.set(0.0);
         int entryIdx = findDateIndex(entryDate);
         if(entryIdx == -1)
             return;
@@ -564,6 +575,7 @@ public class CloseData {
     }
 
     public void totalPricePost30Days(int entryDate, AtomicDouble totalPricePost30, boolean useAdjustedClose) {
+        totalPricePost30.set(0.0);
         int entryIdx = findDateIndex(entryDate);
         if(entryIdx == -1)
             return;
@@ -584,6 +596,7 @@ public class CloseData {
     }
 
     public void slopeDaysPrev(int days, int entryDate, AtomicDouble slopeVal, boolean useAdjustedClose) {
+        slopeVal.set(0.0);
         int entryIdx = findDateIndex(entryDate);
         if(entryIdx == -1)
             return;
@@ -638,6 +651,8 @@ public class CloseData {
 
 
     public void findEndOfYearPrice(int entryDate, AtomicInteger endOfYearDate, AtomicDouble endOfYearPrice, boolean useAdjustedClose) {
+        endOfYearDate.set(0);
+        endOfYearPrice.set(0.0);
         int dt = DateUtil.findEndOfYearWeekDate(entryDate);
         endOfYearDate.set(dt);
 
