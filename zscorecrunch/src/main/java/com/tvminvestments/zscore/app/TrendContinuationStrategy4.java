@@ -308,7 +308,6 @@ public class TrendContinuationStrategy4 {
             e.printStackTrace();
             System.exit(1);
         }
-
     }
 
     private void processSymbol(Database db, ArrayBlockingQueue<Result> queue, String symbol) {
