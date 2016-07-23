@@ -2,16 +2,13 @@ package com.tvm.crunch;
 
 
 
-import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,7 +36,7 @@ public class FileDatabase implements Database {
     public Set<String> listSymbols(String market) {
         Set<String> rv = new HashSet<>();
         try {
-            Files.walk(getDataDir(market))
+            Files.walk(getDataDir(market), FileVisitOption.FOLLOW_LINKS)
                     .filter(p -> p.toString().endsWith(".csv"))
                     .forEach(p -> rv.add(p.getFileName().toString().replace(".csv", "")));
         } catch (IOException e) {
@@ -58,11 +55,11 @@ public class FileDatabase implements Database {
         //d.high[idx] = Double.parseDouble(fields[2]);
         //d.low[idx] = Double.parseDouble(fields[3]);
         d.close[idx] = Double.parseDouble(fields[4]);
-        d.volume[idx] = Integer.parseInt(fields[5]);
+        d.volume[idx] = Long.parseLong(fields[5]);
         //d.openInterest[idx] = Double.parseDouble(fields[6]);
     }
 
-    private List<String> readAllLines(Path p) throws IOException {
+    public List<String> readAllLines(Path p) throws IOException {
 
         BufferedReader bufferedReader = new BufferedReader(new FileReader(p.toFile()));
 
@@ -87,18 +84,38 @@ public class FileDatabase implements Database {
         logger.info("Loading data "+market+"/"+symbol);
         try {
             List<String> lines = readAllLines(dataFile(market, symbol));
-            Data rv = new Data(market, symbol, lines.size());
+            Data rv = new Data(market, symbol, lines.size() - 1);
             int i = 0;
+            boolean first = true;
             for(String line : lines) {
-                parseDataLine(market, symbol, rv, i, line);
-                i++;
+                if(first) {
+                    first = false;
+                } else {
+                    parseDataLine(market, symbol, rv, i, line);
+                    i++;
+                }
             }
-            rv.sanity();
             return rv;
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<String> listMarkets() {
+        List<String> rv = new ArrayList<String>();
+
+        try {
+            Files.list(PD_DIR)
+                    .filter(p -> Files.isDirectory(p))
+                    .forEach(p -> rv.add(p.getFileName().toString()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        return rv;
     }
 
 }

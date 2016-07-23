@@ -15,4 +15,15 @@ public class Point {
         open = data.open[idx];
         close = data.close[idx];
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Point{");
+        sb.append("date=").append(date);
+        sb.append(", open=").append(open);
+        sb.append(", close=").append(close);
+        sb.append(", index=").append(index);
+        sb.append('}');
+        return sb.toString();
+    }
 }

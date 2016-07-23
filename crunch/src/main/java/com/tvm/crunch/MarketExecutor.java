@@ -20,18 +20,47 @@ public abstract class MarketExecutor {
     private final ArrayBlockingQueue<Result> queue;
     protected final String market;
 
-    abstract ResultWriter createResultWriter(ArrayBlockingQueue<Result> queue);
-    abstract void processSymbol(String symbol);
-    abstract Database db();
+    protected abstract ResultWriter createResultWriter(ArrayBlockingQueue<Result> queue);
+    protected abstract void processSymbol(String symbol);
+    protected abstract Database db();
+    protected abstract MarketExecutor createInstance(String market);
 
     public MarketExecutor(String market) {
+        this.market = market;
         queue = new ArrayBlockingQueue<Result>(1024);
         writer = createResultWriter(queue);
-        this.market = market;
+    }
+
+    protected static void executeAllMarkets(DatabaseFactory databaseFactory, MarketExecutorFactory marketExecutorFactory) {
+
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+
+        try {
+            for (final String market : databaseFactory.create().listMarkets()) {
+                executorService.submit(new Runnable() {
+                    public void run() {
+                        try {
+                            MarketExecutor executor = marketExecutorFactory.create(market);
+                            executor.execute();
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                            System.exit(1);
+                        }
+                    }
+                });
+            }
+            executorService.shutdown();
+            executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.DAYS);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        } finally {
+
+        }
     }
 
     protected void execute() {
-
         ExecutorService executorService = Executors.newFixedThreadPool(4);
         Thread writerThread = new Thread(writer);
 
@@ -41,7 +70,12 @@ public abstract class MarketExecutor {
             for (final String symbol : db().listSymbols(market)) {
                 executorService.submit(new Runnable() {
                     public void run() {
-                        processSymbol(symbol);
+                        try {
+                            processSymbol(symbol);
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                            System.exit(1);
+                        }
                     }
                 });
             }
@@ -59,7 +93,6 @@ public abstract class MarketExecutor {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
     }
 

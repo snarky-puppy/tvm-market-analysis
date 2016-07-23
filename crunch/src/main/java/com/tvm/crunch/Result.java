@@ -7,7 +7,7 @@ public abstract class Result {
 
     public abstract String toString();
 
-    private void appendDatePricePair(StringBuffer sb, Integer[] date, Double[] price) {
+    protected void appendDatePricePair(StringBuffer sb, Integer[] date, Double[] price) {
         for(int i = 0; i < date.length; i++) {
             if(date[i] != null)
                 sb.append(",").append(date[i]);
@@ -20,15 +20,55 @@ public abstract class Result {
         }
     }
 
-    private void appendPoint(StringBuffer sb, Point point) {
-            if(point.date != null)
+    protected void append(StringBuffer sb, String value) {
+        if(value == null)
+            sb.append(",");
+        else
+            sb.append(",").append(value);
+    }
+
+    protected void append(StringBuffer sb, Double value) {
+        if(value == null)
+            sb.append(",");
+        else
+            sb.append(",").append(value);
+    }
+
+    protected void append(StringBuffer sb, Integer value) {
+        if(value == null)
+            sb.append(",");
+        else
+            sb.append(",").append(value);
+    }
+
+
+    protected void appendPointOpen(StringBuffer sb, Point point) {
+        if(point == null) {
+            sb.append(",,");
+        } else {
+            if (point.date != null)
                 sb.append(",").append(point.date);
             else
                 sb.append(",");
-            if(point.price != null)
-                sb.append(",").append(point.price);
+            if (point.open != null)
+                sb.append(",").append(point.open);
             else
                 sb.append(",");
+        }
+    }
 
+    protected void appendPointClose(StringBuffer sb, Point point) {
+        if(point == null) {
+            sb.append(",,");
+        } else {
+            if (point.date != null)
+                sb.append(",").append(point.date);
+            else
+                sb.append(",");
+            if (point.close != null)
+                sb.append(",").append(point.close);
+            else
+                sb.append(",");
+        }
     }
 }

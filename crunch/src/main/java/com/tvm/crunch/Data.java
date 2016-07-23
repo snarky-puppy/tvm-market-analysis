@@ -8,9 +8,11 @@ import org.apache.logging.log4j.Logger;
 import java.util.Arrays;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 /**
  * Wrap market data
@@ -27,7 +29,7 @@ public class Data {
     //public double[] high;
     //public double[] low;
     public double[] close;
-    public int[] volume;
+    public long[] volume;
     //public double[] openInterest;
 
 
@@ -37,7 +39,7 @@ public class Data {
         //high = new double[size];
         //low = new double[size];
         close = new double[size];
-        volume = new int[size];
+        volume = new long[size];
         //openInterest = new double[size];
 
 
@@ -45,58 +47,28 @@ public class Data {
         this.market = market;
     }
 
-    // verify distance
+    // verify distance between dates is less than a certain number of days
     private int verifyDateDistance(int idx, int targetDate, int days) {
         int foundDate = date[idx];
         int distance = 0;
-        if (foundDate > targetDate)
+        if(foundDate > targetDate)
             distance = DateUtil.distance(targetDate, foundDate);
         else
             distance = DateUtil.distance(foundDate, targetDate);
 
-        if (distance <= days)
+        if(distance <= days)
             return idx;
         else
             return -1;
     }
 
-    public int findDateIndex(int startDate) {
-        return findDateIndex(startDate, true);
+    public int findDateIndex(int findDate) {
+        return findDateIndex(findDate, 30, true);
     }
 
-    public int findDateIndex(int findDate, boolean softEnd) {
+    public int findDateIndex(int findDate, int maxDistanceDays, boolean softEnd) {
         if (date.length == 0) {
-            logger.debug("findDate[" + findDate + "] no data found");
-            return -1;
-        }
-        int idx = Arrays.binarySearch(date, findDate);
-        if (idx >= 0) {
-            return idx;
-        } else {
-            idx = (-idx) - 1;
-
-            if (idx >= date.length) {
-                if (softEnd) {
-                    logger.debug("findDate[" + findDate + "] not found, past end of data. Returning end index (" + (date.length - 1) + ").");
-                    return date.length - 1;
-                } else {
-                    logger.debug("findDate[" + findDate + "] not found, past end of data. Returning -1.");
-                    return -1;
-                }
-            } else {
-                logger.debug("findDate[" + findDate + "] not found, next data date: " + date[idx] + " (idx=" + idx + ")");
-                return idx;
-            }
-        }
-    }
-
-    public int findVerifiedDateIndex(int findDate) {
-        return findVerifiedDateIndex(findDate, 30, true);
-    }
-
-    public int findVerifiedDateIndex(int findDate, int maxDistanceDays, boolean softEnd) {
-        if (date.length == 0) {
-            logger.debug("findDate[" + findDate + "] no data found");
+            //logger.debug("findDate[" + findDate + "] no data found");
             return -1;
         }
         int idx = Arrays.binarySearch(date, findDate);
@@ -107,231 +79,112 @@ public class Data {
 
             if (idx >= date.length) {
                 if (softEnd) {
-                    logger.debug("findDate[" + findDate + "] not found, past end of data. Returning end index (" + (date.length - 1) + ").");
+                    //logger.debug("findDate[" + findDate + "] not found, past end of data. Returning end index (" + (date.length - 1) + ").");
                     return verifyDateDistance(date.length - 1, findDate, maxDistanceDays);
                 } else {
                     return -1;
                 }
             } else {
-                logger.debug("findDate[" + findDate + "] not found, next data date: " + date[idx] + " (idx=" + idx + ")");
+                //logger.debug("findDate[" + findDate + "] not found, next data date: " + date[idx] + " (idx=" + idx + ")");
                 return verifyDateDistance(idx, findDate, maxDistanceDays);
             }
         }
     }
 
-
-    public void sanity() {
-        assert (date.length == close.length);
-        assert (close.length == volume.length);
-    }
-
-    private int findPCIncreaseIndex(int entryIndex, int percent, double[] values) {
+    public Point findPCIncrease(int entryIndex, int percent, double[] values) {
         double target = values[entryIndex] * (1.0 + ((double) percent / 100.0));
         while (++entryIndex < values.length) {
             if (values[entryIndex] >= target)
-                return entryIndex;
+                return new Point(this, entryIndex);
         }
-        return -1;
+        return null;
     }
 
-    public Point findPCIncrease(int entryIndex, int percent, double[] values) {
-        int idx = findPCIncreaseIndex(entryIndex, percent, values);
-        if(idx != -1)
-            return new Point(this, idx);
+    public Point findPCDecrease(int entryIndex, int percent, double[] values) {
+        double target = (values[entryIndex] * (1.0 - ((double) percent / 100.0)));
+        while (++entryIndex < values.length) {
+            if (values[entryIndex] <= target)
+                return new Point(this, entryIndex);
+        }
         return null;
     }
 
 
-    public void findPCDecreaseFromEntry(int entryDate, int pc, int months, AtomicInteger pcDate, AtomicDouble pcPrice, boolean useAdjustedClose) {
-        int idx = findPCDecreaseFromEntryIndex(pc, entryDate, months, useAdjustedClose);
-        if (idx == -1) {
-            pcPrice.set(0.0);
-            pcDate.set(0);
-        } else {
-            pcDate.set(date[idx]);
-
-            pcPrice.set(close[idx]);
-        }
+    public Point findNMonthPoint(int entryIndex, int months) {
+        int idx;
+        if(months < 0)
+            idx = findDateIndex(DateUtil.minusMonths(date[entryIndex], -months), 14, false);
+        else
+            idx = findDateIndex(DateUtil.addMonths(date[entryIndex], months), 14, false);
+        if (idx != -1)
+            return new Point(this, idx);
+        return null;
     }
 
-    private int findPCDecreaseFromEntryIndex(int pc, int entryDate, int months, boolean useAdjustedClose) {
-        int plusOneMonth = DateUtil.addMonths(entryDate, months);
-        int idx = findVerifiedDateIndex(entryDate);
-        if (idx == -1)
-            return -1;
-        if (date[idx] > plusOneMonth)
-            return -1;
-        double[] arr =   close;
-        double target = (arr[idx] * (1.0 - ((double) pc / 100.0)));
-        logger.debug(String.format("findPCDecrease [%d]: entry price=%f, target=%f", pc, arr[idx], target));
-        while (++idx < arr.length) {
-            //logger.info(String.format("%f <= target", arr[idx]));
-            if (arr[idx] <= target)
-                return idx;
-        }
-        return -1;
+    public Point findNWeekPoint(int entryIndex, int weeks) {
+        int idx;
+        if(weeks < 0)
+            idx = findDateIndex(DateUtil.minusWeeks(date[entryIndex], -weeks), 7, false);
+        else
+            idx = findDateIndex(DateUtil.addWeeks(date[entryIndex], weeks), 7, false);
+        if (idx != -1)
+            return new Point(this, idx);
+        return null;
     }
 
-
-
-
-
-    public void findNMonthData(int month, int entryDate, AtomicInteger dt, AtomicDouble price, boolean useAdjustedClose) {
-        int idx = findVerifiedDateIndex(DateUtil.addMonths(entryDate, month), 14, false);
-        if (idx == -1) {
-            dt.set(0);
-            price.set(0.0);
-        } else {
-            dt.set(date[idx]);
-
-                price.set(close[idx]);
-        }
+    public Point findNDayPoint(int entryIndex, int days) {
+        // not literal days, trading days! as in data points.
+        // why? because weekends, long weekends etc.
+        entryIndex += days;
+        if (entryIndex < 0 || entryIndex >= date.length)
+            return null;
+        return new Point(this, entryIndex);
     }
 
-    public void findNWeekData(int week, int entryDate, AtomicInteger dt, AtomicDouble price, boolean useAdjustedClose) {
-        int idx = findVerifiedDateIndex(DateUtil.addWeeks(entryDate, week), 7, false);
-        if (idx == -1) {
-            dt.set(0);
-            price.set(0.0);
-        } else {
-            dt.set(date[idx]);
-
-                price.set(close[idx]);
-        }
-    }
-
-
-    public void findNWeekData(int week, int entryDate, AtomicInteger dt, AtomicDouble price, AtomicInteger nDt, AtomicDouble nOpenPrice, AtomicDouble nClosePrice, boolean useAdjustedClose) {
-        int idx = findVerifiedDateIndex(DateUtil.addWeeks(entryDate, week), 7, false);
-        if (idx == -1) {
-            dt.set(0);
-            price.set(0.0);
-        } else {
-            dt.set(date[idx]);
-
-                price.set(close[idx]);
-
-            int nextDay = DateUtil.addDays(date[idx], 1);
-            idx = findVerifiedDateIndex(nextDay, 7, false);
-            if (idx == -1) {
-                nDt.set(0);
-                nOpenPrice.set(0.0);
-                nClosePrice.set(0.0);
-            } else {
-                nDt.set(date[idx]);
-                nOpenPrice.set(open[idx]);
-
-                    nClosePrice.set(close[idx]);
-            }
-
-        }
-    }
-
-    public void findOpenNDaysLater(int entryDate, int days, AtomicInteger dayDate, AtomicDouble dayPrice) {
-        // not literal days, trading days! dummy!
-        //int newDate = DateUtil.addDays(entryDate, days);
-        //int idx = findVerifiedDateIndex(newDate, 2, false);\
-        int idx = findDateIndex(entryDate);
-        idx += days;
-        if (idx == -1 || idx >= date.length) {
-            dayDate.set(0);
-            dayPrice.set(0.0);
-        } else {
-            dayDate.set(date[idx]);
-            dayPrice.set(open[idx]);
-        }
-    }
-
-    public void find2DaysLater(int entryDate, AtomicInteger day2Date, AtomicDouble day2Price, boolean useAdjustedClose) {
-        int newDate = DateUtil.addDays(entryDate, 2);
-        int idx = findVerifiedDateIndex(newDate);
-        if (idx == -1) {
-            day2Date.set(0);
-            day2Price.set(0.0);
-        } else {
-            day2Date.set(date[idx]);
-
-                day2Price.set(close[idx]);
-        }
-    }
-
-
-    public void find1DayLater(int entryDate, AtomicInteger openDate, AtomicDouble openPrice, AtomicDouble closePrice, boolean useAdjustedClose) {
-        int newDate = DateUtil.addDays(entryDate, 1);
-        int idx = findVerifiedDateIndex(newDate);
-        if (idx == -1) {
-            openDate.set(0);
-            openPrice.set(0.0);
-            closePrice.set(0.0);
-        } else {
-            openDate.set(date[idx]);
-            openPrice.set(open[idx]);
-
-                closePrice.set(close[idx]);
-        }
-    }
-
-
-
-    /**
-     * Find min price in entryDate -> entryDate + months
-     *
-     * @param entryDate
-     * @param months
-     * @param dt
-     * @param price
-     * @param useAdjustedClose
-     */
-    public void findMinPriceFromEntry(int entryDate, int months, AtomicInteger dt, AtomicDouble price, boolean useAdjustedClose) {
-        dt.set(0);
-        price.set(0.0);
-        int entryIdx = findDateIndex(entryDate);
-        if (entryIdx == -1)
-            return;
-        int endIdx = findVerifiedDateIndex(DateUtil.addMonths(entryDate, months));
+    public Point findMinPriceLimitMonth(int entryIndex, int months, double[] values) {
+        int endIdx = findDateIndex(DateUtil.addMonths(date[entryIndex], months));
         if (endIdx == -1)
-            return;
+            return null;
 
-        double[] arr = close;
-        double tmpPrice = arr[entryIdx];
-        int tmpDate = date[entryIdx];
+        int lastIndex = entryIndex;
+        double lastPrice = values[entryIndex];
 
-        while (entryIdx <= endIdx) {
-            if (arr[entryIdx] < tmpPrice) {
-                tmpPrice = arr[entryIdx];
-                tmpDate = date[entryIdx];
+
+        while (entryIndex <= endIdx) {
+            if (values[entryIndex] < lastPrice) {
+                lastPrice = values[entryIndex];
+                lastIndex = date[entryIndex];
             }
-            entryIdx++;
+            entryIndex++;
         }
 
-        dt.set(tmpDate);
-        price.set(tmpPrice);
+        if(lastIndex >= values.length)
+            return null;
+
+        return new Point(this, lastIndex);
     }
 
-    public void findMaxPriceFromEntry(int entryDate, int months, AtomicInteger dt, AtomicDouble price, boolean useAdjustedClose) {
-        dt.set(0);
-        price.set(0.0);
-        int entryIdx = findDateIndex(entryDate);
-        if (entryIdx == -1)
-            return;
-        int endIdx = findVerifiedDateIndex(DateUtil.addMonths(entryDate, months));
+    public Point findMaxPriceLimitMonth(int entryIndex, int months, double[] values) {
+        int endIdx = findDateIndex(DateUtil.addMonths(date[entryIndex], months));
         if (endIdx == -1)
-            return;
+            return null;
 
-        double[] arr =  close;
-        double tmpPrice = arr[entryIdx];
-        int tmpDate = date[entryIdx];
+        int lastIndex = entryIndex;
+        double lastPrice = values[entryIndex];
 
-        while (entryIdx <= endIdx) {
-            if (arr[entryIdx] > tmpPrice) {
-                tmpPrice = arr[entryIdx];
-                tmpDate = date[entryIdx];
+
+        while (entryIndex <= endIdx) {
+            if (values[entryIndex] > lastPrice) {
+                lastPrice = values[entryIndex];
+                lastIndex = date[entryIndex];
             }
-            entryIdx++;
+            entryIndex++;
         }
 
-        dt.set(tmpDate);
-        price.set(tmpPrice);
+        if(lastIndex >= values.length)
+            return null;
+
+        return new Point(this, lastIndex);
     }
 
     public Double avgVolumePrev30Days(int entryIndex) {
@@ -350,7 +203,7 @@ public class Data {
         return rangeAvg(entryIndex, 30, close);
     }
 
-    public Integer totalVolumePrev30Days(int entryIdx) {
+    public Long totalVolumePrev30Days(int entryIdx) {
         return rangeSum(entryIdx, -30, volume);
     }
 
@@ -358,7 +211,7 @@ public class Data {
         return rangeSum(entryIdx, -30, close);
     }
 
-    public Integer totalVolumePost30Days(int entryIndex) {
+    public Long totalVolumePost30Days(int entryIndex) {
         return rangeSum(entryIndex, 30, volume);
     }
 
@@ -368,11 +221,11 @@ public class Data {
 
     // UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY
     // I can't seem to get rangeSum()/rangeAvg() generic enough.
-    private Integer rangeSum(int entryIdx, int days, int[] values) {
-        OptionalInt rv;
-        rv = range(entryIdx, days, values).reduce(Integer::sum);
+    private Long rangeSum(int entryIdx, int days, long[] values) {
+        OptionalLong rv;
+        rv = range(entryIdx, days, values).reduce(Long::sum);
         if(rv.isPresent())
-            return rv.getAsInt();
+            return rv.getAsLong();
         else
             return null;
     }
@@ -386,7 +239,7 @@ public class Data {
             return null;
     }
 
-    private Double rangeAvg(int entryIdx, int days, int[] values) {
+    private Double rangeAvg(int entryIdx, int days, long[] values) {
         OptionalDouble rv;
         rv = range(entryIdx, days, values).average();
         if(rv.isPresent())
@@ -405,20 +258,20 @@ public class Data {
     }
 
     // ugh, more ugly copying.
-    private IntStream range(int entryIdx, int days, int[] values) {
+    private LongStream range(int entryIdx, int days, long[] values) {
         if(days > 0) {
-            int endIdx = findVerifiedDateIndex(DateUtil.addDays(date[entryIdx], days));
+            int endIdx = findDateIndex(DateUtil.addDays(date[entryIdx], days));
             if (endIdx == -1)
                 endIdx = entryIdx;
             else
-                endIdx = entryIdx + 1; // endExclusive
+                endIdx = entryIdx; // endExclusive
             return Arrays.stream(values, entryIdx, endIdx);
         } else if(days < 0) {
-            int endIdx = findVerifiedDateIndex(DateUtil.minusDays(date[entryIdx], days));
+            int endIdx = findDateIndex(DateUtil.minusDays(date[entryIdx], -days));
             if (endIdx == -1)
                 endIdx = entryIdx;
             else
-                endIdx = endIdx + 1;
+                endIdx = endIdx;
             return Arrays.stream(values, endIdx, entryIdx);
         } else {
             return Arrays.stream(values, entryIdx, entryIdx);
@@ -427,18 +280,18 @@ public class Data {
 
     private DoubleStream range(int entryIdx, int days, double[] values) {
         if(days > 0) {
-            int endIdx = findVerifiedDateIndex(DateUtil.addDays(date[entryIdx], days));
+            int endIdx = findDateIndex(DateUtil.addDays(date[entryIdx], days));
             if (endIdx == -1)
                 endIdx = entryIdx;
             else
-                endIdx = entryIdx + 1; // endExclusive
+                endIdx = entryIdx; // endExclusive
             return Arrays.stream(values, entryIdx, endIdx);
         } else if(days < 0) {
-            int endIdx = findVerifiedDateIndex(DateUtil.minusDays(date[entryIdx], days));
+            int endIdx = findDateIndex(DateUtil.minusDays(date[entryIdx], -days));
             if (endIdx == -1)
                 endIdx = entryIdx;
             else
-                endIdx = endIdx + 1;
+                endIdx = endIdx;
             return Arrays.stream(values, endIdx, entryIdx);
         } else {
             return Arrays.stream(values, entryIdx, entryIdx);
@@ -448,15 +301,28 @@ public class Data {
     // UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY
 
 
-    public Point findEndOfYearPrice(int entryIdx) {
+    public Point findEndOfYearPriceOfIndex(int entryIdx) {
         int dt = DateUtil.findEndOfYearWeekDate(date[entryIdx]);
-        int idx = findVerifiedDateIndex(dt, 7, false);
+        int idx = findDateIndex(dt, 7, false);
         if(idx != -1) {
             return new Point(this, idx);
         } else
             return null;
     }
 
+    public Point findEndOfYearPrice(int year) {
+        int dt = DateUtil.findEndOfYearWeekDate(year*10000+0101);
+
+
+        int idx = findDateIndex(dt, 7, false);
+
+        //System.out.println("year="+year+" dt="+dt+" date[idx]="+date[idx]+" idx="+idx);
+
+        if(idx != -1) {
+            return new Point(this, idx);
+        } else
+            return null;
+    }
 
     public static double ema(int startIdx, int days, double[] close) {
         if(days <= 1) {
@@ -492,10 +358,18 @@ public class Data {
         return sum / days;
     }
 
+    public static double simpleMovingAverage(int startIdx, int days, long[] data) {
+        double sum = 0.0;
+        for (int i = startIdx - days + 1; i <= startIdx ; i++) {
+            sum += data[i];
+        }
+        return sum / days;
+    }
+
     public static Double slopeDaysPrev(int entryIdx, int days, int date[], double values[]) {
 
         // NB "days" meaning changed to "data points"
-        //int startIdx = findVerifiedDateIndex(DateUtil.minusDays(entryDate, days));
+        //int startIdx = findDateIndex(DateUtil.minusDays(entryDate, days));
         int startIdx = entryIdx - days;
         if(startIdx < 0)
             return null;
@@ -543,9 +417,9 @@ public class Data {
             return null;
     }
 
-    public Double zscore(int entryIdx, int days, int date[], double values[]) {
-        int startIdx = findVerifiedDateIndex(DateUtil.minusDays(date[entryIdx], days));
-        int endIdx = findVerifiedDateIndex(date[entryIdx]);
+    public Double zscore(int entryIdx, int days) {
+        int startIdx = findDateIndex(DateUtil.minusDays(date[entryIdx], days));
+        int endIdx = findDateIndex(date[entryIdx]);
 
         if(startIdx < 0 || endIdx < 0)
             return null;
@@ -555,7 +429,7 @@ public class Data {
         double zscore = 0;
 
         while(startIdx <= endIdx) {
-            stats.addValue(values[startIdx]);
+            stats.addValue(close[startIdx]);
 
             double stdev = stats.getStandardDeviation();
             if(stdev == 0) {
@@ -565,7 +439,7 @@ public class Data {
             }
             double avg = stats.getMean();
             double closeValue;
-            closeValue = values[startIdx];
+            closeValue = close[startIdx];
             zscore = (closeValue - avg) / stdev;
 
             //logger.debug(String.format("z: %d, %f, ci=%d, cei=%d", data.date[calcIndex], zscore, calcIndex, calcEndIndex));

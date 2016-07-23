@@ -22,6 +22,7 @@ public class DateUtil {
         // If this code is still kicking around 6 years from now I will be impressed^H^H^H^H^H^H^Hdissapointed
         if(date < 19500101 || date > 20200101) {
             logger.error("Invalid date: "+date);
+            System.out.println("Invalid date: "+date);
             throw new IndexOutOfBoundsException();
         }
     }
@@ -33,6 +34,13 @@ public class DateUtil {
     public static boolean isFirstOfMonth() {
         return Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 1;
     }
+
+    public static long timestamp() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
+        return Long.parseLong(sdf.format(date));
+    }
+
 
     private static class DateComponents {
         public int y, m, d;
@@ -88,6 +96,12 @@ public class DateUtil {
         DateComponents dc = new DateComponents(date);
         DateTime dateTime = new DateTime(dc.y, dc.m, dc.d, 0, 0);
         return dateTimeToInteger(dateTime.plusWeeks(numWeeks));
+    }
+
+    public static int minusWeeks(int date, int numWeeks) {
+        DateComponents dc = new DateComponents(date);
+        DateTime dateTime = new DateTime(dc.y, dc.m, dc.d, 0, 0);
+        return dateTimeToInteger(dateTime.minusWeeks(numWeeks));
     }
 
     public static int addMonths(int date, int numMonths) {

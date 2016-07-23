@@ -8,4 +8,7 @@ import java.util.Set;
  */
 public interface Database {
     Set<String> listSymbols(String market);
+    Data loadData(String market, String symbol);
+
+    List<String> listMarkets();
 }
