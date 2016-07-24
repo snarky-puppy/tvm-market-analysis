@@ -412,8 +412,8 @@ public class Data {
     }
 
     public Double zscore(int entryIdx, int days) {
-        int startIdx = findDateIndex(DateUtil.minusDays(date[entryIdx], days));
-        int endIdx = findDateIndex(date[entryIdx]);
+        int startIdx = entryIdx - days;
+        int endIdx = entryIdx;
 
         if(startIdx < 0 || endIdx < 0)
             return null;

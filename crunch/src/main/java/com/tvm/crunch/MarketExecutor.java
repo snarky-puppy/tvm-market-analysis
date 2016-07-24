@@ -17,8 +17,10 @@ public abstract class MarketExecutor {
 
     private static final Logger logger = LogManager.getLogger(MarketExecutor.class);
 
-    /*
-    Timings:
+
+
+    //<editor-fold desc="Timings">
+/*
 m=1 s=2 -> 00:00:41.888
 m=1 s=4 -> 00:00:21.890
 m=1 s=6 -> 00:00:20.248
@@ -83,11 +85,14 @@ m=8 s=10 -> 00:00:16.220
 m=8 s=12 -> 00:00:15.707
 m=8 s=14 -> 00:00:17.736
 m=8 s=16 -> 00:00:16.926
-
-m=3 s=8 is fastest (00:15.2)
-but I'm choosing m=8 s=12 (00:15.7)
-
 */
+// </editor-fold>
+
+    /**
+     * Timed using TrendContBackTest and Design10
+     * m=3 s=8 is technically the fastest (00:15.2)
+     * but I'm choosing m=8 s=12 (00:15.7) for more threads
+     */
     public static int MARKET_THREADS = 8;
     public static int SYMBOL_THREADS = 12;
 

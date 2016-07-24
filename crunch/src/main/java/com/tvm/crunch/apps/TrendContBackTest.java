@@ -26,7 +26,6 @@ public class TrendContBackTest extends MarketExecutor {
         super(market);
     }
 
-
     @Override
     protected ResultWriter createResultWriter(ArrayBlockingQueue<Result> queue) {
         return new ResultWriter(queue) {

@@ -8,19 +8,6 @@ public abstract class Result {
     public abstract String toString();
     public abstract String getHeader();
 
-    protected void appendDatePricePair(StringBuffer sb, Integer[] date, Double[] price) {
-        for(int i = 0; i < date.length; i++) {
-            if(date[i] != null)
-                sb.append(",").append(date[i]);
-            else
-                sb.append(",");
-            if(price[i] != null)
-                sb.append(",").append(price[i]);
-            else
-                sb.append(",");
-        }
-    }
-
     protected void append(StringBuffer sb, String value) {
         if(value == null)
             sb.append(",");
@@ -41,7 +28,6 @@ public abstract class Result {
         else
             sb.append(",").append(value);
     }
-
 
     protected void appendPointOpen(StringBuffer sb, Point point) {
         if(point == null) {
