@@ -11,9 +11,11 @@ public class PointTest {
 
     @Test
     public void testPoint() {
-        Point p = new Point();
+        Data data = new Data(1);
+
+        Point p = new Point(data, 0);
         assertNull(p.date);
-        assertNull(p.price);
+        assertNull(p.close);
 
         p.date = 20160721;
         assertTrue(p.date.equals(20160721));

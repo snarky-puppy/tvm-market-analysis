@@ -6,6 +6,7 @@ package com.tvm.crunch;
 public abstract class Result {
 
     public abstract String toString();
+    public abstract String getHeader();
 
     protected void appendDatePricePair(StringBuffer sb, Integer[] date, Double[] price) {
         for(int i = 0; i < date.length; i++) {

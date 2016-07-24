@@ -84,7 +84,7 @@ public class FileDatabase implements Database {
         logger.info("Loading data "+market+"/"+symbol);
         try {
             List<String> lines = readAllLines(dataFile(market, symbol));
-            Data rv = new Data(market, symbol, lines.size() - 1);
+            Data rv = new Data(lines.size() - 1);
             int i = 0;
             boolean first = true;
             for(String line : lines) {

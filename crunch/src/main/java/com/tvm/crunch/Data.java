@@ -21,8 +21,6 @@ import java.util.stream.LongStream;
  */
 public class Data {
     private static final Logger logger = LogManager.getLogger(Data.class);
-    public final String symbol;
-    public final String market;
 
     public int[] date;
     public double[] open;
@@ -33,7 +31,7 @@ public class Data {
     //public double[] openInterest;
 
 
-    public Data(String market, String symbol, int size) {
+    public Data(int size) {
         date = new int[size];
         open = new double[size];
         //high = new double[size];
@@ -41,10 +39,6 @@ public class Data {
         close = new double[size];
         volume = new long[size];
         //openInterest = new double[size];
-
-
-        this.symbol = symbol;
-        this.market = market;
     }
 
     // verify distance between dates is less than a certain number of days

@@ -12,9 +12,16 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
+ * Threaded Read Results from a queue and write to a zip file.
+ *
+ * Splits up zip file entries to be kinder to Tim and Vince's PCs
+ *
  * Created by horse on 21/07/2016.
  */
 public abstract class ResultWriter implements Runnable {
+
+    // 50MB
+    private final static int MAX_FILE_SIZE = 1024*1024*50;
 
     private static final Logger logger = LogManager.getLogger(ResultWriter.class);
 
@@ -25,11 +32,8 @@ public abstract class ResultWriter implements Runnable {
     private int fileNumber = 1;
     private int bytesWritten = 0;
 
-    // 25MB
-    private final static int MAX_FILE_SIZE = 1024*1024*25;
     private ZipOutputStream zipOutputStream;
 
-    protected abstract String getHeader();
     protected abstract String getProjectName();
     protected abstract String getMarket();
 
@@ -49,7 +53,7 @@ public abstract class ResultWriter implements Runnable {
 
     private void writeResults(Result r) throws IOException {
         if(!header) {
-            write(getHeader());
+            write(r.getHeader());
             header = true;
         }
         write(r.toString());
@@ -111,7 +115,7 @@ public abstract class ResultWriter implements Runnable {
 
     public void run() {
         try {
-            Result r = null;
+            Result r;
             do {
                 r = blockingQueue.poll(1000, TimeUnit.MILLISECONDS);
                 if (r != null) {
@@ -121,10 +125,8 @@ public abstract class ResultWriter implements Runnable {
                         logger.error(e);
                         finalised = true;
                     }
-                } else
-                    logger.error("Nothing in queue");
-
-            } while (r != null || finalised == false);
+                }
+            } while (r != null || !finalised);
 
         } catch (InterruptedException e) {
 
