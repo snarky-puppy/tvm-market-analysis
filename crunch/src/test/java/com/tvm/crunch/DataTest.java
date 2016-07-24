@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import static org.junit.Assert.*;
 
@@ -130,16 +131,54 @@ public class DataTest {
 
     @Test
     public void slopeDaysPrev() throws Exception {
+        ArrayList<Double> expectedResults = new ArrayList<>();
 
+        Data data = loadSheet("Slope10Day", row -> {
+            if(row.getCell(2) != null)
+                expectedResults.add(row.getCell(2).getNumericCellValue());
+            else
+                expectedResults.add(null);
+        });
+
+        for(int idx = 0; idx < data.date.length; idx++) {
+            Double rv = Data.slopeDaysPrev(idx, 10, data.date, data.close);
+            if(rv == null)
+                assertNull(expectedResults.get(idx));
+            else
+                assertEquals(rv, expectedResults.get(idx), 4);
+        }
     }
 
     @Test
     public void zscore() throws Exception {
 
-        XSSFWorkbook workbook = getWorkbook();
-        Sheet sheet = workbook.getSheet("ZScore10Day");
-        Data data = new Data(sheet.getLastRowNum()); // 0 based so no need to take header row into account
         ArrayList<Double> expectedResults = new ArrayList<>();
+
+        Data data = loadSheet("ZScore10Day", row -> {
+            if(row.getCell(2) != null)
+                expectedResults.add(row.getCell(2).getNumericCellValue());
+            else
+                expectedResults.add(null);
+        });
+
+        for(int idx = 0; idx < data.date.length; idx++) {
+            Double zscore = data.zscore(idx, 10);
+            if(zscore == null)
+                assertNull(expectedResults.get(idx));
+            else
+                assertEquals(zscore, expectedResults.get(idx), 4);
+        }
+    }
+
+    private interface RowVisitor {
+        void visit(Row row);
+    }
+
+    private Data loadSheet(String sheetName, RowVisitor visitor) {
+        XSSFWorkbook workbook = getWorkbook();
+        Sheet sheet = workbook.getSheet(sheetName);
+        Data data = new Data(sheet.getLastRowNum()); // 0 based so no need to take header row into account
+
         int idx = 0;
         boolean first = true;
         for(Row row : sheet) {
@@ -149,7 +188,6 @@ public class DataTest {
             }
 
             if(row.getCell(0) == null) {
-                System.out.println("Last");
                 continue;
             }
 
@@ -158,26 +196,16 @@ public class DataTest {
             data.date[idx] = dt;
             data.close[idx] = cl;
 
-            if(row.getCell(2) != null)
-                expectedResults.add(row.getCell(2).getNumericCellValue());
-            else
-                expectedResults.add(null);
+            visitor.visit(row);
+
             idx++;
         }
-        
+
         if(idx != data.date.length) {
-            System.out.println("Shenanigans");
-            assertEquals(idx, data.date.length);
+            assertEquals("Rows read is not equal to rows expected", data.date.length, idx);
         }
 
-        for(idx = 0; idx < data.date.length; idx++) {
-            Double zscore = data.zscore(idx, 10);
-            if(zscore == null)
-                assertNull(expectedResults.get(idx));
-            else
-                assertEquals(zscore, expectedResults.get(idx), 4);
-        }
-
+        return data;
     }
 
     private XSSFWorkbook getWorkbook() {
