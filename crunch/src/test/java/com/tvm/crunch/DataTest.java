@@ -96,7 +96,8 @@ public class DataTest {
 
     @Test
     public void totalPricePrev30Days() throws Exception {
-
+        thirtyDayTest(Data::totalPricePrev30Days,
+                new PreVisitor<Double>(8, new TDHelperDouble()));
     }
 
     @Test
@@ -185,6 +186,43 @@ public class DataTest {
 
         public void assertEquals(int idx, T rv) {
             helper.assertEquals(idx, rv);
+        }
+    }
+
+    // Visitor for *Pre30Day tests
+    private class PreVisitor<T> extends ThirtyDayVisitor<T> {
+        int idx = 0;
+        Double target = 0.0;
+        boolean start = false;
+
+        PreVisitor(int dataIdx, TDHelper<T> helper) {
+            super(dataIdx, helper);
+        }
+
+        @Override
+        public void visit(Row row) {
+            Cell cell = row.getCell(dataIdx);
+            if(cell == null) {
+                idx++;
+                return;
+            }
+
+            switch(cell.getCellType()) {
+                case Cell.CELL_TYPE_FORMULA:
+                case Cell.CELL_TYPE_NUMERIC:
+                    assertFalse(start);
+                    target = row.getCell(dataIdx).getNumericCellValue();
+                    start = true;
+                    break;
+
+                case Cell.CELL_TYPE_STRING:
+                    assertTrue(start);
+                    Assert.assertEquals("start", cell.getStringCellValue());
+                    start = false;
+                    helper.put(idx, target);
+                    break;
+            }
+            idx++;
         }
     }
 

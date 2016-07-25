@@ -64,6 +64,7 @@ public class Data {
             return -1;
         }
         int idx = Arrays.binarySearch(date, findDate);
+        System.out.println("binSearch["+findDate+"]: "+date[(-idx)-1]);
         if (idx >= 0) {
             return distanceCheck(idx, findDate, maxDistanceDays);
         } else {
@@ -216,7 +217,6 @@ public class Data {
     private Long rangeSum(int entryIdx, int days, long[] values) {
         if(entryIdx < 0 || values == null || values.length == 0 || entryIdx >= values.length)
             return null;
-
         OptionalLong rv;
         rv = range(entryIdx, days, values).reduce(Long::sum);
         if(rv.isPresent())
@@ -293,6 +293,7 @@ public class Data {
                 endIdx = entryIdx;
             else
                 entryIdx++;
+            System.out.println("start="+date[endIdx]+" end="+date[entryIdx]);
             return Arrays.stream(values, endIdx, entryIdx);
         } else {
             return Arrays.stream(values, entryIdx, entryIdx);
