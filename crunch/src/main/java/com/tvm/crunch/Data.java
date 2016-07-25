@@ -1,17 +1,14 @@
 package com.tvm.crunch;
 
-import com.google.common.util.concurrent.AtomicDouble;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.plugins.util.TypeConverters;
 
 import java.util.Arrays;
 import java.util.OptionalDouble;
-import java.util.OptionalInt;
 import java.util.OptionalLong;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 /**
@@ -42,7 +39,7 @@ public class Data {
     }
 
     // verify distance between dates is less than a certain number of days
-    private int verifyDateDistance(int idx, int targetDate, int days) {
+    private boolean verifyDateDistance(int idx, int targetDate, int days) {
         int foundDate = date[idx];
         int distance = 0;
         if(foundDate > targetDate)
@@ -50,10 +47,11 @@ public class Data {
         else
             distance = DateUtil.distance(foundDate, targetDate);
 
-        if(distance <= days)
-            return idx;
-        else
-            return -1;
+        return distance <= days;
+    }
+
+    private int distanceCheck(int idx, int targetDate, int days) {
+        return verifyDateDistance(idx, targetDate, days) ? idx : -1;
     }
 
     public int findDateIndex(int findDate) {
@@ -67,20 +65,20 @@ public class Data {
         }
         int idx = Arrays.binarySearch(date, findDate);
         if (idx >= 0) {
-            return verifyDateDistance(idx, findDate, maxDistanceDays);
+            return distanceCheck(idx, findDate, maxDistanceDays);
         } else {
             idx = (-idx) - 1;
 
             if (idx >= date.length) {
                 if (softEnd) {
                     //logger.debug("findDate[" + findDate + "] not found, past end of data. Returning end index (" + (date.length - 1) + ").");
-                    return verifyDateDistance(date.length - 1, findDate, maxDistanceDays);
+                    return distanceCheck(date.length - 1, findDate, maxDistanceDays);
                 } else {
                     return -1;
                 }
             } else {
                 //logger.debug("findDate[" + findDate + "] not found, next data date: " + date[idx] + " (idx=" + idx + ")");
-                return verifyDateDistance(idx, findDate, maxDistanceDays);
+                return distanceCheck(idx, findDate, maxDistanceDays);
             }
         }
     }
@@ -216,6 +214,9 @@ public class Data {
     // UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY
     // I can't seem to get rangeSum()/rangeAvg() generic enough.
     private Long rangeSum(int entryIdx, int days, long[] values) {
+        if(entryIdx < 0 || values == null || values.length == 0 || entryIdx >= values.length)
+            return null;
+
         OptionalLong rv;
         rv = range(entryIdx, days, values).reduce(Long::sum);
         if(rv.isPresent())
@@ -225,6 +226,8 @@ public class Data {
     }
 
     private Double rangeSum(int entryIdx, int days, double[] values) {
+        if(entryIdx < 0 || values == null || values.length == 0 || entryIdx >= values.length)
+            return null;
         OptionalDouble rv;
         rv = range(entryIdx, days, values).reduce(Double::sum);
         if(rv.isPresent())
@@ -234,6 +237,8 @@ public class Data {
     }
 
     private Double rangeAvg(int entryIdx, int days, long[] values) {
+        if(entryIdx < 0 || values == null || values.length == 0 || entryIdx >= values.length)
+            return null;
         OptionalDouble rv;
         rv = range(entryIdx, days, values).average();
         if(rv.isPresent())
@@ -243,6 +248,8 @@ public class Data {
     }
 
     private Double rangeAvg(int entryIdx, int days, double[] values) {
+        if(entryIdx < 0 || values == null || values.length == 0 || entryIdx >= values.length)
+            return null;
         OptionalDouble rv;
         rv = range(entryIdx, days, values).average();
         if(rv.isPresent())
@@ -258,14 +265,14 @@ public class Data {
             if (endIdx == -1)
                 endIdx = entryIdx;
             else
-                endIdx = entryIdx; // endExclusive
+                endIdx++; // endExclusive
             return Arrays.stream(values, entryIdx, endIdx);
         } else if(days < 0) {
             int endIdx = findDateIndex(DateUtil.minusDays(date[entryIdx], -days));
             if (endIdx == -1)
                 endIdx = entryIdx;
             else
-                endIdx = endIdx;
+                entryIdx++;
             return Arrays.stream(values, endIdx, entryIdx);
         } else {
             return Arrays.stream(values, entryIdx, entryIdx);
@@ -278,14 +285,14 @@ public class Data {
             if (endIdx == -1)
                 endIdx = entryIdx;
             else
-                endIdx = entryIdx; // endExclusive
+                endIdx++; // endExclusive
             return Arrays.stream(values, entryIdx, endIdx);
         } else if(days < 0) {
             int endIdx = findDateIndex(DateUtil.minusDays(date[entryIdx], -days));
             if (endIdx == -1)
                 endIdx = entryIdx;
             else
-                endIdx = endIdx;
+                entryIdx++;
             return Arrays.stream(values, endIdx, entryIdx);
         } else {
             return Arrays.stream(values, entryIdx, entryIdx);
@@ -295,43 +302,46 @@ public class Data {
     // UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY
 
 
-    public Point findEndOfYearPriceOfIndex(int entryIdx) {
-        int dt = DateUtil.findEndOfYearWeekDate(date[entryIdx]);
-        int idx = findDateIndex(dt, 7, false);
-        if(idx != -1) {
-            return new Point(this, idx);
-        } else
-            return null;
-    }
 
     public Point findEndOfYearPrice(int year) {
         int dt = DateUtil.findEndOfYearWeekDate(year*10000+0101);
 
 
         int idx = findDateIndex(dt, 7, false);
-
-        //System.out.println("year="+year+" dt="+dt+" date[idx]="+date[idx]+" idx="+idx);
-
-        if(idx != -1) {
-            return new Point(this, idx);
-        } else
+        if(idx == -1)
             return null;
+
+        // sometimes the last trading date isn't the last working day, so the search will
+        // produce a date in the next year.
+        while(idx >= 0 && DateUtil.getYear(date[idx]) > year) {
+            idx--;
+        }
+
+        if(idx < 0 || !verifyDateDistance(idx, dt, 28)) {
+            return null;
+        }
+
+        return new Point(this, idx);
+
     }
 
-    public static double ema(int startIdx, int days, double[] close) {
+    public static Double ema(int startIdx, int days, double[] close) {
         if(days <= 1) {
             //throw new EMAException("not enough days for meaningful EMA: "+days);
-            return -1;
+            return null;
         }
         if(days > startIdx + 1) {
             //throw new EMAException("not enough data to calculate "+days+"day EMA");
-            return -1;
+            return null;
         }
 
         double ema = 0.0;
 
         // start with SMA
-        double prevDaysEMA = simpleMovingAverage(startIdx, days, close);
+        Double prevDaysEMA = simpleMovingAverage(startIdx, days, close);
+
+        if(prevDaysEMA == null)
+            return null;
 
         // multiplier
         double k = (2 / (days + 1));
@@ -344,18 +354,24 @@ public class Data {
         return ema;
     }
 
-    public static double simpleMovingAverage(int startIdx, int days, double[] data) {
+    public static Double simpleMovingAverage(int startIdx, int days, double[] data) {
         double sum = 0.0;
-        for (int i = startIdx - days + 1; i <= startIdx ; i++) {
-            sum += data[i];
+        int idx = startIdx - days + 1;
+        if(idx < 0)
+            return null;
+        for (; idx <= startIdx; idx++) {
+            sum += data[idx];
         }
         return sum / days;
     }
 
-    public static double simpleMovingAverage(int startIdx, int days, long[] data) {
+    public static Double simpleMovingAverage(int startIdx, int days, long[] data) {
         double sum = 0.0;
-        for (int i = startIdx - days + 1; i <= startIdx ; i++) {
-            sum += data[i];
+        int idx = startIdx - days + 1;
+        if(idx < 0)
+            return null;
+        for (; idx <= startIdx; idx++) {
+            sum += data[idx];
         }
         return sum / days;
     }
@@ -364,7 +380,7 @@ public class Data {
 
         // NB "days" meaning changed to "data points"
         //int startIdx = findDateIndex(DateUtil.minusDays(entryDate, days));
-        int startIdx = entryIdx - days;
+        int startIdx = entryIdx - days + 1;
         if(startIdx < 0)
             return null;
 
@@ -412,7 +428,7 @@ public class Data {
     }
 
     public Double zscore(int entryIdx, int days) {
-        int startIdx = entryIdx - days;
+        int startIdx = entryIdx - days + 1;
         int endIdx = entryIdx;
 
         if(startIdx < 0 || endIdx < 0)

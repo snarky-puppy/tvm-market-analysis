@@ -9,14 +9,8 @@ import java.util.Scanner;
 public class TestUtil {
 
     public File getFile(String fileName) {
-
         //Get file from resources folder
         ClassLoader classLoader = getClass().getClassLoader();
         return new File(classLoader.getResource(fileName).getFile());
-
-
-
-
-
     }
 }

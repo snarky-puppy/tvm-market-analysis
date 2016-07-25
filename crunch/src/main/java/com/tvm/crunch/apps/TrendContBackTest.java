@@ -3,7 +3,6 @@ package com.tvm.crunch.apps;
 import com.tvm.crunch.*;
 
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * Trend Continuation strategy back test
@@ -14,7 +13,7 @@ public class TrendContBackTest extends MarketExecutor {
 
     public static void main(String[] args) {
 
-        if(true) {
+        if(false) {
             TrendContBackTest trendContBackTest = new TrendContBackTest("test");
             trendContBackTest.execute();
         } else {
