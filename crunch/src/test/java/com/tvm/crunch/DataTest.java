@@ -22,6 +22,7 @@ import static org.junit.Assert.*;
  * Created by horse on 24/07/2016.
  */
 public class DataTest {
+
     @Test
     public void findDateIndex() throws Exception {
 
@@ -65,16 +66,45 @@ public class DataTest {
     @Test
     public void findMaxPriceLimitMonth() throws Exception {
 
+        // k=index v=value
+        Map<Integer, Double> expectedResults = new HashMap<>();
+
+        Data data = loadSheet("MaxLimitMonth", false, new RowVisitor() {
+            int idx = 0;
+            @Override
+            public void visit(Row row) {
+                Cell cell = row.getCell(2);
+                assertNotNull(cell);
+                expectedResults.put(idx, cell.getNumericCellValue());
+                idx++;
+            }
+        });
+
+        // check test data
+        assertNotEquals(0, expectedResults.size());
+
+        // check bad inputs
+        assertNull(data.findMaxPriceLimitMonth(-1, -1, data.close));
+        assertNull(data.findMaxPriceLimitMonth(data.date.length, 12, data.close));
+
+        for(int idx : expectedResults.keySet()) {
+            System.out.println(String.format("idx=%d expecting=%f", idx, expectedResults.get(idx)));
+            Point p = data.findMaxPriceLimitMonth(idx, 1, data.close);
+            assertNotNull(p);
+            assertEquals(expectedResults.get(idx), p.close);
+        }
     }
 
     @Test
     public void avgVolumePrev30Days() throws Exception {
-
+        thirtyDayTest(Data::avgVolumePrev30Days,
+                new PreVisitor<Double>(11, new TDHelperDouble()));
     }
 
     @Test
     public void avgPricePrev30Days() throws Exception {
-
+        thirtyDayTest(Data::avgPricePrev30Days,
+                new PreVisitor<Double>(10, new TDHelperDouble()));
     }
 
     @Test
@@ -86,12 +116,13 @@ public class DataTest {
     @Test
     public void avgPricePost30Days() throws Exception {
         thirtyDayTest(Data::avgPricePost30Days,
-            new PostVisitor<Double>(6, new TDHelperDouble()));
+            new PostVisitor<>(6, new TDHelperDouble()));
     }
 
     @Test
     public void totalVolumePrev30Days() throws Exception {
-
+        thirtyDayTest(Data::totalVolumePrev30Days,
+                new PreVisitor<Long>(9, new TDHelperLong()));
     }
 
     @Test

@@ -12,7 +12,7 @@ import java.util.stream.DoubleStream;
 import java.util.stream.LongStream;
 
 /**
- * Wrap market data
+ * Wrap market data & search functions
  *
  * Created by horse on 18/11/14.
  */
@@ -64,13 +64,13 @@ public class Data {
             return -1;
         }
         int idx = Arrays.binarySearch(date, findDate);
-        System.out.println("binSearch["+findDate+"]: "+date[(-idx)-1]);
+        //System.out.println("binSearch["+findDate+"]: "+date[(idx<0?-idx:idx)-1]);
         if (idx >= 0) {
             return distanceCheck(idx, findDate, maxDistanceDays);
         } else {
             idx = (-idx) - 1;
-
             if (idx >= date.length) {
+                // special case end of data
                 if (softEnd) {
                     //logger.debug("findDate[" + findDate + "] not found, past end of data. Returning end index (" + (date.length - 1) + ").");
                     return distanceCheck(date.length - 1, findDate, maxDistanceDays);
@@ -78,7 +78,23 @@ public class Data {
                     return -1;
                 }
             } else {
-                //logger.debug("findDate[" + findDate + "] not found, next data date: " + date[idx] + " (idx=" + idx + ")");
+                /*
+                // More usual case, some kind of gap in the data.
+                // Find closest date, forward or backward and use that
+                int backDistance = DateUtil.distance(date[idx-1], findDate);
+                int frontDistance = DateUtil.distance(findDate, date[idx]);
+
+                System.out.println(String.format("target=%d back=%d front=%d",
+                        findDate, date[idx-1], date[idx]));
+
+                System.out.println(String.format("backDistance=%d frontDistance=%d",
+                        backDistance, frontDistance));
+                // favour going back
+                if(idx != 0 &&  backDistance <= frontDistance)
+                    idx--;
+                    */
+                if(idx != 0)
+                    idx--;
                 return distanceCheck(idx, findDate, maxDistanceDays);
             }
         }
@@ -158,24 +174,27 @@ public class Data {
     }
 
     public Point findMaxPriceLimitMonth(int entryIndex, int months, double[] values) {
-        int endIdx = findDateIndex(DateUtil.addMonths(date[entryIndex], months));
-        if (endIdx == -1)
+        if(entryIndex < 0 || months < 0 || values == null || entryIndex >= values.length)
             return null;
+
+        int endIdx = findDateIndex(DateUtil.addMonths(date[entryIndex], months));
+        if (endIdx == -1) {
+            System.out.println("bad end: "+date[entryIndex]+" + "+months);
+            return null;
+        }
+
+        System.out.println(String.format("range: %d - %d", date[entryIndex], date[endIdx]));
 
         int lastIndex = entryIndex;
         double lastPrice = values[entryIndex];
 
-
         while (entryIndex <= endIdx) {
             if (values[entryIndex] > lastPrice) {
                 lastPrice = values[entryIndex];
-                lastIndex = date[entryIndex];
+                lastIndex = entryIndex;
             }
             entryIndex++;
         }
-
-        if(lastIndex >= values.length)
-            return null;
 
         return new Point(this, lastIndex);
     }
@@ -293,7 +312,7 @@ public class Data {
                 endIdx = entryIdx;
             else
                 entryIdx++;
-            System.out.println("start="+date[endIdx]+" end="+date[entryIdx]);
+            //System.out.println("start="+date[endIdx]+" end="+date[entryIdx]);
             return Arrays.stream(values, endIdx, entryIdx);
         } else {
             return Arrays.stream(values, entryIdx, entryIdx);
@@ -308,7 +327,7 @@ public class Data {
         int dt = DateUtil.findEndOfYearWeekDate(year*10000+0101);
 
 
-        int idx = findDateIndex(dt, 7, false);
+        int idx = findDateIndex(dt, 30, false);
         if(idx == -1)
             return null;
 
