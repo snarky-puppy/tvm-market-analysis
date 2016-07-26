@@ -78,21 +78,8 @@ public class Data {
                     return -1;
                 }
             } else {
-                /*
                 // More usual case, some kind of gap in the data.
-                // Find closest date, forward or backward and use that
-                int backDistance = DateUtil.distance(date[idx-1], findDate);
-                int frontDistance = DateUtil.distance(findDate, date[idx]);
-
-                System.out.println(String.format("target=%d back=%d front=%d",
-                        findDate, date[idx-1], date[idx]));
-
-                System.out.println(String.format("backDistance=%d frontDistance=%d",
-                        backDistance, frontDistance));
-                // favour going back
-                if(idx != 0 &&  backDistance <= frontDistance)
-                    idx--;
-                    */
+                // use the previous value - less is more
                 if(idx != 0)
                     idx--;
                 return distanceCheck(idx, findDate, maxDistanceDays);
