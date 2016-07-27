@@ -2,6 +2,7 @@ package com.tvm.crunch;
 
 
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -59,31 +60,10 @@ public class FileDatabase implements Database {
         //d.openInterest[idx] = Double.parseDouble(fields[6]);
     }
 
-    public List<String> readAllLines(Path p) throws IOException {
-
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(p.toFile()));
-
-        try {
-            List<String> result = new ArrayList<>();
-            for (;;) {
-                String line = bufferedReader.readLine();
-                if (line == null)
-                    break;
-                result.add(line);
-            }
-            return result;
-        } finally {
-            try {
-                bufferedReader.close();
-            } catch (IOException e) {
-            }
-        }
-    }
-
     public Data loadData(String market, String symbol) {
         logger.info("Loading data "+market+"/"+symbol);
         try {
-            List<String> lines = readAllLines(dataFile(market, symbol));
+            List<String> lines = FileUtils.readLines(dataFile(market, symbol).toFile());
             Data rv = new Data(lines.size() - 1);
             int i = 0;
             boolean first = true;

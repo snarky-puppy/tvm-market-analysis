@@ -5,9 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.plugins.util.TypeConverters;
 
-import java.util.Arrays;
-import java.util.OptionalDouble;
-import java.util.OptionalLong;
+import java.util.*;
 import java.util.stream.DoubleStream;
 import java.util.stream.LongStream;
 
@@ -137,25 +135,25 @@ public class Data {
         return new Point(this, entryIndex);
     }
 
+    /*
     public Point findMinPriceLimitMonth(int entryIndex, int months, double[] values) {
-        int endIdx = findDateIndex(DateUtil.addMonths(date[entryIndex], months));
-        if (endIdx == -1)
+        if(entryIndex < 0 || months < 0 || values == null || entryIndex >= values.length)
             return null;
+
+        int maxDate = DateUtil.addMonths(date[entryIndex], months);
+
+        System.out.println(String.format("range: %d - %d", date[entryIndex], maxDate));
 
         int lastIndex = entryIndex;
         double lastPrice = values[entryIndex];
 
-
-        while (entryIndex <= endIdx) {
+        while (entryIndex < values.length && date[entryIndex] <= maxDate) {
             if (values[entryIndex] < lastPrice) {
                 lastPrice = values[entryIndex];
-                lastIndex = date[entryIndex];
+                lastIndex = entryIndex;
             }
             entryIndex++;
         }
-
-        if(lastIndex >= values.length)
-            return null;
 
         return new Point(this, lastIndex);
     }
@@ -164,18 +162,14 @@ public class Data {
         if(entryIndex < 0 || months < 0 || values == null || entryIndex >= values.length)
             return null;
 
-        int endIdx = findDateIndex(DateUtil.addMonths(date[entryIndex], months));
-        if (endIdx == -1) {
-            System.out.println("bad end: "+date[entryIndex]+" + "+months);
-            return null;
-        }
+        int maxDate = DateUtil.addMonths(date[entryIndex], months);
 
-        System.out.println(String.format("range: %d - %d", date[entryIndex], date[endIdx]));
+        System.out.println(String.format("range: %d - %d", date[entryIndex], maxDate));
 
         int lastIndex = entryIndex;
         double lastPrice = values[entryIndex];
 
-        while (entryIndex <= endIdx) {
+        while (entryIndex < values.length && date[entryIndex] <= maxDate) {
             if (values[entryIndex] > lastPrice) {
                 lastPrice = values[entryIndex];
                 lastIndex = entryIndex;
@@ -185,6 +179,44 @@ public class Data {
 
         return new Point(this, lastIndex);
     }
+    */
+
+    public Point findMinPriceLimitMonth(int entryIndex, int months, double[] values) {
+        return findMinMaxPriceLimitMonth(entryIndex, months, (a,b) -> { return a < b; }, values);
+    }
+
+    public Point findMaxPriceLimitMonth(int entryIndex, int months, double[] values) {
+        return findMinMaxPriceLimitMonth(entryIndex, months, (a,b) -> { return a > b; }, values);
+
+    }
+
+    private interface Comparison {
+        boolean compare(double a, double b);
+    }
+
+    private Point findMinMaxPriceLimitMonth(int entryIndex, int months, Comparison compare, double[] values) {
+        if(entryIndex < 0 || months < 0 || values == null || entryIndex >= values.length)
+            return null;
+
+        int maxDate = DateUtil.addMonths(date[entryIndex], months);
+
+        System.out.println(String.format("range: %d - %d", date[entryIndex], maxDate));
+
+        int lastIndex = entryIndex;
+        double lastPrice = values[entryIndex];
+
+        while (entryIndex < values.length && date[entryIndex] <= maxDate) {
+            if (compare.compare(values[entryIndex], lastPrice)) {
+                lastPrice = values[entryIndex];
+                lastIndex = entryIndex;
+            }
+            entryIndex++;
+        }
+
+        return new Point(this, lastIndex);
+    }
+
+
 
     public Double avgVolumePrev30Days(int entryIndex) {
         return rangeAvg(entryIndex, -30, volume);
@@ -235,12 +267,32 @@ public class Data {
         if(entryIdx < 0 || values == null || values.length == 0 || entryIdx >= values.length)
             return null;
         OptionalDouble rv;
+        DoubleStream ds;
         rv = range(entryIdx, days, values).reduce(Double::sum);
         if(rv.isPresent())
             return rv.getAsDouble();
         else
             return null;
     }
+
+    /*
+    private Double rangeSum(int entryIdx, int days, double[] values) {
+        if(entryIdx < 0 || values == null || values.length == 0 || entryIdx >= values.length)
+            return null;
+        OptionalDouble rv;
+        rv = range(entryIdx, days, values).reduce(Double::sum);
+        DoubleStream ds;
+        if(days > 0)
+            ds = range(entryIdx, DateUtil::addDays, days, values);
+        else
+            ds = range(entryIdx, DateUtil::minusDays, -days, values);
+        rv = ds.reduce(Double::sum);
+        if(rv.isPresent())
+            return rv.getAsDouble();
+        else
+            return null;
+    }
+    */
 
     private Double rangeAvg(int entryIdx, int days, long[] values) {
         if(entryIdx < 0 || values == null || values.length == 0 || entryIdx >= values.length)
@@ -305,6 +357,33 @@ public class Data {
             return Arrays.stream(values, entryIdx, entryIdx);
         }
     }
+
+/*
+    private DoubleStream range(int entryIdx, DateUtil.DateOperation dateOperation, int dateValue, double[] values) {
+        int startDate = date[entryIdx];
+        int endDate = dateOperation.op(date[entryIdx], dateValue);
+        int endIdx = Arrays.binarySearch(date, endDate);
+        if(endIdx < 0)
+            endIdx = -endIdx;
+
+        int s = entryIdx;
+        int e = endIdx;
+
+        if(e > s) {
+            int tmp = e;
+            e = s;
+            s = tmp;
+        }
+
+        return Arrays.stream(values, s, e).filter(d -> {
+                    System.out.println("Streaming: "+d);
+            return d >= startDate && d <= endDate;
+        }
+        );
+    }
+*/
+
+
     // END OF UGLYNESS
     // UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY
 

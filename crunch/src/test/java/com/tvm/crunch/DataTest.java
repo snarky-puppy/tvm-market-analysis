@@ -87,6 +87,8 @@ public class DataTest {
         assertNull(data.findMaxPriceLimitMonth(-1, -1, data.close));
         assertNull(data.findMaxPriceLimitMonth(data.date.length, 12, data.close));
 
+        assertEquals(data.date.length, data.close.length);
+
         for(int idx : expectedResults.keySet()) {
             System.out.println(String.format("idx=%d expecting=%f", idx, expectedResults.get(idx)));
             Point p = data.findMaxPriceLimitMonth(idx, 1, data.close);

@@ -2,6 +2,7 @@ package com.tvm.crunch.apps;
 
 import com.tvm.crunch.*;
 
+import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -13,12 +14,28 @@ public class TrendContBackTest extends MarketExecutor {
 
     public static void main(String[] args) {
 
+        System.out.println("Waiting...");
+        try {
+            int n = System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Starting");
+
         if(false) {
             TrendContBackTest trendContBackTest = new TrendContBackTest("test");
             trendContBackTest.execute();
         } else {
             executeAllMarkets(new FileDatabaseFactory(), TrendContBackTest::new);
         }
+
+        System.out.println("Waiting...");
+        try {
+            int n = System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Finished");
     }
 
     private TrendContBackTest(String market) {

@@ -68,6 +68,10 @@ public class DateUtil {
                 (dateTime.getDayOfMonth());
     }
 
+    public interface DateOperation {
+        int op(int date, int n);
+    }
+
     public static int addYears(int date, int numYears) {
         DateComponents dc = new DateComponents(date);
         DateTime dateTime = new DateTime(dc.y, dc.m, dc.d, 0, 0);
