@@ -61,8 +61,10 @@ public abstract class ResultWriter implements Runnable {
 
     public void close() {
         try {
-            zipOutputStream.closeEntry();
-            zipOutputStream.close();
+            if(zipOutputStream != null) {
+                zipOutputStream.closeEntry();
+                zipOutputStream.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);

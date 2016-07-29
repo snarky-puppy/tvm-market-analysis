@@ -1,4 +1,6 @@
-package com.tvm.crunch;
+package com.tvm.crunch.database;
+
+import com.tvm.crunch.Data;
 
 import java.util.List;
 import java.util.Set;

@@ -351,7 +351,7 @@ public class DataTest {
     }
 
     private interface ValidateFunction {
-        Double function(int idx, Data data);
+        Double function(int idx, Data data) throws DataException;
     }
 
     private void checkValidatedRowTest(String sheetName, ValidateFunction func) {
@@ -365,7 +365,12 @@ public class DataTest {
         });
 
         for(int idx = 0; idx < data.date.length; idx++) {
-            Double rv = func.function(idx, data);
+            Double rv = null;
+            try {
+                rv = func.function(idx, data);
+            }catch(DataException e) {
+                // ignore, it could be null
+            }
             if(expectedResults.get(idx) == null)
                 assertNull(rv);
             else {
@@ -386,7 +391,7 @@ public class DataTest {
     private Data loadSheet(String sheetName, boolean hasVolume, RowVisitor visitor) {
         XSSFWorkbook workbook = getWorkbook();
         Sheet sheet = workbook.getSheet(sheetName);
-        Data data = new Data(sheet.getLastRowNum()); // 0 based so no need to take header row into account
+        Data data = new Data(null, null, sheet.getLastRowNum()); // 0 based so no need to take header row into account
 
         int idx = 0;
         boolean first = true;

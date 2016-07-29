@@ -1,11 +1,17 @@
 package com.tvm.crunch;
 
+import com.tvm.crunch.scenario.AbstractScenarioFactory;
+import com.tvm.crunch.scenario.Scenario;
+import com.tvm.crunch.scenario.ScenarioSet;
+import org.apache.commons.lang3.time.StopWatch;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.plugins.util.TypeConverters;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.DoubleStream;
 import java.util.stream.LongStream;
 
@@ -23,10 +29,14 @@ public class Data {
     //public double[] low;
     public double[] close;
     public long[] volume;
+    public String symbol;
+    public String market;
     //public double[] openInterest;
 
 
-    public Data(int size) {
+    public Data(String symbol, String market, int size) {
+        this.symbol = symbol;
+        this.market = market;
         date = new int[size];
         open = new double[size];
         //high = new double[size];
@@ -77,7 +87,7 @@ public class Data {
                 }
             } else {
                 // More usual case, some kind of gap in the data.
-                // use the previous value - less is more
+                // use the previous value
                 if(idx != 0)
                     idx--;
                 return distanceCheck(idx, findDate, maxDistanceDays);
@@ -411,23 +421,20 @@ public class Data {
 
     }
 
-    public static Double ema(int startIdx, int days, double[] close) {
+    public static double ema(int startIdx, int days, double[] close) throws DataException {
         if(days <= 1) {
             //throw new EMAException("not enough days for meaningful EMA: "+days);
-            return null;
+            throw new DataException();
         }
         if(days > startIdx + 1) {
             //throw new EMAException("not enough data to calculate "+days+"day EMA");
-            return null;
+            throw new DataException();
         }
 
         double ema = 0.0;
 
         // start with SMA
-        Double prevDaysEMA = simpleMovingAverage(startIdx, days, close);
-
-        if(prevDaysEMA == null)
-            return null;
+        double prevDaysEMA = simpleMovingAverage(startIdx, days, close);
 
         // multiplier
         double k = (2 / (days + 1));
@@ -440,40 +447,40 @@ public class Data {
         return ema;
     }
 
-    public static Double simpleMovingAverage(int startIdx, int days, double[] data) {
+    public static Double simpleMovingAverage(int startIdx, int days, double[] data) throws DataException {
         double sum = 0.0;
         int idx = startIdx - days + 1;
         if(idx < 0)
-            return null;
+            throw new DataException();;
         for (; idx <= startIdx; idx++) {
             sum += data[idx];
         }
         return sum / days;
     }
 
-    public static Double simpleMovingAverage(int startIdx, int days, long[] data) {
+    public static Double simpleMovingAverage(int startIdx, int days, long[] data) throws DataException {
         double sum = 0.0;
         int idx = startIdx - days + 1;
         if(idx < 0)
-            return null;
+            throw new DataException();
         for (; idx <= startIdx; idx++) {
             sum += data[idx];
         }
         return sum / days;
     }
 
-    public static Double slopeDaysPrev(int entryIdx, int days, int date[], double values[]) {
+    public static double slopeDaysPrev(int entryIdx, int days, int date[], double values[]) throws DataException {
 
         // NB "days" meaning changed to "data points"
         //int startIdx = findDateIndex(DateUtil.minusDays(entryDate, days));
         int startIdx = entryIdx - days + 1;
         if(startIdx < 0)
-            return null;
+            throw new DataException();
 
         int cnt = entryIdx - startIdx + 1;
 
         if(cnt == 0)
-            return null;
+            throw new DataException();
 
         double xy[] = new double[cnt];
         double x2[] = new double[cnt];
@@ -510,15 +517,15 @@ public class Data {
         if(!Double.isNaN(slope))
             return slope;
         else
-            return null;
+            throw new DataException();
     }
 
-    public Double zscore(int entryIdx, int days) {
+    public double zscore(int entryIdx, int days) throws DataException {
         int startIdx = entryIdx - days + 1;
         int endIdx = entryIdx;
 
         if(startIdx < 0 || endIdx < 0)
-            return null;
+            throw new DataException();
 
         SummaryStatistics stats = new SummaryStatistics();
 
@@ -538,12 +545,84 @@ public class Data {
             closeValue = close[startIdx];
             zscore = (closeValue - avg) / stdev;
 
-            //logger.debug(String.format("z: %d, %f, ci=%d, cei=%d", data.date[calcIndex], zscore, calcIndex, calcEndIndex));
-
             startIdx++;
         }
 
         return zscore;
+    }
+
+    public void zscore(AbstractScenarioFactory scenarioFactory, TriggerProcessor triggerProcessor) {
+        Map<Integer, ScenarioSet> scenarios = scenarioFactory.getReducedScenarios();
+        ExecutorService executorService = Executors.newFixedThreadPool(8);
+
+        try {
+            for (final ScenarioSet ss : scenarios.values()) {
+                executorService.submit(new Runnable() {
+                    public void run() {
+                        try {
+                            zscore(ss, triggerProcessor);
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                            System.exit(1);
+                        }
+                    }
+                });
+            }
+            executorService.shutdown();
+            executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.DAYS);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    public void zscore(ScenarioSet ss, TriggerProcessor triggerProcessor) {
+        int entryZScore = triggerProcessor.getEntryZScore();
+        int exitZScore = triggerProcessor.getExitZScore();
+
+        int startIdx = findDateIndex(ss.startDate);
+        if(startIdx == -1) {
+            //System.out.printf("Could not find start date %d [%s/%s]\n", ss.startDate, market, symbol);
+            //System.exit(1);
+            return;
+        }
+
+        SummaryStatistics stats = new SummaryStatistics();
+
+        while(startIdx < date.length && date[startIdx] <= ss.maxDate) {
+            stats.addValue(close[startIdx]);
+
+            double stdev = stats.getStandardDeviation();
+            if(stdev == 0) {
+                // either this is the first value or all initial values this far have had no variance (were the same)
+                startIdx ++;
+                continue;
+            }
+            double avg = stats.getMean();
+            double closeValue;
+            closeValue = close[startIdx];
+            final double zscore = (closeValue - avg) / stdev;
+
+            if(zscore <= entryZScore) {
+                final int tmpIdx = startIdx;
+                int dt = date[startIdx];
+
+
+                // with this code: 00:01:20.836
+                for(Scenario s : ss.scenarios) {
+                    if(dt >= s.trackingStart && dt <= s.trackingEnd)
+                        triggerProcessor.processTrigger(this, tmpIdx, zscore, s);
+                }
+                /* with this code: 00:01:24.428
+                ss.scenarios.stream()
+                        .filter(s -> dt >= s.trackingStart && dt <= s.trackingEnd)
+                        .forEach(s -> triggerProcessor.processTrigger(this, tmpIdx, zscore, s));
+                 */
+            }
+
+            startIdx++;
+        }
     }
 
 }

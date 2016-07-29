@@ -1,6 +1,7 @@
 package com.tvm.crunch.apps;
 
 import com.tvm.crunch.*;
+import com.tvm.crunch.database.FileDatabaseFactory;
 
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -14,13 +15,9 @@ public class TrendContBackTest extends MarketExecutor {
 
     public static void main(String[] args) {
 
-        System.out.println("Waiting...");
-        try {
-            int n = System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Starting");
+        boolean visualvm = true;
+
+        Util.waitForKeypress(visualvm);
 
         if(false) {
             TrendContBackTest trendContBackTest = new TrendContBackTest("test");
@@ -29,13 +26,7 @@ public class TrendContBackTest extends MarketExecutor {
             executeAllMarkets(new FileDatabaseFactory(), TrendContBackTest::new);
         }
 
-        System.out.println("Waiting...");
-        try {
-            int n = System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Finished");
+        Util.waitForKeypress(visualvm);
     }
 
     private TrendContBackTest(String market) {
@@ -81,6 +72,7 @@ public class TrendContBackTest extends MarketExecutor {
 
         // start off on day 100 to give the averages something to chew
         while(idx < data.close.length) {
+            try {
                 // ema
                 double ema30 = Data.ema(idx, 30, data.close);
                 double ema50 = Data.ema(idx, 50, data.close);
@@ -95,62 +87,31 @@ public class TrendContBackTest extends MarketExecutor {
                 boolean vma20Flag = vma20 > 50000;
                 boolean dailyVolFlag = false;
 
-                for(int i = 0; i < vma50history.length && !dailyVolFlag; i++) {
-                    if(data.volume[idx] > vma50history[i] * 1.5)
+                for (int i = 0; i < vma50history.length && !dailyVolFlag; i++) {
+                    if (data.volume[idx] > vma50history[i] * 1.5)
                         dailyVolFlag = true;
                 }
 
-                if(ema30 > ema50) {
+                if (ema30 > ema50) {
                     ema30EverCrossed50 = true;
                 }
 
-                if(ema50 > ema100) {
+                if (ema50 > ema100) {
                     ema50EverCrossed100 = true;
                 }
 
                 boolean trigger = dailyVolFlag && vma20Flag && highest &&
                         ema30EverCrossed50 && ema50EverCrossed100;
 
-                if(trigger) {
-                    Design10Result r = new Design10Result();
-                    r.symbol = symbol;
-                    r.exchange = market;
-
-                    r.closePrev30DayAvg = data.avgPricePrev30Days(idx);
-                    r.volPrev30DayAvg = data.avgVolumePrev30Days(idx);
-
-                    r.date = data.date[idx];
-                    r.close = data.close[idx];
-
-                    r.zscore30Day = data.zscore(idx, 30);
-
-                    r.nextDayOpen = data.findNDayPoint(idx, 1);
-
-                    for(int i = 0, p = 10; i < Design10Result.targetPercents; i++, p += 10) {
-                        Point closePt = data.findPCIncrease(idx, p, data.close);
-                        if(closePt != null) {
-                            Point nextPoint = data.findNDayPoint(closePt.index, 1);
-                            if(nextPoint != null) {
-                                r.targetPc[i] = nextPoint;
-                                r.closePcPrev30DayAvg[i] = data.avgPricePrev30Days(nextPoint.index);
-                                r.volPcPrev30DayAvg[i] = data.avgVolumePrev30Days(nextPoint.index);
-                            }
-                        }
-                    }
-
-                    Point lastRecorded = new Point(data, data.date.length - 1);
-                    r.closeLastRecorded = lastRecorded;
-                    r.closeLastRecorded30DayAvg = data.avgPricePrev30Days(lastRecorded.index);
-                    r.volLastRecorded30DayAvg = data.avgVolumePrev30Days(lastRecorded.index);
-
-                    for(int i = 0, y = Design10Result.eoyStart; y <= Design10Result.eoyEnd; y++, i++) {
-                        r.eoy[i] = data.findEndOfYearPrice(y);
-                    }
-
+                if (trigger) {
+                    Design10Result r = Design10Result.create(data, idx);
                     enqueueResult(r);
                 }
-                idx++;
+
+            } catch(DataException e) {
             }
+            idx++;
+        }
 
     }
 }

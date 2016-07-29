@@ -13,7 +13,7 @@ public class PointTest {
 
     @Test
     public void testPoint() {
-        Data data = new Data(1);
+        Data data = new Data(null, null, 1);
 
         Point p = new Point(data, 0);
         assertTrue(p.date.equals(0));

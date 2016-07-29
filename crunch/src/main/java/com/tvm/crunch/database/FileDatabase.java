@@ -1,22 +1,18 @@
-package com.tvm.crunch;
+package com.tvm.crunch.database;
 
 
 
+import com.tvm.crunch.Data;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by horse on 21/07/2016.
@@ -48,23 +44,29 @@ public class FileDatabase implements Database {
     }
 
     private void parseDataLine(String market, String symbol, Data d, int idx, String line) {
-        String[] fields = line.split(",");
-        if(fields.length != 8)
-            logger.error("parse data error: "+market+"/"+symbol+": not enough fields: "+fields.length);
-        d.date[idx] = Integer.parseInt(fields[0]);
-        d.open[idx] = Double.parseDouble(fields[1]);
-        //d.high[idx] = Double.parseDouble(fields[2]);
-        //d.low[idx] = Double.parseDouble(fields[3]);
-        d.close[idx] = Double.parseDouble(fields[4]);
-        d.volume[idx] = Long.parseLong(fields[5]);
-        //d.openInterest[idx] = Double.parseDouble(fields[6]);
+        StringTokenizer tok = new StringTokenizer(line, ",", false);
+
+
+        d.date[idx] = Integer.parseInt(tok.nextToken());
+        d.open[idx] = Double.parseDouble(tok.nextToken());
+        tok.nextToken(); //d.high[idx] = Double.parseDouble(tok.nextToken());
+        tok.nextToken(); //d.low[idx] = Double.parseDouble(tok.nextToken());
+        d.close[idx] = Double.parseDouble(tok.nextToken());
+        d.volume[idx] = Long.parseLong(tok.nextToken());
+        tok.nextToken(); //d.openInterest[idx] = Double.parseDouble(tok.nextToken());
+        tok.nextToken(); // symbol
+
+        if(tok.hasMoreTokens()) {
+            System.out.println("parse data error: " + market + "/" + symbol + ": too many fields: " + tok.nextToken());
+            System.exit(1);
+        }
     }
 
     public Data loadData(String market, String symbol) {
         logger.info("Loading data "+market+"/"+symbol);
         try {
             List<String> lines = FileUtils.readLines(dataFile(market, symbol).toFile());
-            Data rv = new Data(lines.size() - 1);
+            Data rv = new Data(symbol, market, lines.size() - 1);
             int i = 0;
             boolean first = true;
             for(String line : lines) {

@@ -1,5 +1,8 @@
 package com.tvm.crunch;
 
+import com.tvm.crunch.database.Database;
+import com.tvm.crunch.database.DatabaseFactory;
+import com.tvm.crunch.database.FileDatabaseFactory;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -96,6 +99,8 @@ m=8 s=16 -> 00:00:16.926
     public static int MARKET_THREADS = 8;
     public static int SYMBOL_THREADS = 12;
 
+    public static int QUEUE_SIZE = 4096;
+
     private final ResultWriter writer;
     private final ArrayBlockingQueue<Result> queue;
     protected final String market;
@@ -107,7 +112,7 @@ m=8 s=16 -> 00:00:16.926
 
     public MarketExecutor(String market) {
         this.market = market;
-        queue = new ArrayBlockingQueue<Result>(1024);
+        queue = new ArrayBlockingQueue<Result>(4096);
         writer = createResultWriter(queue);
     }
 
@@ -185,10 +190,9 @@ m=8 s=16 -> 00:00:16.926
             accept = queue.offer(result);
             try {
                 if(!accept)
-                    Thread.sleep(1000);
+                    Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-
             }
         } while (!accept);
     }
