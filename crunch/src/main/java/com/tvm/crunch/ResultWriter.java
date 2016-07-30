@@ -124,8 +124,9 @@ public abstract class ResultWriter implements Runnable {
                     try {
                         writeResults(r);
                     } catch (IOException e) {
-                        logger.error(e);
-                        finalised = true;
+                        e.printStackTrace();
+                        System.out.println(e);
+                        System.exit(1);
                     }
                 }
             } while (r != null || !finalised);

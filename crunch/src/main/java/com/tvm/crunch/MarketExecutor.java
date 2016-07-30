@@ -20,8 +20,6 @@ public abstract class MarketExecutor {
 
     private static final Logger logger = LogManager.getLogger(MarketExecutor.class);
 
-
-
     //<editor-fold desc="Timings">
 /*
 m=1 s=2 -> 00:00:41.888
@@ -99,7 +97,8 @@ m=8 s=16 -> 00:00:16.926
     public static int MARKET_THREADS = 8;
     public static int SYMBOL_THREADS = 12;
 
-    public static int QUEUE_SIZE = 4096;
+    public static int QUEUE_SIZE = 2048; // 4096=1:20, 2048=1:16, 1024=1:18
+
 
     private final ResultWriter writer;
     private final ArrayBlockingQueue<Result> queue;
@@ -112,7 +111,7 @@ m=8 s=16 -> 00:00:16.926
 
     public MarketExecutor(String market) {
         this.market = market;
-        queue = new ArrayBlockingQueue<Result>(4096);
+        queue = new ArrayBlockingQueue<Result>(QUEUE_SIZE);
         writer = createResultWriter(queue);
     }
 
@@ -203,5 +202,13 @@ m=8 s=16 -> 00:00:16.926
 
     protected Database db() {
         return databaseFactory.create();
+    }
+
+    /**
+     * Conveniently shares the same constructor as MarketExecutor
+     * Created by horse on 23/07/2016.
+     */
+    public interface MarketExecutorFactory {
+        MarketExecutor create(String market);
     }
 }

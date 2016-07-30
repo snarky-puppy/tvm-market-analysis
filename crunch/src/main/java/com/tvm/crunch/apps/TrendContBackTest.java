@@ -15,7 +15,7 @@ public class TrendContBackTest extends MarketExecutor {
 
     public static void main(String[] args) {
 
-        boolean visualvm = true;
+        boolean visualvm = false;
 
         Util.waitForKeypress(visualvm);
 

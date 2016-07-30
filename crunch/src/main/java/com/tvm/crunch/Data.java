@@ -605,16 +605,15 @@ public class Data {
             final double zscore = (closeValue - avg) / stdev;
 
             if(zscore <= entryZScore) {
-                final int tmpIdx = startIdx;
                 int dt = date[startIdx];
-
 
                 // with this code: 00:01:20.836
                 for(Scenario s : ss.scenarios) {
                     if(dt >= s.trackingStart && dt <= s.trackingEnd)
-                        triggerProcessor.processTrigger(this, tmpIdx, zscore, s);
+                        triggerProcessor.processTrigger(this, startIdx, zscore, s);
                 }
                 /* with this code: 00:01:24.428
+                final int tmpIdx = startIdx;
                 ss.scenarios.stream()
                         .filter(s -> dt >= s.trackingStart && dt <= s.trackingEnd)
                         .forEach(s -> triggerProcessor.processTrigger(this, tmpIdx, zscore, s));
