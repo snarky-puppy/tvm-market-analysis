@@ -118,6 +118,7 @@ public class InteractiveBroker implements Broker {
         controller.reqAccountUpdates(true, account, new ApiController.IAccountHandler() {
             @Override
             public void accountValue(String account, String key, String value, String currency) {
+                //System.out.println(String.format("%s=%s [%s]", key, value, currency));
                 if (key.compareTo("TotalCashValue") == 0 && currency.compareTo("AUD") == 0) {
                     logger.info("accountValue: TotalCashValue=" + value);
                     availableFunds = Double.valueOf(value);
@@ -135,9 +136,7 @@ public class InteractiveBroker implements Broker {
 
             @Override
             public void accountDownloadEnd(String account) {
-                logger.info("accountDownloadEnd - pre release");
                 semaphore.release();
-                logger.info("accountDownloadEnd - post release");
             }
 
             @Override
@@ -157,7 +156,9 @@ public class InteractiveBroker implements Broker {
         semaphore.acquire();
 
         if (exchangeRate == 0.0 || availableFunds == 0.0) {
-            throw new LotusException("Account details were not provided");
+            logger.error(String.format("Account details were not provided: %f/%f", exchangeRate, availableFunds));
+            disconnect();
+            throw new ConnectException();
         }
 
         logger.info(String.format("Account: AUD=%.2f rate=%.2f USD=%.2f",

@@ -22,18 +22,9 @@ public class Test {
     public static void main(String[] args) {
 
 
-        double inf = 1.7976931348623157E308;
+        String msg = "reason:\nsomething something\nsomething";
 
-        if (inf > 99999) {
-            System.out.println("Infinite");
-        } else
-            System.out.println("not infinite");
-
-        System.out.println(round(inf));
-
-        double value = 1.7976931;
-
-        System.out.println(Math.floor(value * 100) / 100);
+        System.out.println(msg.replaceAll("\n", ":::"));
 
     }
 }

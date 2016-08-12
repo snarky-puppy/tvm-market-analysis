@@ -146,10 +146,10 @@ CREATE TABLE investments (
 	error_code INTEGER,
 	error_msg VARCHAR(265),
 
-	UNIQUE KEY order_idx (trigger_id),
+	--UNIQUE KEY order_idx (trigger_id),
 
-	FOREIGN KEY (trigger_id)
-		REFERENCES triggers(id)
+	--FOREIGN KEY (trigger_id)
+	--	REFERENCES triggers(id)
 );
 
 CREATE TABLE investment_history (

@@ -585,10 +585,14 @@ public class Lotus {
                     Investment investment = investmentDao.findOrder(orderId);
                     if (investment != null) {
                         compounder.cancel(investment);
+                        investment.trigger.rejectReason = Trigger.RejectReason.NOTPROCESSED;
+                        triggerDao.serialise(investment.trigger);
+
                         investment.state = Investment.State.ORDERFAILED;
                         investment.errorMsg = errorMsg;
                         investment.errorCode = errorCode;
                         investmentDao.serialise(investment);
+
                     }
                 }
 
