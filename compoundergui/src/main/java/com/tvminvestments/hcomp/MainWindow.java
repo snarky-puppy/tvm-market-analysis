@@ -1,30 +1,27 @@
 package com.tvminvestments.hcomp;
 
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.DoubleSummaryStatistics;
-import java.util.OptionalDouble;
-import java.util.stream.Collectors;
 
 
 /**
  * Created by horse on 19/12/2015.
  */
-public class MainWindow implements ActionListener {
+public class MainWindow implements ActionListener, ListSelectionListener {
     private static final Logger logger = LogManager.getLogger(MainWindow.class);
     public JPanel mainPanel;
     private JButton loadButton;
@@ -40,6 +37,9 @@ public class MainWindow implements ActionListener {
     private JCheckBox shuffleCheckBox;
     private JTextField rollover;
 
+    int selectedRow = -1;
+    int matchingRow = -1;
+
     private CompoundTableModel model;
 
     public MainWindow() {
@@ -50,11 +50,11 @@ public class MainWindow implements ActionListener {
         model = new CompoundTableModel();
 
         spreadText.setText(Integer.toString(model.getCompounder().spread));
-        investPercentText.setText(Integer.toString(model.getCompounder().investPercent));
+        investPercentText.setText(Double.toString(model.getCompounder().investPercent));
         bankText.setText(Double.toString(model.getCompounder().startBank));
         rollover.setText(Integer.toString(model.getCompounder().profitRollover));
 
-
+/*
         DefaultTableCellRenderer dateRender = new DefaultTableCellRenderer() {
             SimpleDateFormat f = new SimpleDateFormat("dd/MM/yy");
 
@@ -65,9 +65,10 @@ public class MainWindow implements ActionListener {
             }
         };
         dateRender.setHorizontalAlignment(SwingConstants.RIGHT);
-
+*/
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
 
+            public Color oldBg = null;
             NumberFormat currency = NumberFormat.getCurrencyInstance();
             NumberFormat percent = NumberFormat.getPercentInstance();
 
@@ -96,6 +97,7 @@ public class MainWindow implements ActionListener {
         table.setModel(model);
         table.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
         table.setDefaultRenderer(Double.class, cellRenderer);
+        table.getSelectionModel().addListSelectionListener(this);
 
         logger.info("Initialised");
 
@@ -119,7 +121,7 @@ public class MainWindow implements ActionListener {
         NumberFormat currency = NumberFormat.getCurrencyInstance();
 
         model.getCompounder().spread = Integer.parseInt(spreadText.getText());
-        model.getCompounder().investPercent = Integer.parseInt(investPercentText.getText());
+        model.getCompounder().investPercent = Double.parseDouble(investPercentText.getText());
         model.getCompounder().startBank = Double.parseDouble(bankText.getText());
         model.getCompounder().profitRollover = Integer.parseInt(rollover.getText());
 
@@ -159,4 +161,55 @@ public class MainWindow implements ActionListener {
         }
     }
 
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        if(e.getValueIsAdjusting())
+            return;
+
+        int selectedOld = selectedRow, matchingOld = matchingRow;
+        int min, max;
+
+        int selected = table.getSelectedRow();
+        if(selected != -1) {
+            int matching = model.findMatchingRow(selected);
+            if(matching != -1) {
+
+                selectedRow = selected;
+                matchingRow = matching;
+
+                min = Math.min(selectedRow, matchingRow);
+                max = Math.max(selectedRow, matchingRow);
+
+                if (selectedOld != -1 && matchingOld != -1) {
+                    if (selectedOld > matchingOld) {
+                        max = Math.max(max, selectedOld);
+                        min = Math.min(min, matchingOld);
+                    } else {
+                        max = Math.max(max, matchingOld);
+                        min = Math.min(min, selectedOld);
+                    }
+                }
+                model.fireTableRowsUpdated(min, max);
+            }
+        }
+    }
+
+    private void createUIComponents() {
+        table = new JTable()
+        {
+            public Component prepareRenderer(
+                    TableCellRenderer renderer, int row, int column)
+            {
+                Component c = super.prepareRenderer(renderer, row, column);
+                JComponent jc = (JComponent)c;
+
+                if(row == selectedRow || row == matchingRow) {
+                    //System.out.printf("PrepRend: %d (%d %d)\n", row, selectedRow, matchingRow);
+                    jc.setBorder(new MatteBorder(1, 0, 1, 0, Color.RED));
+                }
+
+                return c;
+            }
+        };
+    }
 }

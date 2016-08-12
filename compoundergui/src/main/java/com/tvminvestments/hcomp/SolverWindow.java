@@ -136,9 +136,9 @@ public class SolverWindow implements ActionListener {
 
 
     class Combination {
-        public int percent;
+        public double percent;
         public int spread;
-        public Combination(int p, int s) {
+        public Combination(double p, int s) {
             percent = p;
             spread = s;
         }
@@ -148,12 +148,12 @@ public class SolverWindow implements ActionListener {
 
         private final double bank;
         private final int profitRollover;
-        private final int percent;
+        private final double percent;
         private final int spread;
         private final File file;
         private int iterations;
 
-        public CalculationTask(File file, int spread, int investPercent, double totalBank, int profitRollover, int iterations) {
+        public CalculationTask(File file, int spread, double investPercent, double totalBank, int profitRollover, int iterations) {
             this.file = file;
             this.spread = spread;
             this.percent = investPercent;
@@ -250,9 +250,9 @@ public class SolverWindow implements ActionListener {
 
         ArrayList<Combination> options = new ArrayList<>();
 
-        for(int p = solverParameters.minPercent; p <= solverParameters.maxPercent; p += solverParameters.stepPercent) {
+        for(double p = solverParameters.minPercent; p <= solverParameters.maxPercent; p += solverParameters.stepPercent) {
             for(int s = solverParameters.minSpread; s <= solverParameters.maxSpread; s += solverParameters.stepSpread) {
-                logger.info(String.format("Step combo: percent=%d, spread=%d", p, s));
+                logger.info(String.format("Step combo: percent=%.2f, spread=%d", p, s));
                 options.add(new Combination(p, s));
             }
         }
@@ -267,9 +267,9 @@ public class SolverWindow implements ActionListener {
             logger.info(String.format("Total Combinations: %d", options.size()));
 
             for(Combination x : options) {
-                int p = x.percent;
+                double p = x.percent;
                 int s = x.spread;
-                logger.info(String.format("+++++ Solving: %s, bank=%d, percent=%d, spread=%d", f.toString(), solverParameters.startBank, p, s));
+                logger.info(String.format("+++++ Solving: %s, bank=%d, percent=%.2f, spread=%d", f.toString(), solverParameters.startBank, p, s));
 
                 CalculationTask task = new CalculationTask(f, s, p, solverParameters.startBank, solverParameters.profitRollover, solverParameters.iterations);
                 task.execute();

@@ -19,7 +19,7 @@ public class Compounder {
     private ArrayList<Row> data;
 
     public double startBank = 200000.0;
-    public int investPercent = 10;
+    public double investPercent = 10.0;
     public int spread = 5;
     public int profitRollover = 20000;
 
@@ -156,7 +156,7 @@ public class Compounder {
     }
 
     private void log(String msg, int iteration) {
-        logger.info(String.format("[p=%d,s=%d,i=%d]: %s", investPercent, spread, iteration, msg));
+        logger.info(String.format("[p=%.2f,s=%d,i=%d]: %s", investPercent, spread, iteration, msg));
     }
 
     public void calculate(int iteration) {
@@ -339,6 +339,27 @@ public class Compounder {
         }
         return null;
     }
+
+    public int findMatch(String symbol, int startIdx, boolean forwards) {
+
+        if(forwards)
+            startIdx++;
+        else
+            startIdx--;
+
+        while(startIdx >= 0 && startIdx < data.size()) {
+            Row r = data.get(startIdx);
+            if(r != null && r.transact != null && r.symbol != null && r.symbol.compareTo(symbol) == 0) {
+                return startIdx;
+            }
+            if(forwards)
+                startIdx++;
+            else
+                startIdx--;
+        }
+        return -1;
+    }
+
 
     public void shuffle() {
 

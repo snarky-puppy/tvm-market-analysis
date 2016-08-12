@@ -15,9 +15,9 @@ public class SolveParamTableModel extends AbstractTableModel {
     int startBank = 200000;
     int profitRollover = 20000;
 
-    int minPercent = 0;
-    int maxPercent = 50;
-    int stepPercent = 10;
+    double minPercent = 0.0;
+    double maxPercent = 50.0;
+    double stepPercent = 10.0;
 
     int minSpread = 0;
     int maxSpread = 25;
@@ -42,9 +42,9 @@ public class SolveParamTableModel extends AbstractTableModel {
             case 0: return ci == 0 ? "Start Bank" : Integer.toString(startBank);
             case 1: return ci == 0 ? "Profit Roll" : Integer.toString(profitRollover);
 
-            case 2: return ci == 0 ? "Min %" : Integer.toString(minPercent);
-            case 3: return ci == 0 ? "Max %" : Integer.toString(maxPercent);
-            case 4: return ci == 0 ? "Step %" : Integer.toString(stepPercent);
+            case 2: return ci == 0 ? "Min %" : Double.toString(minPercent);
+            case 3: return ci == 0 ? "Max %" : Double.toString(maxPercent);
+            case 4: return ci == 0 ? "Step %" : Double.toString(stepPercent);
 
             case 5: return ci == 0 ? "Min Spread" : Integer.toString(minSpread);
             case 6: return ci == 0 ? "Max Spread" : Integer.toString(maxSpread);
@@ -81,9 +81,9 @@ public class SolveParamTableModel extends AbstractTableModel {
                 case 1: profitRollover = Integer.parseInt((String) aValue); break;
 
 
-                case 2: minPercent = Integer.parseInt((String) aValue); break;
-                case 3: maxPercent = Integer.parseInt((String) aValue); break;
-                case 4: stepPercent = Integer.parseInt((String) aValue); break;
+                case 2: minPercent = Double.parseDouble((String) aValue); break;
+                case 3: maxPercent = Double.parseDouble((String) aValue); break;
+                case 4: stepPercent = Double.parseDouble((String) aValue); break;
 
                 case 5: minSpread = Integer.parseInt((String) aValue); break;
                 case 6: maxSpread = Integer.parseInt((String) aValue); break;

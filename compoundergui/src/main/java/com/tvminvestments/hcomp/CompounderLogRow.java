@@ -17,7 +17,7 @@ public class CompounderLogRow {
 
     // starting factors
     public double spread;
-    public int percent;
+    public double percent;
     public double balanceCash;
 
     // working factors
@@ -36,7 +36,7 @@ public class CompounderLogRow {
     }
 
     public String toString() {
-        return String.format("%s,%d,%.2f,%d, %.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n",
+        return String.format("%s,%.2f,%.2f,%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n",
                 date.format(dtf), percent, spread, iteration, balanceCash, profit, minInvest, cash, trades, total);
     }
 

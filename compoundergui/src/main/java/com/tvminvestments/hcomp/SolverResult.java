@@ -20,7 +20,7 @@ class SolverResult {
 
     public double trades;
 
-    public int percent;
+    public double percent;
     public int spread;
 
 }

@@ -23,7 +23,7 @@ public class SolverResultTableModel extends AbstractTableModel {
             new ColumnDef("Cash Low", Double.class),
             new ColumnDef("Cash StDev", Double.class),
             
-            new ColumnDef("Percent", Integer.class),
+            new ColumnDef("Percent", Double.class),
             new ColumnDef("Spread", Integer.class)
     };
 
@@ -60,6 +60,8 @@ public class SolverResultTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
+        if(rowIndex > data.size() - 1)
+            return null;
         switch(columnIndex) {
             case 0:                return data.get(rowIndex).file;
             case 1:                return data.get(rowIndex).totalAvg;
@@ -74,6 +76,9 @@ public class SolverResultTableModel extends AbstractTableModel {
         
             case 9:                return data.get(rowIndex).percent;
             case 10:               return data.get(rowIndex).spread;
+            default:
+                System.out.printf("SolverResultTableModel: Invalid column index: r=%d c=%d\n", rowIndex, columnIndex);
+                break;
         }
         return null;
     }

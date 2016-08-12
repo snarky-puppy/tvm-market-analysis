@@ -4,7 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.table.AbstractTableModel;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by horse on 19/12/2015.
@@ -12,7 +14,7 @@ import java.util.*;
 public class CompoundTableModel extends AbstractTableModel {
 
     private static final Logger logger = LogManager.getLogger(CompoundTableModel.class);
-    
+
     private Compounder compounder;
 
     final ColumnDef[] columnDefs = new ColumnDef[] {
@@ -38,7 +40,7 @@ public class CompoundTableModel extends AbstractTableModel {
     }
 
     public void calculate() {
-        logger.info(String.format("Update triggered: spread=%d, percent=%d", compounder.spread, compounder.investPercent));
+        logger.info(String.format("Update triggered: spread=%d, percent=%.2f", compounder.spread, compounder.investPercent));
         compounder.calculate(0);
         fireTableDataChanged();
     }
@@ -95,5 +97,11 @@ public class CompoundTableModel extends AbstractTableModel {
 
     public Compounder getCompounder() {
         return compounder;
+    }
+
+    public int findMatchingRow(int row) {
+        String symbol = compounder.get(row).symbol;
+        double trans = compounder.get(row).transact;
+        return compounder.findMatch(symbol, row, trans > 0);
     }
 }
