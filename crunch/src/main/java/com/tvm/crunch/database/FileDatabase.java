@@ -1,7 +1,5 @@
 package com.tvm.crunch.database;
 
-
-
 import com.tvm.crunch.Data;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
@@ -15,6 +13,8 @@ import java.nio.file.Paths;
 import java.util.*;
 
 /**
+ * Functions for dealing with .csv files
+ *
  * Created by horse on 21/07/2016.
  */
 public class FileDatabase implements Database {
@@ -45,7 +45,6 @@ public class FileDatabase implements Database {
 
     private void parseDataLine(String market, String symbol, Data d, int idx, String line) {
         StringTokenizer tok = new StringTokenizer(line, ",", false);
-
 
         d.date[idx] = Integer.parseInt(tok.nextToken());
         d.open[idx] = Double.parseDouble(tok.nextToken());

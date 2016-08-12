@@ -58,4 +58,14 @@ public abstract class Result {
                 sb.append(",");
         }
     }
+
+    protected void appendPointOpen(StringBuffer sb, Point[] points) {
+        for(Point p : points)
+            appendPointOpen(sb, p);
+    }
+
+    protected void appendPointClose(StringBuffer sb, Point[] points) {
+        for(Point p : points)
+            appendPointClose(sb, p);
+    }
 }

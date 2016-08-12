@@ -29,7 +29,7 @@ class Design10Result extends Result {
 
     // 10, 20, 30, 40, 50
     private static final int targetPercents = 5;
-    private Point[] targetPc = new Point[5];
+    private Point[] targetPc = new Point[targetPercents];
     private Double[] closePcPrev30DayAvg = new Double[5];
     private Double[] volPcPrev30DayAvg = new Double[5];
 
@@ -42,6 +42,16 @@ class Design10Result extends Result {
     private static final int years = eoyEnd - eoyStart;
     private Point[] eoy = new Point[years+1];
 
+    // 5, 10, 15, 20, 25, 30
+    private static final int stopPercents = 6;
+    private Point[] stopPc = new Point[6];
+
+    //
+    private static final int weekRows = 4;
+    private Point[] weeks = new Point[weekRows];
+
+    private static final int monthRows = 12;
+    private Point[] months = new Point[monthRows];
 
     @Override
     public String toString() {
@@ -77,8 +87,11 @@ class Design10Result extends Result {
         append(sb, closeLastRecorded30DayAvg);
         append(sb, volLastRecorded30DayAvg);
 
-        for(Point p : eoy)
-            appendPointClose(sb, p);
+
+        appendPointClose(sb, eoy);
+        appendPointOpen(sb, stopPc);
+        appendPointOpen(sb, weeks);
+        appendPointOpen(sb, months);
 
         sb.append("\n");
         return sb.toString();
@@ -120,6 +133,21 @@ class Design10Result extends Result {
         for(int y = eoyStart; y <= eoyEnd; y++) {
             sb.append(String.format(",%d End Of Year Date", y));
             sb.append(String.format(",%d End Of Year Close", y));
+        }
+
+        for(int i = 0, p = 5; i < stopPercents; i++, p += 5) {
+            sb.append(String.format(",%d%% Stop Next Day Date", p));
+            sb.append(String.format(",%d%% Stop Next Day Open", p));
+        }
+
+        for(int i = 0, w = 1; i < weekRows; i++, w++) {
+            sb.append(String.format(",%d Week Next Day Date", w));
+            sb.append(String.format(",%d Week Next Day Open", w));
+        }
+
+        for(int i = 0, m = 1; i < monthRows; i++, m++) {
+            sb.append(String.format(",%d Month Next Day Date", m));
+            sb.append(String.format(",%d Month Next Day Open", m));
         }
 
         sb.append("\n");
@@ -173,6 +201,22 @@ class Design10Result extends Result {
 
         for(int i = 0, y = Design10Result.eoyStart; y <= Design10Result.eoyEnd; y++, i++) {
             r.eoy[i] = data.findEndOfYearPrice(y);
+        }
+
+        for(int i = 0, p = 5; i < stopPercents; i++, p += 5) {
+            Point pt = data.findPCDecrease(idx, p, data.close);
+            if(pt != null) {
+                r.stopPc[i] = data.findNDayPoint(pt.index, 1);
+            }
+        }
+
+        for(int i = 0, w = 1; i < weekRows; i++, w++) {
+            r.weeks[i] = data.findNWeekPoint(idx, w, 1);
+        }
+
+        for(int i = 0, m = 1; i < monthRows; i++, m++) {
+            r.months[i] = data.findNMonthPoint(idx, m, 1);
+
         }
 
         return r;

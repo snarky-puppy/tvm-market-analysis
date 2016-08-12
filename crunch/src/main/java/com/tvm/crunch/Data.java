@@ -114,25 +114,31 @@ public class Data {
     }
 
 
-    public Point findNMonthPoint(int entryIndex, int months) {
+    public Point findNMonthPoint(int entryIndex, int months, int plusDays) {
         int idx;
         if(months < 0)
             idx = findDateIndex(DateUtil.minusMonths(date[entryIndex], -months), 14, false);
         else
             idx = findDateIndex(DateUtil.addMonths(date[entryIndex], months), 14, false);
-        if (idx != -1)
-            return new Point(this, idx);
+        if (idx != -1) {
+            idx += plusDays;
+            if(idx > 0 && idx < date.length)
+                return new Point(this, idx);
+        }
         return null;
     }
 
-    public Point findNWeekPoint(int entryIndex, int weeks) {
+    public Point findNWeekPoint(int entryIndex, int weeks, int plusDays) {
         int idx;
         if(weeks < 0)
             idx = findDateIndex(DateUtil.minusWeeks(date[entryIndex], -weeks), 7, false);
         else
             idx = findDateIndex(DateUtil.addWeeks(date[entryIndex], weeks), 7, false);
-        if (idx != -1)
-            return new Point(this, idx);
+        if (idx != -1) {
+            idx += plusDays;
+            if(idx > 0 && idx < date.length)
+                return new Point(this, idx);
+        }
         return null;
     }
 
@@ -144,52 +150,6 @@ public class Data {
             return null;
         return new Point(this, entryIndex);
     }
-
-    /*
-    public Point findMinPriceLimitMonth(int entryIndex, int months, double[] values) {
-        if(entryIndex < 0 || months < 0 || values == null || entryIndex >= values.length)
-            return null;
-
-        int maxDate = DateUtil.addMonths(date[entryIndex], months);
-
-        System.out.println(String.format("range: %d - %d", date[entryIndex], maxDate));
-
-        int lastIndex = entryIndex;
-        double lastPrice = values[entryIndex];
-
-        while (entryIndex < values.length && date[entryIndex] <= maxDate) {
-            if (values[entryIndex] < lastPrice) {
-                lastPrice = values[entryIndex];
-                lastIndex = entryIndex;
-            }
-            entryIndex++;
-        }
-
-        return new Point(this, lastIndex);
-    }
-
-    public Point findMaxPriceLimitMonth(int entryIndex, int months, double[] values) {
-        if(entryIndex < 0 || months < 0 || values == null || entryIndex >= values.length)
-            return null;
-
-        int maxDate = DateUtil.addMonths(date[entryIndex], months);
-
-        System.out.println(String.format("range: %d - %d", date[entryIndex], maxDate));
-
-        int lastIndex = entryIndex;
-        double lastPrice = values[entryIndex];
-
-        while (entryIndex < values.length && date[entryIndex] <= maxDate) {
-            if (values[entryIndex] > lastPrice) {
-                lastPrice = values[entryIndex];
-                lastIndex = entryIndex;
-            }
-            entryIndex++;
-        }
-
-        return new Point(this, lastIndex);
-    }
-    */
 
     public Point findMinPriceLimitMonth(int entryIndex, int months, double[] values) {
         return findMinMaxPriceLimitMonth(entryIndex, months, (a,b) -> { return a < b; }, values);
@@ -367,33 +327,6 @@ public class Data {
             return Arrays.stream(values, entryIdx, entryIdx);
         }
     }
-
-/*
-    private DoubleStream range(int entryIdx, DateUtil.DateOperation dateOperation, int dateValue, double[] values) {
-        int startDate = date[entryIdx];
-        int endDate = dateOperation.op(date[entryIdx], dateValue);
-        int endIdx = Arrays.binarySearch(date, endDate);
-        if(endIdx < 0)
-            endIdx = -endIdx;
-
-        int s = entryIdx;
-        int e = endIdx;
-
-        if(e > s) {
-            int tmp = e;
-            e = s;
-            s = tmp;
-        }
-
-        return Arrays.stream(values, s, e).filter(d -> {
-                    System.out.println("Streaming: "+d);
-            return d >= startDate && d <= endDate;
-        }
-        );
-    }
-*/
-
-
     // END OF UGLYNESS
     // UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY UGLY
 
