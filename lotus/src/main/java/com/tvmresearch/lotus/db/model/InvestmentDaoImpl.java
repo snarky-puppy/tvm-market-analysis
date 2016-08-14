@@ -235,7 +235,8 @@ public class InvestmentDaoImpl implements InvestmentDao {
             throw new LotusException(e);
         } finally {
             try {
-                connection.setAutoCommit(true);
+                if(connection != null)
+                    connection.setAutoCommit(true);
             } catch (SQLException e) {
             }
             Database.close(stmt, connection);
@@ -264,6 +265,32 @@ public class InvestmentDaoImpl implements InvestmentDao {
             }
 
             return 0;
+        } catch (SQLException e) {
+            throw new LotusException(e);
+        } finally {
+            Database.close(rs, stmt, connection);
+        }
+    }
+
+    @Override
+    public int getNextOrderId() {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Database.connection();
+            stmt = connection.prepareStatement(
+                    "SELECT IFNULL(GREATEST(MAX(buy_order_id), MAX(sell_order_id)) + 1, 1) AS next_id " +
+                    "FROM investments;");
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("next_id");
+            }
+
+            throw new LotusException(new Throwable("Could not determine next orderId"));
+
         } catch (SQLException e) {
             throw new LotusException(e);
         } finally {
@@ -309,7 +336,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
             connection = Database.connection();
             stmt = connection.prepareStatement(
                     "SELECT * FROM investments " +
-                            "WHERE buy_order_id = ? OR sell_order_id = ?");
+                            "WHERE (buy_order_id = ? OR sell_order_id = ?);");
             stmt.setLong(1, orderId);
             stmt.setLong(2, orderId);
             rs = stmt.executeQuery();
@@ -346,7 +373,7 @@ public class InvestmentDaoImpl implements InvestmentDao {
             if (rs.next())
                 return populate(rs, connection);
             else {
-                logger.warn(String.format("findOrder: conId %d not found", conid));
+                logger.warn(String.format("findConId: conId %d not found", conid));
                 return null;
             }
 

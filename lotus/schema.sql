@@ -144,12 +144,12 @@ CREATE TABLE investments (
 
 	-- something went wrong...
 	error_code INTEGER,
-	error_msg VARCHAR(265),
+	error_msg VARCHAR(265)
 
-	--UNIQUE KEY order_idx (trigger_id),
-
-	--FOREIGN KEY (trigger_id)
-	--	REFERENCES triggers(id)
+    -- don't use these any more, too complicated
+	-- UNIQUE KEY order_idx (trigger_id),
+	-- FOREIGN KEY (trigger_id)
+	-- REFERENCES triggers(id)
 );
 
 CREATE TABLE investment_history (

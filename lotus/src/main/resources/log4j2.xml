@@ -9,7 +9,7 @@
                      filePattern="/lotus/old_logs/lotus-%d{MM-dd-yyyy}-%i.log.gz">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %C{1} - %msg%n"/>
             <Policies>
-                <SizeBasedTriggeringPolicy size="10 MB"/>
+                <SizeBasedTriggeringPolicy size="256 MB"/>
             </Policies>
         </RollingFile>
 

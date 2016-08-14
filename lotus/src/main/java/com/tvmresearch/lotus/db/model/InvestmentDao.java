@@ -18,7 +18,7 @@ public interface InvestmentDao {
 
     void serialise(Investment investment);
 
-
+    int getNextOrderId();
 
     Investment findUnconfirmed(String symbol);
 

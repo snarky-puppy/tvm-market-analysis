@@ -35,6 +35,7 @@ public class InteractiveBroker implements Broker {
 
     private final ApiController controller;
     private final BlockingQueue<IBMessage> outputQueue;
+    private InvestmentDao investmentDao;
 
     // k=symbol
     private Map<String, Position> positions = new HashMap<>();
@@ -44,8 +45,9 @@ public class InteractiveBroker implements Broker {
     private double exchangeRate = 0.0;
 
 
-    public InteractiveBroker(BlockingQueue<IBMessage> _outputQueue) throws InterruptedException, ConnectException {
+    public InteractiveBroker(BlockingQueue<IBMessage> _outputQueue, InvestmentDao investmentDao) throws InterruptedException, ConnectException {
         this.outputQueue = _outputQueue;
+        this.investmentDao = investmentDao;
 
         Semaphore semaphore = new Semaphore(1);
         semaphore.acquire();
@@ -113,7 +115,6 @@ public class InteractiveBroker implements Broker {
         if (connectFailed[0]) {
             throw new ConnectException();
         }
-
 
         controller.reqAccountUpdates(true, account, new ApiController.IAccountHandler() {
             @Override
@@ -224,7 +225,6 @@ public class InteractiveBroker implements Broker {
 
             @Override
             public void tradeReportEnd() {
-
             }
 
             @Override
@@ -260,6 +260,7 @@ public class InteractiveBroker implements Broker {
 
         NewContract contract = investment.createNewContract();
         NewOrder order = investment.createBuyOrder(account);
+        order.orderId(investmentDao.getNextOrderId());
 
         controller.placeOrModifyOrder(contract, order, null);
         investment.buyOrderId = order.orderId();
@@ -272,6 +273,7 @@ public class InteractiveBroker implements Broker {
 
         NewContract contract = investment.createNewContract();
         NewOrder order = investment.createSellOrder(account);
+        order.orderId(investmentDao.getNextOrderId());
 
         controller.placeOrModifyOrder(contract, order, null);
         investment.sellOrderId = order.orderId();

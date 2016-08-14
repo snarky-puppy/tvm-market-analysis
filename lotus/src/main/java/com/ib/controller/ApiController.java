@@ -33,8 +33,12 @@ import com.ib.controller.Types.FundamentalType;
 import com.ib.controller.Types.MktDataType;
 import com.ib.controller.Types.NewsType;
 import com.ib.controller.Types.WhatToShow;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ApiController implements EWrapper {
+	private static final Logger logger = LogManager.getLogger(ApiController.class);
+
 	private ApiConnection m_client;
 	private final ILogger m_outLogger;
 	private final ILogger m_inLogger;
@@ -101,6 +105,7 @@ public class ApiController implements EWrapper {
 	}
 
 	@Override public void nextValidId(int orderId) {
+		logger.info("nextValidId: "+orderId);
 		m_orderId = orderId;
 		m_reqId = m_orderId + 10000000; // let order id's not collide with other request id's
 		if (m_connectionHandler != null) {

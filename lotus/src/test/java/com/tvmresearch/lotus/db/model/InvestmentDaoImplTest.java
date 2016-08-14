@@ -159,6 +159,27 @@ public class InvestmentDaoImplTest {
         assertEquals(1, dao.getHistoricalMissingDays(investment));
     }
 
+    @Test
+    public void nextOrderId() throws Exception {
+        InvestmentDao dao = new InvestmentDaoImpl();
+        TriggerDao triggerDao = new TriggerDaoImpl();
+
+        for(int i = 1; i <= 20; i++) {
+
+            int orderId = dao.getNextOrderId();
+            assertEquals(i, orderId);
+            Trigger trigger = DBUtil.createTrigger("OID"+i);
+            triggerDao.serialise(trigger);
+
+            Investment investment = DBUtil.createInvestment(trigger);
+            if(i % 2 == 0)
+                investment.buyOrderId = orderId;
+            else
+                investment.sellOrderId = orderId;
+            dao.serialise(investment);
+        }
+    }
+
 
     @Test
     public void testVolume() {
@@ -179,7 +200,7 @@ public class InvestmentDaoImplTest {
         System.out.println("Finished initialising");
 
         for(int i = 0; i < count; i++) {
-            System.out.println(Database.utilisation());
+            //System.out.println(Database.utilisation());
             System.out.println(String.format("%d: 1", i));
             Investment investment = investmentDao.findConId(i);
             System.out.println(String.format("%d: 2", i));
