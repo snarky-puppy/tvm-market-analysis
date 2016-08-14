@@ -1,0 +1,15 @@
+Ninja Trader Import Format Procedure
+ 
+1. Open .csv file with Excel
+2. Delete columns G and H
+3. Delete row 1
+4. Save as .csv
+5. Open as .txt
+6. Find / Replace , with ;
+7. Save and rename [Ticker Symbol].Last.txt
+   For example, stock MSFT would look like MSFT.Last.txt
+
+I've attached three files that show the different steps. 1AABT is the original.
+2AABT is after the top row and columns G and H have been removed. 3AABT is the
+end result text file with the , replaced by ;
+
