@@ -128,7 +128,7 @@ m=8 s=16 -> 00:00:16.926
                     public void run() {
                         try {
                             MarketExecutor executor = marketExecutorFactory.create(market);
-                            executor.execute();
+                            executor.executeAllSymbols();
                         } catch(Exception e) {
                             e.printStackTrace();
                             System.exit(1);
@@ -147,7 +147,7 @@ m=8 s=16 -> 00:00:16.926
         System.out.println(String.format("Finished in %s", stopWatch.toString()));
     }
 
-    protected void execute() {
+    protected void executeAllSymbols() {
         ExecutorService executorService = Executors.newFixedThreadPool(SYMBOL_THREADS);
         Thread writerThread = new Thread(writer);
 

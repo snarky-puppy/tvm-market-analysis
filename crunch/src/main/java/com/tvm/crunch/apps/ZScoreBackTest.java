@@ -1,13 +1,11 @@
 package com.tvm.crunch.apps;
 
-import com.sun.org.apache.xml.internal.resolver.readers.SAXCatalogParser;
 import com.tvm.crunch.*;
 import com.tvm.crunch.database.FileDatabaseFactory;
 import com.tvm.crunch.scenario.AbstractScenarioFactory;
 import com.tvm.crunch.scenario.CSVScenarioFactory;
 import com.tvm.crunch.scenario.Scenario;
 
-import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -37,7 +35,7 @@ public class ZScoreBackTest extends MarketExecutor implements TriggerProcessor {
 
         if(false) {
             ZScoreBackTest trendContBackTest = new ZScoreBackTest("test");
-            trendContBackTest.execute();
+            trendContBackTest.executeAllSymbols();
         } else {
             executeAllMarkets(new FileDatabaseFactory(), ZScoreBackTest::new);
         }

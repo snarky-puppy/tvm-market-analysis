@@ -3,7 +3,6 @@ package com.tvm.crunch.apps;
 import com.tvm.crunch.*;
 import com.tvm.crunch.database.FileDatabaseFactory;
 
-import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -21,7 +20,7 @@ public class TrendContBackTest extends MarketExecutor {
 
         if(false) {
             TrendContBackTest trendContBackTest = new TrendContBackTest("test");
-            trendContBackTest.execute();
+            trendContBackTest.executeAllSymbols();
         } else {
             executeAllMarkets(new FileDatabaseFactory(), TrendContBackTest::new);
         }

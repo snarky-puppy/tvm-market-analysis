@@ -1,6 +1,8 @@
 package com.tvm.crunch;
 
 /**
+ * Abstract Result
+ *
  * Created by horse on 21/07/2016.
  */
 public abstract class Result {
