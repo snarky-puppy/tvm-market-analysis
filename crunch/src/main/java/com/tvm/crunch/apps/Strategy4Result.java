@@ -25,14 +25,14 @@ public class Strategy4Result extends Result {
     public double slope;
     public double dollarVolume;
 
-    public int holdPl28Date;
-    public double holdPl28Price;
-    public double holdPl28Pc;
-
-    public int holdPl35Date;
-    public double holdPl35Price;
-    public double holdPl35Pc;
     public String news;
+
+    public static int holdMin = 22;
+    public static int holdMax = 49;
+    public static int numHolds = holdMax - holdMin + 1;
+    Integer holdDate[] = new Integer[numHolds];
+    Double holdPrice[] = new Double[numHolds];
+    Double holdPc[] = new Double[numHolds];
 
     @Override
     public String toString() {
@@ -49,13 +49,18 @@ public class Strategy4Result extends Result {
         sb.append(",").append(pl21);
         sb.append(",").append(slope);
         sb.append(",").append(String.format("%.8f", dollarVolume));
-        sb.append(",").append(holdPl28Date);
-        sb.append(",").append(holdPl28Price);
-        sb.append(",").append(holdPl28Pc);
-        sb.append(",").append(holdPl35Date);
-        sb.append(",").append(holdPl35Price);
-        sb.append(",").append(holdPl35Pc);
         sb.append(",\"").append(news).append("\"");
+
+        for(int i = 0, h = holdMin; h <= holdMax; h++, i++) {
+            if(holdDate[i] != null) {
+                sb.append(",").append(holdDate[i]);
+                sb.append(",").append(holdPrice[i]);
+                sb.append(",").append(holdPc[i]);
+            } else {
+                sb.append(",,,");
+            }
+        }
+
         sb.append('\n');
         return sb.toString();
     }
@@ -76,18 +81,13 @@ public class Strategy4Result extends Result {
         bw.append("P3,");
         bw.append("Slope,");
         bw.append("Dollar Volume,");
-
-
-        bw.append("Hold 28 Date,");
-        bw.append("Hold 28 Price,");
-        bw.append("Hold 28 Pc,");
-
-        bw.append("Hold 35 Date,");
-        bw.append("Hold 35 Price,");
-        bw.append("Hold 35 Pc,");
-
         bw.append("News,");
 
+        for(int i = 0, h = holdMin; h <= holdMax; h++, i++) {
+            bw.append(String.format("Hold %d Date,", h));
+            bw.append(String.format("Hold %d Price,", h));
+            bw.append(String.format("Hold %d Pc,", h));
+        }
 
         bw.append('\n');
 

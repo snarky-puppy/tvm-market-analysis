@@ -57,7 +57,6 @@ public class Strategy4BackTest extends MarketExecutor {
     protected void processSymbol(String symbol) {
         Data data = db().loadData(market, symbol);
         double[] c = data.close;
-        int nresults = 0;
 
         int idx = 0;
         // 21 days is how many we need for the slope calc and dollar volume.
@@ -97,21 +96,13 @@ public class Strategy4BackTest extends MarketExecutor {
                     r.slope = slope;
                     r.dollarVolume = avgVolume * avgClose;
 
-
-                    int n = idx + 21;
-                    int i = n + 7 - 1;
-                    if (i < data.open.length) {
-                        r.holdPl28Date = data.date[i];
-                        r.holdPl28Pc = change(data.open[n], data.open[i]);
-                        r.holdPl28Price = data.open[i];
+                    int n = idx + Strategy4Result.holdMin;
+                    for(int i = 0, q = n + i; q < data.open.length && i < Strategy4Result.numHolds; i++, q++) {
+                        r.holdDate[i] = data.date[q];
+                        r.holdPc[i] = change(data.open[n], data.open[q]);
+                        r.holdPrice[i] = data.open[q];
                     }
 
-                    i = n + 14 - 1;
-                    if (i < data.open.length) {
-                        r.holdPl35Date = data.date[i];
-                        r.holdPl35Pc = change(data.open[n], data.open[i]);
-                        r.holdPl35Price = data.open[i];
-                    }
                     List<NewsDB.NewsRow> newsResult = new NewsDB().findNews(data.date[idx], symbol);
                     if(newsResult != null) {
                         for(NewsDB.NewsRow row : newsResult) {
