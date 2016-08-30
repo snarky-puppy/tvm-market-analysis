@@ -79,7 +79,6 @@ public class InteractiveBroker implements Broker {
             public void error(Exception e) {
                 logger.error("error: " + e.getMessage(), e);
                 queueDisconnect();
-
             }
 
             @Override

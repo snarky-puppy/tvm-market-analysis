@@ -65,7 +65,7 @@ public class Lotus {
                 Lotus lotus = new Lotus();
                 lotus.mainLoop();
                 logger.info("--- LOTUS RECONNECT ---");
-                Thread.sleep(10000);
+                Thread.sleep(120 * 1000);
             }
             logger.info("--- LOTUS SHUTDOWN ---");
 
@@ -138,12 +138,10 @@ public class Lotus {
 
         } finally {
             logger.info("The Final final block");
-
             try {
                 running = false;
                 dbStatsLogger.join();
             } catch (InterruptedException e) {}
-
             if (broker != null)
                 broker.disconnect();
         }
