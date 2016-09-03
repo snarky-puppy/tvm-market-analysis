@@ -1,5 +1,6 @@
 package com.tvmresearch.lotus.db.model;
 
+import com.mysql.jdbc.Statement;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.tvmresearch.lotus.Configuration;
 import com.tvmresearch.lotus.Database;
@@ -9,35 +10,40 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
+ * CRUD for Trigger objects
+ * <p>
  * Created by horse on 7/04/2016.
  */
 public class TriggerDaoImpl implements TriggerDao {
-    @Override
-    public void serialise(Trigger trigger) {
-        Connection connection = Database.connection();
+
+    private void serialise(Trigger trigger, Connection connection) {
+
+        ResultSet rs = null;
         PreparedStatement stmt = null;
 
         try {
-
             if (trigger.id == null) {
-                int elapsedDays = elapsedDays(trigger);
+                int elapsedDays = elapsedDays(trigger, connection);
                 if (elapsedDays == -1 || elapsedDays > Configuration.RETRIGGER_MIN_DAYS) {
                     trigger.event = true;
                     trigger.rejectReason = Trigger.RejectReason.NOTPROCESSED;
                 } else {
                     trigger.rejectReason = Trigger.RejectReason.NOTEVENT;
                 }
-                stmt = connection.prepareStatement("INSERT INTO triggers VALUES(NULL," + Database.generateParams(10) + ")");
+                stmt = connection.prepareStatement(
+                        "INSERT INTO triggers VALUES(NULL," + Database.generateParams(10) + ")",
+                        Statement.RETURN_GENERATED_KEYS);
             } else {
                 final String sql = "UPDATE triggers " +
                         "SET    exchange=?, symbol=?, trigger_date=?, price=?, " +
                         "       zscore=?, avg_volume=?, avg_price=?, event=?, " +
                         "       reject_reason=?, reject_data=? " +
                         "WHERE  id = ?";
-                stmt = connection.prepareStatement(sql);
+                stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             }
 
             stmt.setString(1, trigger.exchange);
@@ -57,13 +63,17 @@ public class TriggerDaoImpl implements TriggerDao {
             if (trigger.id != null)
                 stmt.setInt(11, trigger.id);
 
-            stmt.execute();
-        } catch(MySQLIntegrityConstraintViolationException e) {
+            stmt.executeUpdate();
+            rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                trigger.id = rs.getInt(1);
+            }
+        } catch (MySQLIntegrityConstraintViolationException e) {
             // ignore
         } catch (SQLException e) {
             throw new LotusException(e);
         } finally {
-            Database.close(stmt, connection);
+            Database.close(rs, stmt);
         }
     }
 
@@ -84,7 +94,7 @@ public class TriggerDaoImpl implements TriggerDao {
             stmt.setDate(1, java.sql.Date.valueOf(LocalDate.now().minusDays(5)));
             stmt.setString(2, Trigger.RejectReason.NOTPROCESSED.name());
             rs = stmt.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 Trigger trigger = new Trigger();
 
                 trigger.id = rs.getInt(1);
@@ -99,7 +109,7 @@ public class TriggerDaoImpl implements TriggerDao {
                 trigger.rejectReason = Trigger.RejectReason.valueOf(rs.getString(10));
 
                 trigger.rejectData = rs.getDouble(11);
-                if(rs.wasNull())
+                if (rs.wasNull())
                     trigger.rejectData = null;
 
                 rv.add(trigger);
@@ -109,11 +119,11 @@ public class TriggerDaoImpl implements TriggerDao {
             throw new LotusException(e);
         } finally {
             Database.close(rs, stmt, connection);
-        }    }
+        }
+    }
 
     @Override
-    public Trigger load(int id) {
-        Connection connection = null;
+    public Trigger load(int id, Connection connection) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -123,11 +133,10 @@ public class TriggerDaoImpl implements TriggerDao {
                 + " WHERE id = ?";
 
         try {
-            connection = Database.connection();
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 Trigger trigger = new Trigger();
 
                 trigger.id = rs.getInt(1);
@@ -141,7 +150,7 @@ public class TriggerDaoImpl implements TriggerDao {
                 trigger.event = rs.getBoolean(9);
                 trigger.rejectReason = Trigger.RejectReason.valueOf(rs.getString(10));
                 trigger.rejectData = rs.getDouble(11);
-                if(rs.wasNull())
+                if (rs.wasNull())
                     trigger.rejectData = null;
 
                 return trigger;
@@ -150,13 +159,24 @@ public class TriggerDaoImpl implements TriggerDao {
         } catch (SQLException e) {
             throw new LotusException(e);
         } finally {
-            Database.close(rs, stmt, connection);
+            Database.close(rs, stmt);
         }
     }
 
     @Override
     public int elapsedDays(Trigger trigger) {
-        Connection connection = Database.connection();
+        Connection connection = null;
+        try {
+            connection = Database.connection();
+            return elapsedDays(trigger, connection);
+        } finally {
+            Database.close(connection);
+        }
+
+    }
+
+
+    private int elapsedDays(Trigger trigger, Connection connection) {
         PreparedStatement stmt = null;
 
         String sql = "SELECT trigger_date" +
@@ -173,7 +193,7 @@ public class TriggerDaoImpl implements TriggerDao {
             stmt.setDate(3, java.sql.Date.valueOf(trigger.date));
             ResultSet rs = stmt.executeQuery();
             int nDays = -1;
-            if(rs.next()) {
+            if (rs.next()) {
                 LocalDate lastDate = rs.getDate(1).toLocalDate();
                 nDays = (int) ChronoUnit.DAYS.between(lastDate, trigger.date);
             }
@@ -181,12 +201,33 @@ public class TriggerDaoImpl implements TriggerDao {
         } catch (SQLException e) {
             throw new LotusException(e);
         } finally {
-            Database.close(stmt, connection);
+            Database.close(stmt);
+        }
+    }
+
+
+    @Override
+    public void serialise(List<Trigger> list) {
+        final Connection connection = Database.connection();
+
+        try {
+            connection.setAutoCommit(false);
+            list.stream().forEach(x -> serialise(x, connection));
+            connection.commit();
+        } catch (SQLException e) {
+            throw new LotusException(e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                throw new LotusException(e);
+            }
+            Database.close(connection);
         }
     }
 
     @Override
-    public void serialise(List<Trigger> list) {
-        list.stream().forEach(this::serialise);
+    public void serialise(Trigger trigger) {
+        serialise(Arrays.asList(trigger));
     }
 }

@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="ERROR">
+<Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %C{1} - %msg%n"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %C{1} - %msg%n"/>
         </Console>
+
+        <RollingFile name="RollingFile" fileName="/lotus/lotus2.log"
+                     filePattern="/lotus/old_logs/lotus-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %C{1} - %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="256 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <ASync name="ASync">
+            <AppenderRef ref="RollingFile"/>
+        </ASync>
+
+        <SMTP name="Mail" subject="Error Log" to="mwlazlo@gmail.com" from="mwlazlo@gmail.com"
+              smtpHost="smtp.gmail.com" smtpProtocol="smtps" smtpPort="587"
+              smtpUsername="mwlazlo@gmail.com" smtpPassword="ophndaodnrgiaaqn"
+              bufferSize="50">
+        </SMTP>
+
     </Appenders>
     <Loggers>
+        <Logger name="EmailLogger" level="error">
+            <AppenderRef ref="Mail"/>
+        </Logger>
+
         <Root level="DEBUG">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
         </Root>
     </Loggers>
 </Configuration>

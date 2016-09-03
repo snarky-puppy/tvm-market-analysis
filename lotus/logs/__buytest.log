@@ -1,0 +1,154 @@
+ERROR StatusLogger No log4j2 configuration file found. Using default configuration: logging only errors to the console.
+Server Version:76
+TWS Time at connection:20160527 21:32:20 AEST
+Account=DU289674
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS - END
+PLACE OR MODIFY ORDER: orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+LIVE ORDERS Open Order: AAPL SELL/GTC
+PLACE OR MODIFY ORDER: orderStatus: status=PreSubmitted, filled=0, remain=1 avgFillPrice=0.000000 permId=78120692 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+REQ EXECUTIONS Start
+REQ EXECUTIONS End
+Order Id=20
+--------------- SLEEPING (forever) --------------------------------
+PLACE OR MODIFY ORDER: orderStatus: status=Cancelled, filled=0, remain=1 avgFillPrice=0.000000 permId=78120692 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+PLACE OR MODIFY ORDER: handle: code=202 msg=Order Canceled - reason:
+LIVE ORDERS handle: code=202, msg=Order Canceled - reason:
+21:32:22.671 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=20, errorCode=202, msg=Order Canceled - reason:
+LIVE ORDERS Open Order: PDCO SELL/GTC
+REQ EXECUTIONS: trade_key=00018037.5771e17c.01 contract=NewContract{m_conid=273035, m_symbol='PDCO', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='ARCA', m_primaryExch='null', m_currency='USD', m_localSymbol='PDCO', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]} execution=Execution{m_orderId=14, m_clientId=1, m_execId='00018037.5771e17c.01.01', m_time='20160527  23:30:20', m_acctNumber='DU289674', m_exchange='ARCA', m_side='SLD', m_shares=100, m_price=48.0, m_permId=610911661, m_liquidation=0, m_cumQty=100, m_avgPrice=48.0, m_orderRef='null', m_evRule='null', m_evMultiplier=0.0}
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+REQ EXECUTIONS trade_key=00018037.5771e17c.01 report=CommissionReport{m_execId='00018037.5771e17c.01.01', m_commission=0.786797, m_currency='USD', m_realizedPNL=442.091, m_yield=1.7976931348623157E308, m_yieldRedemptionDate=0}
+REQ EXECUTIONS: trade_key=00018037.5771e223.01 contract=NewContract{m_conid=273035, m_symbol='PDCO', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='ISLAND', m_primaryExch='null', m_currency='USD', m_localSymbol='PDCO', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]} execution=Execution{m_orderId=14, m_clientId=1, m_execId='00018037.5771e223.01.01', m_time='20160527  23:30:23', m_acctNumber='DU289674', m_exchange='ISLAND', m_side='SLD', m_shares=200, m_price=48.0, m_permId=610911661, m_liquidation=0, m_cumQty=300, m_avgPrice=48.0, m_orderRef='null', m_evRule='null', m_evMultiplier=0.0}
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+REQ EXECUTIONS trade_key=00018037.5771e223.01 report=CommissionReport{m_execId='00018037.5771e223.01.01', m_commission=1.573594, m_currency='USD', m_realizedPNL=884.182, m_yield=1.7976931348623157E308, m_yieldRedemptionDate=0}
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+REQ EXECUTIONS: trade_key=00018037.5771e459.01 contract=NewContract{m_conid=273035, m_symbol='PDCO', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='ISLAND', m_primaryExch='null', m_currency='USD', m_localSymbol='PDCO', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]} execution=Execution{m_orderId=14, m_clientId=1, m_execId='00018037.5771e459.01.01', m_time='20160527  23:30:36', m_acctNumber='DU289674', m_exchange='ISLAND', m_side='SLD', m_shares=300, m_price=48.0, m_permId=610911661, m_liquidation=0, m_cumQty=600, m_avgPrice=48.0, m_orderRef='null', m_evRule='null', m_evMultiplier=0.0}
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+REQ EXECUTIONS trade_key=00018037.5771e459.01 report=CommissionReport{m_execId='00018037.5771e459.01.01', m_commission=2.360392, m_currency='USD', m_realizedPNL=1326.27, m_yield=1.7976931348623157E308, m_yieldRedemptionDate=0}
+LIVE ORDERS Open Order: PDCO SELL/GTC
+REQ EXECUTIONS: trade_key=00018037.5771e781.01 contract=NewContract{m_conid=273035, m_symbol='PDCO', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='ISLAND', m_primaryExch='null', m_currency='USD', m_localSymbol='PDCO', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]} execution=Execution{m_orderId=14, m_clientId=1, m_execId='00018037.5771e781.01.01', m_time='20160527  23:30:46', m_acctNumber='DU289674', m_exchange='ISLAND', m_side='SLD', m_shares=200, m_price=48.0, m_permId=610911661, m_liquidation=0, m_cumQty=800, m_avgPrice=48.0, m_orderRef='null', m_evRule='null', m_evMultiplier=0.0}
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+REQ EXECUTIONS trade_key=00018037.5771e781.01 report=CommissionReport{m_execId='00018037.5771e781.01.01', m_commission=1.573594, m_currency='USD', m_realizedPNL=884.182, m_yield=1.7976931348623157E308, m_yieldRedemptionDate=0}
+REQ EXECUTIONS: trade_key=00018037.5771e79d.01 contract=NewContract{m_conid=273035, m_symbol='PDCO', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='ISLAND', m_primaryExch='null', m_currency='USD', m_localSymbol='PDCO', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]} execution=Execution{m_orderId=14, m_clientId=1, m_execId='00018037.5771e79d.01.01', m_time='20160527  23:30:47', m_acctNumber='DU289674', m_exchange='ISLAND', m_side='SLD', m_shares=100, m_price=48.0, m_permId=610911661, m_liquidation=0, m_cumQty=900, m_avgPrice=48.0, m_orderRef='null', m_evRule='null', m_evMultiplier=0.0}
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+REQ EXECUTIONS trade_key=00018037.5771e79d.01 report=CommissionReport{m_execId='00018037.5771e79d.01.01', m_commission=0.786797, m_currency='USD', m_realizedPNL=442.091, m_yield=1.7976931348623157E308, m_yieldRedemptionDate=0}
+REQ EXECUTIONS: trade_key=00018037.5771e7a4.01 contract=NewContract{m_conid=273035, m_symbol='PDCO', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='ISLAND', m_primaryExch='null', m_currency='USD', m_localSymbol='PDCO', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]} execution=Execution{m_orderId=14, m_clientId=1, m_execId='00018037.5771e7a4.01.01', m_time='20160527  23:30:47', m_acctNumber='DU289674', m_exchange='ISLAND', m_side='SLD', m_shares=200, m_price=48.0, m_permId=610911661, m_liquidation=0, m_cumQty=1100, m_avgPrice=48.0, m_orderRef='null', m_evRule='null', m_evMultiplier=0.0}
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+REQ EXECUTIONS trade_key=00018037.5771e7a4.01 report=CommissionReport{m_execId='00018037.5771e7a4.01.01', m_commission=1.573594, m_currency='USD', m_realizedPNL=884.182, m_yield=1.7976931348623157E308, m_yieldRedemptionDate=0}
+REQ EXECUTIONS: trade_key=00018037.5771e7f6.01 contract=NewContract{m_conid=273035, m_symbol='PDCO', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='DRCTEDGE', m_primaryExch='null', m_currency='USD', m_localSymbol='PDCO', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]} execution=Execution{m_orderId=14, m_clientId=1, m_execId='00018037.5771e7f6.01.01', m_time='20160527  23:30:50', m_acctNumber='DU289674', m_exchange='DRCTEDGE', m_side='SLD', m_shares=100, m_price=48.01, m_permId=610911661, m_liquidation=0, m_cumQty=1200, m_avgPrice=48.000833, m_orderRef='null', m_evRule='null', m_evMultiplier=0.0}
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+REQ EXECUTIONS trade_key=00018037.5771e7f6.01 report=CommissionReport{m_execId='00018037.5771e7f6.01.01', m_commission=0.776819, m_currency='USD', m_realizedPNL=443.101, m_yield=1.7976931348623157E308, m_yieldRedemptionDate=0}
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+REQ EXECUTIONS: trade_key=00018037.5771e87c.01 contract=NewContract{m_conid=273035, m_symbol='PDCO', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='BATS', m_primaryExch='null', m_currency='USD', m_localSymbol='PDCO', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]} execution=Execution{m_orderId=14, m_clientId=1, m_execId='00018037.5771e87c.01.01', m_time='20160527  23:30:56', m_acctNumber='DU289674', m_exchange='BATS', m_side='SLD', m_shares=100, m_price=48.01, m_permId=610911661, m_liquidation=0, m_cumQty=1300, m_avgPrice=48.001538, m_orderRef='null', m_evRule='null', m_evMultiplier=0.0}
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+REQ EXECUTIONS trade_key=00018037.5771e87c.01 report=CommissionReport{m_execId='00018037.5771e87c.01.01', m_commission=0.786819, m_currency='USD', m_realizedPNL=443.091, m_yield=1.7976931348623157E308, m_yieldRedemptionDate=0}
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+REQ EXECUTIONS: trade_key=00018037.5771e96c.01 contract=NewContract{m_conid=273035, m_symbol='PDCO', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='BYX', m_primaryExch='null', m_currency='USD', m_localSymbol='PDCO', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]} execution=Execution{m_orderId=14, m_clientId=1, m_execId='00018037.5771e96c.01.01', m_time='20160527  23:31:02', m_acctNumber='DU289674', m_exchange='BYX', m_side='SLD', m_shares=46, m_price=48.01, m_permId=610911661, m_liquidation=0, m_cumQty=1346, m_avgPrice=48.001828, m_orderRef='null', m_evRule='null', m_evMultiplier=0.0}
+LIVE ORDERS Open Order: PDCO SELL/GTC
+LIVE ORDERS Open Order: PDCO SELL/GTC
+REQ EXECUTIONS trade_key=00018037.5771e96c.01 report=CommissionReport{m_execId='00018037.5771e96c.01.01', m_commission=0.154937, m_currency='USD', m_realizedPNL=204.029, m_yield=1.7976931348623157E308, m_yieldRedemptionDate=0}
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:48:09.508 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:48:31.906 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:48:53.251 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:48:53.969 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:49:15.574 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:49:36.899 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:49:58.228 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:49:59.028 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:50:22.524 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:50:43.854 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:51:05.221 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:51:05.928 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:51:30.592 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:51:51.918 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:52:13.325 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:52:14.033 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:52:37.536 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:52:58.894 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:53:20.296 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:53:21.141 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:53:46.429 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:53:52.910 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:53:58.140 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:54:04.217 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:54:08.661 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:54:23.778 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:54:57.634 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:55:12.583 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:55:27.176 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:55:41.972 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:55:57.230 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:56:11.881 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:56:27.582 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:56:41.250 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:56:47.138 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:56:51.950 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:56:54.817 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:57:00.253 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:57:01.985 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:57:12.021 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:57:23.633 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:57:40.180 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:57:59.636 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+LIVE ORDERS handle: code=1100, msg=Connectivity between IB and Trader Workstation has been lost.
+13:58:27.219 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=1100, msg=Connectivity between IB and Trader Workstation has been lost.

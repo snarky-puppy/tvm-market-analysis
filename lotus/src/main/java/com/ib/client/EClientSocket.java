@@ -55,7 +55,7 @@ public class EClientSocket {
 	// 36 = can receive outsideRth field for Order objects
 	// 37 = can receive clearingAccount and clearingIntent for Order objects
 	// 38 = can receive multiplier and primaryExchange in portfolio updates
-	//    ; can receive cumQty and avgPrice in execution
+	//    ; can receive cumQty and avgCost in execution
 	//    ; can receive fundamental data
 	//    ; can receive underComp for Contract objects
 	//    ; can receive reqId and end marker in contractDetails/bondContractDetails

@@ -387,7 +387,7 @@ public class EWrapperMsgGenerator extends AnyWrapperMsgGenerator {
         + "permId = " + execution.m_permId + "\n"
         + "liquidation = " + execution.m_liquidation + "\n"
         + "cumQty = " + execution.m_cumQty + "\n"
-        + "avgPrice = " + execution.m_avgPrice + "\n"
+        + "avgCost = " + execution.m_avgPrice + "\n"
         + "orderRef = " + execution.m_orderRef + "\n"
         + "evRule = " + execution.m_evRule + "\n"
         + "evMultiplier = " + execution.m_evMultiplier + "\n"

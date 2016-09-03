@@ -4,33 +4,30 @@ import com.ib.client.Contract;
 import com.ib.controller.NewContract;
 import com.ib.controller.Position;
 import com.tvmresearch.lotus.broker.Broker;
-import com.tvmresearch.lotus.broker.OpenOrder;
 import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.InvestmentDao;
-import com.tvmresearch.lotus.db.model.InvestmentDaoImpl;
-import org.junit.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by horse on 7/04/2016.
  */
 public class LotusTest {
 
+    /*
     class TestUpdatePositionsBroker implements Broker {
 
         List<Position> openPositions = new ArrayList<>();
 
         @Override
-        public double getAvailableFunds() {
+        public double getAvailableFundsUSD() {
             return 0;
         }
 
         @Override
-        public boolean buy(Investment investment) {
+        public void buy(Investment investment) {
             return false;
         }
 
@@ -40,7 +37,7 @@ public class LotusTest {
         }
 
         @Override
-        public List<Position> getOpenPositions() {
+        public Collection<Position> getOpenPositions() {
             return openPositions;
         }
 
@@ -54,6 +51,11 @@ public class LotusTest {
             return 0;
         }
 
+        @Override
+        public void updateHistory(InvestmentDao dao, Investment investment) {
+
+        }
+
     }
 
     Position createPosition(int position, double marketPrice) {
@@ -62,6 +64,7 @@ public class LotusTest {
         Position p = new Position(contract, "ACC", position, marketPrice, 0, 0, 0, 0);
         return p;
     }
+    */
 
 
     @org.junit.Test

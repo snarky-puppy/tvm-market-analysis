@@ -1,34 +1,35 @@
 package com.tvmresearch.lotus;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-
+import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
- * Miscellaneous date functions.
- *
- * Almost obselete, now that Java 8 has all the Joda time functions. java.time !!
- *
- * Created by matt on 29/10/14.
+ * Created by matt on 27/06/16.
  */
 public class DateUtil {
-    private static final Logger logger = LogManager.getLogger(DateUtil.class);
 
-    public static boolean isFirstOfMonth() {
-        return LocalDate.now().getDayOfMonth() == 1;
+    // http://stackoverflow.com/questions/25798876/count-days-between-two-dates-with-java-8-while-ignoring-certain-days-of-week
+    static long daysBetween(LocalDate start, LocalDate end, List<DayOfWeek> ignore) {
+        return Stream.iterate(start, d -> d.plusDays(1))
+                .limit(start.until(end, ChronoUnit.DAYS))
+                .filter(d->!ignore.contains(d.getDayOfWeek()))
+                .count();
     }
 
-    public static LocalDate addDays(LocalDate date, int numDays) {
-        return date.plusDays(numDays);
+    public static long businessDaysBetween(LocalDate start, LocalDate end) {
+        return daysBetween(start, end, Arrays.asList(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY));
     }
 
-    public static LocalDate firstOfThisMonth() {
-        return LocalDate.now().withDayOfMonth(1);
-    }
-
-    public static LocalDate firstOfLastMonth() {
-        return LocalDate.now().withDayOfMonth(1).minusMonths(1);
+    public static LocalDate minusBusinessDays(LocalDate end, int numDays) {
+        while(numDays > 0) {
+            end = end.minusDays(1);
+            if(end.getDayOfWeek() != DayOfWeek.SATURDAY && end.getDayOfWeek() != DayOfWeek.SUNDAY)
+                numDays --;
+        }
+        return end;
     }
 }

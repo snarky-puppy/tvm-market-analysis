@@ -4,18 +4,18 @@ import com.ib.controller.Position;
 import com.tvmresearch.lotus.db.model.Investment;
 import com.tvmresearch.lotus.db.model.InvestmentDao;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Broker interface
- *
+ * <p>
  * Created by horse on 23/03/2016.
  */
 public interface Broker {
 
-    double getAvailableFunds();
+    double getAvailableFundsUSD();
 
-    boolean buy(Investment investment);
+    void buy(Investment investment);
 
     void sell(Investment investment);
 
@@ -25,7 +25,7 @@ public interface Broker {
      *
      * @return list of filled positions
      */
-    List<Position> getOpenPositions();
+    Collection<Position> getOpenPositions();
 
 
     /**
@@ -34,4 +34,10 @@ public interface Broker {
     void disconnect();
 
     double getLastClose(Investment investment);
+
+    void updateHistory(InvestmentDao dao, Investment investment, int missingDays);
+
+    double getExchangeRate();
+
+    double getAvailableFundsAUD();
 }

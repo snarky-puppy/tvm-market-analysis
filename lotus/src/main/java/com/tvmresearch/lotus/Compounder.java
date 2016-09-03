@@ -1,108 +1,157 @@
 package com.tvmresearch.lotus;
 
-import com.tvmresearch.lotus.db.model.CompounderState;
+import com.tvmresearch.lotus.db.model.CompoundState;
 import com.tvmresearch.lotus.db.model.Investment;
-import com.tvmresearch.lotus.db.model.Trigger;
-import com.tvmresearch.lotus.db.model.TriggerDao;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 /**
  * Compounder code
- *
+ * <p>
  * Created by horse on 23/03/2016.
  */
 public class Compounder {
 
-    private double cashBalance;
-    private final CompounderState state;
+    private static final Logger logger = LogManager.getLogger(Compounder.class);
+
+    private final CompoundState state;
 
     public Compounder(double cash) {
-        this.cashBalance = cash;
-        state = new CompounderState(cash);
+
+        // initialise things if they don't exist
+        state = new CompoundState(cash);
+    }
+
+    public Compounder() {
+        state = new CompoundState();
     }
 
     public double nextInvestmentAmount() {
         return state.minInvest + (state.compoundTally > 0 ? state.tallySlice : 0);
     }
-    public boolean fundsAvailable() { return nextInvestmentAmount() <= cashBalance; }
 
-    /**
-     * Calculate compounded amount. Can be negative!
-     * Also updates the various counters so that the amount available for compounding decreases.
-     *
-     * @return compounded value
-     */
-    private double calculateCompoundAmount() {
-        double rv = 0.0;
-
-        if(state.compoundTally > 0) {
-            rv = state.tallySlice;
-            state.tallySliceCnt++;
-            state.compoundTally -= state.tallySlice;
-
-            if(state.tallySliceCnt == state.spread) {
-                state.compoundTally = 0.0;
-                state.tallySliceCnt = 0;
-                state.tallySlice = 0.0;
-            }
-
-            state.updateCompoundTally(state.compoundTally);
-        } else {
-            rv = 0;
-        }
-
-        double total = state.minInvest + rv;
-        double breach = cashBalance - total;
-        if(breach < 0) {
-            // this will give us a negative compound amount, but should mean that we still get a trade in.
-            rv -= breach;
-        }
-        return rv;
+    public boolean fundsAvailable() {
+        return nextInvestmentAmount() <= state.cash;
     }
 
-    public Investment createInvestment(Trigger trigger) {
-        Investment investment = new Investment(trigger);
+    public boolean apply(Investment investment) {
+
+        logger.info(String.format("apply: min=%.2f cmp=%.2f slice=%.2f cnt=%d cash=%.2f",
+                state.minInvest, state.compoundTally, state.tallySlice, state.tallySliceCnt, state.cash));
+
+        // last minute sanity check
+        if (state.cash < state.minInvest) {
+            String msg = String.format("apply: not enough cash for minInvest: cash=%.2f minInvest=%.2f",
+                    state.cash, state.minInvest);
+            logger.error(msg);
+            investment.errorCode = 1;
+            investment.errorMsg = msg;
+            investment.state = Investment.State.ERROR;
+            return false;
+        }
 
         investment.cmpMin = state.minInvest;
-        investment.cmpVal = calculateCompoundAmount();
+        if (state.compoundTally > 0) {
+            if (state.cash < (investment.cmpMin + state.tallySlice)) {
+                logger.error(String.format("apply: investment tally but not enough funds to cover it: " +
+                                "cash=%.2f investAmt=%.2f (tallySlice=%.2f + cmpMin=%.2f)",
+                        state.cash, (investment.cmpMin + state.tallySlice), state.tallySlice, investment.cmpMin));
+                state.resetTally();
+            } else {
+                if (state.tallySlice > state.compoundTally) {
+                    // this may happen due to rounding errors of about $0.01
+                    investment.cmpVal = state.compoundTally;
+                    state.resetTally();
+                } else {
+                    investment.cmpVal = state.tallySlice;
+                    state.tallySliceCnt++;
+                    state.compoundTally -= state.tallySlice;
+                }
+
+                if (state.tallySliceCnt == state.spread) {
+                    state.resetTally();
+                }
+            }
+        } else
+            investment.cmpVal = 0.0;
         investment.cmpTotal = investment.cmpMin + investment.cmpVal;
 
-        if(investment.cmpTotal < 0) {
-            trigger.rejectReason = Trigger.RejectReason.NOFUNDS;
-            trigger.rejectData = investment.cmpTotal;
-            return null;
+        state.cash -= investment.cmpTotal;
+
+        // another last minute sanity check.. this is really an ALARM situation
+        if (state.cash < 0) {
+            String msg = "apply: REAL BAD: cash < 0! resetting to 0!";
+            logger.error(msg);
+            investment.errorCode = 2;
+            investment.errorMsg = msg;
+            investment.state = Investment.State.ERROR;
+            state.cash = 0;
+            state.save();
+            return false;
+        } else {
+            state.save();
+            return true;
+        }
+    }
+
+    public void cancel(Investment investment) {
+        state.compoundTally += investment.cmpVal;
+        state.cash += investment.cmpTotal;
+
+        logger.info("investment cancel: returning cash to compounder: " + investment.cmpTotal);
+
+        // reverse tally
+        if (investment.cmpVal > 0) {
+            if (state.tallySliceCnt == 0) {
+                state.tallySliceCnt = state.spread - 1;
+                state.tallySlice = investment.cmpVal;
+            } else {
+                state.tallySliceCnt--;
+                // assume tallySlice still has a value
+            }
         }
 
-        investment.buyLimit = round(trigger.price * Configuration.BUY_LIMIT_FACTOR);
-        investment.buyDate = LocalDate.now();
-
-        investment.qty = (int)Math.floor(investment.cmpTotal / investment.buyLimit);
-        investment.qtyValue = investment.qty * investment.buyLimit;
-
-        investment.sellLimit = round(trigger.price * Configuration.SELL_LIMIT_FACTOR);
-
-        investment.sellDateLimit = investment.buyDate.plusDays(Configuration.SELL_LIMIT_DAYS);
-
-        cashBalance -= investment.cmpTotal;
-
-        return investment;
+        state.save();
     }
 
-    private double round(double num) {
-        BigDecimal bd = new BigDecimal(num);
-        bd = bd.setScale(2, RoundingMode.HALF_UP);
-        return bd.doubleValue();
+
+    public void processWithdrawal(Investment investment) {
+        double withdrawal = investment.sellFillVal;
+        double profit = withdrawal - investment.buyFillValue;
+
+        logger.info(String.format("withdrawal: profit=%.2f", profit));
+
+        state.cash += withdrawal;
+
+        if (profit > 0) {
+            state.compoundTally += profit;
+            state.tallySliceCnt = 0;
+            state.tallySlice = state.compoundTally / state.spread;
+        }
+
+        state.save();
     }
 
-    public void releaseInvestmentFunds(Investment investment) {
-        state.compoundTally += investment.cmpVal;
-        // TODO: fix the above
-        cashBalance += investment.cmpTotal;
+    public double getCash() {
+        return state.cash;
     }
 
-    //public void onPartialFill
+    public void setCash(double cash) {
+        logger.info("setCash: " + cash);
+        state.cash = cash;
+        state.save();
+    }
+
+    public double getCompoundTally() {
+        return state.compoundTally;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Compounder{");
+        sb.append("state=").append(state);
+        sb.append('}');
+        return sb.toString();
+    }
 }

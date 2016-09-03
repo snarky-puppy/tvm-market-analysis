@@ -1,20 +1,14 @@
-08:27:24.141 [main] INFO  Lotus - Starting trigger import
-08:27:27.766 [main] INFO  Lotus - Finished trigger import
+ERROR StatusLogger No log4j2 configuration file found. Using default configuration: logging only errors to the console.
 Server Version:76
-TWS Time at connection:20160423 08:27:26 AEST
-08:27:27.812 [main] INFO  InteractiveBroker - Requesting account updates
-08:27:27.824 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:hfarm
-08:27:27.824 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:eufarm
-08:27:27.825 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:jfarm
-08:27:27.825 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:usfuture
-08:27:27.825 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:cashfarm
-08:27:27.825 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:usfarm.us
-08:27:27.826 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:usfarm
-08:27:27.826 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:ilhmds
-08:27:27.826 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:fundfarm
-08:27:27.827 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:ethmds
-08:27:27.827 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:ushmds
-08:27:27.828 [main] INFO  InteractiveBroker - Account: AUD=1254943.05 rate=1.30 USD=967548.60
-08:27:27.848 [main] INFO  CompounderState - start_bank=967548.40 min_invest=67728.39 compound_tally=0.00 tally_slice=0.00
-08:27:27.857 [main] INFO  Lotus - The Final final block
-08:27:27.858 [main] INFO  ConnectionHandler - Connection disconnected
+TWS Time at connection:20160513 08:26:12 AEST
+08:26:12.833 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:hfarm
+08:26:12.835 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:jfarm
+08:26:12.835 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:eufarm
+08:26:12.835 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:usfuture
+08:26:12.836 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:cashfarm
+08:26:12.836 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:usfarm.us
+08:26:12.836 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:usfarm
+08:26:12.837 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:ilhmds
+08:26:12.838 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:ethmds
+08:26:12.838 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:fundfarm
+08:26:12.839 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:ushmds

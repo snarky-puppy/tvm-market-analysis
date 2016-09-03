@@ -1,31 +1,23 @@
 package com.tvmresearch.lotus;
 
-import com.tvmresearch.lotus.broker.Broker;
-import com.tvmresearch.lotus.db.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.List;
-
 /**
  * Implement event processing logic
- *
+ * <p>
  * Created by matt on 23/03/16.
  */
 public class EventProcessor {
 
     private static final Logger logger = LogManager.getLogger(EventProcessor.class);
-
+/*
     private final Broker broker;
     private final Compounder compounder;
     private final InvestmentDao investmentDao;
     private final TriggerDao triggerDao;
-
+    */
+/*
     public EventProcessor(Broker broker, Compounder compounder, TriggerDao triggerDao, InvestmentDao investmentDao) {
         this.broker = broker;
         this.compounder = compounder;
@@ -39,7 +31,10 @@ public class EventProcessor {
                 .filter(this::validateTrigger)
                 .map(this::triggerInvestment)
                 .filter(i -> i != null)
-                .forEach(investmentDao::serialise);
+                .forEach(i -> {
+                    investmentDao.serialise(i);
+                    broker.updateHistory(investmentDao, i);
+                });
 
         triggerDao.serialise(triggerList);
     }
@@ -58,8 +53,6 @@ public class EventProcessor {
     }
 
     public boolean validateTrigger(Trigger trigger) {
-
-
 
         if(!trigger.event) {
             trigger.rejectReason = Trigger.RejectReason.NOTEVENT;
@@ -132,7 +125,7 @@ public class EventProcessor {
 
     public void processInvestments() {
         // check open positions for Sell events
-        List<Investment> investmentList = investmentDao.getFilledInvestments();
+        List<Investment> investmentList = investmentDao.getPositions();
         for(Investment investment : investmentList) {
             if(isSellEvent(investment)) {
                 broker.sell(investment);
@@ -158,4 +151,5 @@ public class EventProcessor {
 
         return false;
     }
+    */
 }
