@@ -2,8 +2,13 @@ package com.tvm.slope;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import yahoofinance.Stock;
+import yahoofinance.histquotes.HistoricalQuote;
 
+import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,23 +38,50 @@ public class Database {
         return null;
     }
 
+    public static void updateLastCheck(ActiveSymbol symbol) {
+        //stock.getHistory().forEach(h -> System.out.println(h));
+        Connection connection = connection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = connection.prepareStatement("UPDATE active_symbols SET last_check = ? WHERE id = ?");
+
+            stmt.setDate(1, Date.valueOf(LocalDate.now()));
+            stmt.setInt(2, symbol.id);
+
+            stmt.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.exit(1);
+        } finally {
+            close(rs, stmt, connection);
+        }
+    }
+
     static class ActiveSymbol {
+        public int id;
         public String symbol;
         public String exchange;
         public String sector;
+        public LocalDate lastCheck;
 
-        public ActiveSymbol(String symbol, String exchange, String sector) {
+        public ActiveSymbol(int id, String symbol, String exchange, String sector, LocalDate lastCheck) {
+            this.id = id;
             this.symbol = symbol;
             this.exchange = exchange;
             this.sector = sector;
+            this.lastCheck = lastCheck;
         }
 
         @Override
         public String toString() {
             final StringBuffer sb = new StringBuffer("ActiveSymbol{");
-            sb.append("symbol='").append(symbol).append('\'');
+            sb.append("id=").append(id);
+            sb.append(", symbol='").append(symbol).append('\'');
             sb.append(", exchange='").append(exchange).append('\'');
             sb.append(", sector='").append(sector).append('\'');
+            sb.append(", lastCheck=").append(lastCheck);
             sb.append('}');
             return sb.toString();
         }
@@ -61,13 +93,22 @@ public class Database {
         ResultSet rs = null;
         ArrayList<ActiveSymbol> rv = new ArrayList<>();
         try {
-            stmt = connection.prepareStatement("SELECT * FROM active_symbols");
+            stmt = connection.prepareStatement("SELECT * FROM active_symbols " +
+                    "WHERE last_check < CURDATE()" +
+                    "   OR last_check IS NULL");
             rs = stmt.executeQuery();
             while (rs.next()) {
+                Date dt = rs.getDate("last_check");
+                LocalDate ldt = null;
+                if(dt != null)
+                    ldt = dt.toLocalDate();
+
                 rv.add(new ActiveSymbol(
+                        rs.getInt("id"),
                         rs.getString("symbol"),
                         rs.getString("exchange"),
-                        rs.getString("sector")));
+                        rs.getString("sector"),
+                        ldt));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,6 +117,64 @@ public class Database {
             close(rs, stmt, connection);
         }
         return rv;
+    }
+
+    public static LocalDate getLastDate(ActiveSymbol activeSymbol) {
+        Connection connection = connection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = connection.prepareStatement("SELECT IFNULL(MAX(dt), DATE_SUB(CURDATE(),INTERVAL 2 MONTH))" +
+                    " FROM yahoo_data WHERE symbol_id = ?");
+            stmt.setInt(1, activeSymbol.id);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getDate(1).toLocalDate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.exit(1);
+        } finally {
+            close(rs, stmt, connection);
+        }
+        return null;
+    }
+
+    public static void saveData(ActiveSymbol symbol, Stock stock) {
+        //stock.getHistory().forEach(h -> System.out.println(h));
+        Connection connection = connection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            connection.setAutoCommit(false);
+            stmt = connection.prepareStatement("INSERT INTO yahoo_data VALUES(NULL,?,?,?,?,?);");
+
+            for (HistoricalQuote quote : stock.getHistory()) {
+
+                LocalDate date = quote.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                stmt.setInt(1, symbol.id);
+                stmt.setDate(2, Date.valueOf(date));
+                stmt.setDouble(3, quote.getClose().doubleValue());
+                stmt.setDouble(4, quote.getOpen().doubleValue());
+                stmt.setLong(5, quote.getVolume());
+                stmt.execute();
+            }
+        } catch(SQLIntegrityConstraintViolationException e) {
+            // ignore
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+            close(rs, stmt, connection);
+        }
     }
 
     public static String generateParams(int nParams) {

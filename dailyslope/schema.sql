@@ -10,7 +10,6 @@ CREATE TABLE yahoo_data (
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
 
     symbol_id INTEGER NOT NULL,
-
     dt DATE NOT NULL,
 	close DOUBLE(18,6) NOT NULL,
 	open DOUBLE(18,6) NOT NULL,
@@ -24,6 +23,7 @@ CREATE TABLE active_symbols (
 	exchange CHAR(16) NOT NULL,
 	symbol CHAR(16) NOT NULL,
 	sector CHAR(32) NOT NULL,
+    last_check DATE,
 	UNIQUE KEY mapping_uniq (exchange, symbol)
 );
 
