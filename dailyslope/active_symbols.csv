@@ -1,0 +1,658 @@
+Symbol,Exchange,Sector
+A,NYSE,Health Care
+AA,AMEX,Materials
+AAL,NASDAQ,Consumer Discretionary
+AAN,NYSE,Consumer Discretionary
+AAP,NYSE,Consumer Discretionary
+AAPL,NASDAQ,Technology
+ABBV,NYSE,Health Care
+ABC,NYSE,Health Care
+ABEO,NASDAQ,Health Care
+ABT,NYSE,Health Care
+ACN,NYSE,Technology
+ADBE,NASDAQ,Technology
+ADI,NASDAQ,Technology
+ADM,NYSE,Consumer Staples
+ADP,NASDAQ,Technology
+ADS,NYSE,Financials
+ADSK,NASDAQ,Technology
+ADT,NYSE,Consumer Discretionary
+ADXS,NASDAQ,Health Care
+AEE,NYSE,Utilities
+AEGR,NASDAQ,Health Care
+AEP,NYSE,Utilities
+AES,NYSE,Utilities
+AET,NYSE,Health Care
+AEZS,NASDAQ,Health Care
+AFL,NYSE,Financials
+AGIO,NASDAQ,Health Care
+AGN,NYSE,Health Care
+AIG,NYSE,Financials
+AIV,NYSE,Financials
+AIZ,NYSE,Financials
+AKAM,NASDAQ,Technology
+ALKS,NASDAQ,Health Care
+ALL,NYSE,Financials
+ALLE,NYSE,Industrials
+ALXN,NASDAQ,Health Care
+AMAG,NASDAQ,Health Care
+AMAT,NASDAQ,Technology
+AMD,NASDAQ,Technology
+AME,NYSE,Industrials
+AMG,NYSE,Financials
+AMGN,NASDAQ,Health Care
+AMP,NYSE,Financials
+AMT,NYSE,Financials
+AMZN,NASDAQ,Consumer Discretionary
+AN,NYSE,Consumer Discretionary
+ANTM,NYSE,Health Care
+AON,NYSE,Financials
+APA,NYSE,Energy
+APC,NYSE,Energy
+APD,NYSE,Materials
+APH,NYSE,Industrials
+APOL,NASDAQ,Consumer Discretionary
+ARG,NYSE,Materials
+ASPS,NASDAQ,Financials
+ATVI,NASDAQ,Technology
+ATW,NYSE,Energy
+AVB,NYSE,Financials
+AVGO,NASDAQ,Technology
+AVP,NYSE,Consumer Staples
+AVY,NYSE,Materials
+AWK,NYSE,Utilities
+AXLL,NYSE,Materials
+AXP,NYSE,Financials
+AZO,NYSE,Consumer Discretionary
+BA,NYSE,Industrials
+BAC,NYSE,Financials
+BAX,NYSE,Health Care
+BBBY,NASDAQ,Consumer Discretionary
+BBT,NYSE,Financials
+BBY,NYSE,Consumer Discretionary
+BCEI,NYSE,Energy
+BCR,NYSE,Health Care
+BDX,NYSE,Health Care
+BEN,NYSE,Financials
+BF.B,NYSE,#N/A
+BHI,NYSE,Energy
+BIIB,NASDAQ,Health Care
+BK,NYSE,Financials
+BLK,NYSE,Financials
+BLL,NYSE,Materials
+BMY,NYSE,Health Care
+BOFI,NASDAQ,Financials
+BOOT,NYSE,Consumer Discretionary
+BPT,NYSE,Energy
+BRK.B,NYSE,#N/A
+BRS,NYSE,Energy
+BSX,NYSE,Health Care
+BWA,NYSE,Consumer Discretionary
+BXLT,NYSE,Health Care
+BXP,NYSE,Financials
+C,NYSE,Financials
+CA,NASDAQ,Technology
+CAG,NYSE,Consumer Staples
+CAH,NYSE,Health Care
+CAM,NYSE,Energy
+CAT,NYSE,Industrials
+CB,NYSE,Financials
+CBG,NYSE,Financials
+CBS,NYSE,#N/A
+CC,NYSE,Materials
+CCE,NYSE,Consumer Staples
+CCI,NYSE,Financials
+CCL,NYSE,Consumer Discretionary
+CELG,NASDAQ,Health Care
+CEMP,NASDAQ,Health Care
+CENX,NASDAQ,Materials
+CERN,NASDAQ,Technology
+CF,NYSE,Materials
+CFG,NYSE,Financials
+CFMS,NASDAQ,Health Care
+CHD,NYSE,Consumer Staples
+CHK,NYSE,Energy
+CHRW,NASDAQ,Industrials
+CI,NYSE,Health Care
+CIE,NYSE,Energy
+CINF,NASDAQ,Financials
+CL,NYSE,Consumer Staples
+CLDX,NASDAQ,Health Care
+CLF,NYSE,Materials
+CLMT,NASDAQ,Energy
+CLR,NYSE,Energy
+CLVS,NASDAQ,Health Care
+CLX,NYSE,Consumer Staples
+CMA,NYSE,Financials
+CMCSA,NASDAQ,Communications
+CME,NASDAQ,Financials
+CMG,NYSE,Consumer Discretionary
+CMI,NYSE,Industrials
+CMRX,NASDAQ,Health Care
+CMS,NYSE,Utilities
+CMTL,NASDAQ,Technology
+CNC,NYSE,Health Care
+CNP,NYSE,Utilities
+CNX,NYSE,Energy
+COF,NYSE,Financials
+COG,NYSE,Energy
+COH,NYSE,Consumer Discretionary
+COL,NYSE,Industrials
+CONN,NASDAQ,Consumer Discretionary
+COP,NYSE,Energy
+COST,NASDAQ,Consumer Staples
+CPB,NYSE,Consumer Staples
+CPGX,NYSE,Utilities
+CRC,NYSE,Energy
+CRM,NYSE,Technology
+CRR,NYSE,Energy
+CSCO,NASDAQ,Technology
+CSIQ,NASDAQ,Energy
+CSRA,NYSE,#N/A
+CSX,NASDAQ,Industrials
+CTAS,NASDAQ,Consumer Discretionary
+CTL,NYSE,Communications
+CTSH,NASDAQ,Technology
+CTXS,NASDAQ,Technology
+CUDA,NYSE,Technology
+CVC,NYSE,Communications
+CVS,NYSE,Consumer Staples
+CVX,NYSE,Energy
+CXO,NYSE,Energy
+CYH,NYSE,Health Care
+D,NYSE,NOT FOUND
+DAL,NYSE,Consumer Discretionary
+DATA,NYSE,Technology
+DD,NYSE,Materials
+DE,NYSE,Industrials
+DFS,NYSE,Financials
+DG,NYSE,Consumer Staples
+DGX,NYSE,Health Care
+DHI,NYSE,Consumer Discretionary
+DHR,NYSE,Health Care
+DIS,NYSE,Communications
+DISCA,NASDAQ,Communications
+DISCK,NASDAQ,Communications
+DLPH,NYSE,Consumer Discretionary
+DLTR,NASDAQ,Consumer Staples
+DNB,NYSE,Technology
+DNR,NYSE,Energy
+DO,NYSE,Energy
+DOV,NYSE,Industrials
+DOW,NYSE,Materials
+DPLO,NYSE,Health Care
+DPS,NYSE,Consumer Staples
+DRI,NYSE,Consumer Discretionary
+DTE,NYSE,Utilities
+DUK,NYSE,Utilities
+DVA,NYSE,Health Care
+DVN,NYSE,Energy
+EA,NASDAQ,Technology
+EBAY,NASDAQ,Consumer Discretionary
+ECA,NYSE,Energy
+ECL,NYSE,Consumer Discretionary
+ECPG,NASDAQ,Financials
+ED,NYSE,Utilities
+EFX,NYSE,Technology
+EGRX,NASDAQ,Health Care
+EIX,NYSE,Utilities
+EL,NYSE,Consumer Staples
+EMC,NYSE,Technology
+EMN,NYSE,Materials
+EMR,NYSE,Industrials
+ENDP,NASDAQ,Health Care
+ENLC,NYSE,Energy
+EOG,NYSE,Energy
+EPZM,NASDAQ,Health Care
+EQIX,NASDAQ,Financials
+EQR,NYSE,Financials
+EQT,NYSE,Energy
+ERX,NYSE_Arca,FUND
+ERY,NYSE_Arca,FUND
+ES,NYSE,Utilities
+ESND,NASDAQ,Consumer Discretionary
+ESPR,NASDAQ,Health Care
+ESRX,NASDAQ,Health Care
+ESS,NYSE,Financials
+ESV,NYSE,Energy
+ETE,NYSE,Energy
+ETFC,NASDAQ,Financials
+ETN,NYSE,Industrials
+ETP,NYSE,Energy
+ETR,NYSE,Utilities
+EW,NYSE,Health Care
+EXAS,NASDAQ,Health Care
+EXC,NYSE,Utilities
+EXPD,NASDAQ,Industrials
+EXPE,NASDAQ,Communications
+EXR,NYSE,Financials
+F,NYSE,Consumer Discretionary
+FAST,NASDAQ,Consumer Discretionary
+FB,NASDAQ,Communications
+FCX,NYSE,Materials
+FDX,NYSE,Industrials
+FE,NYSE,Utilities
+FFIV,NASDAQ,Technology
+FIS,NYSE,Financials
+FISV,NASDAQ,Financials
+FIT,NYSE,Technology
+FITB,NASDAQ,Financials
+FLIR,NASDAQ,Technology
+FLR,NYSE,#N/A
+FLS,NYSE,Industrials
+FMC,NYSE,Materials
+FOX,NASDAQ,Communications
+FOXA,NASDAQ,Communications
+FRT,NYSE,Financials
+FSLR,NASDAQ,Energy
+FTI,NYSE,Energy
+FTK,NYSE,Energy
+FTR,NASDAQ,Communications
+FXCM,NYSE,Financials
+GAS,NYSE,Utilities
+GBT,NASDAQ,Health Care
+GBX,NYSE,Industrials
+GD,NYSE,Industrials
+GE,NYSE,Industrials
+GEVO,NASDAQ,Energy
+GGP,NYSE,Financials
+GILD,NASDAQ,Health Care
+GIS,NYSE,Consumer Staples
+GLNG,NASDAQ,Industrials
+GLW,NYSE,Technology
+GM,NYSE,Consumer Discretionary
+GME,NYSE,Consumer Discretionary
+GMLP,NASDAQ,Industrials
+GNW,NYSE,Financials
+GOOG,NASDAQ,Communications
+GOOGL,NASDAQ,Communications
+GPC,NYSE,Consumer Discretionary
+GPRO,NASDAQ,Technology
+GPS,NYSE,Consumer Discretionary
+GRMN,NASDAQ,Technology
+GS,NYSE,Financials
+GSAT,AMEX,Communications
+GT,NASDAQ,Consumer Discretionary
+GWW,NYSE,Industrials
+HAL,NYSE,Energy
+HALO,NASDAQ,Health Care
+HAR,NYSE,Consumer Discretionary
+HAS,NASDAQ,Consumer Discretionary
+HBAN,NASDAQ,Financials
+HBI,NYSE,Consumer Discretionary
+HCA,NYSE,Health Care
+HCN,NYSE,Financials
+HCP,NYSE,Financials
+HD,NYSE,Consumer Discretionary
+HDP,NASDAQ,Technology
+HES,NYSE,Energy
+HIG,NYSE,Financials
+HMSY,NASDAQ,Consumer Discretionary
+HOG,NYSE,Consumer Discretionary
+HOLX,NASDAQ,Health Care
+HON,NYSE,Industrials
+HOS,NYSE,Industrials
+HOT,NYSE,Consumer Discretionary
+HP,NYSE,Energy
+HPE,NYSE,Technology
+HPQ,NYSE,Technology
+HRB,NYSE,Consumer Discretionary
+HRL,NYSE,Consumer Staples
+HRS,NYSE,Industrials
+HSIC,NASDAQ,Health Care
+HST,NYSE,Financials
+HSY,NYSE,Consumer Staples
+HUM,NYSE,Health Care
+IBM,NYSE,Technology
+ICE,NYSE,Financials
+ICON,NASDAQ,Consumer Discretionary
+IFF,NYSE,Materials
+ILMN,NASDAQ,Health Care
+IMGN,NASDAQ,Health Care
+IMMU,NASDAQ,Health Care
+INTC,NASDAQ,Technology
+INTU,NASDAQ,Technology
+IONS,NASDAQ,#N/A
+IP,NYSE,Materials
+IPG,NYSE,Communications
+IR,NYSE,Industrials
+IRM,NYSE,Financials
+ISRG,NASDAQ,Health Care
+ITCI,NASDAQ,Health Care
+ITW,NYSE,Industrials
+IVZ,NYSE,Financials
+JBHT,NASDAQ,Industrials
+JCI,NYSE,Consumer Discretionary
+JEC,NYSE,Industrials
+JKS,NYSE,Energy
+JMEI,NYSE,Consumer Discretionary
+JNJ,NYSE,Health Care
+JNPR,NYSE,Technology
+JOY,NYSE,Industrials
+JPM,NYSE,Financials
+JWN,NYSE,Consumer Discretionary
+K,NYSE,Consumer Staples
+KERX,NASDAQ,Health Care
+KEY,NYSE,Financials
+KFY,NYSE,Consumer Discretionary
+KHC,NASDAQ,Consumer Staples
+KIM,NYSE,Financials
+KLAC,NASDAQ,Technology
+KMB,NYSE,Consumer Staples
+KMI,NYSE,Energy
+KMT,NYSE,Industrials
+KMX,NYSE,Consumer Discretionary
+KO,NYSE,Consumer Staples
+KORS,NYSE,Consumer Discretionary
+KR,NYSE,Consumer Staples
+KS,NYSE,Materials
+KSS,NYSE,Consumer Discretionary
+KSU,NYSE,Industrials
+L,NYSE,Financials
+LB,NYSE,Consumer Discretionary
+LC,NYSE,Financials
+LEDS,NASDAQ,Technology
+LEG,NYSE,Consumer Discretionary
+LEN,NYSE,Consumer Discretionary
+LGIH,NASDAQ,Consumer Discretionary
+LH,NYSE,Health Care
+LLL,NYSE,Industrials
+LLTC,NASDAQ,Technology
+LLY,NYSE,Health Care
+LM,NYSE,Financials
+LMT,NYSE,Industrials
+LNC,NYSE,Financials
+LNKD,NYSE,Communications
+LOW,NYSE,Consumer Discretionary
+LPI,NYSE,Energy
+LPLA,NASDAQ,Financials
+LRCX,NASDAQ,Technology
+LUK,NYSE,Financials
+LUV,NYSE,Consumer Discretionary
+LVLT,NYSE,Communications
+LXU,NYSE,Materials
+LYB,NYSE,Materials
+M,NYSE,Consumer Discretionary
+MA,NYSE,Financials
+MAC,NYSE,Financials
+MAR,NASDAQ,Consumer Discretionary
+MAS,NYSE,Consumer Discretionary
+MAT,NASDAQ,Consumer Discretionary
+MCD,NYSE,Consumer Discretionary
+MCHP,NASDAQ,Technology
+MCK,NYSE,Health Care
+MCO,NYSE,Technology
+MCRB,NASDAQ,Health Care
+MDLZ,NASDAQ,Consumer Staples
+MDT,NYSE,Health Care
+MET,NYSE,Financials
+MHK,NYSE,Consumer Discretionary
+MJN,NYSE,Consumer Staples
+MKC,NYSE,Consumer Staples
+MLM,NYSE,Materials
+MMC,NYSE,Financials
+MMM,NYSE,Materials
+MNK,NYSE,Health Care
+MNKD,NASDAQ,Health Care
+MNST,NASDAQ,Consumer Staples
+MO,NYSE,Consumer Staples
+MON,NYSE,Materials
+MOS,NYSE,Materials
+MPC,NYSE,Energy
+MPLX,NYSE,Energy
+MRK,NYSE,Health Care
+MRO,NYSE,Energy
+MRTX,NASDAQ,Health Care
+MS,NYSE,Financials
+MSFT,NASDAQ,Technology
+MSI,NYSE,Technology
+MTB,NYSE,Financials
+MU,NASDAQ,Technology
+MUR,NYSE,Energy
+MYL,NASDAQ,Health Care
+NAV,NYSE,Industrials
+NAVI,NASDAQ,Financials
+NBL,NYSE,Energy
+NDAQ,NASDAQ,Financials
+NEE,NYSE,Utilities
+NEM,NYSE,Materials
+NFLX,NASDAQ,Consumer Discretionary
+NFX,NYSE,Energy
+NGL,NYSE,Energy
+NI,NYSE,Utilities
+NKE,NYSE,Consumer Discretionary
+NLNK,NASDAQ,Health Care
+NLSN,NYSE,Communications
+NMBL,NYSE,Technology
+NOC,NYSE,Industrials
+NOV,NYSE,Energy
+NRG,NYSE,Utilities
+NSC,NYSE,Industrials
+NTAP,NASDAQ,Technology
+NTRS,NASDAQ,Financials
+NUE,NYSE,Materials
+NVDA,NASDAQ,Technology
+NVGN,NASDAQ,Health Care
+NWL,NYSE,Consumer Discretionary
+NWS,NASDAQ,Communications
+NWSA,NASDAQ,Communications
+O,NYSE,Financials
+OCN,NYSE,Financials
+ODP,NASDAQ,Consumer Discretionary
+OI,NYSE,Materials
+OKE,NYSE,Energy
+OMC,NYSE,Communications
+ORCL,NYSE,Technology
+ORLY,NASDAQ,Consumer Discretionary
+OTIC,NASDAQ,Health Care
+OUTR,NASDAQ,Consumer Discretionary
+OXY,NYSE,Energy
+P,NYSE,Communications
+PAH,NYSE,Materials
+PAY,NYSE,Technology
+PAYX,NASDAQ,Technology
+PBCT,NASDAQ,Financials
+PBI,NYSE,Technology
+PBYI,NYSE,Health Care
+PCAR,NASDAQ,Industrials
+PCG,NYSE,Utilities
+PCLN,NASDAQ,Communications
+PDCO,NASDAQ,Health Care
+PEG,NYSE,Utilities
+PEP,NYSE,Consumer Staples
+PFE,NYSE,Health Care
+PFG,NYSE,Financials
+PG,NYSE,Consumer Staples
+PGR,NYSE,Financials
+PH,NYSE,Industrials
+PHM,NYSE,Consumer Discretionary
+PKI,NYSE,Health Care
+PLD,NYSE,Financials
+PM,NYSE,Consumer Staples
+PNC,NYSE,Financials
+PNR,NYSE,Industrials
+PNW,NYSE,Utilities
+PPG,NYSE,Materials
+PPL,NYSE,Utilities
+PRGO,NYSE,Health Care
+PRTA,NASDAQ,Health Care
+PRU,NYSE,Financials
+PSA,NYSE,Financials
+PSX,NYSE,Energy
+PTLA,NASDAQ,Health Care
+PVH,NYSE,#N/A
+PWR,NYSE,Industrials
+PX,NYSE,Materials
+PXD,NYSE,Energy
+PYPL,NASDAQ,Financials
+QCOM,NASDAQ,Technology
+QRVO,NASDAQ,Technology
+QURE,NASDAQ,Health Care
+R,NYSE,Industrials
+RAI,NYSE,Consumer Staples
+RATE,NYSE,Communications
+RBS,NYSE,Financials
+RCL,NYSE,Consumer Discretionary
+REGN,NASDAQ,Health Care
+REN,NYSE,Energy
+RF,NYSE,Financials
+RHI,NYSE,Consumer Discretionary
+RHT,NYSE,Technology
+RIG,NYSE,Energy
+RL,NYSE,Consumer Discretionary
+RLYP,NASDAQ,Health Care
+ROK,NYSE,Industrials
+ROP,NYSE,Industrials
+ROST,NASDAQ,Consumer Discretionary
+ROVI,NASDAQ,Technology
+RPRX,NASDAQ,Health Care
+RRC,NYSE,Energy
+RSG,NYSE,Industrials
+RTN,NYSE,Industrials
+SBUX,NASDAQ,Consumer Discretionary
+SCG,NYSE,Utilities
+SCHW,NYSE,#N/A
+SCTY,NASDAQ,Energy
+SDRL,NYSE,Energy
+SE,NYSE,Energy
+SEE,NYSE,Materials
+SEMG,NYSE,Energy
+SGY,NYSE,Energy
+SHLD,NASDAQ,Consumer Discretionary
+SHW,NYSE,Materials
+SIG,NYSE,Consumer Discretionary
+SJM,NYSE,Consumer Staples
+SKX,NYSE,Consumer Discretionary
+SLB,NYSE,Energy
+SLG,NYSE,Financials
+SM,NYSE,Energy
+SN,NYSE,Energy
+SNA,NYSE,Consumer Discretionary
+SNDK,NASDAQ,Technology
+SNI,NASDAQ,Communications
+SNSS,NASDAQ,Health Care
+SO,NYSE,Utilities
+SPG,NYSE,Financials
+SPGI,#N/A,#N/A
+SPLS,NASDAQ,Consumer Discretionary
+SQ,NYSE,Financials
+SRCL,NASDAQ,Industrials
+SRE,NYSE,Utilities
+SRPT,NASDAQ,Health Care
+STI,NYSE,Financials
+STJ,NYSE,Health Care
+STRP,AMEX,Communications
+STT,NYSE,Financials
+STX,NASDAQ,Technology
+STZ,NYSE,Consumer Staples
+SVU,NYSE,Consumer Staples
+SWIR,NASDAQ,Technology
+SWK,NYSE,Consumer Discretionary
+SWKS,NASDAQ,Technology
+SWN,NYSE,Energy
+SXC,NYSE,Materials
+SYF,NYSE,Financials
+SYK,NYSE,Health Care
+SYMC,NASDAQ,Technology
+SYY,NYSE,Consumer Staples
+T,NYSE,Communications
+TAP,NYSE,Consumer Staples
+TDC,NYSE,Technology
+TDW,NYSE,Energy
+TE,NYSE,Utilities
+TEL,NYSE,Industrials
+TERP,NASDAQ,Utilities
+TGNA,NYSE,Communications
+TGT,NYSE,Consumer Staples
+THC,NYSE,Health Care
+TIF,NYSE,Consumer Discretionary
+TJX,NYSE,Consumer Discretionary
+TK,NYSE,Industrials
+TLRD,NYSE,#N/A
+TMK,NYSE,Financials
+TMO,NYSE,Health Care
+TNA,NYSE_Arca,FUND
+TRIP,NASDAQ,Communications
+TROW,NASDAQ,Financials
+TRV,NYSE,Financials
+TSCO,NASDAQ,Consumer Discretionary
+TSN,NYSE,Consumer Staples
+TSO,NYSE,Energy
+TSS,NYSE,Financials
+TWC,NYSE,Communications
+TWX,NYSE,Communications
+TXN,NASDAQ,Technology
+TXT,NYSE,Industrials
+TYC,NYSE,Industrials
+UA,NYSE,Consumer Discretionary
+UAL,NYSE,Consumer Discretionary
+UDR,NYSE,Financials
+UHS,NYSE,Health Care
+UIS,NYSE,Technology
+UNH,NYSE,Health Care
+UNM,NYSE,Financials
+UNP,NYSE,Industrials
+UNT,NYSE,Energy
+UPS,NYSE,Industrials
+URBN,NASDAQ,Consumer Discretionary
+URI,NYSE,Industrials
+USB,NYSE,Financials
+UTX,NYSE,Industrials
+UVE,NYSE,Financials
+UVXY,NYSE_Arca,FUND
+V,NYSE,Financials
+VAR,NYSE,Health Care
+VFC,NYSE,Consumer Discretionary
+VHC,AMEX,Technology
+VIAB,NASDAQ,Communications
+VIPS,NYSE,Consumer Discretionary
+VLO,NYSE,Energy
+VMC,NYSE,Materials
+VNO,NYSE,Financials
+VRSK,NASDAQ,Technology
+VRSN,NASDAQ,Communications
+VRTX,NASDAQ,Health Care
+VRX,NYSE,Health Care
+VTAE,NASDAQ,Health Care
+VTR,NYSE,Financials
+VZ,NYSE,Communications
+W,NYSE,Consumer Discretionary
+WAT,NYSE,Health Care
+WBA,NASDAQ,Consumer Staples
+WDC,NASDAQ,Technology
+WEC,NYSE,Utilities
+WFC,NYSE,Financials
+WFM,NASDAQ,Consumer Staples
+WGP,NYSE,Energy
+WHR,NYSE,Consumer Discretionary
+WIN,NASDAQ,Communications
+WLL,NYSE,Energy
+WLTW,NASDAQ,#N/A
+WM,NYSE,Industrials
+WMB,NYSE,Energy
+WMT,NYSE,Consumer Staples
+WPZ,NYSE,Energy
+WRK,NYSE,Materials
+WTW,NYSE,Consumer Discretionary
+WU,NYSE,Financials
+WY,NYSE,Financials
+WYN,NYSE,Consumer Discretionary
+WYNN,NASDAQ,Consumer Discretionary
+X,NYSE,Materials
+XEC,NYSE,Energy
+XEL,NYSE,Utilities
+XIV,NASDAQ,FUND
+XL,NYSE,Financials
+XLNX,NASDAQ,Technology
+XOM,NYSE,Energy
+XOMA,NASDAQ,Health Care
+XON,NYSE,Health Care
+XRAY,NASDAQ,Health Care
+XRX,NYSE,Technology
+XYL,NYSE,Industrials
+YHOO,NASDAQ,Communications
+YUM,NYSE,Consumer Discretionary
+ZBH,NYSE,Health Care
+ZFGN,NASDAQ,Health Care
+ZION,NASDAQ,Financials
+ZTS,NYSE,Health Care
