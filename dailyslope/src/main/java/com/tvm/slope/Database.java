@@ -140,6 +140,42 @@ public class Database {
         return null;
     }
 
+    static class YahooData {
+        public double open[] = new double[21];
+        public double close[] = new double[21];
+        public int volume[] = new int[21];
+        public LocalDate date[] = new LocalDate[21];
+    }
+
+    public static YahooData getYahooData(ActiveSymbol activeSymbol) {
+        Connection connection = connection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = connection.prepareStatement("SELECT * FROM yahoo_data" +
+                    " WHERE symbol_id = ? ORDER BY dt ASC LIMIT 21;");
+
+            stmt.setInt(1, activeSymbol.id);
+            rs = stmt.executeQuery();
+            YahooData data = new YahooData();
+            int i = 0;
+            while (rs.next()) {
+                data.open[i] = rs.getDouble("open");
+                data.close[i] = rs.getDouble("close");
+                data.volume[i] = rs.getInt("volume");
+                data.date[i] = rs.getDate("dt").toLocalDate();
+                i++;
+            }
+            return data;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.exit(1);
+        } finally {
+            close(rs, stmt, connection);
+        }
+        return null;
+    }
+
     public static void saveData(ActiveSymbol symbol, Stock stock) {
         //stock.getHistory().forEach(h -> System.out.println(h));
         Connection connection = connection();
