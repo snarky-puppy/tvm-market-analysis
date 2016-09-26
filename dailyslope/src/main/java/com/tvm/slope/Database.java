@@ -35,7 +35,8 @@ public class Database {
             ex.printStackTrace();
             System.exit(1);
         }
-        return null;
+        // never executes
+        throw new RuntimeException();
     }
 
     public static void updateLastCheck(ActiveSymbol symbol) {
@@ -152,8 +153,10 @@ public class Database {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-            stmt = connection.prepareStatement("SELECT * FROM yahoo_data" +
-                    " WHERE symbol_id = ? ORDER BY dt ASC LIMIT 21;");
+            stmt = connection.prepareStatement("SELECT * FROM (" +
+                    "SELECT * FROM yahoo_data" +
+                    " WHERE symbol_id = ? ORDER BY dt DESC LIMIT 21) AS t" +
+                    " ORDER BY t.dt ASC;");
 
             stmt.setInt(1, activeSymbol.id);
             rs = stmt.executeQuery();
@@ -188,6 +191,8 @@ public class Database {
             for (HistoricalQuote quote : stock.getHistory()) {
 
                 LocalDate date = quote.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                System.out.println(String.format("save: id=%d, date=%s, close=%.2f", symbol.id, date, quote.getClose().doubleValue()));
 
                 stmt.setInt(1, symbol.id);
                 stmt.setDate(2, Date.valueOf(date));

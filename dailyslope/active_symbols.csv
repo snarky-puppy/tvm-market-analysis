@@ -1,658 +1,4900 @@
 Symbol,Exchange,Sector
-A,NYSE,Health Care
+A,NYSE,NOT FOUND
 AA,AMEX,Materials
+AAC,NYSE,Health Care
+AACC,Delisted,Financials
 AAL,NASDAQ,Consumer Discretionary
+AALCP,NOT FOUND,NOT FOUND
+AAMC,AMEX,Financials
+AAMRQ,Delisted,Consumer Discretionary
 AAN,NYSE,Consumer Discretionary
+AAOI,NASDAQ,Technology
+AAON,NASDAQ,Industrials
 AAP,NYSE,Consumer Discretionary
+AAPC,NASDAQ,Financials
 AAPL,NASDAQ,Technology
+AAPRB,NOT FOUND,NOT FOUND
+AAT,NYSE,Financials
+AAV,NYSE,Energy
+AAWW,NASDAQ,Industrials
+AAXJ,NASDAQ,FUND
+AB,NYSE,Financials
+ABAT,NOT FOUND,NOT FOUND
+ABAX,NASDAQ,Health Care
+ABB,NYSE,Industrials
 ABBV,NYSE,Health Care
 ABC,NYSE,Health Care
+ABCB,NASDAQ,Financials
+ABCO,NASDAQ,Consumer Discretionary
+ABCW,NASDAQ,Financials
 ABEO,NASDAQ,Health Care
+ABEV,NYSE,Consumer Staples
+ABG,NYSE,Consumer Discretionary
+ABI,Delisted,Financials
+ABIO,NASDAQ,Health Care
+ABM,NYSE,Consumer Discretionary
+ABMD,NASDAQ,Health Care
+ABR,NYSE,Financials
 ABT,NYSE,Health Care
+ABUS,NASDAQ,Health Care
+ABV,NOT FOUND,NOT FOUND
+ABX,NYSE,Materials
+ABY,NASDAQ,Utilities
+ACAD,NASDAQ,Health Care
+ACAS,NASDAQ,Financials
+ACAT,NASDAQ,Consumer Discretionary
+ACBI,NASDAQ,Financials
+ACC,NYSE,Financials
+ACCL,Delisted,Technology
+ACCO,NYSE,Consumer Discretionary
+ACE,NOT FOUND,NOT FOUND
+ACET,NASDAQ,Health Care
+ACG,NYSE,FUND
+ACGL,NASDAQ,Financials
+ACH,NYSE,Materials
+ACHC,NASDAQ,Health Care
+ACHN,NASDAQ,Health Care
+ACIIQ,NOT FOUND,NOT FOUND
+ACIW,NASDAQ,Technology
+ACLS,NASDAQ,Technology
+ACM,NYSE,Industrials
 ACN,NYSE,Technology
+ACO,Delisted,Materials
+ACOR,NASDAQ,Health Care
+ACRE,NYSE,Financials
+ACRX,NASDAQ,Health Care
+ACSF,NASDAQ,Financials
+ACTA,NASDAQ,Technology
+ACTG,NASDAQ,Financials
+ACTV,Delisted,Technology
+ACW,NYSE,Industrials
+ACWI,NASDAQ,FUND
+ACWX,NASDAQ,FUND
+ACXM,NASDAQ,Technology
+ADAP,NASDAQ,Health Care
 ADBE,NASDAQ,Technology
+ADC,NYSE,Financials
+ADEP,NOT FOUND,NOT FOUND
+ADES,NOT FOUND,NOT FOUND
+ADHD,NASDAQ,Health Care
 ADI,NASDAQ,Technology
 ADM,NYSE,Consumer Staples
+ADMS,NASDAQ,Health Care
+ADNC,Delisted,Technology
 ADP,NASDAQ,Technology
+ADPT,NYSE,Health Care
+ADRE,NASDAQ,FUND
+ADRO,NASDAQ,Health Care
 ADS,NYSE,Financials
 ADSK,NASDAQ,Technology
 ADT,NYSE,Consumer Discretionary
+ADTN,NASDAQ,Technology
+ADUS,NASDAQ,Health Care
+ADVS,NOT FOUND,NOT FOUND
 ADXS,NASDAQ,Health Care
+ADY,Delisted,Consumer Staples
+AEC,NOT FOUND,NOT FOUND
 AEE,NYSE,Utilities
+AEG,NYSE,Financials
+AEGN,NASDAQ,Industrials
 AEGR,NASDAQ,Health Care
+AEIS,NASDAQ,Energy
+AEL,NYSE,Financials
+AEM,NYSE,Materials
+AEO,NYSE,Consumer Discretionary
 AEP,NYSE,Utilities
+AEPI,NASDAQ,Materials
+AER,NYSE,Financials
+AERI,NASDAQ,Health Care
 AES,NYSE,Utilities
 AET,NYSE,Health Care
+AETI,NASDAQ,Industrials
 AEZS,NASDAQ,Health Care
+AF,NYSE,Financials
+AFAM,NASDAQ,Health Care
+AFB,NYSE,FUND
+AFFX,NASDAQ,Health Care
+AFFY,NOT FOUND,NOT FOUND
+AFG,NYSE,Financials
 AFL,NYSE,Financials
+AFMD,NASDAQ,Health Care
+AFOP,NASDAQ,Technology
+AFSI,NASDAQ,Financials
+AG,NYSE,Materials
+AGCO,NYSE,Industrials
+AGEN,NASDAQ,Health Care
+AGFS,NASDAQ,Materials
+AGG,NYSE_Arca,FUND
+AGI,NYSE,Materials
+AGII,NASDAQ,Financials
 AGIO,NASDAQ,Health Care
+AGK,NOT FOUND,NOT FOUND
+AGM,NYSE,Financials
 AGN,NYSE,Health Care
+AGNC,NASDAQ,Financials
+AGNPRA,NOT FOUND,NOT FOUND
+AGO,NYSE,Financials
+AGQ,NYSE_Arca,FUND
+AGR,NYSE,NOT FOUND
+AGRO,NYSE,Consumer Staples
+AGRX,NASDAQ,Health Care
+AGTC,NASDAQ,Health Care
+AGU,NYSE,Materials
+AGX,NYSE,Industrials
+AGYS,NASDAQ,Technology
+AGZ,NYSE_Arca,FUND
+AHGP,NASDAQ,Energy
+AHL,NYSE,Financials
+AHP,NYSE,Financials
+AHS,NYSE,Consumer Discretionary
+AHT,NYSE,Financials
+AI,NYSE,Financials
 AIG,NYSE,Financials
+AIMC,NASDAQ,Technology
+AIN,NYSE,Consumer Discretionary
+AINV,NASDAQ,Financials
+AIQ,NASDAQ,Health Care
+AIR,NYSE,Industrials
+AIRM,NASDAQ,Health Care
+AIT,NYSE,Industrials
 AIV,NYSE,Financials
+AIVPRA,NOT FOUND,NOT FOUND
+AIXG,NASDAQ,Technology
 AIZ,NYSE,Financials
+AJG,NYSE,Financials
+AJRD,NYSE,Industrials
 AKAM,NASDAQ,Technology
+AKAO,NASDAQ,Health Care
+AKBA,NASDAQ,Health Care
+AKG,AMEX,Materials
+AKN,NOT FOUND,NOT FOUND
+AKO.A,NYSE,NOT FOUND
+AKO.B,NYSE,NOT FOUND
+AKR,NYSE,Financials
+AKRX,NASDAQ,Health Care
+AKS,NYSE,Materials
+AKZOY,NOT FOUND,NOT FOUND
+AL,NYSE,Financials
+ALB,NYSE,Materials
+ALC,Delisted,Health Care
+ALDR,NASDAQ,Health Care
+ALDW,NYSE,Energy
+ALE,NYSE,Utilities
+ALEX,NYSE,Financials
+ALG,NYSE,Industrials
+ALGN,NASDAQ,Health Care
+ALGT,NASDAQ,Consumer Discretionary
+ALIM,NASDAQ,Health Care
+ALIOF,NOT FOUND,NOT FOUND
+ALJ,NYSE,Energy
+ALK,NYSE,Consumer Discretionary
 ALKS,NASDAQ,Health Care
 ALL,NYSE,Financials
 ALLE,NYSE,Industrials
+ALLT,NASDAQ,Communications
+ALLY,NYSE,Financials
+ALNY,NASDAQ,Health Care
+ALOG,NASDAQ,Health Care
+ALR,NYSE,Health Care
+ALRM,NASDAQ,Consumer Discretionary
+ALRPRB,NOT FOUND,NOT FOUND
+ALSC,NOT FOUND,NOT FOUND
+ALSK,NASDAQ,Communications
+ALSN,NYSE,Industrials
+ALTE,Delisted,Financials
+ALTR,NOT FOUND,NOT FOUND
+ALU,NOT FOUND,NOT FOUND
+ALV,NYSE,Consumer Discretionary
+ALX,NYSE,Financials
 ALXN,NASDAQ,Health Care
+AM,NYSE,Energy
 AMAG,NASDAQ,Health Care
 AMAT,NASDAQ,Technology
+AMBA,NASDAQ,Technology
+AMBC,NASDAQ,Financials
+AMBR,NYSE,Technology
+AMC,NYSE,Consumer Discretionary
+AMCC,NASDAQ,Technology
+AMCN,NASDAQ,Communications
+AMCX,NASDAQ,Communications
 AMD,NASDAQ,Technology
 AME,NYSE,Industrials
+AMED,NASDAQ,Health Care
+AMFW,NYSE,Energy
 AMG,NYSE,Financials
 AMGN,NASDAQ,Health Care
+AMH,NYSE,Financials
+AMID,NYSE,Energy
+AMJ,NYSE_Arca,FUND
+AMKAF,NOT FOUND,NOT FOUND
+AMKR,NASDAQ,Technology
+AMLP,NYSE_Arca,FUND
+AMOT,NASDAQ,Industrials
 AMP,NYSE,Financials
+AMPE,AMEX,Health Care
+AMPH,NASDAQ,Health Care
+AMRB,NASDAQ,Financials
+AMRC,NYSE,Energy
+AMRE,Delisted,Financials
+AMRI,NASDAQ,Health Care
+AMRN,NASDAQ,Health Care
+AMRS,NASDAQ,Materials
+AMSC,NASDAQ,Energy
+AMSF,NASDAQ,Financials
+AMSG,NASDAQ,Health Care
+AMSGP,NASDAQ,NOT FOUND
+AMSWA,NASDAQ,Technology
 AMT,NYSE,Financials
+AMTD,NASDAQ,Financials
+AMTG,NYSE,Financials
+AMTPRA,NOT FOUND,NOT FOUND
+AMTPRB,NOT FOUND,NOT FOUND
+AMWD,NASDAQ,Consumer Discretionary
+AMX,NYSE,Communications
 AMZN,NASDAQ,Consumer Discretionary
 AN,NYSE,Consumer Discretionary
+ANAC,NASDAQ,Health Care
+ANAD,NASDAQ,Technology
+ANAT,NASDAQ,Financials
+ANDE,NASDAQ,Consumer Staples
+ANEN,Delisted,Industrials
+ANET,NYSE,Technology
+ANF,NYSE,Consumer Discretionary
+ANFI,NYSE,Consumer Staples
+ANGI,NASDAQ,Communications
+ANGO,NASDAQ,Health Care
+ANH,NYSE,Financials
+ANIK,NASDAQ,Health Care
+ANIP,NASDAQ,Health Care
+ANN,NOT FOUND,NOT FOUND
+ANRZQ,NOT FOUND,NOT FOUND
+ANSS,NASDAQ,Technology
+ANTH,NASDAQ,Health Care
 ANTM,NYSE,Health Care
+ANTX,NYSE,NOT FOUND
+ANVGQ,NOT FOUND,NOT FOUND
+ANW,NYSE,Industrials
+ANZBY,NOT FOUND,NOT FOUND
+AOBI,NOT FOUND,NOT FOUND
+AOD,NYSE,FUND
+AOI,NYSE,Consumer Staples
+AOL,NOT FOUND,NOT FOUND
 AON,NYSE,Financials
+AOS,NYSE,Industrials
+AOSL,NASDAQ,Technology
 APA,NYSE,Energy
+APAGF,NOT FOUND,NOT FOUND
+APAM,NYSE,Financials
 APC,NYSE,Energy
 APD,NYSE,Materials
+APEI,NASDAQ,Consumer Discretionary
+APF,NYSE,FUND
+APFC,Delisted,Health Care
 APH,NYSE,Industrials
+APIC,NASDAQ,Technology
+APKT,Delisted,Technology
+APL,Delisted,Energy
+APLE,NYSE,Financials
+APO,NYSE,Financials
+APOG,NASDAQ,Materials
 APOL,NASDAQ,Consumer Discretionary
+APPCQ,NOT FOUND,NOT FOUND
+APPF,NASDAQ,Technology
+APU,NYSE,Utilities
+AQXP,NASDAQ,Health Care
+AR,NYSE,Energy
+ARAY,NASDAQ,Health Care
+ARB,Delisted,Technology
+ARC,NYSE,Consumer Discretionary
+ARCB,NASDAQ,Industrials
+ARCC,NASDAQ,Financials
+ARCO,NYSE,Consumer Discretionary
+ARCTF,NOT FOUND,NOT FOUND
+ARCW,NASDAQ,Industrials
+ARDM,NASDAQ,Health Care
+ARE,NYSE,Financials
+AREPRD,NOT FOUND,NOT FOUND
+ARES,NYSE,Financials
+AREX,NASDAQ,Energy
 ARG,NYSE,Materials
+ARGT,NYSE_Arca,FUND
+ARI,NYSE,Financials
+ARIA,NASDAQ,Health Care
+ARII,NASDAQ,Industrials
+ARLP,NASDAQ,Energy
+ARLZ,NASDAQ,Consumer Discretionary
+ARMH,NASDAQ,Technology
+ARMK,NYSE,Consumer Discretionary
+ARNA,NASDAQ,Health Care
+AROC,NYSE,Energy
+AROPQ,NOT FOUND,NOT FOUND
+ARPI,NYSE,Financials
+ARR,NYSE,Financials
+ARRS,NASDAQ,Technology
+ARRY,NASDAQ,Health Care
+ART,Delisted,Financials
+ARTC,Delisted,Health Care
+ARUN,NOT FOUND,NOT FOUND
+ARW,NYSE,Technology
+ARWR,NASDAQ,Health Care
+ARX,Delisted,Technology
+ASA,NYSE,FUND
+ASB,NYSE,Financials
+ASC,NYSE,Industrials
+ASCA,Delisted,Consumer Discretionary
+ASCMA,NASDAQ,Consumer Discretionary
+ASEI,NASDAQ,Industrials
+ASGN,NYSE,Consumer Discretionary
+ASH,NYSE,Materials
+ASI,Delisted,Financials
+ASIA,Delisted,Technology
+ASMB,NASDAQ,Health Care
+ASMI,NOT FOUND,NOT FOUND
+ASML,NASDAQ,Technology
+ASNA,NASDAQ,Consumer Discretionary
+ASP,NOT FOUND,NOT FOUND
+ASPN,NYSE,Materials
 ASPS,NASDAQ,Financials
+ASPU,NOT FOUND,NOT FOUND
+ASPX,NOT FOUND,NOT FOUND
+ASR,NYSE,Industrials
+ASTC,NASDAQ,Industrials
+ASTE,NASDAQ,Industrials
+ASTX,Delisted,Health Care
+ASX,NYSE,Technology
+ASYS,NASDAQ,Technology
+AT,NYSE,Utilities
+ATEN,NYSE,Technology
+ATHL,Delisted,NOT FOUND
+ATHM,NYSE,Communications
+ATHN,NASDAQ,Technology
+ATHX,NASDAQ,Health Care
+ATI,NYSE,Materials
+ATLS,NYSE,Energy
+ATMI,Delisted,Technology
+ATML,NASDAQ,Technology
+ATNI,NASDAQ,Communications
+ATNY,NASDAQ,Industrials
+ATO,NYSE,Utilities
+ATPAQ,Delisted,Energy
+ATR,NYSE,Materials
+ATRA,NASDAQ,Health Care
+ATRC,NASDAQ,Health Care
+ATRI,NASDAQ,Health Care
+ATRO,NASDAQ,Industrials
+ATSG,NASDAQ,Industrials
+ATTU,NASDAQ,Technology
+ATU,NYSE,Consumer Discretionary
 ATVI,NASDAQ,Technology
 ATW,NYSE,Energy
+ATX,Delisted,Consumer Discretionary
+AU,NYSE,Materials
+AUDC,NASDAQ,Technology
+AUMA,NASDAQ,Financials
+AUMN,AMEX,Materials
+AUO,NYSE,Technology
+AUXL,NOT FOUND,NOT FOUND
+AUY,NYSE,Materials
+AV,NYSE,Financials
+AVA,NYSE,Utilities
+AVAL,NYSE,Financials
+AVAV,NASDAQ,Industrials
 AVB,NYSE,Financials
+AVD,NYSE,Materials
+AVEO,NASDAQ,Health Care
+AVG,NYSE,Technology
 AVGO,NASDAQ,Technology
+AVGR,NASDAQ,Health Care
+AVH,NYSE,Consumer Discretionary
+AVHI,NASDAQ,Consumer Discretionary
+AVID,NASDAQ,Technology
+AVIV,NOT FOUND,NOT FOUND
+AVNR,NOT FOUND,NOT FOUND
+AVNU,NASDAQ,Financials
+AVNW,NASDAQ,Technology
+AVOL,NOT FOUND,NOT FOUND
 AVP,NYSE,Consumer Staples
+AVT,NYSE,Technology
+AVX,NYSE,Technology
+AVXS,NASDAQ,Health Care
 AVY,NYSE,Materials
+AWAY,NOT FOUND,NOT FOUND
+AWF,NYSE,FUND
+AWH,NYSE,Financials
+AWI,NYSE,Consumer Discretionary
 AWK,NYSE,Utilities
+AWP,NYSE,FUND
+AWR,NYSE,Utilities
+AWRE,NASDAQ,Technology
+AXAHY,NOT FOUND,NOT FOUND
+AXAS,NASDAQ,Energy
+AXDX,NASDAQ,Health Care
+AXE,NYSE,Technology
+AXL,NYSE,Consumer Discretionary
 AXLL,NYSE,Materials
+AXON,NYSE,Health Care
 AXP,NYSE,Financials
+AXS,NYSE,Financials
+AXTA,NYSE,Materials
+AXTI,NASDAQ,Technology
+AXU,AMEX,Materials
+AYA,NASDAQ,Technology
+AYI,NYSE,Industrials
+AYR,NYSE,Financials
+AZC,Delisted,Materials
+AZN,NYSE,Health Care
 AZO,NYSE,Consumer Discretionary
+AZPN,NASDAQ,Technology
+AZSEY,NOT FOUND,NOT FOUND
+AZZ,NYSE,Industrials
+B,NYSE,NOT FOUND
 BA,NYSE,Industrials
+BAA,AMEX,Materials
+BABA,NYSE,Consumer Discretionary
+BABS,NYSE_Arca,FUND
+BABY,NASDAQ,Health Care
 BAC,NYSE,Financials
+BACPRL,NOT FOUND,NOT FOUND
+BAESY,NOT FOUND,NOT FOUND
+BAF,NYSE,FUND
+BAGL,Delisted,Consumer Discretionary
+BAH,NYSE,Technology
+BAK,NYSE,Materials
+BAL,NYSE_Arca,FUND
+BALT,Delisted,Industrials
+BAM,NYSE,Financials
+BANC,NYSE,Financials
+BANR,NASDAQ,Financials
+BAP,NYSE,Financials
+BAS,NYSE,Energy
+BASFY,NOT FOUND,NOT FOUND
+BATRA,NOT FOUND,NOT FOUND
+BATRK,NOT FOUND,NOT FOUND
+BATS,NOT FOUND,NOT FOUND
 BAX,NYSE,Health Care
+BAYRY,NOT FOUND,NOT FOUND
 BBBY,NASDAQ,Consumer Discretionary
+BBD,NYSE,Financials
+BBG,NYSE,FUND
+BBH,NASDAQ,FUND
+BBL,NYSE,FUND
+BBOX,NASDAQ,Technology
+BBRG,NASDAQ,Consumer Discretionary
+BBRY,NASDAQ,Technology
+BBSI,NASDAQ,Consumer Discretionary
 BBT,NYSE,Financials
+BBU,NOT FOUND,NOT FOUND
+BBVA,NYSE,Financials
+BBW,NYSE,Consumer Discretionary
 BBY,NYSE,Consumer Discretionary
+BC,NYSE,Consumer Discretionary
+BCC,NYSE,Materials
+BCE,NYSE,Communications
 BCEI,NYSE,Energy
+BCH,NYSE,Financials
+BCO,NYSE,Consumer Discretionary
+BCOR,NASDAQ,Communications
+BCOV,NASDAQ,Technology
+BCPC,NASDAQ,Materials
 BCR,NYSE,Health Care
+BCRH,NYSE,Financials
+BCRX,NASDAQ,Health Care
+BCS,NYSE,Financials
+BCV,AMEX,FUND
+BCX,NYSE,FUND
+BDBD,NOT FOUND,NOT FOUND
+BDC,NYSE,Industrials
+BDE,NASDAQ,Consumer Discretionary
+BDN,NYSE,Financials
+BDRBF,NOT FOUND,NOT FOUND
+BDSI,NASDAQ,Health Care
 BDX,NYSE,Health Care
+BEAM,Delisted,Consumer Staples
+BEAT,NASDAQ,Health Care
+BEAV,NASDAQ,Industrials
+BEBE,NASDAQ,Consumer Discretionary
+BECN,NASDAQ,Consumer Discretionary
+BEE,NOT FOUND,NOT FOUND
+BEL,NYSE,Consumer Discretionary
 BEN,NYSE,Financials
-BF.B,NYSE,#N/A
+BEP,NYSE,Utilities
+BERY,NYSE,Materials
+BETR,NYSE,Consumer Staples
+BF.B,NYSE,Industrials
+BFAM,NYSE,Consumer Discretionary
+BFR,NYSE,Financials
+BFS,NYSE,Financials
+BG,NYSE,Consumer Staples
+BGC,NYSE,Industrials
+BGCP,NASDAQ,Financials
+BGEPF,NOT FOUND,NOT FOUND
+BGFV,NASDAQ,Consumer Discretionary
+BGG,NYSE,Industrials
+BGH,NYSE,FUND
+BGS,NYSE,Consumer Staples
+BH,NYSE,Consumer Discretionary
+BHBK,NASDAQ,Financials
+BHE,NYSE,Technology
 BHI,NYSE,Energy
+BHL,NYSE,FUND
+BHLB,NYSE,Financials
+BHP,NYSE,Materials
+BID,NYSE,Consumer Discretionary
+BIDU,NASDAQ,Communications
+BIE,NYSE,FUND
+BIF,NYSE,FUND
+BIG,NYSE,Consumer Staples
 BIIB,NASDAQ,Health Care
+BIK,NYSE_Arca,FUND
+BIN,NYSE,Industrials
+BIO,NYSE,Health Care
+BIOA,NYSE,Materials
+BIOC,NASDAQ,Health Care
+BIOD,NASDAQ,Health Care
+BIOS,NASDAQ,Health Care
+BIP,NYSE,Utilities
+BIRT,Delisted,Technology
+BIS,NASDAQ,FUND
+BITA,NYSE,Communications
+BITI,NASDAQ,Health Care
+BJRI,NASDAQ,Consumer Discretionary
 BK,NYSE,Financials
+BKCC,NASDAQ,Financials
+BKD,NYSE,Health Care
+BKE,NYSE,Consumer Discretionary
+BKEP,NASDAQ,Energy
+BKF,NYSE_Arca,FUND
+BKFG,NOT FOUND,NOT FOUND
+BKFS,NYSE,Technology
+BKH,NYSE,Utilities
+BKI,Delisted,Materials
+BKLN,NYSE_Arca,FUND
+BKMU,NASDAQ,Financials
+BKR,Delisted,Industrials
+BKS,NYSE,Consumer Discretionary
+BKU,NYSE,Financials
+BKW,Delisted,Consumer Discretionary
+BKYF,NOT FOUND,NOT FOUND
+BLBD,NASDAQ,Consumer Discretionary
+BLC,Delisted,Communications
+BLCM,NASDAQ,Health Care
+BLD,NYSE,Industrials
+BLDR,NASDAQ,Consumer Discretionary
+BLH,NYSE,FUND
 BLK,NYSE,Financials
+BLKB,NASDAQ,Technology
 BLL,NYSE,Materials
+BLMN,NASDAQ,Consumer Discretionary
+BLOX,NYSE,Technology
+BLT,NYSE,Consumer Discretionary
+BLUE,NASDAQ,Health Care
+BLVD,NASDAQ,Financials
+BLX,NYSE,Financials
+BMA,NYSE,Financials
+BMC,Delisted,NOT FOUND
+BMCH,NOT FOUND,NOT FOUND
+BMI,NYSE,Industrials
+BMO,NYSE,Financials
+BMR,NOT FOUND,NOT FOUND
+BMRN,NASDAQ,Health Care
+BMS,NYSE,Materials
+BMTI,Delisted,Health Care
+BMWYY,NOT FOUND,NOT FOUND
 BMY,NYSE,Health Care
+BNCL,NASDAQ,Financials
+BND,NYSE_Arca,FUND
+BNED,NYSE,Consumer Discretionary
+BNFT,NASDAQ,Technology
+BNK,NYSE,Financials
+BNNY,Delisted,Consumer Staples
+BNPQY,NOT FOUND,NOT FOUND
+BNS,NYSE,Financials
+BOBE,NASDAQ,Consumer Discretionary
+BOCH,NASDAQ,Financials
+BODY,Delisted,Consumer Discretionary
 BOFI,NASDAQ,Financials
+BOH,NYSE,Financials
+BOJA,NASDAQ,Consumer Discretionary
+BOKF,NASDAQ,Financials
+BOLT,Delisted,Energy
+BOND,NYSE_Arca,FUND
+BONT,NASDAQ,Consumer Discretionary
+BOOM,NASDAQ,Industrials
 BOOT,NYSE,Consumer Discretionary
+BOX,NYSE,Technology
+BP,NYSE,Energy
+BPFH,NASDAQ,Financials
+BPFHP,NASDAQ,NOT FOUND
+BPI,NYSE,Consumer Discretionary
+BPL,NYSE,Energy
+BPO,Delisted,Financials
+BPOP,NASDAQ,Financials
 BPT,NYSE,Energy
-BRK.B,NYSE,#N/A
+BPY,NYSE,Financials
+BPZRQ,NOT FOUND,NOT FOUND
+BR,NYSE,Technology
+BRC,NYSE,Consumer Discretionary
+BRCD,NASDAQ,Technology
+BRCM,NOT FOUND,NOT FOUND
+BRE,Delisted,Financials
+BRF,NYSE_Arca,FUND
+BRFS,NYSE,Consumer Staples
+BRG,AMEX,Financials
+BRK.A,NYSE,Financials
+BRK.B,NYSE,Financials
+BRKL,NASDAQ,Financials
+BRKR,NASDAQ,Health Care
+BRKS,NASDAQ,Technology
+BRLI,NOT FOUND,NOT FOUND
+BRO,NYSE,Financials
+BRP,Delisted,Consumer Discretionary
 BRS,NYSE,Energy
+BRSS,NYSE,Industrials
+BRX,NYSE,Financials
+BRY,Delisted,Energy
+BSAC,NYSE,Financials
+BSBR,NYSE,Financials
+BSET,NASDAQ,Consumer Discretionary
+BSFT,NASDAQ,Technology
+BSM,NYSE,Materials
+BSMX,NYSE,Financials
+BSQR,NASDAQ,Technology
+BSV,NYSE_Arca,FUND
 BSX,NYSE,Health Care
+BT,NYSE,Communications
+BTE,NYSE,Energy
+BTG,AMEX,Materials
+BTH,Delisted,Consumer Discretionary
+BTI,AMEX,Consumer Staples
+BTN,AMEX,Technology
+BTUUQ,NOT FOUND,NOT FOUND
+BTZ,NYSE,FUND
+BUD,NYSE,Consumer Staples
+BUFF,NASDAQ,Consumer Staples
+BUR,NASDAQ,Health Care
+BURBY,NOT FOUND,NOT FOUND
+BURL,NYSE,Consumer Discretionary
+BUSE,NASDAQ,Financials
+BV,NASDAQ,Technology
+BVN,NYSE,Materials
+BW,NYSE,Industrials
 BWA,NYSE,Consumer Discretionary
+BWEN,NASDAQ,Energy
+BWLD,NASDAQ,Consumer Discretionary
+BWP,NYSE,Energy
+BWXT,NYSE,Industrials
+BX,NYSE,Financials
+BXC,NYSE,Consumer Discretionary
+BXE,NYSE,Energy
 BXLT,NYSE,Health Care
+BXMT,NYSE,Financials
 BXP,NYSE,Financials
+BXS,NYSE,Financials
+BYD,NYSE,Consumer Discretionary
+BYI,Delisted,Consumer Discretionary
+BZ,Delisted,Materials
+BZH,NYSE,Consumer Discretionary
+BZU,Delisted,NOT FOUND
 C,NYSE,Financials
 CA,NASDAQ,Technology
+CAA,NYSE,Consumer Discretionary
+CAAS,NASDAQ,Consumer Discretionary
+CAB,NYSE,Consumer Discretionary
+CABO,NYSE,Communications
+CAC,NASDAQ,Financials
+CACB,NASDAQ,Financials
+CACC,NASDAQ,Financials
+CACI,NYSE,Technology
+CACQ,NASDAQ,Consumer Discretionary
+CADX,Delisted,NOT FOUND
+CAE,NYSE,Industrials
+CAF,NYSE,FUND
+CAFD,NASDAQ,Utilities
 CAG,NYSE,Consumer Staples
 CAH,NYSE,Health Care
+CAI,NYSE,Financials
+CAJ,NYSE,Technology
+CAKE,NASDAQ,Consumer Discretionary
+CAL,NYSE,NOT FOUND
+CALD,NASDAQ,Technology
+CALL,NASDAQ,Communications
+CALM,NASDAQ,Consumer Staples
+CALX,NYSE,Technology
 CAM,NYSE,Energy
+CAMP,NASDAQ,Technology
+CAMT,NASDAQ,Industrials
+CAR,NASDAQ,Consumer Discretionary
+CARA,NASDAQ,Health Care
+CARB,NASDAQ,Technology
+CAS,NYSE,Materials
+CASC,Delisted,Industrials
+CASS,NASDAQ,Financials
+CAST,Delisted,Consumer Discretionary
+CASY,NASDAQ,Consumer Staples
 CAT,NYSE,Industrials
+CATM,NASDAQ,Financials
+CATO,NYSE,Consumer Discretionary
+CATY,NASDAQ,Financials
+CAVM,NASDAQ,Technology
 CB,NYSE,Financials
+CBAK,NASDAQ,Technology
+CBAY,NASDAQ,Health Care
+CBB,NYSE,Communications
+CBD,NYSE,Consumer Staples
+CBEH,NOT FOUND,NOT FOUND
+CBF,NASDAQ,Financials
 CBG,NYSE,Financials
-CBS,NYSE,#N/A
+CBI,NYSE,Industrials
+CBIO,NASDAQ,Health Care
+CBL,NYSE,Financials
+CBLI,NASDAQ,Health Care
+CBM,NYSE,Health Care
+CBNJ,NASDAQ,Financials
+CBOE,NASDAQ,Financials
+CBPO,NASDAQ,Industrials
+CBPX,NYSE,Industrials
+CBR,NYSE,Industrials
+CBRL,NASDAQ,NOT FOUND
+CBS,NYSE,NOT FOUND
+CBS.A,NYSE,NOT FOUND
+CBSH,NASDAQ,Financials
+CBST,NOT FOUND,NOT FOUND
+CBT,NYSE,Materials
+CBU,NYSE,Financials
+CBYL,NASDAQ,Health Care
+CBZ,NYSE,Consumer Discretionary
 CC,NYSE,Materials
+CCC,NYSE,Materials
 CCE,NYSE,Consumer Staples
+CCF,AMEX,Industrials
+CCG,NYSE,Financials
 CCI,NYSE,Financials
+CCIH,NASDAQ,Communications
+CCIPRA,NOT FOUND,NOT FOUND
+CCIX,Delisted,Industrials
+CCJ,NYSE,Materials
+CCK,NYSE,Materials
 CCL,NYSE,Consumer Discretionary
+CCM,NYSE,Health Care
+CCMP,NASDAQ,Technology
+CCO,NYSE,Communications
+CCOI,NASDAQ,Communications
+CCP,NYSE,Financials
+CCRN,NASDAQ,Consumer Discretionary
+CCS,NYSE,Consumer Discretionary
+CCSC,NYSE,Consumer Discretionary
+CCU,NYSE,Consumer Staples
+CCXI,NASDAQ,Health Care
+CDE,NYSE,Materials
+CDI,NYSE,Consumer Discretionary
+CDK,NASDAQ,Technology
+CDNS,NASDAQ,Technology
+CDR,NYSE,Financials
+CDVIQ,NOT FOUND,NOT FOUND
+CDW,NASDAQ,Technology
+CDXS,NASDAQ,Materials
+CDZI,NASDAQ,Consumer Staples
+CE,NYSE,Materials
+CEA,NYSE,Consumer Discretionary
+CEB,NYSE,Consumer Discretionary
+CEC,Delisted,NOT FOUND
+CECE,NASDAQ,Industrials
+CECO,NASDAQ,Consumer Discretionary
+CEF,AMEX,FUND
+CEL,NYSE,Communications
 CELG,NASDAQ,Health Care
+CELGZ,NASDAQ,Health Care
+CEM,NYSE,FUND
 CEMP,NASDAQ,Health Care
+CENTA,NASDAQ,Consumer Staples
 CENX,NASDAQ,Materials
+CEO,NYSE,Energy
+CEQP,NYSE,Energy
+CERE,NASDAQ,Materials
 CERN,NASDAQ,Technology
+CERS,NASDAQ,Health Care
+CETV,NASDAQ,Communications
+CEVA,NASDAQ,Technology
 CF,NYSE,Materials
+CFFN,NASDAQ,Financials
 CFG,NYSE,Financials
+CFI,NYSE,Consumer Discretionary
 CFMS,NASDAQ,Health Care
+CFN,Delisted,Health Care
+CFNL,NASDAQ,Financials
+CFR,NYSE,Financials
+CFRHF,NOT FOUND,NOT FOUND
+CFT,NOT FOUND,NOT FOUND
+CFX,NYSE,Industrials
+CG,NASDAQ,Financials
+CGI,NYSE,Industrials
+CGNX,NASDAQ,Industrials
+CGX,Delisted,Consumer Discretionary
+CHA,NYSE,Communications
+CHBT,Delisted,Health Care
+CHCO,NASDAQ,Financials
+CHCT,NYSE,Financials
 CHD,NYSE,Consumer Staples
+CHDN,NASDAQ,Consumer Discretionary
+CHE,NYSE,Health Care
+CHEF,NASDAQ,Consumer Staples
+CHEV,NASDAQ,Financials
+CHFC,NASDAQ,Financials
+CHFN,NASDAQ,Financials
+CHG,Delisted,Utilities
+CHGG,NYSE,Consumer Discretionary
+CHH,NYSE,Consumer Discretionary
 CHK,NYSE,Energy
+CHKP,NASDAQ,Technology
+CHL,NYSE,Communications
+CHMT,NYSE,Materials
+CHN,NYSE,FUND
+CHPXF,NOT FOUND,NOT FOUND
+CHRS,NASDAQ,Health Care
 CHRW,NASDAQ,Industrials
+CHS,NYSE,Consumer Discretionary
+CHSP,NYSE,Financials
+CHT,NYSE,Communications
+CHTP,Delisted,NOT FOUND
+CHTR,NASDAQ,Communications
+CHU,NYSE,Communications
+CHUY,NASDAQ,Consumer Discretionary
+CHYYY,NOT FOUND,NOT FOUND
 CI,NYSE,Health Care
+CIB,NYSE,Financials
+CIBY,NOT FOUND,NOT FOUND
+CIDM,NASDAQ,Technology
 CIE,NYSE,Energy
+CIEN,NYSE,Technology
+CIF,NYSE,FUND
+CIG,NYSE,Utilities
+CIGI,NASDAQ,Financials
+CIM,NYSE,Financials
 CINF,NASDAQ,Financials
+CIO,NYSE,Financials
+CIOXY,NOT FOUND,NOT FOUND
+CIR,NYSE,Industrials
+CIRFP,NOT FOUND,NOT FOUND
+CIS,Delisted,Technology
+CISG,NASDAQ,Financials
+CIT,NYSE,Financials
+CIU,NYSE_Arca,FUND
+CIVB,NASDAQ,Financials
+CIVI,NYSE,Health Care
+CJESQ,NOT FOUND,NOT FOUND
+CKEC,NASDAQ,Consumer Discretionary
+CKH,NYSE,Energy
+CKHUY,NOT FOUND,NOT FOUND
+CKP,NYSE,Industrials
+CKSW,NOT FOUND,NOT FOUND
 CL,NYSE,Consumer Staples
+CLAC,NASDAQ,Financials
+CLB,NYSE,Energy
+CLC,NYSE,Industrials
+CLCT,NASDAQ,Consumer Discretionary
+CLD,NYSE,Energy
+CLDT,NYSE,Financials
 CLDX,NASDAQ,Health Care
 CLF,NYSE,Materials
+CLFD,NASDAQ,Technology
+CLGX,NYSE,Financials
+CLH,NYSE,Industrials
+CLI,NYSE,Financials
+CLLS,NASDAQ,Health Care
+CLM,AMEX,FUND
+CLMS,NASDAQ,Financials
 CLMT,NASDAQ,Energy
+CLNE,NASDAQ,Energy
+CLNT,NASDAQ,Energy
+CLNY,NYSE,Financials
+CLNYPRC,NOT FOUND,NOT FOUND
+CLP,Delisted,Financials
 CLR,NYSE,Energy
+CLS,NYSE,Technology
+CLSN,NASDAQ,Health Care
+CLUB,NASDAQ,Consumer Discretionary
 CLVS,NASDAQ,Health Care
+CLW,NYSE,Consumer Staples
+CLWR,Delisted,Communications
 CLX,NYSE,Consumer Staples
+CLY,NYSE_Arca,FUND
+CLZNY,NOT FOUND,NOT FOUND
+CM,NYSE,Financials
 CMA,NYSE,Financials
+CMC,NYSE,Materials
+CMCM,NYSE,Technology
+CMCO,NASDAQ,Industrials
 CMCSA,NASDAQ,Communications
+CMCSK,Delisted,Communications
 CME,NASDAQ,Financials
 CMG,NYSE,Consumer Discretionary
 CMI,NYSE,Industrials
+CMLP,Delisted,Energy
+CMLS,NASDAQ,Communications
+CMN,NYSE,Industrials
+CMO,NYSE,Financials
+CMP,NYSE,Materials
+CMPR,NASDAQ,Consumer Discretionary
+CMRE,NYSE,Industrials
 CMRX,NASDAQ,Health Care
 CMS,NYSE,Utilities
 CMTL,NASDAQ,Technology
+CNA,NYSE,Financials
+CNAT,NASDAQ,Health Care
+CNBKA,NASDAQ,Financials
 CNC,NYSE,Health Care
+CNCE,NASDAQ,Health Care
+CNCO,NYSE,Consumer Staples
+CNH,Delisted,NOT FOUND
+CNHI,NYSE,Industrials
+CNI,NYSE,Industrials
+CNIT,NASDAQ,Technology
+CNK,NYSE,Consumer Discretionary
+CNL,NYSE,Utilities
+CNMD,NASDAQ,Health Care
+CNO,NYSE,Financials
+CNOB,NASDAQ,Financials
 CNP,NYSE,Utilities
+CNQ,NYSE,Energy
+CNQR,Delisted,Technology
+CNRD,NOT FOUND,NOT FOUND
+CNS,NYSE,Financials
+CNSL,NASDAQ,Communications
+CNSWF,NOT FOUND,NOT FOUND
+CNTF,NASDAQ,Technology
+CNTY,NASDAQ,Consumer Discretionary
+CNV,NASDAQ,Consumer Discretionary
+CNVR,Delisted,Communications
+CNW,Delisted,Industrials
 CNX,NYSE,Energy
+CNXC,NYSE,Energy
+CO,NYSE,Health Care
+COA,Delisted,Consumer Discretionary
+COB,NASDAQ,Financials
+CODE,Delisted,Technology
+CODI,NYSE,Financials
+CODYY,NOT FOUND,NOT FOUND
+COE,Delisted,Financials
 COF,NYSE,Financials
 COG,NYSE,Energy
 COH,NYSE,Consumer Discretionary
+COHR,NASDAQ,Technology
+COHU,NASDAQ,Technology
+COKE,NASDAQ,Consumer Staples
 COL,NYSE,Industrials
+COLB,NASDAQ,Financials
+COLE,Delisted,Financials
+COLM,NASDAQ,Consumer Discretionary
+COMM,NASDAQ,Technology
+CONE,NASDAQ,Financials
 CONN,NASDAQ,Consumer Discretionary
+COO,NYSE,Health Care
 COP,NYSE,Energy
+COR,NYSE,Financials
+CORE,NASDAQ,Consumer Staples
+CORP,NYSE_Arca,FUND
+CORR,NYSE,Financials
+CORRPRA,NOT FOUND,NOT FOUND
+CORT,NASDAQ,Health Care
 COST,NASDAQ,Consumer Staples
+COT,NYSE,Consumer Staples
+COTV,NOT FOUND,NOT FOUND
+COTY,NYSE,Consumer Staples
+COV,Delisted,Health Care
+COVS,NASDAQ,Communications
+COWN,NASDAQ,Financials
+CP,NYSE,Industrials
+CPA,NYSE,Consumer Discretionary
+CPAC,NYSE,Materials
 CPB,NYSE,Consumer Staples
+CPE,NYSE,Energy
+CPF,NYSE,Financials
+CPG,NYSE,Energy
 CPGX,NYSE,Utilities
+CPHD,NASDAQ,Health Care
+CPIX,NASDAQ,Health Care
+CPK,NYSE,Utilities
+CPL,NYSE,Utilities
+CPLA,NASDAQ,Consumer Discretionary
+CPLP,NASDAQ,Industrials
+CPN,NYSE,Utilities
+CPNO,Delisted,Energy
+CPPL,NYSE,Energy
+CPRT,NASDAQ,Consumer Discretionary
+CPRX,NASDAQ,Health Care
+CPS,NYSE,Consumer Discretionary
+CPSI,NASDAQ,Technology
+CPST,NASDAQ,Industrials
+CPT,NYSE,Industrials
+CPTP,NOT FOUND,NOT FOUND
+CPTS,Delisted,Health Care
+CPWR,Delisted,Technology
+CPXX,NASDAQ,Health Care
+CQB,Delisted,Consumer Staples
+CQH,AMEX,Energy
+CQP,AMEX,Energy
+CR,NYSE,Industrials
+CRAI,NASDAQ,Consumer Discretionary
+CRAY,NASDAQ,Technology
+CRBC,Delisted,Financials
+CRBO,NOT FOUND,NOT FOUND
 CRC,NYSE,Energy
+CRD.B,NYSE,Consumer Discretionary
+CREE,NASDAQ,Technology
+CRESY,NASDAQ,Financials
+CRH,NYSE,Materials
+CRI,NYSE,Consumer Discretionary
+CRIS,NASDAQ,Health Care
+CRK,NYSE,Energy
+CRL,NYSE,Health Care
 CRM,NYSE,Technology
+CRME,NASDAQ,Health Care
+CRMT,NASDAQ,Consumer Discretionary
+CRNT,NASDAQ,Technology
+CROX,NASDAQ,Consumer Discretionary
 CRR,NYSE,Energy
+CRRC,NOT FOUND,NOT FOUND
+CRS,NYSE,Materials
+CRTO,NASDAQ,Communications
+CRUS,NASDAQ,Technology
+CRVL,NASDAQ,Consumer Discretionary
+CRWN,NASDAQ,Communications
+CRY,NYSE,Health Care
+CRZO,NASDAQ,Energy
+CS,NYSE,Financials
+CSAL,NASDAQ,Financials
+CSBK,NASDAQ,Financials
+CSC,NYSE,Technology
 CSCO,NASDAQ,Technology
+CSE,Delisted,Financials
+CSFL,NASDAQ,Financials
+CSG,NOT FOUND,NOT FOUND
+CSGP,NASDAQ,Technology
+CSGS,NASDAQ,Technology
+CSH,NYSE,Financials
+CSII,NASDAQ,Health Care
 CSIQ,NASDAQ,Energy
-CSRA,NYSE,#N/A
+CSJ,NYSE_Arca,FUND
+CSKI,Delisted,Health Care
+CSL,NYSE,Materials
+CSLT,NYSE,Technology
+CSOD,NASDAQ,Technology
+CSP,Delisted,FUND
+CSRA,NYSE,Consumer Discretionary
+CSS,NYSE,Consumer Discretionary
+CST,NYSE,Consumer Staples
+CSTE,NASDAQ,Consumer Discretionary
+CSTM,NYSE,Materials
+CSTW,NOT FOUND,NOT FOUND
+CSU,NYSE,Health Care
+CSV,NYSE,Consumer Discretionary
+CSVI,NOT FOUND,NOT FOUND
+CSWC,NASDAQ,Financials
+CSWI,NASDAQ,Materials
 CSX,NASDAQ,Industrials
 CTAS,NASDAQ,Consumer Discretionary
+CTB,NYSE,Consumer Discretionary
+CTCLY,NOT FOUND,NOT FOUND
+CTCM,NASDAQ,Communications
+CTCT,NOT FOUND,NOT FOUND
+CTG,NASDAQ,Consumer Discretionary
+CTIC,NASDAQ,Health Care
 CTL,NYSE,Communications
+CTLT,NYSE,Health Care
+CTPR,NOT FOUND,NOT FOUND
+CTQ,NYSE,NOT FOUND
+CTR,NYSE,FUND
+CTRE,NASDAQ,Financials
+CTRL,NASDAQ,Technology
+CTRN,NASDAQ,Consumer Discretionary
+CTRP,NASDAQ,Communications
+CTRX,Delisted,Health Care
+CTS,NYSE,Technology
 CTSH,NASDAQ,Technology
+CTT,NYSE,Financials
+CTWS,NASDAQ,Utilities
+CTX,NYSE,NOT FOUND
 CTXS,NASDAQ,Technology
+CUB,NYSE,Technology
+CUBE,NYSE,Financials
+CUBI,NYSE,Financials
 CUDA,NYSE,Technology
+CUI,NASDAQ,Technology
+CUK,NYSE,Consumer Discretionary
+CUZ,NYSE,Financials
+CVA,NYSE,Industrials
+CVBF,NASDAQ,Financials
 CVC,NYSE,Communications
+CVCO,NASDAQ,Consumer Discretionary
+CVD,Delisted,Health Care
+CVE,NYSE,Energy
+CVEO,NYSE,Energy
+CVG,NYSE,Technology
+CVGI,NASDAQ,Industrials
+CVGW,NASDAQ,Consumer Staples
+CVH,Delisted,Health Care
+CVI,NYSE,Energy
+CVLT,NASDAQ,Technology
+CVO,NYSE,Consumer Discretionary
+CVRR,NYSE,Energy
+CVRS,AMEX,Health Care
 CVS,NYSE,Consumer Staples
+CVT,NYSE,Technology
+CVTI,NASDAQ,Industrials
+CVU,AMEX,Industrials
 CVX,NYSE,Energy
+CW,NYSE,Industrials
+CWCO,NASDAQ,Utilities
+CWEI,NYSE,Energy
+CWGL,NOT FOUND,NOT FOUND
+CWHN,NOT FOUND,NOT FOUND
+CWST,NASDAQ,Industrials
+CWT,NYSE,Utilities
+CX,NYSE,Materials
+CXDC,NASDAQ,Materials
 CXO,NYSE,Energy
+CXP,NYSE,Financials
+CXPO,Delisted,Energy
+CXRX,NASDAQ,Health Care
+CXS,Delisted,Financials
+CXW,NYSE,Financials
+CY,NASDAQ,Technology
+CYBR,NASDAQ,Technology
+CYCC,NASDAQ,Health Care
+CYD,NYSE,Industrials
+CYE,Delisted,FUND
 CYH,NYSE,Health Care
-D,NYSE,NOT FOUND
+CYMI,Delisted,Technology
+CYN,NOT FOUND,NOT FOUND
+CYNI,NOT FOUND,NOT FOUND
+CYNO,NASDAQ,Health Care
+CYOU,NASDAQ,Technology
+CYRN,NASDAQ,Technology
+CYS,NYSE,Financials
+CYT,Delisted,Materials
+CYTK,NASDAQ,Health Care
+CYTR,NASDAQ,Health Care
+CZR,NASDAQ,Consumer Discretionary
+CZZ,NYSE,Energy
+D,NYSE,Utilities
+DAKT,NASDAQ,Technology
 DAL,NYSE,Consumer Discretionary
+DAN,NYSE,Consumer Discretionary
+DANG,NYSE,Consumer Discretionary
+DANOY,NOT FOUND,NOT FOUND
+DAR,NYSE,Consumer Staples
 DATA,NYSE,Technology
+DATE,NASDAQ,Communications
+DB,NYSE,Financials
+DBA,NYSE_Arca,FUND
+DBB,NYSE_Arca,FUND
+DBC,NYSE_Arca,FUND
+DBD,NYSE,Technology
+DBL,NYSE,FUND
+DBVT,NASDAQ,Health Care
+DCI,NYSE,Industrials
+DCIX,NASDAQ,Industrials
+DCM,NYSE,Communications
+DCO,NYSE,Industrials
+DCOM,NASDAQ,Financials
+DCT,NYSE,Financials
 DD,NYSE,Materials
+DDAIF,NOT FOUND,NOT FOUND
+DDAIY,NOT FOUND,NOT FOUND
+DDC,NYSE,Materials
+DDD,NYSE,Technology
+DDEJF,NOT FOUND,NOT FOUND
+DDM,NYSE_Arca,FUND
+DDR,NYSE,Financials
+DDS,NYSE,Consumer Discretionary
 DE,NYSE,Industrials
+DEA,NYSE,Financials
+DECK,NYSE,Consumer Discretionary
+DEG,NYSE,Consumer Staples
+DEI,NYSE,Financials
+DEL,NYSE,Materials
+DELL,Delisted,Technology
+DEM,NYSE_Arca,FUND
+DENN,NASDAQ,Consumer Discretionary
+DEO,NYSE,Consumer Staples
+DEPO,NASDAQ,Health Care
+DERM,NASDAQ,Health Care
+DEST,NASDAQ,Consumer Discretionary
+DEXO,Delisted,Communications
+DF,NYSE,Consumer Staples
+DFBG,NASDAQ,Materials
+DFJ,NYSE_Arca,FUND
+DFRG,NASDAQ,Consumer Discretionary
 DFS,NYSE,Financials
+DFT,NYSE,Financials
 DG,NYSE,Consumer Staples
+DGE,NOT FOUND,NOT FOUND
+DGI,NYSE,Communications
+DGICA,NASDAQ,Financials
+DGII,NASDAQ,Technology
+DGIT,Delisted,Communications
+DGP,NYSE_Arca,FUND
+DGS,NYSE_Arca,FUND
 DGX,NYSE,Health Care
+DHG,NYSE,FUND
 DHI,NYSE,Consumer Discretionary
+DHIL,NASDAQ,Financials
 DHR,NYSE,Health Care
+DHT,NYSE,Industrials
+DHVW,NYSE_Arca,FUND
+DHX,NYSE,Communications
+DIA,NYSE_Arca,FUND
+DIG,NYSE_Arca,FUND
+DIN,NYSE,Consumer Discretionary
+DIOD,NASDAQ,Technology
 DIS,NYSE,Communications
 DISCA,NASDAQ,Communications
 DISCK,NASDAQ,Communications
+DISH,NASDAQ,Communications
+DJP,NYSE_Arca,FUND
+DJSP,NOT FOUND,NOT FOUND
+DK,NYSE,Energy
+DKS,NYSE,Consumer Discretionary
+DLA,AMEX,Consumer Discretionary
+DLB,NYSE,Technology
+DLIAQ,NOT FOUND,NOT FOUND
+DLLR,Delisted,Financials
+DLNG,NYSE,Industrials
 DLPH,NYSE,Consumer Discretionary
+DLR,NYSE,Financials
+DLTH,NASDAQ,Consumer Discretionary
 DLTR,NASDAQ,Consumer Staples
+DLX,NYSE,Consumer Discretionary
+DM,NYSE,Energy
+DMD,NYSE,Communications
+DMND,NASDAQ,Consumer Staples
+DMO,NYSE,FUND
+DMRC,NASDAQ,Technology
+DNAI,NASDAQ,Health Care
 DNB,NYSE,Technology
+DNDNQ,NOT FOUND,NOT FOUND
+DNKN,NASDAQ,Consumer Discretionary
+DNN,AMEX,Materials
+DNOW,NYSE,Energy
 DNR,NYSE,Energy
 DO,NYSE,Energy
+DOC,NYSE,Financials
+DOLE,Delisted,Consumer Staples
+DOOR,NYSE,Consumer Discretionary
+DORM,NASDAQ,Consumer Discretionary
 DOV,NYSE,Industrials
 DOW,NYSE,Materials
+DOX,NASDAQ,Technology
 DPLO,NYSE,Health Care
+DPM,NYSE,Energy
 DPS,NYSE,Consumer Staples
+DPSGY,NOT FOUND,NOT FOUND
+DPZ,NYSE,Consumer Discretionary
+DQ,NYSE,Energy
+DRC,Delisted,Energy
+DRD,NYSE,Materials
+DRE,NYSE,Financials
+DRH,NYSE,Financials
 DRI,NYSE,Consumer Discretionary
+DRII,NYSE,Consumer Discretionary
+DRIV,NOT FOUND,NOT FOUND
+DRLCQ,NOT FOUND,NOT FOUND
+DRN,NYSE_Arca,FUND
+DRQ,NYSE,FUND
+DRRX,NASDAQ,NOT FOUND
+DRWI,NASDAQ,Technology
+DRYS,NASDAQ,Energy
+DSGX,NASDAQ,Technology
+DSKY,NASDAQ,Technology
+DSPG,NASDAQ,Technology
+DST,NYSE,Technology
+DSU,NYSE,FUND
+DSUM,NYSE_Arca,FUND
+DSW,NYSE,Consumer Discretionary
+DSX,NYSE,Industrials
+DSXPRB,NOT FOUND,NOT FOUND
 DTE,NYSE,Utilities
+DTEGY,NOT FOUND,NOT FOUND
+DTLK,NASDAQ,Technology
+DTSI,NASDAQ,Technology
+DTV,NOT FOUND,NOT FOUND
+DUF,Delisted,Financials
 DUK,NYSE,Utilities
+DV,NYSE,Consumer Discretionary
 DVA,NYSE,Health Care
+DVAX,NASDAQ,Health Care
+DVD,NYSE,Consumer Discretionary
 DVN,NYSE,Energy
+DVY,NYSE_Arca,FUND
+DW,NYSE,Consumer Discretionary
+DWA,NASDAQ,Communications
+DWRE,NYSE,Technology
+DWSN,NASDAQ,Energy
+DX,NYSE,Financials
+DXCM,NASDAQ,Health Care
+DXJ,NYSE_Arca,FUND
+DXLG,NASDAQ,Consumer Discretionary
+DXPE,NASDAQ,Industrials
+DY,NYSE,Industrials
+DYAX,NOT FOUND,NOT FOUND
+DYN,NYSE,Utilities
+DYNPRA,NOT FOUND,NOT FOUND
+DZK,NYSE_Arca,FUND
+E,NYSE,NOT FOUND
 EA,NASDAQ,Technology
+EAC,NASDAQ,Industrials
+EAD,AMEX,FUND
+EADSY,NOT FOUND,NOT FOUND
+EAGL,NASDAQ,Financials
+EAT,NYSE,Consumer Discretionary
 EBAY,NASDAQ,Consumer Discretionary
+EBF,NYSE,Consumer Discretionary
+EBIO,NASDAQ,Health Care
+EBIX,NASDAQ,Technology
+EBND,NYSE_Arca,FUND
+EBS,NYSE,Health Care
+EBSB,NASDAQ,Health Care
+EC,NYSE,Energy
 ECA,NYSE,Energy
+ECBE,Delisted,Financials
+ECH,NYSE_Arca,FUND
+ECHO,NASDAQ,Industrials
 ECL,NYSE,Consumer Discretionary
+ECOL,NASDAQ,Industrials
+ECOM,NYSE,Technology
 ECPG,NASDAQ,Financials
+ECR,NYSE,Energy
+ECYT,NASDAQ,Health Care
 ED,NYSE,Utilities
+EDC,NYSE_Arca,FUND
+EDE,NYSE,Utilities
+EDIT,NASDAQ,Communications
+EDMC,Delisted,Consumer Discretionary
+EDPFY,NOT FOUND,NOT FOUND
+EDR,NYSE,Financials
+EDU,NYSE,Consumer Discretionary
+EE,NYSE,Utilities
+EEB,NYSE_Arca,FUND
+EEFT,NASDAQ,Financials
+EEM,NYSE_Arca,FUND
+EEMV,NYSE_Arca,FUND
+EEP,NYSE,Energy
+EEQ,NYSE,Energy
+EFA,NYSE_Arca,FUND
+EFC,NYSE,Financials
+EFII,NASDAQ,Technology
+EFN,NOT FOUND,NOT FOUND
 EFX,NYSE,Technology
+EGBN,NASDAQ,Financials
+EGHT,NASDAQ,Communications
+EGL,NYSE,Technology
+EGLE,NASDAQ,Industrials
+EGN,NYSE,Energy
+EGO,NYSE,Materials
+EGOV,NASDAQ,Technology
+EGP,NYSE,Financials
 EGRX,NASDAQ,Health Care
+EGY,NYSE,Energy
+EHIC,NYSE,Consumer Discretionary
+EHTH,NASDAQ,Financials
+EIDO,NYSE_Arca,FUND
+EIG,NYSE,Financials
+EIGI,NASDAQ,Technology
+EIRL,NYSE_Arca,FUND
+EIS,NYSE_Arca,FUND
 EIX,NYSE,Utilities
+EJ,NYSE,Financials
 EL,NYSE,Consumer Staples
+ELEC,NASDAQ,Financials
+ELECU,NASDAQ,Financials
+ELGX,NASDAQ,Health Care
+ELLI,NYSE,Financials
+ELNK,NASDAQ,Communications
+ELON,NASDAQ,Energy
+ELOS,NASDAQ,Health Care
+ELP,NYSE,Utilities
+ELRC,NASDAQ,Industrials
+ELS,NYSE,Financials
+ELX,NOT FOUND,NOT FOUND
+ELY,NYSE,Consumer Discretionary
+EMAN,AMEX,Technology
+EMB,NYSE_Arca,FUND
 EMC,NYSE,Technology
+EMCI,NASDAQ,Financials
+EME,NYSE,Industrials
+EMF,NYSE,FUND
+EMG,NYSE,Financials
+EMKR,NASDAQ,Technology
 EMN,NYSE,Materials
 EMR,NYSE,Industrials
+ENB,NYSE,Energy
+ENBL,NYSE,Energy
 ENDP,NASDAQ,Health Care
+ENDRQ,NOT FOUND,NOT FOUND
+ENFC,NASDAQ,Financials
+ENH,NYSE,Financials
+ENIA,NOT FOUND,NOT FOUND
 ENLC,NYSE,Energy
+ENLK,NYSE,Energy
+ENOC,NASDAQ,Industrials
+ENPH,NASDAQ,Energy
+ENR,NYSE,Consumer Staples
+ENS,NYSE,Energy
+ENSG,NASDAQ,Health Care
+ENT,NASDAQ,Communications
+ENTA,NASDAQ,Health Care
+ENTG,NASDAQ,Technology
+ENTR,Delisted,Technology
+ENV,NYSE,Technology
+ENVA,NYSE,Financials
+ENVI,Delisted,Technology
+ENZN,NASDAQ,Health Care
+ENZY,NASDAQ,Health Care
+EOCC,NOT FOUND,NOT FOUND
 EOG,NYSE,Energy
+EOPN,NOT FOUND,NOT FOUND
+EPAM,NYSE,Technology
+EPAY,NASDAQ,Technology
+EPB,Delisted,Energy
+EPC,NYSE,Consumer Staples
+EPD,NYSE,Energy
+EPE,NYSE,Energy
+EPHC,Delisted,NOT FOUND
+EPHE,NYSE_Arca,FUND
+EPI,NYSE_Arca,FUND
+EPIQ,NASDAQ,Technology
+EPL,Delisted,Energy
+EPM,AMEX,Energy
+EPOC,Delisted,Technology
+EPOL,NYSE_Arca,FUND
+EPP,NYSE_Arca,FUND
+EPR,NYSE,Financials
+EPRPRE,NOT FOUND,NOT FOUND
+EPU,NYSE_Arca,FUND
+EPV,NYSE_Arca,FUND
 EPZM,NASDAQ,Health Care
+EQC,NYSE,Financials
+EQGP,NYSE,Energy
 EQIX,NASDAQ,Financials
+EQM,NYSE,Energy
 EQR,NYSE,Financials
 EQT,NYSE,Energy
+EQU,Delisted,Energy
+EQY,NYSE,Financials
+ERA,NYSE,Energy
+ERF,NYSE,Energy
+ERI,NASDAQ,Consumer Discretionary
+ERIC,NASDAQ,Technology
+ERIE,NASDAQ,Financials
+ERII,NASDAQ,Industrials
+ERJ,NYSE,Industrials
+EROC,NOT FOUND,NOT FOUND
+EROS,NYSE,Communications
+ERUS,NYSE_Arca,FUND
 ERX,NYSE_Arca,FUND
 ERY,NYSE_Arca,FUND
 ES,NYSE,Utilities
+ESC,Delisted,Health Care
+ESCA,NASDAQ,Consumer Discretionary
+ESD,NYSE,FUND
+ESE,NYSE,Industrials
+ESEA,NASDAQ,Industrials
+ESES,NASDAQ,Energy
+ESGR,NASDAQ,Financials
+ESI,NYSE,Consumer Discretionary
+ESIO,NASDAQ,Technology
+ESL,NYSE,Industrials
+ESLT,NASDAQ,Industrials
 ESND,NASDAQ,Consumer Discretionary
+ESNT,NYSE,Financials
 ESPR,NASDAQ,Health Care
+ESRT,NYSE,Financials
 ESRX,NASDAQ,Health Care
 ESS,NYSE,Financials
 ESV,NYSE,Energy
+ET,Delisted,Communications
 ETE,NYSE,Energy
 ETFC,NASDAQ,Financials
+ETH,NYSE,Consumer Discretionary
+ETM,NYSE,Communications
 ETN,NYSE,Industrials
 ETP,NYSE,Energy
 ETR,NYSE,Utilities
+ETSY,NASDAQ,Consumer Discretionary
+ETV,NYSE,FUND
+ETW,NYSE,FUND
+ETX,NYSE,FUND
+EUFN,NASDAQ,FUND
+EUO,NYSE_Arca,FUND
+EURN,NYSE,Industrials
+EV,NYSE,Financials
+EVA,NYSE,Energy
+EVAC,Delisted,Industrials
+EVAR,NASDAQ,Health Care
+EVBN,AMEX,Financials
+EVC,NYSE,Communications
+EVDY,NYSE,Communications
+EVEP,NASDAQ,Energy
+EVER,NYSE,Financials
+EVF,NYSE,FUND
+EVG,NYSE,FUND
+EVH,NYSE,Technology
+EVHC,NYSE,Health Care
+EVLV,NASDAQ,Consumer Discretionary
+EVR,NYSE,Financials
+EVRI,NYSE,Financials
+EVTC,NYSE,Technology
+EVV,AMEX,FUND
 EW,NYSE,Health Care
+EWA,NYSE_Arca,FUND
+EWBC,NASDAQ,Financials
+EWC,NYSE_Arca,FUND
+EWD,NYSE_Arca,FUND
+EWG,NYSE_Arca,FUND
+EWH,NYSE_Arca,FUND
+EWI,NYSE_Arca,FUND
+EWJ,NYSE_Arca,FUND
+EWK,NYSE_Arca,FUND
+EWL,NYSE_Arca,FUND
+EWM,NYSE_Arca,FUND
+EWN,NYSE_Arca,FUND
+EWO,NYSE_Arca,FUND
+EWP,NYSE_Arca,FUND
+EWQ,NYSE_Arca,FUND
+EWS,NYSE_Arca,FUND
+EWT,NYSE_Arca,FUND
+EWU,NYSE_Arca,FUND
+EWW,NYSE_Arca,FUND
+EWX,NYSE_Arca,FUND
+EWY,NYSE_Arca,FUND
+EWZ,NYSE_Arca,FUND
+EXA,NASDAQ,Technology
+EXAC,NASDAQ,Health Care
+EXAM,NYSE,Health Care
+EXAR,NYSE,Technology
 EXAS,NASDAQ,Health Care
 EXC,NYSE,Utilities
+EXEL,NASDAQ,Health Care
+EXFO,NASDAQ,Technology
+EXK,NYSE,Materials
+EXL,NOT FOUND,NOT FOUND
+EXLS,NASDAQ,Technology
+EXP,NYSE,Materials
 EXPD,NASDAQ,Industrials
 EXPE,NASDAQ,Communications
+EXPGY,NOT FOUND,NOT FOUND
+EXPO,NASDAQ,Industrials
+EXPR,NYSE,Consumer Discretionary
 EXR,NYSE,Financials
+EXTR,NASDAQ,Technology
+EXXIQ,NOT FOUND,NOT FOUND
+EYES,NASDAQ,Health Care
+EZA,NYSE_Arca,FUND
+EZCH,NOT FOUND,NOT FOUND
+EZPW,NASDAQ,Consumer Discretionary
+EZU,NYSE_Arca,FUND
 F,NYSE,Consumer Discretionary
+FABU,NOT FOUND,NOT FOUND
+FAF,NYSE,Financials
+FAM,NYSE,FUND
+FANG,NASDAQ,Energy
+FARO,NASDAQ,Industrials
+FAS,NYSE_Arca,FUND
 FAST,NASDAQ,Consumer Discretionary
+FAX,AMEX,FUND
 FB,NASDAQ,Communications
+FBC,NYSE,Financials
+FBHS,NYSE,Consumer Discretionary
+FBIZ,NASDAQ,Financials
+FBMI,Delisted,Financials
+FBNK,NASDAQ,Financials
+FBP,NYSE,Financials
+FBR,NYSE,Materials
+FBRC,NASDAQ,Financials
+FC,NYSE,Consumer Discretionary
+FCAL,Delisted,Financials
+FCAU,NYSE,Consumer Discretionary
+FCB,NYSE,Financials
+FCE.A,NYSE,Financials
+FCF,NYSE,Financials
+FCFS,NASDAQ,Consumer Discretionary
+FCG,NYSE_Arca,FUND
+FCH,NYSE,Financials
+FCN,NYSE,Consumer Discretionary
+FCNCA,NASDAQ,Financials
+FCPT,NYSE,NOT FOUND
+FCS,NASDAQ,FUND
+FCSC,NASDAQ,Health Care
+FCT,NYSE,FUND
+FCTY,NASDAQ,Financials
 FCX,NYSE,Materials
+FDC,NYSE,NOT FOUND
+FDML,NASDAQ,Consumer Discretionary
+FDN,NYSE_Arca,FUND
+FDO,NOT FOUND,NOT FOUND
+FDP,NYSE,Consumer Staples
+FDS,NYSE,Technology
 FDX,NYSE,Industrials
 FE,NYSE,Utilities
+FEIC,NASDAQ,Technology
+FELE,NASDAQ,Industrials
+FENG,NYSE,Communications
+FENX,NASDAQ,Industrials
+FET,NYSE,Energy
+FEYE,NASDAQ,Technology
+FEZ,NYSE_Arca,FUND
+FF,NYSE,Materials
+FFBC,NASDAQ,Financials
+FFC,NYSE,FUND
+FFCH,Delisted,Financials
+FFEX,Delisted,Industrials
+FFG,NYSE,Financials
+FFIC,NASDAQ,Financials
+FFIN,NASDAQ,Financials
 FFIV,NASDAQ,Technology
+FFWM,NASDAQ,Financials
+FGBI,NASDAQ,Financials
+FGEN,NASDAQ,Health Care
+FGL,NYSE,Financials
+FGP,NYSE,Utilities
+FHCO,NASDAQ,Consumer Staples
+FHN,NYSE,Financials
+FHY,NYSE,FUND
+FI,NYSE,Energy
+FIBK,NASDAQ,Financials
+FICO,NYSE,Technology
+FIEE,NYSE_Arca,Financials
+FIG,NYSE,Financials
+FIHD,NYSE_Arca,FUND
+FII,NYSE,Financials
+FINL,NASDAQ,Consumer Discretionary
+FIO,Delisted,Technology
+FIRE,Delisted,Technology
 FIS,NYSE,Financials
+FISI,NASDAQ,Financials
 FISV,NASDAQ,Financials
 FIT,NYSE,Technology
 FITB,NASDAQ,Financials
+FITBP,NOT FOUND,NOT FOUND
+FIVE,NASDAQ,Consumer Staples
+FIVN,NASDAQ,Technology
+FIX,NYSE,Industrials
+FIZZ,NASDAQ,Consumer Staples
+FL,NYSE,Consumer Discretionary
+FLDM,NASDAQ,Health Care
+FLEX,NASDAQ,Technology
 FLIR,NASDAQ,Technology
-FLR,NYSE,#N/A
+FLKS,NASDAQ,Consumer Discretionary
+FLML,NASDAQ,Health Care
+FLO,NYSE,Consumer Staples
+FLOT,NYSE_Arca,FUND
+FLOW,NYSE,Industrials
+FLR,NYSE,Materials
 FLS,NYSE,Industrials
+FLT,NYSE,Financials
+FLTX,NYSE,Technology
+FLWS,NASDAQ,Consumer Discretionary
+FLY,NYSE,Financials
+FM,NYSE_Arca,FUND
+FMBI,NASDAQ,Financials
 FMC,NYSE,Materials
+FMCC,NOT FOUND,NOT FOUND
+FMCCH,NOT FOUND,NOT FOUND
+FMCCI,NOT FOUND,NOT FOUND
+FMCCL,NOT FOUND,NOT FOUND
+FMCCN,NOT FOUND,NOT FOUND
+FMCKI,NOT FOUND,NOT FOUND
+FMCKJ,NOT FOUND,NOT FOUND
+FMCKK,NOT FOUND,NOT FOUND
+FMCKM,NOT FOUND,NOT FOUND
+FMCKN,NOT FOUND,NOT FOUND
+FMCKO,NOT FOUND,NOT FOUND
+FMCN,Delisted,Communications
+FMER,NASDAQ,Financials
+FMFC,Delisted,NOT FOUND
+FMI,NASDAQ,Health Care
+FMS,NYSE,Health Care
+FMSA,NYSE,Energy
+FMX,NYSE,Consumer Staples
+FMY,NYSE,FUND
+FN,NYSE,Technology
+FNB,NYSE,Financials
+FNBC,NASDAQ,Financials
+FNF,NYSE,Financials
+FNFG,NASDAQ,Financials
+FNFV,NYSE,Financials
+FNGN,NASDAQ,Financials
+FNHC,NASDAQ,Financials
+FNIO,Delisted,FUND
+FNMA,NOT FOUND,NOT FOUND
+FNMAH,NOT FOUND,NOT FOUND
+FNMAI,NOT FOUND,NOT FOUND
+FNMAJ,NOT FOUND,NOT FOUND
+FNMAS,NOT FOUND,NOT FOUND
+FNMFN,NOT FOUND,NOT FOUND
+FNSR,NASDAQ,Technology
+FNV,NYSE,Materials
+FNWB,NASDAQ,Financials
+FOE,NYSE,Materials
+FOGO,NASDAQ,Consumer Discretionary
+FOLD,NASDAQ,Health Care
+FOMX,NASDAQ,Health Care
+FOR,NYSE,Financials
+FORD,NASDAQ,Consumer Discretionary
+FORM,NASDAQ,Technology
+FORR,NASDAQ,Technology
+FOSL,NASDAQ,Consumer Discretionary
 FOX,NASDAQ,Communications
 FOXA,NASDAQ,Communications
+FOXF,NASDAQ,Consumer Discretionary
+FPI,NYSE,Financials
+FPO,NYSE,Financials
+FPRX,NASDAQ,Health Care
+FPT,NYSE,FUND
+FR,NYSE,Financials
+FRAN,NASDAQ,Consumer Discretionary
+FRC,NYSE,Financials
+FRED,NASDAQ,Consumer Staples
+FRF,Delisted,Financials
+FRGI,NASDAQ,Consumer Discretionary
+FRM,NYSE,Industrials
+FRME,NASDAQ,Financials
+FRNK,NOT FOUND,NOT FOUND
+FRO,NYSE,Industrials
+FRP,NASDAQ,Communications
+FRPT,NASDAQ,Consumer Discretionary
+FRSH,NASDAQ,Consumer Discretionary
 FRT,NYSE,Financials
+FRX,Delisted,NOT FOUND
+FSAM,NASDAQ,Financials
+FSB,NYSE,Financials
+FSC,NASDAQ,Financials
+FSCI,Delisted,Communications
+FSD,NYSE,FUND
+FSFG,NASDAQ,Financials
+FSGI,NOT FOUND,NOT FOUND
+FSIC,NYSE,Financials
+FSL,Delisted,Technology
 FSLR,NASDAQ,Energy
+FSP,AMEX,Financials
+FSS,NYSE,Industrials
+FSTR,NASDAQ,Industrials
+FSV,NASDAQ,Financials
+FSYS,NASDAQ,Consumer Discretionary
+FSZ,NASDAQ,FUND
+FTA,NYSE_Arca,FUND
+FTD,NASDAQ,Consumer Discretionary
+FTEK,NASDAQ,Industrials
 FTI,NYSE,Energy
 FTK,NYSE,Energy
+FTNT,NASDAQ,Technology
 FTR,NASDAQ,Communications
+FTRPR,NASDAQ,NOT FOUND
+FTV,NOT FOUND,NOT FOUND
+FTWRQ,Delisted,Communications
+FUBC,Delisted,Financials
+FUEL,NASDAQ,Communications
+FUL,NYSE,Materials
+FULT,NASDAQ,Financials
+FUN,NYSE,Consumer Discretionary
+FUNC,NASDAQ,Financials
+FUND,NASDAQ,FUND
+FUQI,Delisted,Consumer Discretionary
+FUR,NYSE,Financials
+FURX,Delisted,Health Care
+FVE,NYSE,Health Care
+FWLT,Delisted,Industrials
+FWP,NASDAQ,Health Care
+FWRD,NASDAQ,Industrials
+FXA,NYSE_Arca,FUND
+FXCB,NASDAQ,Financials
 FXCM,NYSE,Financials
+FXEN,NOT FOUND,NOT FOUND
+FXI,NYSE_Arca,FUND
+FXL,NYSE_Arca,FUND
+G,NYSE,Technology
+GAGA,Delisted,Consumer Staples
+GAIA,NASDAQ,Consumer Discretionary
+GAIN,NASDAQ,Financials
+GALT,NASDAQ,Health Care
+GAME,Delisted,Technology
+GANS,NOT FOUND,NOT FOUND
 GAS,NYSE,Utilities
+GASS,NASDAQ,Industrials
+GATX,NOT FOUND,NOT FOUND
+GBCI,NASDAQ,Financials
+GBDC,NASDAQ,Financials
+GBL,NYSE,Financials
+GBLI,NASDAQ,Financials
 GBT,NASDAQ,Health Care
 GBX,NYSE,Industrials
+GCAP,NYSE,Financials
+GCH,NYSE,FUND
+GCI,NYSE,Communications
+GCO,NYSE,Consumer Discretionary
+GCOM,Delisted,Communications
+GCP,NYSE,Consumer Discretionary
+GCVRZ,NASDAQ,Health Care
 GD,NYSE,Industrials
+GDDY,NYSE,Communications
+GDEN,NASDAQ,Consumer Discretionary
+GDI,Delisted,Industrials
+GDL,NYSE,FUND
+GDOT,NYSE,Financials
+GDX,NYSE_Arca,FUND
+GDXJ,NYSE_Arca,FUND
 GE,NYSE,Industrials
+GEF,NYSE,Materials
+GEGSQ,NOT FOUND,NOT FOUND
+GEL,NYSE,Energy
+GEN,NYSE,Health Care
+GEO,NYSE,Financials
+GEOS,NASDAQ,Energy
+GERN,NASDAQ,Health Care
+GES,NYSE,Consumer Discretionary
+GEVA,NOT FOUND,NOT FOUND
 GEVO,NASDAQ,Energy
+GFA,NYSE,Financials
+GFF,NYSE,Consumer Discretionary
+GFI,NYSE,Materials
+GFIG,NOT FOUND,NOT FOUND
+GG,NYSE,Materials
+GGAL,NASDAQ,Financials
+GGB,NYSE,Materials
+GGG,NYSE,Industrials
 GGP,NYSE,Financials
+GHC,NYSE,Consumer Discretionary
+GHDX,NASDAQ,Health Care
+GHL,NYSE,Financials
+GHM,NYSE,Industrials
+GI,NYSE,Health Care
+GIB,NYSE,Health Care
+GIFI,NASDAQ,Energy
+GIG,AMEX,Technology
+GIGM,NASDAQ,Technology
+GIII,NASDAQ,Consumer Discretionary
+GIL,NYSE,Consumer Discretionary
 GILD,NASDAQ,Health Care
+GILT,NASDAQ,Technology
+GIMO,NYSE,Technology
 GIS,NYSE,Consumer Staples
+GIVN,Delisted,Health Care
+GK,NASDAQ,Consumer Discretionary
+GKNT,NOT FOUND,NOT FOUND
+GKOS,NYSE,Health Care
+GLBL,NASDAQ,Energy
+GLCH,NOT FOUND,NOT FOUND
+GLD,NYSE_Arca,FUND
+GLDD,NASDAQ,Industrials
+GLF,NYSE,Energy
+GLGLF,NOT FOUND,NOT FOUND
 GLNG,NASDAQ,Industrials
+GLOB,NYSE,Technology
+GLOG,NYSE,Industrials
+GLOP,NYSE,Industrials
+GLP,NYSE,Energy
+GLPG,NASDAQ,Health Care
+GLPI,NASDAQ,Financials
+GLRE,NASDAQ,Financials
+GLT,NYSE,Financials
+GLUU,NASDAQ,FUND
 GLW,NYSE,Technology
+GLYC,NASDAQ,Health Care
 GM,NYSE,Consumer Discretionary
+GMAN,NASDAQ,Consumer Discretionary
+GMCR,NASDAQ,Consumer Staples
 GME,NYSE,Consumer Discretionary
+GMED,NYSE,Health Care
+GMF,NYSE_Arca,FUND
 GMLP,NASDAQ,Industrials
+GMO,AMEX,Materials
+GMRE,NOT FOUND,NOT FOUND
+GMS,NOT FOUND,NOT FOUND
+GMXRQ,Delisted,Energy
+GNC,NYSE,Consumer Discretionary
+GNCMA,NASDAQ,Communications
+GNE,NYSE,Utilities
+GNK,NYSE,Industrials
+GNKOQ,Delisted,Industrials
+GNOM,Delisted,Health Care
+GNRC,NYSE,Industrials
+GNRT,NYSE,Industrials
+GNTX,NASDAQ,Consumer Discretionary
 GNW,NYSE,Financials
+GOGL,NASDAQ,Industrials
+GOGO,NASDAQ,Communications
+GOL,NYSE,Consumer Discretionary
+GOLD,NASDAQ,Materials
+GOMO,NOT FOUND,NOT FOUND
+GOOD,NASDAQ,Financials
 GOOG,NASDAQ,Communications
 GOOGL,NASDAQ,Communications
+GORO,AMEX,Materials
+GOV,NYSE,Financials
 GPC,NYSE,Consumer Discretionary
+GPI,NYSE,Consumer Discretionary
+GPIA,NASDAQ,Financials
+GPK,NYSE,Materials
+GPL,AMEX,Materials
+GPM,NYSE,FUND
+GPN,NYSE,Financials
+GPOR,NASDAQ,Energy
+GPRE,NASDAQ,Energy
+GPRK,NYSE,Energy
 GPRO,NASDAQ,Technology
 GPS,NYSE,Consumer Discretionary
+GPT,NYSE,Financials
+GPX,NYSE,Consumer Discretionary
+GRA,NYSE,Materials
+GRAM,NYSE,Industrials
+GRBK,NASDAQ,Consumer Discretionary
+GRC,AMEX,Industrials
+GREK,NYSE_Arca,FUND
+GRFS,NASDAQ,Health Care
+GRIF,NASDAQ,Financials
 GRMN,NASDAQ,Technology
+GROW,NASDAQ,Financials
+GRPN,NASDAQ,Communications
+GRSH,NASDAQ,Energy
+GRT,Delisted,Financials
+GRUB,NYSE,Communications
 GS,NYSE,Financials
 GSAT,AMEX,Communications
+GSIH,NOT FOUND,NOT FOUND
+GSIT,NASDAQ,Technology
+GSK,NYSE,Health Care
+GSM,NASDAQ,Materials
+GSOL,NASDAQ,Communications
+GSS,AMEX,Materials
+GST,AMEX,Energy
 GT,NASDAQ,Consumer Discretionary
+GTATQ,NOT FOUND,NOT FOUND
+GTE,AMEX,Energy
+GTI,NOT FOUND,NOT FOUND
+GTIM,NASDAQ,Consumer Discretionary
+GTIV,NOT FOUND,NOT FOUND
+GTLS,NASDAQ,Industrials
+GTN,NYSE,Communications
+GTS,NYSE,Health Care
+GTT,NYSE,Communications
+GTXI,NASDAQ,Health Care
+GTY,NYSE,Financials
+GULTU,NOT FOUND,NOT FOUND
+GUR,NYSE_Arca,FUND
+GURE,NASDAQ,Materials
+GVA,NYSE,Industrials
+GWAY,Delisted,Technology
+GWB,NYSE,Financials
+GWPH,NASDAQ,Health Care
+GWR,NYSE,Industrials
+GWRE,NYSE,Technology
+GWRS,NOT FOUND,NOT FOUND
 GWW,NYSE,Industrials
+GWX,NYSE_Arca,FUND
+GXC,NYSE_Arca,FUND
+GXG,NYSE_Arca,FUND
+GXP,NYSE,Utilities
+GYRO,NASDAQ,Financials
+GZPFY,NOT FOUND,NOT FOUND
+H,NYSE,Consumer Discretionary
+HA,NASDAQ,Consumer Discretionary
+HABT,NASDAQ,Consumer Discretionary
+HAE,NYSE,Health Care
+HAFC,NASDAQ,Financials
+HAIN,NASDAQ,Consumer Staples
 HAL,NYSE,Energy
+HALL,NASDAQ,Financials
 HALO,NASDAQ,Health Care
+HAO,NYSE_Arca,FUND
 HAR,NYSE,Consumer Discretionary
 HAS,NASDAQ,Consumer Discretionary
+HASI,NYSE,Financials
+HAWK,NASDAQ,Financials
+HAWKB,NOT FOUND,NOT FOUND
+HAYN,NASDAQ,Materials
 HBAN,NASDAQ,Financials
+HBANP,NASDAQ,NOT FOUND
+HBCP,NASDAQ,Financials
+HBHC,NASDAQ,Financials
 HBI,NYSE,Consumer Discretionary
+HBIO,NASDAQ,Health Care
+HBM,NYSE,Materials
+HBNC,NASDAQ,Financials
 HCA,NYSE,Health Care
+HCBK,NOT FOUND,NOT FOUND
+HCC,NOT FOUND,NOT FOUND
+HCCI,NASDAQ,Industrials
+HCHC,AMEX,Communications
+HCI,NYSE,Financials
+HCLP,NYSE,Materials
 HCN,NYSE,Financials
+HCNPRI,NOT FOUND,NOT FOUND
+HCOM,NASDAQ,Communications
 HCP,NYSE,Financials
+HCSG,NASDAQ,Consumer Discretionary
+HCT,Delisted,Financials
 HD,NYSE,Consumer Discretionary
+HDB,NYSE,Financials
+HDGE,NYSE_Arca,FUND
+HDNG,NASDAQ,Industrials
 HDP,NASDAQ,Technology
+HDS,NASDAQ,Industrials
+HDSN,NASDAQ,Industrials
+HDV,NYSE_Arca,FUND
+HDYN,Delisted,Energy
+HE,NYSE,Utilities
+HEDJ,NYSE_Arca,FUND
+HEES,NASDAQ,Industrials
+HEI,NYSE,Industrials
+HEI.A,NYSE,Industrials
+HEINY,NOT FOUND,NOT FOUND
+HELE,NASDAQ,Consumer Staples
+HEOP,NASDAQ,Financials
+HEP,NYSE,Energy
+HEROQ,NOT FOUND,NOT FOUND
 HES,NYSE,Energy
+HF,NYSE,Financials
+HFC,NYSE,Energy
+HFWA,NASDAQ,Financials
+HGG,NYSE,Consumer Discretionary
+HGT,NYSE,Energy
+HHC,NYSE,Financials
+HHS,NYSE,Communications
+HI,NYSE,Industrials
+HIBB,NASDAQ,Consumer Discretionary
+HIFR,NYSE,Financials
 HIG,NYSE,Financials
+HIGPRA,NOT FOUND,NOT FOUND
+HII,NYSE,Industrials
+HIK,NOT FOUND,NOT FOUND
+HIL,NYSE,Consumer Discretionary
+HILL,NOT FOUND,NOT FOUND
+HIMX,NASDAQ,Technology
+HIO,NYSE,FUND
+HIS,NOT FOUND,NOT FOUND
+HITK,Delisted,Health Care
+HIVE,NYSE,Technology
+HIW,NYSE,Financials
+HK,NYSE,Energy
+HL,NYSE,Materials
+HLF,NYSE,Consumer Staples
+HLI,NYSE,Financials
+HLIT,NASDAQ,Technology
+HLND,Delisted,Energy
+HLS,NYSE,Health Care
+HLSS,NOT FOUND,NOT FOUND
+HLT,NYSE,Consumer Discretionary
+HLTH,AMEX,Health Care
+HLX,NYSE,Energy
+HMA,Delisted,Health Care
+HMC,NYSE,Consumer Discretionary
+HME,NOT FOUND,NOT FOUND
+HMH,NOT FOUND,NOT FOUND
+HMHC,NASDAQ,Communications
+HMIN,NASDAQ,Consumer Discretionary
+HMN,NYSE,Financials
+HMST,NASDAQ,Financials
 HMSY,NASDAQ,Consumer Discretionary
+HMTV,NASDAQ,Communications
+HMY,NYSE,Materials
+HNGR,NOT FOUND,NOT FOUND
+HNH,NASDAQ,Industrials
+HNHPF,NOT FOUND,NOT FOUND
+HNI,NYSE,Consumer Discretionary
+HNNA,NASDAQ,Financials
+HNP,NYSE,Utilities
+HNR,NYSE,Energy
+HNRG,NASDAQ,Energy
+HNT,NYSE,Health Care
+HNZ,Delisted,NOT FOUND
+HOFT,NASDAQ,Consumer Discretionary
 HOG,NYSE,Consumer Discretionary
+HOGS,Delisted,Consumer Staples
+HOLI,NASDAQ,Industrials
 HOLX,NASDAQ,Health Care
+HOMB,NASDAQ,Financials
+HOME,Delisted,Consumer Discretionary
 HON,NYSE,Industrials
+HOPE,Delisted,Financials
 HOS,NYSE,Industrials
 HOT,NYSE,Consumer Discretionary
+HOTT,Delisted,Consumer Discretionary
+HOV,NYSE,Consumer Discretionary
+HOVU,Delisted,NOT FOUND
 HP,NYSE,Energy
+HPAC,Delisted,Financials
 HPE,NYSE,Technology
+HPF,NYSE,FUND
+HPJ,NASDAQ,Consumer Staples
+HPP,NYSE,Financials
 HPQ,NYSE,Technology
+HPS,NYSE,FUND
+HPT,NYSE,Financials
+HPTX,NOT FOUND,NOT FOUND
+HPY,NYSE,Financials
+HQCL,NASDAQ,Energy
+HQY,NASDAQ,Health Care
+HR,NYSE,Financials
 HRB,NYSE,Consumer Discretionary
+HRC,NYSE,Health Care
+HRG,NYSE,Consumer Staples
 HRL,NYSE,Consumer Staples
 HRS,NYSE,Industrials
+HRTG,NYSE,Financials
+HRTX,NASDAQ,Health Care
+HSA,Delisted,FUND
+HSBC,NYSE,Financials
+HSC,NYSE,Materials
+HSH,Delisted,Consumer Staples
 HSIC,NASDAQ,Health Care
+HSII,NASDAQ,Consumer Discretionary
+HSNI,NASDAQ,Consumer Discretionary
+HSON,NASDAQ,Consumer Discretionary
+HSP,Delisted,Health Care
 HST,NYSE,Financials
+HSTM,NASDAQ,Communications
 HSY,NYSE,Consumer Staples
+HT,NYSE,Financials
+HTA,NYSE,Financials
+HTBI,NASDAQ,Financials
+HTBK,NASDAQ,Financials
+HTBX,NASDAQ,Health Care
+HTCH,NASDAQ,Technology
+HTGC,NYSE,Financials
+HTH,NYSE,Financials
+HTHT,NASDAQ,Consumer Discretionary
+HTLD,NASDAQ,Industrials
+HTS,NYSE,Financials
+HTSI,Delisted,Consumer Staples
+HTWR,NASDAQ,Health Care
+HTZ,NYSE,Consumer Discretionary
+HUB.A,NOT FOUND,NOT FOUND
+HUBB,NYSE,Industrials
+HUBG,NASDAQ,Industrials
+HUBS,NYSE,Technology
 HUM,NYSE,Health Care
+HUN,NYSE,Materials
+HURN,NASDAQ,Consumer Discretionary
+HVB,NOT FOUND,NOT FOUND
+HVT,NYSE,Consumer Discretionary
+HW,NYSE,Materials
+HWAY,NASDAQ,Health Care
+HWCC,NASDAQ,Industrials
+HWKN,NASDAQ,Materials
+HXL,NYSE,Industrials
+HXSCL,NOT FOUND,NOT FOUND
+HY,NYSE,Industrials
+HYB,NYSE,FUND
+HYD,NYSE_Arca,FUND
+HYG,NYSE_Arca,FUND
+HYGS,NASDAQ,Energy
+HYH,NYSE,Health Care
+HYI,NYSE,FUND
+HYS,NYSE_Arca,FUND
+HYT,NYSE,FUND
+HYV,NOT FOUND,NOT FOUND
+HZN,NYSE,Consumer Discretionary
+HZNP,NASDAQ,Health Care
+HZO,NYSE,Consumer Discretionary
+I,NYSE,Communications
+IAC,NASDAQ,Financials
+IAG,NYSE,Materials
+IART,NASDAQ,Health Care
+IAT,NYSE_Arca,FUND
+IAU,NYSE_Arca,FUND
+IBB,NASDAQ,FUND
+IBCP,NASDAQ,Financials
+IBKC,NASDAQ,Financials
+IBKR,NASDAQ,Financials
 IBM,NYSE,Technology
+IBN,NYSE,Financials
+IBOC,NASDAQ,Financials
+IBP,NYSE,Industrials
+IBTX,NASDAQ,Financials
+ICBK,NASDAQ,Financials
+ICD,NYSE,Energy
 ICE,NYSE,Financials
+ICEL,NOT FOUND,NOT FOUND
+ICFI,NASDAQ,Technology
+ICL,NYSE,Materials
+ICLR,NASDAQ,Health Care
 ICON,NASDAQ,Consumer Discretionary
+ICPT,NASDAQ,Health Care
+ICTG,Delisted,Communications
+ICUI,NASDAQ,Health Care
+IDA,NYSE,Utilities
+IDCC,NASDAQ,Technology
+IDIX,Delisted,Health Care
+IDPK,NOT FOUND,NOT FOUND
+IDT,NYSE,Communications
+IDTI,NASDAQ,Technology
+IDU,NYSE_Arca,FUND
+IDV,NYSE_Arca,FUND
+IDWM,NOT FOUND,NOT FOUND
+IDX,NYSE_Arca,FUND
+IDXX,NASDAQ,Health Care
+IEF,NYSE_Arca,FUND
+IEI,NYSE_Arca,FUND
+IEMG,NYSE_Arca,FUND
+IEO,NYSE_Arca,FUND
+IEP,NASDAQ,Financials
+IESC,NASDAQ,Industrials
+IEV,NYSE_Arca,FUND
+IEX,NYSE,Industrials
 IFF,NYSE,Materials
+IFMI,AMEX,Financials
+IGF,NASDAQ,FUND
+IGLD,NASDAQ,Communications
+IGR,NYSE,FUND
+IGT,NYSE,Consumer Discretionary
+IGTE,NOT FOUND,NOT FOUND
+IHG,NYSE,Consumer Discretionary
+III,NASDAQ,Consumer Discretionary
+IIIN,NASDAQ,Industrials
+IIJI,NASDAQ,Technology
+IILG,NASDAQ,Consumer Discretionary
+IIM,NYSE,FUND
+IIVI,NASDAQ,Technology
+IJH,NYSE_Arca,FUND
+IJR,NYSE_Arca,FUND
+IJS,NYSE_Arca,FUND
+IKAN,NOT FOUND,NOT FOUND
+IL,NYSE,Technology
+ILF,NYSE_Arca,FUND
 ILMN,NASDAQ,Health Care
+IM,NYSE,Consumer Discretionary
+IMAX,NYSE,Technology
+IMDZ,NASDAQ,Health Care
 IMGN,NASDAQ,Health Care
+IMH,AMEX,Financials
+IMKTA,NASDAQ,Consumer Staples
+IMMR,NASDAQ,Technology
 IMMU,NASDAQ,Health Care
+IMN,NYSE,Technology
+IMO,AMEX,Energy
+IMOS,NASDAQ,Technology
+IMPR,NYSE,Technology
+IMPV,NYSE,Technology
+IMS,NYSE,Technology
+IN,Delisted,Technology
+INAP,NASDAQ,Communications
+INBK,NASDAQ,Financials
+INCR,NASDAQ,Health Care
+INCY,NASDAQ,Health Care
+INDB,NASDAQ,Financials
+INDY,NASDAQ,FUND
+INFA,NOT FOUND,NOT FOUND
+INFI,NASDAQ,Health Care
+INFN,NASDAQ,Technology
+INFO,Delisted,Communications
+INFY,NYSE,Technology
+ING,NYSE,Financials
+INGN,NASDAQ,Health Care
+INGR,NYSE,Consumer Staples
+ININ,NASDAQ,Technology
+INN,NYSE,Financials
+INNL,NASDAQ,Health Care
+INO,NASDAQ,Health Care
+INOV,NASDAQ,Technology
+INP,NYSE_Arca,FUND
+INSM,NASDAQ,Health Care
+INSY,NASDAQ,Health Care
+INT,NYSE,Energy
 INTC,NASDAQ,Technology
+INTG,NASDAQ,Financials
+INTL,NASDAQ,Financials
 INTU,NASDAQ,Technology
-IONS,NASDAQ,#N/A
+INTX,NASDAQ,Consumer Discretionary
+INVA,NASDAQ,Communications
+INVE,NASDAQ,Technology
+INVN,NYSE,Technology
+INWK,NASDAQ,Technology
+INXN,NYSE,Technology
+IO,NYSE,Energy
+IOC,NYSE,Energy
+IONS,NASDAQ,Consumer Staples
+IOO,NYSE_Arca,FUND
+IOSP,NASDAQ,Materials
 IP,NYSE,Materials
+IPAR,NASDAQ,Consumer Staples
+IPAS,NASDAQ,Technology
+IPCC,NASDAQ,Financials
+IPCM,NOT FOUND,NOT FOUND
 IPG,NYSE,Communications
+IPGP,NASDAQ,Technology
+IPHI,NYSE,Technology
+IPHS,NASDAQ,Materials
+IPI,NYSE,Materials
+IPRA,NOT FOUND,NOT FOUND
+IPXL,NASDAQ,Health Care
+IQI,NYSE,FUND
+IQNT,NASDAQ,Communications
 IR,NYSE,Industrials
+IRBT,NASDAQ,Consumer Discretionary
+IRC,NYSE,Financials
+IRC.PRB,NOT FOUND,NOT FOUND
+IRDM,NASDAQ,Communications
+IRDMB,NASDAQ,NOT FOUND
+IREBY,NOT FOUND,NOT FOUND
+IRET,NYSE,Financials
+IRF,NOT FOUND,NOT FOUND
+IRG,NASDAQ,Consumer Discretionary
 IRM,NYSE,Financials
+IROQ,NASDAQ,Financials
+IRS,NYSE,Financials
+IRWD,NASDAQ,Health Care
+ISBC,NASDAQ,Financials
+ISCA,NASDAQ,Consumer Discretionary
+ISIL,NASDAQ,Technology
+ISLE,NASDAQ,Consumer Discretionary
+ISNPY,NOT FOUND,NOT FOUND
 ISRG,NASDAQ,Health Care
+ISS,Delisted,Technology
+ISSC,NASDAQ,Industrials
+ISSI,NOT FOUND,NOT FOUND
+ISTR,NASDAQ,Financials
+IT,NYSE,Technology
+ITA,NYSE_Arca,FUND
+ITB,NYSE_Arca,FUND
+ITC,NYSE,Utilities
 ITCI,NASDAQ,Health Care
+ITEK,NASDAQ,Health Care
+ITG,NYSE,Financials
+ITGR,Delisted,Communications
+ITM,NYSE_Arca,FUND
+ITMN,Delisted,Health Care
+ITOT,NYSE_Arca,FUND
+ITRI,NASDAQ,Industrials
+ITRN,NASDAQ,Industrials
+ITT,NYSE,Industrials
+ITUB,NYSE,Financials
 ITW,NYSE,Industrials
+IUSV,NYSE_Arca,FUND
+IVAC,NASDAQ,Industrials
+IVANF,NOT FOUND,NOT FOUND
+IVC,NYSE,Health Care
+IVE,NYSE_Arca,FUND
+IVR,NYSE,Financials
+IVV,NYSE_Arca,FUND
+IVW,NYSE_Arca,FUND
 IVZ,NYSE,Financials
+IWB,NYSE_Arca,FUND
+IWC,NYSE_Arca,FUND
+IWD,NYSE_Arca,FUND
+IWF,NYSE_Arca,FUND
+IWM,NYSE_Arca,FUND
+IWN,NYSE_Arca,FUND
+IWO,NYSE_Arca,FUND
+IWP,NYSE_Arca,FUND
+IWR,NYSE_Arca,FUND
+IWS,NYSE_Arca,FUND
+IWV,NYSE_Arca,FUND
+IX,NYSE,Financials
+IXYS,NASDAQ,Technology
+IYE,NYSE_Arca,FUND
+IYF,NYSE_Arca,FUND
+IYR,NYSE_Arca,FUND
+IYT,NYSE_Arca,FUND
+IYZ,NYSE_Arca,FUND
+JACK,NASDAQ,Consumer Discretionary
+JAH,NYSE,Consumer Staples
+JAKK,NASDAQ,Consumer Discretionary
+JASO,NASDAQ,Energy
+JAZZ,NASDAQ,Health Care
 JBHT,NASDAQ,Industrials
+JBL,NYSE,Technology
+JBLU,NASDAQ,Consumer Discretionary
+JBSS,NASDAQ,Consumer Staples
+JBT,NYSE,Industrials
 JCI,NYSE,Consumer Discretionary
+JCOM,NASDAQ,Communications
+JCP,NYSE,Consumer Discretionary
+JCS,NASDAQ,Technology
+JD,NASDAQ,Consumer Discretionary
+JE,NYSE,Utilities
 JEC,NYSE,Industrials
+JGBD,NYSE_Arca,FUND
+JGBS,NYSE_Arca,FUND
+JGT,NOT FOUND,NOT FOUND
+JHP,NYSE,FUND
+JIVE,NASDAQ,Technology
+JJSF,NASDAQ,Consumer Staples
+JKHY,NASDAQ,Technology
 JKS,NYSE,Energy
+JLL,NYSE,Financials
+JMBA,NASDAQ,Consumer Discretionary
 JMEI,NYSE,Consumer Discretionary
+JMF,NYSE,FUND
+JMG,NYSE,Communications
+JMHLY,NOT FOUND,NOT FOUND
+JMT,NYSE,FUND
 JNJ,NYSE,Health Care
+JNK,NYSE_Arca,FUND
 JNPR,NYSE,Technology
+JNS,NYSE,Financials
+JNY,Delisted,Consumer Discretionary
+JOBS,NASDAQ,Communications
+JOE,NYSE,Consumer Discretionary
+JONE,NYSE,Energy
+JOSB,Delisted,Consumer Discretionary
 JOY,NYSE,Industrials
+JPC,NYSE,FUND
+JPEP,NYSE,Energy
 JPM,NYSE,Financials
+JPS,NYSE,FUND
+JQC,NYSE,FUND
+JRN,NOT FOUND,NOT FOUND
+JRS,AMEX,FUND
+JRVR,NASDAQ,Financials
+JSM,NASDAQ,NOT FOUND
+JUNO,NASDAQ,Health Care
+JW.A,NYSE,Consumer Discretionary
 JWN,NYSE,Consumer Discretionary
 K,NYSE,Consumer Staples
+KAI,NYSE,Industrials
+KALU,NASDAQ,Materials
+KAMN,NYSE,Industrials
+KANG,NASDAQ,Health Care
+KAR,NYSE,Consumer Discretionary
+KATE,NYSE,Consumer Discretionary
+KB,NYSE,Financials
+KBAL,NASDAQ,Consumer Discretionary
+KBE,NYSE_Arca,FUND
+KBH,NYSE,Consumer Discretionary
+KBR,NYSE,Industrials
+KBWB,NYSE_Arca,FUND
+KCE,NYSE_Arca,FUND
+KCG,NYSE,Financials
+KDN,Delisted,Industrials
+KE,NASDAQ,Industrials
+KED,NYSE,FUND
+KEGX,NOT FOUND,NOT FOUND
+KELYA,NASDAQ,Consumer Discretionary
+KEM,NYSE,Technology
+KEP,NYSE,Utilities
 KERX,NASDAQ,Health Care
+KEX,NYSE,Industrials
 KEY,NYSE,Financials
+KEYN,Delisted,Technology
+KEYS,NYSE,Industrials
+KEYW,NASDAQ,Technology
+KFN,Delisted,NOT FOUND
+KFRC,NASDAQ,Consumer Discretionary
+KFX,NOT FOUND,NOT FOUND
 KFY,NYSE,Consumer Discretionary
+KGC,NYSE,Materials
 KHC,NASDAQ,Consumer Staples
 KIM,NYSE,Financials
+KIN,NASDAQ,Health Care
+KING,NOT FOUND,NOT FOUND
+KIORQ,NOT FOUND,NOT FOUND
+KIRK,NASDAQ,Consumer Discretionary
+KITE,NASDAQ,Health Care
+KKD,NYSE,Consumer Discretionary
+KKR,NYSE,Financials
 KLAC,NASDAQ,Technology
+KLIC,NASDAQ,Technology
+KLXI,NASDAQ,Industrials
 KMB,NYSE,Consumer Staples
+KMDA,NASDAQ,Health Care
+KMG,NYSE,Materials
 KMI,NYSE,Energy
+KMIPRA,NOT FOUND,NOT FOUND
+KMP,Delisted,Energy
+KMPH,NASDAQ,Health Care
+KMPR,NYSE,Financials
+KMR,Delisted,Energy
 KMT,NYSE,Industrials
+KMTUY,NOT FOUND,NOT FOUND
 KMX,NYSE,Consumer Discretionary
+KN,NYSE,Technology
+KND,NYSE,Health Care
+KNL,NYSE,Consumer Discretionary
+KNX,NYSE,Industrials
 KO,NYSE,Consumer Staples
+KODK,NYSE,Technology
+KOF,NYSE,Consumer Staples
+KOG,Delisted,Energy
+KOL,NYSE_Arca,FUND
+KOP,NYSE,Materials
+KOPN,NASDAQ,Technology
 KORS,NYSE,Consumer Discretionary
+KOS,NYSE,Energy
+KPTI,NASDAQ,Health Care
 KR,NYSE,Consumer Staples
+KRA,NYSE,Materials
+KRC,NYSE,Financials
+KRE,NYSE_Arca,FUND
+KRG,NYSE,Financials
+KRNY,NASDAQ,Financials
+KRO,NYSE,Materials
 KS,NYSE,Materials
 KSS,NYSE,Consumer Discretionary
 KSU,NYSE,Industrials
-L,NYSE,Financials
+KSWS,Delisted,Consumer Discretionary
+KT,NYSE,Communications
+KTCC,NASDAQ,Technology
+KTOS,NASDAQ,Industrials
+KTWO,NASDAQ,Health Care
+KVPHQ,Delisted,Health Care
+KW,NYSE,Financials
+KWKAQ,NOT FOUND,NOT FOUND
+KWR,NYSE,Materials
+KXI,NYSE_Arca,FUND
+KYN,NYSE,FUND
+KYTH,NOT FOUND,NOT FOUND
+KZ,NASDAQ,Technology
+L,NYSE,NOT FOUND
+LABL,NASDAQ,Consumer Discretionary
+LAD,NYSE,Consumer Discretionary
+LADR,NYSE,Financials
+LAKE,NASDAQ,Consumer Discretionary
+LAMR,NASDAQ,Financials
+LANC,NASDAQ,Consumer Staples
+LAND,NASDAQ,Financials
+LARK,NASDAQ,Financials
+LAWS,NASDAQ,Industrials
+LAYN,NASDAQ,Industrials
+LAZ,NYSE,Financials
 LB,NYSE,Consumer Discretionary
+LBF,NYSE,FUND
+LBIO,NASDAQ,Health Care
+LBMH,NOT FOUND,NOT FOUND
+LBRDA,NASDAQ,Communications
+LBRDK,NASDAQ,Communications
+LBTYA,NASDAQ,Communications
+LBTYK,NASDAQ,Communications
+LBY,AMEX,Consumer Discretionary
 LC,NYSE,Financials
+LCAV,Delisted,Health Care
+LCC,Delisted,Consumer Discretionary
+LCI,NYSE,Health Care
+LCUT,NASDAQ,Consumer Discretionary
+LDL,NYSE,Materials
+LDOS,NYSE,Technology
+LDR,NYSE,Industrials
+LDRH,NASDAQ,Health Care
+LE,NASDAQ,Consumer Discretionary
+LEA,NYSE,Consumer Discretionary
+LEAP,Delisted,Communications
+LECO,NASDAQ,Industrials
+LEDR,Delisted,Technology
 LEDS,NASDAQ,Technology
 LEG,NYSE,Consumer Discretionary
+LEMB,NYSE_Arca,FUND
 LEN,NYSE,Consumer Discretionary
+LEN.B,NYSE,Consumer Discretionary
+LF,NYSE,Consumer Discretionary
+LFC,NYSE,Financials
+LFL,NYSE,Consumer Discretionary
+LFUS,NASDAQ,Industrials
+LFVN,NASDAQ,Health Care
+LGCY,NASDAQ,Energy
+LGF,NYSE,Communications
+LGGNY,NOT FOUND,NOT FOUND
 LGIH,NASDAQ,Consumer Discretionary
+LGL,AMEX,Industrials
+LGND,NASDAQ,Health Care
 LH,NYSE,Health Care
+LHCG,NASDAQ,Health Care
+LHO,NYSE,Financials
+LICT,NOT FOUND,NOT FOUND
+LIFE,NASDAQ,Health Care
+LII,NYSE,Industrials
+LILA,NASDAQ,Communications
+LILAK,NASDAQ,Communications
+LIN,Delisted,Communications
+LINC,NASDAQ,Consumer Discretionary
+LIND,NASDAQ,Consumer Discretionary
+LION,NASDAQ,Financials
+LIOX,NASDAQ,Technology
+LITB,NYSE,Consumer Discretionary
+LITE,NASDAQ,Technology
+LIVN,NASDAQ,Health Care
+LKFN,NASDAQ,Financials
+LKQ,NASDAQ,Consumer Discretionary
+LL,NYSE,Consumer Discretionary
 LLL,NYSE,Industrials
+LLNW,NASDAQ,Technology
 LLTC,NASDAQ,Technology
 LLY,NYSE,Health Care
 LM,NYSE,Financials
+LMAT,NASDAQ,Health Care
+LMCA,NASDAQ,Communications
+LMCK,NASDAQ,Communications
+LMIA,NASDAQ,Industrials
+LMNR,NASDAQ,Consumer Staples
+LMNS,NOT FOUND,NOT FOUND
+LMNX,NASDAQ,Health Care
+LMOS,NASDAQ,Communications
 LMT,NYSE,Industrials
+LNBB,NOT FOUND,NOT FOUND
 LNC,NYSE,Financials
+LNCE,NASDAQ,Consumer Staples
+LNDC,NASDAQ,Materials
+LNEGY,NOT FOUND,NOT FOUND
+LNG,AMEX,Energy
 LNKD,NYSE,Communications
+LNN,NYSE,Industrials
+LNT,NYSE,Utilities
+LO,NOT FOUND,NOT FOUND
+LOB,NASDAQ,Financials
+LOCK,NYSE,Consumer Discretionary
+LOCO,NASDAQ,Consumer Discretionary
+LODE,AMEX,Materials
+LOGI,NASDAQ,Technology
+LOGM,NASDAQ,Technology
+LOPE,NASDAQ,Consumer Discretionary
+LORL,NASDAQ,Technology
 LOW,NYSE,Consumer Discretionary
+LOXO,NASDAQ,Health Care
+LPDX,Delisted,Health Care
+LPG,NYSE,Industrials
 LPI,NYSE,Energy
+LPL,NYSE,Technology
 LPLA,NASDAQ,Financials
+LPNT,NASDAQ,Health Care
+LPS,Delisted,Technology
+LPSB,NASDAQ,Financials
+LPSN,NASDAQ,Technology
+LPT,NYSE,Financials
+LPX,NYSE,Materials
+LQ,NYSE,Consumer Discretionary
+LQD,NYSE_Arca,FUND
+LQDT,NASDAQ,Consumer Discretionary
 LRCX,NASDAQ,Technology
+LRN,NYSE,Consumer Discretionary
+LSCC,NASDAQ,Technology
+LSE,Delisted,Financials
+LSG,AMEX,Materials
+LSI,Delisted,Technology
+LSTR,NASDAQ,Industrials
+LSXMA,NOT FOUND,NOT FOUND
+LSXMK,NOT FOUND,NOT FOUND
+LTC,NYSE,Financials
+LTM,NOT FOUND,NOT FOUND
+LTRPA,NASDAQ,Communications
+LTS,AMEX,Financials
+LTXB,NASDAQ,Financials
+LUFK,Delisted,Energy
 LUK,NYSE,Financials
+LUKOY,NOT FOUND,NOT FOUND
+LULU,NASDAQ,Consumer Discretionary
+LUN,NOT FOUND,NOT FOUND
 LUV,NYSE,Consumer Discretionary
+LUX,NYSE,Consumer Discretionary
+LVB,Delisted,NOT FOUND
 LVLT,NYSE,Communications
+LVNTA,NASDAQ,Communications
+LVS,NYSE,Consumer Discretionary
+LXFR,NYSE,Industrials
+LXFT,NYSE,Technology
+LXK,NYSE,Technology
+LXP,NYSE,Financials
+LXPPRC,NOT FOUND,NOT FOUND
+LXRX,NASDAQ,Health Care
 LXU,NYSE,Materials
 LYB,NYSE,Materials
+LYG,NYSE,Financials
+LYV,NYSE,Consumer Discretionary
+LZB,NYSE,Consumer Discretionary
 M,NYSE,Consumer Discretionary
 MA,NYSE,Financials
+MAA,NYSE,Financials
 MAC,NYSE,Financials
+MACK,NASDAQ,Health Care
+MAG,Delisted,Industrials
+MAIN,NYSE,Financials
+MAKO,Delisted,Health Care
+MAN,NYSE,NOT FOUND
+MANH,NASDAQ,NOT FOUND
+MANT,NASDAQ,Technology
+MANU,NYSE,Consumer Discretionary
 MAR,NASDAQ,Consumer Discretionary
+MARA,NASDAQ,Financials
+MARK,NASDAQ,Communications
 MAS,NYSE,Consumer Discretionary
+MASC,Delisted,Industrials
+MASI,NASDAQ,Health Care
 MAT,NASDAQ,Consumer Discretionary
+MATW,NASDAQ,Consumer Discretionary
+MATX,NYSE,Industrials
+MAV,NYSE,FUND
+MAXY,Delisted,Health Care
+MB,NASDAQ,Technology
+MBB,NYSE_Arca,FUND
+MBCQ,NOT FOUND,NOT FOUND
+MBFI,NASDAQ,Financials
+MBI,NYSE,Financials
+MBII,NASDAQ,Materials
+MBLY,NYSE,Consumer Discretionary
+MBRG,NASDAQ,Financials
+MBT,NYSE,Communications
+MBUU,NASDAQ,Consumer Discretionary
+MBVT,NASDAQ,Financials
+MBWM,NASDAQ,Financials
+MC,NYSE,Financials
+MCC,NYSE,Financials
 MCD,NYSE,Consumer Discretionary
+MCEP,NASDAQ,Energy
+MCF,AMEX,Energy
+MCFT,NASDAQ,Consumer Discretionary
+MCHI,NASDAQ,FUND
 MCHP,NASDAQ,Technology
 MCK,NYSE,Health Care
 MCO,NYSE,Technology
+MCPIQ,NOT FOUND,NOT FOUND
+MCR,NYSE,FUND
 MCRB,NASDAQ,Health Care
+MCRI,NASDAQ,Consumer Discretionary
+MCRL,Delisted,Technology
+MCRN,NYSE,Industrials
+MCRS,Delisted,Technology
+MCS,NYSE,Consumer Discretionary
+MCY,NYSE,Financials
+MD,NYSE,Health Care
+MDAS,NOT FOUND,NOT FOUND
+MDC,NYSE,Consumer Discretionary
+MDCA,NASDAQ,Communications
+MDCI,Delisted,Health Care
+MDCO,NASDAQ,Health Care
+MDGL,NOT FOUND,NOT FOUND
+MDGN,AMEX,Health Care
+MDLY,NYSE,Financials
 MDLZ,NASDAQ,Consumer Staples
+MDP,NYSE,Communications
+MDR,NYSE,Energy
+MDRX,NASDAQ,Technology
+MDSO,NASDAQ,Technology
 MDT,NYSE,Health Care
+MDU,NYSE,Materials
+MDVN,NASDAQ,Health Care
+MDXG,NASDAQ,Health Care
+MDY,NYSE_Arca,FUND
+MEA,Delisted,Industrials
+MEAS,Delisted,Industrials
+MED,NYSE,Consumer Discretionary
+MEG,NYSE,Communications
+MEI,NYSE,Consumer Discretionary
+MEIP,NASDAQ,Health Care
+MELI,NASDAQ,Consumer Discretionary
+MEMP,NASDAQ,Energy
+MENT,NASDAQ,Technology
+MEOH,NASDAQ,Materials
+MERC,NASDAQ,Materials
+MERU,NOT FOUND,NOT FOUND
+MESG,NASDAQ,Technology
 MET,NYSE,Financials
+METR,NOT FOUND,NOT FOUND
+MFA,NYSE,Financials
+MFB,Delisted,Consumer Discretionary
+MFC,NYSE,Financials
+MFG,NYSE,Financials
+MFGLQ,Delisted,NOT FOUND
+MFIN,Delisted,Technology
+MFLX,NASDAQ,Technology
+MFRM,NASDAQ,Consumer Discretionary
+MFS,NYSE,Materials
+MG,NYSE,Industrials
+MGA,NYSE,Consumer Discretionary
+MGAM,Delisted,Consumer Discretionary
+MGEE,NASDAQ,Utilities
+MGI,NASDAQ,Financials
+MGLN,NASDAQ,Health Care
+MGM,NYSE,Consumer Discretionary
+MGNT,NOT FOUND,NOT FOUND
+MGNX,NASDAQ,Health Care
+MGP,Delisted,NOT FOUND
+MGRC,NASDAQ,Financials
+MGT,AMEX,Technology
+MGU,NYSE,FUND
+MHGC,NASDAQ,Consumer Discretionary
 MHK,NYSE,Consumer Discretionary
+MHLD,NASDAQ,Financials
+MHO,NYSE,Consumer Discretionary
+MHY,NYSE,FUND
+MIC,NYSE,Industrials
+MIDD,NASDAQ,Industrials
+MIDU,NYSE_Arca,FUND
+MIFI,NASDAQ,Technology
+MIG,NOT FOUND,NOT FOUND
+MIICF,NOT FOUND,NOT FOUND
+MIK,NASDAQ,Consumer Discretionary
+MIME,NASDAQ,Technology
+MIN,NYSE,FUND
+MIND,NASDAQ,Energy
+MINI,NASDAQ,Industrials
+MINT,NYSE_Arca,FUND
+MITEY,NOT FOUND,NOT FOUND
+MITK,NASDAQ,Technology
+MITL,NASDAQ,Technology
+MITT,NYSE,Financials
+MIXT,NYSE,Technology
 MJN,NYSE,Consumer Staples
 MKC,NYSE,Consumer Staples
+MKL,NYSE,Financials
+MKSI,NASDAQ,Technology
+MKTG,Delisted,Technology
+MKTO,NASDAQ,Technology
+MKTX,NASDAQ,Technology
+MLAB,NASDAQ,Industrials
+MLHR,NASDAQ,Consumer Discretionary
+MLI,NYSE,Industrials
 MLM,NYSE,Materials
+MLNX,NASDAQ,Technology
+MLR,NYSE,Consumer Discretionary
+MLU,NOT FOUND,NOT FOUND
+MM,Delisted,Communications
 MMC,NYSE,Financials
+MMI,NYSE,Financials
+MMLP,NASDAQ,Energy
 MMM,NYSE,Materials
+MMP,NYSE,Energy
+MMR,Delisted,Energy
+MMS,NYSE,Technology
+MMSI,NASDAQ,Health Care
+MMYT,NASDAQ,Communications
+MN,NYSE,Financials
+MNDO,NASDAQ,Technology
+MNE,NYSE,FUND
+MNI,NYSE,Communications
 MNK,NYSE,Health Care
 MNKD,NASDAQ,Health Care
+MNP,NYSE,FUND
+MNR,NYSE,Financials
+MNRK,NASDAQ,Financials
+MNRO,NASDAQ,Consumer Discretionary
 MNST,NASDAQ,Consumer Staples
+MNTA,NASDAQ,Health Care
+MNTX,NASDAQ,Industrials
 MO,NYSE,Consumer Staples
+MOBI,NASDAQ,Technology
+MOBL,NASDAQ,Technology
+MOCO,NASDAQ,Industrials
+MOD,NYSE,Consumer Discretionary
+MODN,NYSE,Technology
+MOFG,NASDAQ,Financials
+MOG.A,NYSE,NOT FOUND
+MOH,NYSE,Health Care
+MOLX,Delisted,Industrials
+MOLXA,Delisted,Industrials
+MOMO,NASDAQ,Technology
 MON,NYSE,Materials
+MOO,NYSE_Arca,FUND
+MORE,NYSE,Financials
+MORN,NASDAQ,Technology
 MOS,NYSE,Materials
+MOV,NYSE,Consumer Discretionary
+MOVE,Delisted,Communications
+MPAA,NASDAQ,Consumer Discretionary
 MPC,NYSE,Energy
+MPEL,NASDAQ,Consumer Discretionary
+MPG,NYSE,Consumer Discretionary
 MPLX,NYSE,Energy
+MPSX,NYSE,Materials
+MPW,NYSE,Financials
+MPWR,NASDAQ,Technology
+MQBKY,NOT FOUND,NOT FOUND
+MR,NYSE,Health Care
+MR ,NOT FOUND,NOT FOUND
+MRC,NYSE,Energy
+MRCY,NASDAQ,Technology
+MRD,NASDAQ,Energy
+MRGE,NOT FOUND,NOT FOUND
+MRH,NOT FOUND,NOT FOUND
+MRIN,NYSE,Communications
 MRK,NYSE,Health Care
+MRKT,NASDAQ,Technology
+MRNS,NASDAQ,Health Care
 MRO,NYSE,Energy
+MRTN,NASDAQ,Industrials
 MRTX,NASDAQ,Health Care
+MRVL,NASDAQ,Technology
 MS,NYSE,Financials
+MSA,NYSE,Industrials
+MSB,NYSE,Materials
+MSBF,NASDAQ,Financials
+MSC,NOT FOUND,NOT FOUND
+MSCC,NASDAQ,Technology
+MSCI,NYSE,Technology
+MSEX,NASDAQ,Utilities
+MSFG,NASDAQ,Financials
 MSFT,NASDAQ,Technology
+MSG,NYSE,Consumer Discretionary
+MSGN,NYSE,Communications
 MSI,NYSE,Technology
+MSL,NYSE,Financials
+MSM,NYSE,Industrials
+MSO,NOT FOUND,NOT FOUND
+MSPD,Delisted,Technology
+MSTR,NASDAQ,Technology
+MT,NYSE,Materials
 MTB,NYSE,Financials
+MTCH,NASDAQ,Communications
+MTD,NYSE,Health Care
+MTDR,NYSE,Energy
+MTG,NYSE,Financials
+MTGE,NASDAQ,Financials
+MTH,NYSE,Consumer Discretionary
+MTL,NYSE,Materials
+MTLQU,NOT FOUND,NOT FOUND
+MTN,NYSE,Consumer Discretionary
+MTOR,NYSE,Industrials
+MTRN,NYSE,Materials
+MTRX,NASDAQ,Energy
+MTS,NOT FOUND,NOT FOUND
+MTSC,NASDAQ,Industrials
+MTSI,NASDAQ,Technology
+MTSN,NASDAQ,Technology
+MTU,NYSE,Financials
+MTW,NYSE,Industrials
+MTX,NYSE,Materials
+MTZ,NYSE,Industrials
 MU,NASDAQ,Technology
+MUB,NYSE_Arca,FUND
+MUJ,NYSE,FUND
 MUR,NYSE,Energy
+MUSA,NYSE,Energy
+MUX,NYSE,Materials
+MVC,NYSE,Financials
+MVF,AMEX,FUND
+MWA,NYSE,Industrials
+MWE,Delisted,Energy
+MWIV,NOT FOUND,NOT FOUND
+MWV,NOT FOUND,NOT FOUND
+MWW,NYSE,Communications
+MX,NYSE,Technology
+MXIM,NASDAQ,Technology
+MXL,NYSE,Technology
+MXWL,NASDAQ,Technology
+MY,NYSE,Energy
+MYCC,NYSE,Consumer Discretionary
+MYD,NYSE,FUND
+MYE,NYSE,Materials
+MYGN,NASDAQ,Health Care
+MYI,NYSE,FUND
 MYL,NASDAQ,Health Care
+MYN,NYSE,FUND
+MYRG,NASDAQ,Industrials
+MZF,NYSE,FUND
+MZOR,NASDAQ,Health Care
+N,NYSE,Technology
+NABZY,NOT FOUND,NOT FOUND
+NADL,NYSE,Energy
+NAFC,Delisted,Consumer Staples
+NAK,AMEX,Materials
+NAN,NYSE,FUND
+NANO,NASDAQ,Technology
+NAO,NYSE,Industrials
+NAT,NYSE,Industrials
+NATI,NASDAQ,Industrials
+NATL,NASDAQ,Financials
+NATR,NASDAQ,Health Care
 NAV,NYSE,Industrials
+NAVG,NASDAQ,Financials
 NAVI,NASDAQ,Financials
+NAVPRD,NOT FOUND,NOT FOUND
+NBHC,NYSE,Financials
+NBIX,NASDAQ,Health Care
 NBL,NYSE,Energy
+NBN,NASDAQ,Financials
+NBR,NYSE,Energy
+NBTB,NASDAQ,Financials
+NC,NYSE,Consumer Discretionary
+NCFT,Delisted,Consumer Discretionary
+NCI,NYSE,Consumer Discretionary
+NCIT,NASDAQ,Technology
+NCLH,NASDAQ,Consumer Discretionary
+NCMI,NASDAQ,Communications
+NCR,NYSE,Technology
+NCS,NYSE,Industrials
+NCT,NYSE,Financials
 NDAQ,NASDAQ,Financials
+NDLS,NASDAQ,Consumer Discretionary
+NDSN,NASDAQ,Industrials
+NDZ,Delisted,Health Care
+NE,NYSE,Energy
 NEE,NYSE,Utilities
+NEFF,NYSE,Industrials
 NEM,NYSE,Materials
+NEO,NASDAQ,Health Care
+NEOG,NASDAQ,Health Care
+NEON,NASDAQ,Technology
+NEP,NYSE,Utilities
+NETC,Delisted,Communications
+NEU,NYSE,Materials
+NEWM,NYSE,Communications
+NEWP,NASDAQ,Technology
+NEWR,NYSE,Technology
+NEWT,NASDAQ,Financials
+NFBK,NASDAQ,Financials
+NFG,NYSE,Utilities
 NFLX,NASDAQ,Consumer Discretionary
+NFP,Delisted,Financials
 NFX,NYSE,Energy
+NG,AMEX,Materials
+NGD,AMEX,Materials
+NGG,NYSE,Utilities
+NGHC,NASDAQ,Financials
 NGL,NYSE,Energy
+NGLOY,NOT FOUND,NOT FOUND
+NGLS,NOT FOUND,NOT FOUND
+NGVC,NYSE,Consumer Staples
+NHC,AMEX,Health Care
+NHI,NYSE,Financials
+NHS,AMEX,FUND
+NHTC,NASDAQ,Health Care
 NI,NYSE,Utilities
+NICE,NASDAQ,Technology
+NICK,NASDAQ,Financials
+NID,NYSE,FUND
+NIHDQ,NOT FOUND,NOT FOUND
+NILE,NASDAQ,Consumer Discretionary
+NIO,NYSE,FUND
+NIQ,NYSE,FUND
+NJR,NYSE,Utilities
+NK,NASDAQ,Health Care
 NKE,NYSE,Consumer Discretionary
+NKSH,NASDAQ,Financials
+NKTR,NASDAQ,Health Care
 NLNK,NASDAQ,Health Care
+NLS,NYSE,Consumer Discretionary
 NLSN,NYSE,Communications
+NLY,NYSE,Financials
+NM,NYSE,Industrials
 NMBL,NYSE,Technology
+NMFC,NYSE,Financials
+NMIH,NASDAQ,Financials
+NMM,NYSE,Industrials
+NMPRG,NOT FOUND,NOT FOUND
+NMPRH,NOT FOUND,NOT FOUND
+NMR,NYSE,Financials
+NMS,NYSE,FUND
+NNA,NYSE,Industrials
+NNBR,NASDAQ,Industrials
+NNI,NYSE,Financials
+NNN,NYSE,Financials
+NOAH,NYSE,Financials
+NOBL,NYSE_Arca,FUND
 NOC,NYSE,Industrials
+NOG,AMEX,Energy
+NOK,NYSE,Technology
+NOMD,NYSE,FUND
+NORD,NYSE,Consumer Discretionary
+NORW,NYSE_Arca,FUND
 NOV,NYSE,Energy
+NOVN,Delisted,Health Care
+NOVT,NOT FOUND,NOT FOUND
+NOW,NYSE,Technology
+NP,NYSE,Materials
+NPBC,NASDAQ,Financials
+NPD,NYSE,Consumer Staples
+NPI,NYSE,FUND
+NPK,NYSE,Industrials
+NPM,NYSE,FUND
+NPO,NYSE,Industrials
+NPSNY,NOT FOUND,NOT FOUND
+NPSP,NOT FOUND,NOT FOUND
+NPT,NYSE,FUND
+NPTN,NYSE,Technology
+NQ,NYSE,Technology
+NR,NYSE,Energy
+NRE,NYSE,Financials
+NRF,NYSE,Financials
 NRG,NYSE,Utilities
+NRGM,NOT FOUND,NOT FOUND
+NRIM,NASDAQ,Financials
+NRO,AMEX,FUND
+NRP,NYSE,Energy
+NRZ,NYSE,Financials
+NS,NYSE,Energy
+NSA,NYSE,Financials
+NSAM,NYSE,Financials
 NSC,NYSE,Industrials
+NSH,NYSE,Energy
+NSIT,NASDAQ,Consumer Discretionary
+NSM,NYSE,Financials
+NSP,NYSE,Consumer Discretionary
+NSR,NYSE,Technology
+NSTG,NASDAQ,Health Care
+NSU,AMEX,Materials
 NTAP,NASDAQ,Technology
+NTC,NYSE,FUND
+NTCT,NASDAQ,Technology
+NTES,NASDAQ,Technology
+NTGR,NASDAQ,Technology
+NTI,NYSE,Energy
+NTK,NASDAQ,Industrials
+NTL,NYSE,Communications
+NTLS,NASDAQ,Communications
+NTRA,NASDAQ,Health Care
+NTRI,NASDAQ,Consumer Discretionary
 NTRS,NASDAQ,Financials
+NTSP,Delisted,Financials
+NTT,NYSE,Communications
+NUAN,NASDAQ,Technology
 NUE,NYSE,Materials
+NUN,NOT FOUND,NOT FOUND
+NURO,NASDAQ,Health Care
+NUS,NYSE,Consumer Staples
+NUTR,NASDAQ,Health Care
+NUV,NYSE,FUND
+NUVA,NASDAQ,Health Care
+NVAX,NASDAQ,Health Care
+NVC,NOT FOUND,NOT FOUND
+NVCN,NASDAQ,Health Care
 NVDA,NASDAQ,Technology
+NVDQ,NASDAQ,Health Care
+NVE,Delisted,Utilities
+NVEC,NASDAQ,Technology
+NVEE,NASDAQ,Consumer Discretionary
+NVG,AMEX,FUND
 NVGN,NASDAQ,Health Care
+NVGS,NYSE,Industrials
+NVLS,NASDAQ,Health Care
+NVMI,NASDAQ,Technology
+NVO,NYSE,Health Care
+NVR,NYSE,Consumer Discretionary
+NVRO,NYSE,Health Care
+NVS,NYSE,Health Care
+NVTA,NYSE,Health Care
+NVTR,NASDAQ,Financials
+NWBI,NASDAQ,Financials
+NWBO,NASDAQ,Health Care
+NWE,NYSE,Utilities
+NWHM,NYSE,Consumer Discretionary
 NWL,NYSE,Consumer Discretionary
+NWLI,NASDAQ,Financials
+NWN,NYSE,Utilities
+NWPX,NASDAQ,Materials
 NWS,NASDAQ,Communications
 NWSA,NASDAQ,Communications
+NWY,NYSE,Consumer Discretionary
+NX,NYSE,Consumer Discretionary
+NXEO,NOT FOUND,NOT FOUND
+NXPI,NASDAQ,Technology
+NXRT,NYSE,Financials
+NXST,NASDAQ,Communications
+NXTM,NASDAQ,Health Care
+NXY,Delisted,Energy
+NYCB,NYSE,Financials
+NYCBPRU,NOT FOUND,NOT FOUND
+NYLD,NYSE,Utilities
+NYLD.A,NYSE,Utilities
+NYRT,NYSE,Financials
+NYT,NYSE,Communications
+NYX,Delisted,NOT FOUND
 O,NYSE,Financials
+OA,NYSE,Industrials
+OABC,Delisted,Financials
+OAK,NYSE,Financials
+OAS,NYSE,Energy
+OB,NYSE,Financials
+OC,NYSE,Materials
+OCAT,NOT FOUND,NOT FOUND
+OCFC,NASDAQ,Financials
+OCIP,NYSE,Materials
+OCLR,NASDAQ,Technology
 OCN,NYSE,Financials
+OCR,NOT FOUND,NOT FOUND
+OCUL,NASDAQ,Health Care
+ODC,NYSE,Materials
+ODFL,NASDAQ,Industrials
 ODP,NASDAQ,Consumer Discretionary
+OEC,NYSE,Materials
+OEF,NYSE_Arca,FUND
+OESX,NASDAQ,Industrials
+OFC,NYSE,Financials
+OFG,NYSE,Financials
+OFI,Delisted,Consumer Staples
+OFIX,NASDAQ,Health Care
+OGE,NYSE,Utilities
+OGS,NYSE,Utilities
+OGXI,NASDAQ,Health Care
+OGZPY,NOT FOUND,NOT FOUND
+OHI,NYSE,Financials
 OI,NYSE,Materials
+OIA,NYSE,FUND
+OIBR.C,NYSE,Communications
+OIH,NYSE_Arca,FUND
+OII,NYSE,Energy
+OIL,NYSE_Arca,FUND
+OILT,Delisted,Energy
+OIS,NYSE,Energy
+OJSCY,NOT FOUND,NOT FOUND
 OKE,NYSE,Energy
+OKS,NYSE,Energy
+OKSB,NASDAQ,Financials
+OLED,NASDAQ,Technology
+OLLI,NASDAQ,Consumer Staples
+OLN,NYSE,Materials
+OMAM,NYSE,Financials
 OMC,NYSE,Communications
+OMCL,NASDAQ,Technology
+OME,NYSE,Health Care
+OMER,NASDAQ,Health Care
+OMEX,NASDAQ,Industrials
+OMF,NYSE,Industrials
+OMG,Delisted,Materials
+OMI,NYSE,Health Care
+OMN,NYSE,Materials
+OMPI,Delisted,Health Care
+OMX,Delisted,Consumer Discretionary
+ON,NASDAQ,Technology
+ONB,NASDAQ,Financials
+ONCE,NASDAQ,Health Care
+ONDK,NYSE,Financials
+ONE,NYSE,Financials
+ONFC,NOT FOUND,NOT FOUND
+ONVO,AMEX,Health Care
+ONXX,Delisted,Health Care
+OPAY,Delisted,Financials
+OPB,NASDAQ,Financials
+OPEN,Delisted,NOT FOUND
+OPHT,NASDAQ,Health Care
+OPK,NYSE,Health Care
+OPLK,Delisted,Technology
+OPTR,Delisted,Health Care
+OPWR,NYSE,Technology
+OPY,NYSE,Financials
+ORA,NYSE,Utilities
+ORAN,NYSE,Communications
+ORB,NOT FOUND,NOT FOUND
+ORBC,NASDAQ,Communications
+ORBK,NASDAQ,Industrials
+ORCC,Delisted,NOT FOUND
 ORCL,NYSE,Technology
+OREX,NASDAQ,Health Care
+ORI,NYSE,Financials
+ORIG,NASDAQ,Energy
+ORIT,NASDAQ,Financials
 ORLY,NASDAQ,Consumer Discretionary
+ORN,NYSE,Industrials
+ORRF,NASDAQ,Financials
+OSB,NYSE,Industrials
+OSBC,NASDAQ,Financials
+OSHC,NASDAQ,Financials
+OSIR,NASDAQ,Health Care
+OSIS,NASDAQ,Industrials
+OSK,NYSE,Industrials
+OSN,NASDAQ,Materials
+OSTK,NASDAQ,Consumer Discretionary
+OSUR,NASDAQ,Health Care
+OTEX,NASDAQ,Health Care
 OTIC,NASDAQ,Health Care
+OTTR,NASDAQ,Utilities
+OUT,NYSE,Financials
+OUTD,Delisted,Communications
 OUTR,NASDAQ,Consumer Discretionary
+OVAS,NASDAQ,Health Care
+OVTI,NOT FOUND,NOT FOUND
+OWW,NOT FOUND,NOT FOUND
+OXM,NYSE,Consumer Discretionary
 OXY,NYSE,Energy
+OZM,NYSE,Financials
+OZRK,NASDAQ,Financials
 P,NYSE,Communications
+PAA,NYSE,Energy
+PAAS,NASDAQ,Materials
+PAC,NYSE,Industrials
+PACB,NASDAQ,Health Care
+PACD,NYSE,Energy
+PACE,NASDAQ,Financials
+PACR,Delisted,Industrials
+PACT,Delisted,Technology
+PACW,NASDAQ,Financials
+PAG,NYSE,Consumer Discretionary
+PAGP,NYSE,Energy
 PAH,NYSE,Materials
+PAHC,NASDAQ,Health Care
+PALDF,NOT FOUND,NOT FOUND
+PALL,NYSE_Arca,FUND
+PAM,NYSE,Utilities
+PANL,NASDAQ,Industrials
+PANW,NYSE,Technology
+PAR,NYSE,Technology
+PARR,AMEX,Energy
+PATH,Delisted,Health Care
+PATK,NASDAQ,Materials
 PAY,NYSE,Technology
+PAYC,NYSE,Technology
 PAYX,NASDAQ,Technology
+PB,NYSE,Financials
+PBA,NYSE,Energy
 PBCT,NASDAQ,Financials
+PBF,NYSE,Energy
+PBFX,NYSE,Energy
+PBH,NYSE,Health Care
 PBI,NYSE,Technology
+PBNY,NOT FOUND,NOT FOUND
+PBP,NYSE_Arca,FUND
+PBPB,NASDAQ,Consumer Discretionary
+PBR,NYSE,Energy
+PBR.A,NYSE,Energy
+PBT,NYSE,Energy
+PBY,NOT FOUND,NOT FOUND
 PBYI,NYSE,Health Care
 PCAR,NASDAQ,Industrials
+PCBK,NASDAQ,Financials
+PCCC,NASDAQ,Consumer Discretionary
+PCEF,NYSE_Arca,FUND
 PCG,NYSE,Utilities
+PCH,NASDAQ,Financials
+PCL,NOT FOUND,NOT FOUND
 PCLN,NASDAQ,Communications
+PCM,NYSE,FUND
+PCMI,NASDAQ,Consumer Discretionary
+PCN,NYSE,FUND
+PCO,NASDAQ,Communications
+PCP,NOT FOUND,NOT FOUND
+PCRX,NASDAQ,Health Care
+PCTI,NASDAQ,Technology
+PCTY,NASDAQ,Technology
+PCXCQ,Delisted,Energy
+PCYC,NOT FOUND,NOT FOUND
+PCYO,NASDAQ,Utilities
+PDBC,NASDAQ,FUND
+PDCE,NASDAQ,Energy
 PDCO,NASDAQ,Health Care
+PDFS,NASDAQ,Technology
+PDH,Delisted,NOT FOUND
+PDLI,NASDAQ,Health Care
+PDM,NYSE,Financials
+PDS,NYSE,Energy
+PDVW,NASDAQ,Technology
+PE,NYSE,Energy
+PEB,NYSE,Financials
 PEG,NYSE,Utilities
+PEGA,NASDAQ,Technology
+PEGI,NASDAQ,Utilities
+PEI,NYSE,Financials
+PEIX,NASDAQ,Energy
+PEN,NYSE,Health Care
+PENN,NASDAQ,Consumer Discretionary
+PENX,NOT FOUND,NOT FOUND
 PEP,NYSE,Consumer Staples
+PER,NYSE,Energy
+PERY,NASDAQ,Consumer Discretionary
+PES,NYSE,Energy
+PETM,NOT FOUND,NOT FOUND
+PETS,NASDAQ,Consumer Discretionary
+PETX,NASDAQ,Health Care
+PF,NYSE,Consumer Staples
+PFD,NYSE,FUND
 PFE,NYSE,Health Care
+PFF,NYSE_Arca,FUND
 PFG,NYSE,Financials
+PFGC,NYSE,Consumer Staples
+PFIE,NASDAQ,Energy
+PFLT,NASDAQ,Financials
+PFMT,NASDAQ,Financials
+PFN,NYSE,FUND
+PFNX,AMEX,Health Care
+PFPT,NASDAQ,Technology
+PFS,NYSE,Financials
+PFSI,NYSE,Financials
 PG,NYSE,Consumer Staples
+PGC,NASDAQ,Financials
+PGEM,NYSE,Materials
+PGF,NYSE_Arca,FUND
+PGH,NYSE,Energy
+PGI,Delisted,Communications
+PGLC,NASDAQ,Materials
+PGND,NYSE,Technology
+PGNX,NASDAQ,Health Care
 PGR,NYSE,Financials
+PGRE,NYSE,Financials
+PGTI,NASDAQ,Consumer Discretionary
+PGX,NYSE_Arca,FUND
 PH,NYSE,Industrials
+PHB,NYSE_Arca,FUND
+PHG,NYSE,Health Care
+PHH,NYSE,Financials
+PHI,NYSE,Communications
+PHIIK,NASDAQ,Energy
+PHK,NYSE,FUND
 PHM,NYSE,Consumer Discretionary
+PHMD,NASDAQ,Consumer Staples
+PHYS,NYSE_Arca,FUND
+PICO,NASDAQ,Consumer Staples
+PII,NYSE,Consumer Discretionary
+PIKE,Delisted,Industrials
+PIN,NYSE_Arca,FUND
+PINC,NASDAQ,FUND
+PIR,NYSE,Consumer Discretionary
+PJC,NYSE,Financials
+PJT,NYSE,Financials
+PKBK,NASDAQ,Financials
+PKD,NYSE,Energy
+PKE,NYSE,Technology
+PKG,NYSE,Materials
 PKI,NYSE,Health Care
+PKOH,NASDAQ,Consumer Discretionary
+PKT,Delisted,Technology
+PKW,NYSE_Arca,FUND
+PKX,NYSE,Materials
+PKY,NYSE,Financials
+PL,Delisted,Financials
+PLAB,NASDAQ,Technology
+PLAY,NASDAQ,Consumer Discretionary
+PLCE,NASDAQ,Consumer Discretionary
+PLCM,NASDAQ,Technology
 PLD,NYSE,Financials
+PLG,AMEX,Materials
+PLKI,NASDAQ,Consumer Discretionary
+PLL,NOT FOUND,NOT FOUND
+PLNR,NOT FOUND,NOT FOUND
+PLNT,NYSE,Consumer Discretionary
+PLOW,NYSE,Industrials
+PLPC,NASDAQ,Industrials
+PLT,NYSE,Technology
+PLUG,NASDAQ,Energy
+PLUS,NASDAQ,Consumer Discretionary
+PLX,AMEX,Health Care
+PLXS,NASDAQ,Technology
+PLXT,Delisted,Technology
 PM,NYSE,Consumer Staples
+PMC,NYSE,Health Care
+PMCS,Delisted,Technology
+PMT,NYSE,Financials
+PMTI,Delisted,Health Care
+PMTS,NASDAQ,Technology
+PN,NYSE,Consumer Discretionary
 PNC,NYSE,Financials
+PNF,NYSE,FUND
+PNFP,NASDAQ,Financials
+PNG,Delisted,Energy
+PNGAY,NOT FOUND,NOT FOUND
+PNK,NASDAQ,Consumer Discretionary
+PNM,NYSE,Utilities
+PNNT,NASDAQ,Financials
 PNR,NYSE,Industrials
+PNRA,NASDAQ,Consumer Discretionary
 PNW,NYSE,Utilities
+PNX,NYSE,Financials
+PNY,NYSE,Utilities
+PODD,NASDAQ,Health Care
+POL,NYSE,Materials
+POM,NYSE,Utilities
+POOL,NASDAQ,Consumer Discretionary
+POR,NYSE,Utilities
+POST,NYSE,Consumer Staples
+POT,NYSE,Materials
+POWI,NASDAQ,Technology
+POWL,NASDAQ,Industrials
+POWR,NYSE,Industrials
+PPBI,NASDAQ,Financials
+PPC,NASDAQ,Consumer Staples
 PPG,NYSE,Materials
 PPL,NYSE,Utilities
+PPLT,NYSE_Arca,FUND
+PPO,NOT FOUND,NOT FOUND
+PPP,NYSE,Materials
+PPR,NYSE,FUND
+PPS,NYSE,Financials
+PQ,NYSE,NOT FOUND
+PRA,NYSE,Financials
+PRAA,NASDAQ,Financials
+PRAH,NASDAQ,Health Care
+PRCP,NASDAQ,Consumer Discretionary
+PRE,NYSE,Financials
+PRFT,NASDAQ,Technology
+PRFZ,NASDAQ,FUND
 PRGO,NYSE,Health Care
+PRGS,NASDAQ,Technology
+PRI,NYSE,Financials
+PRIM,NASDAQ,Industrials
+PRIS.B,Delisted,Financials
+PRISY,NOT FOUND,NOT FOUND
+PRK,AMEX,Financials
+PRKR,NASDAQ,Technology
+PRLB,NYSE,Industrials
+PRLS,NOT FOUND,NOT FOUND
+PRMW,NASDAQ,Consumer Staples
+PRO,NYSE,Technology
+PRQR,NASDAQ,Health Care
+PRSC,NASDAQ,Health Care
+PRSS,NASDAQ,Consumer Discretionary
 PRTA,NASDAQ,Health Care
+PRTK,NASDAQ,Health Care
+PRTS,NASDAQ,Consumer Discretionary
+PRTY,NYSE,Consumer Discretionary
 PRU,NYSE,Financials
+PRXL,NASDAQ,Health Care
 PSA,NYSE,Financials
+PSB,NYSE,Financials
+PSE,Delisted,NOT FOUND
+PSEC,NASDAQ,Financials
+PSEM,NOT FOUND,NOT FOUND
+PSG,NYSE,Consumer Discretionary
+PSIX,NASDAQ,Industrials
+PSK,NYSE_Arca,FUND
+PSLV,NYSE_Arca,FUND
+PSMI,Delisted,Technology
+PSMT,NASDAQ,Consumer Staples
+PSO,NYSE,Communications
+PSSI,Delisted,Health Care
+PSTB,NASDAQ,Financials
+PSTG,NYSE,Technology
+PSUNQ,NOT FOUND,NOT FOUND
 PSX,NYSE,Energy
+PSXP,NYSE,Energy
+PTC,NASDAQ,Technology
+PTCT,NASDAQ,Health Care
+PTEN,NASDAQ,Energy
+PTIE,NASDAQ,Health Care
 PTLA,NASDAQ,Health Care
-PVH,NYSE,#N/A
+PTNR,NASDAQ,Communications
+PTP,NOT FOUND,NOT FOUND
+PTR,NYSE,Energy
+PTRY,NOT FOUND,NOT FOUND
+PTX,NASDAQ,Health Care
+PTY,NYSE,FUND
+PUBGY,NOT FOUND,NOT FOUND
+PUK,NYSE,Financials
+PULB,NASDAQ,Financials
+PULS,Delisted,Industrials
+PVG,NYSE,Health Care
+PVH,NYSE,NOT FOUND
+PVI,NYSE_Arca,FUND
+PVR,Delisted,Energy
+PVSW,Delisted,Technology
+PVTB,NASDAQ,Financials
+PWE,NYSE,Energy
+PWER,Delisted,Energy
 PWR,NYSE,Industrials
+PWRD,NOT FOUND,NOT FOUND
 PX,NYSE,Materials
 PXD,NYSE,Energy
+PXH,NYSE_Arca,FUND
+PXP,Delisted,NOT FOUND
 PYPL,NASDAQ,Financials
+PZE,NYSE,Energy
+PZN,NYSE,Financials
+PZZA,NASDAQ,Consumer Discretionary
+Q,NYSE,Health Care
+QADA,NASDAQ,Technology
 QCOM,NASDAQ,Technology
+QCOR,Delisted,NOT FOUND
+QDEL,NASDAQ,Health Care
+QEP,NYSE,Energy
+QGEN,NASDAQ,Health Care
+QHC,NOT FOUND,NOT FOUND
+QIHU,NYSE,Communications
+QIWI,NASDAQ,Financials
+QLD,NYSE_Arca,FUND
+QLGC,NASDAQ,Technology
+QLIK,NASDAQ,Technology
+QLTI,NASDAQ,Health Care
+QLTY,Delisted,Industrials
+QLYS,NASDAQ,Technology
+QNST,NASDAQ,Communications
+QPAC,NASDAQ,Financials
+QQQ,NASDAQ,FUND
+QRE,Delisted,Energy
 QRVO,NASDAQ,Technology
+QSII,NASDAQ,Technology
+QSR,NYSE,Consumer Discretionary
+QTM,NYSE,Technology
+QTS,NYSE,Financials
+QTWO,NYSE,Technology
+QUAD,NYSE,Consumer Discretionary
+QUIK,NASDAQ,Technology
+QUMU,NASDAQ,Technology
+QUNR,NASDAQ,Communications
+QUOT,NYSE,Communications
 QURE,NASDAQ,Health Care
-R,NYSE,Industrials
+QVCA,NASDAQ,Consumer Discretionary
+R,NYSE,NOT FOUND
+RACE,NYSE,Consumer Discretionary
+RAD,NYSE,Consumer Staples
 RAI,NYSE,Consumer Staples
+RAIL,NASDAQ,Industrials
+RALY,NOT FOUND,NOT FOUND
+RARE,NASDAQ,Health Care
+RAS,NYSE,Financials
 RATE,NYSE,Communications
+RAVN,NASDAQ,Industrials
+RAX,NYSE,Technology
+RBA,NYSE,Industrials
+RBC,NYSE,Industrials
+RBCAA,NASDAQ,Financials
+RBCN,NASDAQ,Technology
+RBGLY,NOT FOUND,NOT FOUND
 RBS,NYSE,Financials
+RBSPRS,NOT FOUND,NOT FOUND
+RCI,NYSE,Communications
+RCII,NASDAQ,Consumer Discretionary
+RCKB,NOT FOUND,NOT FOUND
+RCKY,NASDAQ,Consumer Discretionary
 RCL,NYSE,Consumer Discretionary
+RCMT,NASDAQ,Technology
+RCPT,NOT FOUND,NOT FOUND
+RDC,NYSE,Energy
+RDCM,NASDAQ,Technology
+RDEN,NASDAQ,Consumer Staples
+RDI,NASDAQ,Consumer Discretionary
+RDN,NYSE,Financials
+RDNT,NASDAQ,Health Care
+RDS.A,NYSE,NOT FOUND
+RDS.B,NYSE,NOT FOUND
+RDUS,NASDAQ,Health Care
+RDWR,NASDAQ,Technology
+RDY,NYSE,Health Care
+RE,NYSE,Financials
+RECN,NASDAQ,Consumer Discretionary
+REG,NYSE,Financials
+REGI,NASDAQ,Energy
 REGN,NASDAQ,Health Care
+REI,AMEX,Energy
+RELL,NASDAQ,Technology
+RELY,NASDAQ,Financials
+REM,NYSE_Arca,FUND
+REMY,NOT FOUND,NOT FOUND
 REN,NYSE,Energy
+RENN,NYSE,Communications
+RENT,Delisted,Technology
+RENX,NYSE,Technology
+REPYY,NOT FOUND,NOT FOUND
+RES,NYSE,Energy
+RESI,NYSE,Financials
+REV,NYSE,Consumer Staples
+REX,NYSE,Energy
+REXI,NASDAQ,Financials
+REXR,NYSE,Financials
+REXX,NASDAQ,Energy
+REZ,NYSE_Arca,FUND
 RF,NYSE,Financials
+RFMD,Delisted,Technology
+RFP,NYSE,Materials
+RGA,NYSE,Financials
+RGC,NYSE,Consumer Discretionary
+RGEN,NASDAQ,Health Care
+RGLD,NASDAQ,Materials
+RGNX,NASDAQ,Health Care
+RGP,NOT FOUND,NOT FOUND
+RGR,NYSE,Industrials
+RGS,NYSE,Consumer Discretionary
+RH,NYSE,Consumer Discretionary
+RHHBY,NOT FOUND,NOT FOUND
+RHHVF,NOT FOUND,NOT FOUND
 RHI,NYSE,Consumer Discretionary
+RHP,NYSE,Financials
 RHT,NYSE,Technology
+RIC,NOT FOUND,NOT FOUND
+RICE,NYSE,Energy
+RIF,AMEX,FUND
 RIG,NYSE,Energy
+RIGL,NASDAQ,Health Care
+RIGP,NYSE,Energy
+RILY,NASDAQ,Financials
+RING,NYSE_Arca,FUND
+RINO,Delisted,Industrials
+RIO,NYSE,Materials
+RIOM,NOT FOUND,NOT FOUND
+RJF,NYSE,Financials
+RKUNY,NOT FOUND,NOT FOUND
+RKUS,NYSE,Technology
 RL,NYSE,Consumer Discretionary
+RLD,NYSE,Communications
+RLGY,NYSE,Financials
+RLH,NYSE,Consumer Discretionary
+RLI,NYSE,Financials
+RLJ,NYSE,Financials
+RLOC,NASDAQ,Communications
 RLYP,NASDAQ,Health Care
+RMAX,NYSE,Financials
+RMBS,NASDAQ,Technology
+RMCF,NASDAQ,Consumer Staples
+RMD,NYSE,Health Care
+RMP,NYSE,NOT FOUND
+RMR,NASDAQ,Financials
+RMT,NYSE,FUND
+RMTI,NASDAQ,Health Care
+RNA,Delisted,Health Care
+RNDY,NOT FOUND,NOT FOUND
+RNET,NASDAQ,Communications
+RNF,NYSE,Materials
+RNG,NYSE,Communications
+RNP,NYSE,FUND
+RNR,NYSE,Financials
+RNST,NASDAQ,Financials
+RNWK,NASDAQ,Technology
+ROC,Delisted,Materials
+ROCK,NASDAQ,Industrials
+ROCM,Delisted,Health Care
+ROG,NYSE,Industrials
+ROIAK,NASDAQ,Communications
+ROIC,NASDAQ,Financials
+ROIQ,NASDAQ,Financials
 ROK,NYSE,Industrials
+ROL,NYSE,Consumer Discretionary
+ROLL,NASDAQ,Industrials
 ROP,NYSE,Industrials
+ROSE,Delisted,Energy
 ROST,NASDAQ,Consumer Discretionary
 ROVI,NASDAQ,Technology
+RP,NASDAQ,Technology
+RPAI,NYSE,Financials
+RPD,NASDAQ,Technology
+RPM,NYSE,Materials
 RPRX,NASDAQ,Health Care
+RPT,NYSE,Financials
+RPTP,NASDAQ,Health Care
+RPXC,NASDAQ,Consumer Discretionary
+RQI,NYSE,FUND
 RRC,NYSE,Energy
+RRGB,NASDAQ,Consumer Discretionary
+RRMS,NYSE,Energy
+RRR,Delisted,NOT FOUND
+RRTS,NYSE,Industrials
+RS,NYSE,Materials
+RSE,NYSE,Financials
 RSG,NYSE,Industrials
+RSHCQ,NOT FOUND,NOT FOUND
+RSO,NYSE,Financials
+RSP,NYSE_Arca,FUND
+RSPP,NYSE,Energy
+RST,NYSE,Technology
+RSTI,NASDAQ,Industrials
+RSX,NYSE_Arca,FUND
+RSYS,NASDAQ,Technology
+RT,NYSE,Consumer Discretionary
+RTEC,NYSE,Technology
+RTH,NYSE_Arca,FUND
+RTI,NOT FOUND,NOT FOUND
+RTIX,NASDAQ,Health Care
+RTK,NASDAQ,Materials
 RTN,NYSE,Industrials
+RTRX,NASDAQ,Health Care
+RUBI,NYSE,Communications
+RUE,Delisted,Consumer Discretionary
+RUN,NASDAQ,Energy
+RUSHA,NASDAQ,Consumer Discretionary
+RUSHB,NASDAQ,Consumer Discretionary
+RUTH,NASDAQ,Consumer Discretionary
+RVBD,NOT FOUND,NOT FOUND
+RVLT,NASDAQ,Industrials
+RVNC,NASDAQ,Health Care
+RVT,NYSE,FUND
+RWM,NYSE_Arca,FUND
+RWT,NYSE,Financials
+RXN,NYSE,Industrials
+RY,NYSE,Financials
+RYAAY,NASDAQ,Consumer Discretionary
+RYAM,NYSE,Materials
+RYCEY,NOT FOUND,NOT FOUND
+RYI,NYSE,Materials
+RYL,NOT FOUND,NOT FOUND
+RYN,NYSE,Financials
+S,NYSE,Communications
+SA,NYSE,Materials
+SAAS,NASDAQ,Technology
+SABR,NASDAQ,Technology
+SADL,Delisted,Communications
+SAEX,NASDAQ,Energy
+SAFM,NASDAQ,Consumer Staples
+SAFRY,NOT FOUND,NOT FOUND
+SAGE,NASDAQ,Health Care
+SAH,NYSE,Consumer Discretionary
+SAIA,NASDAQ,Industrials
+SAIC,NYSE,Technology
+SALE,NASDAQ,Communications
+SALT,NYSE,Industrials
+SAM,NYSE,Consumer Staples
+SAMG,NASDAQ,Financials
+SAN,NYSE,Financials
+SAND,AMEX,Materials
+SANM,NASDAQ,Technology
+SANW,NASDAQ,Consumer Staples
+SAP,NYSE,Technology
+SAPE,NOT FOUND,NOT FOUND
+SASR,NASDAQ,Financials
+SATS,NASDAQ,Communications
+SAVE,NASDAQ,Consumer Discretionary
+SB,NYSE,Industrials
+SBAC,NASDAQ,Industrials
+SBCF,NASDAQ,Financials
+SBGI,NASDAQ,Communications
+SBGL,NYSE,Materials
+SBH,NYSE,Consumer Discretionary
+SBI,AMEX,FUND
+SBLK,NASDAQ,Industrials
+SBNY,NASDAQ,Financials
+SBR,NYSE,Energy
+SBRA,NASDAQ,Financials
+SBRCY,NOT FOUND,NOT FOUND
+SBS,NYSE,Utilities
+SBSA,NASDAQ,Communications
+SBSI,NASDAQ,Financials
 SBUX,NASDAQ,Consumer Discretionary
+SBY,NYSE,Financials
+SC,NYSE,Financials
+SCAI,NASDAQ,Health Care
+SCC,NYSE_Arca,FUND
+SCCO,NYSE,Materials
 SCG,NYSE,Utilities
-SCHW,NYSE,#N/A
+SCGLY,NOT FOUND,NOT FOUND
+SCHB,NYSE_Arca,FUND
+SCHD,NYSE_Arca,FUND
+SCHF,NYSE_Arca,FUND
+SCHL,NASDAQ,Materials
+SCHN,NASDAQ,FUND
+SCHSQ,Delisted,FUND
+SCHW,NYSE,FUND
+SCHYY,NOT FOUND,NOT FOUND
+SCI,NYSE,Consumer Discretionary
+SCIF,NYSE_Arca,FUND
+SCL,NYSE,Materials
+SCLN,NASDAQ,Health Care
+SCMP,NASDAQ,Health Care
+SCNB,NYSE,NOT FOUND
+SCOR,NASDAQ,Technology
+SCPB,NYSE_Arca,FUND
+SCR,Delisted,Health Care
+SCS,NYSE,Consumer Discretionary
+SCSC,NASDAQ,Consumer Discretionary
+SCSS,NASDAQ,Consumer Discretionary
 SCTY,NASDAQ,Energy
+SCVL,NASDAQ,Consumer Discretionary
+SCWX,NOT FOUND,NOT FOUND
+SCX,NYSE,Consumer Discretionary
+SCZ,NASDAQ,FUND
+SDLP,NYSE,Energy
 SDRL,NYSE,Energy
+SDT,NYSE,Energy
+SDY,NYSE_Arca,FUND
 SE,NYSE,Energy
+SEA,NYSE_Arca,FUND
+SEAC,NASDAQ,Technology
+SEAS,NYSE,Consumer Discretionary
+SEB,AMEX,Consumer Staples
+SEDG,NASDAQ,Energy
 SEE,NYSE,Materials
+SEED,NASDAQ,Materials
+SEH,Delisted,Industrials
+SEIC,NASDAQ,Financials
+SEM,NYSE,Health Care
 SEMG,NYSE,Energy
+SEMI,NASDAQ,Technology
+SENEA,NASDAQ,Consumer Staples
+SENEM,NOT FOUND,NOT FOUND
+SENS,AMEX,Health Care
+SEP,NYSE,Energy
+SERV,NYSE,Consumer Discretionary
+SF,NYSE,Financials
+SFBS,NASDAQ,Financials
+SFD,Delisted,Consumer Staples
+SFE,NYSE,Financials
+SFG,NYSE,Financials
+SFL,NYSE,Industrials
+SFLY,NASDAQ,Communications
+SFM,NASDAQ,Consumer Staples
+SFNC,NASDAQ,Financials
+SFR,NYSE,Energy
+SFS,NYSE,Consumer Staples
+SFUN,NYSE,Communications
+SGA,AMEX,Communications
+SGEN,NASDAQ,Health Care
+SGI,NASDAQ,Technology
+SGK,Delisted,Consumer Discretionary
+SGMO,NASDAQ,Health Care
+SGMS,NASDAQ,Consumer Discretionary
+SGNT,NASDAQ,Health Care
+SGRY,NASDAQ,Health Care
+SGU,NYSE,Energy
 SGY,NYSE,Energy
+SGYP,NASDAQ,Health Care
+SH,NYSE_Arca,FUND
+SHAK,NYSE,Consumer Discretionary
+SHBI,NASDAQ,Financials
+SHEN,NASDAQ,Communications
+SHFL,Delisted,Consumer Discretionary
+SHG,NYSE,Financials
 SHLD,NASDAQ,Consumer Discretionary
+SHLM,NASDAQ,Materials
+SHLO,NASDAQ,Materials
+SHLX,NYSE,Energy
+SHM,NYSE_Arca,FUND
+SHO,NYSE,Financials
+SHOO,NASDAQ,Consumer Discretionary
+SHOP,NYSE,Communications
+SHOR,NASDAQ,Technology
+SHOS,NASDAQ,Consumer Discretionary
+SHPG,NASDAQ,Health Care
+SHS,Delisted,Industrials
+SHV,NYSE_Arca,FUND
 SHW,NYSE,Materials
+SHY,NYSE_Arca,FUND
+SIAL,NOT FOUND,NOT FOUND
+SID,NYSE,Materials
+SIEGY,NOT FOUND,NOT FOUND
+SIEN,NASDAQ,Health Care
+SIFI,NASDAQ,Financials
 SIG,NYSE,Consumer Discretionary
+SIGI,NASDAQ,Financials
+SIGM,NASDAQ,Technology
+SILU,Delisted,Financials
+SIM,AMEX,Materials
+SIMG,NOT FOUND,NOT FOUND
+SIMO,NASDAQ,Technology
+SINA,NASDAQ,Communications
+SIR,NYSE,Financials
+SIRI,NASDAQ,Communications
+SIRO,NASDAQ,Health Care
+SITE,Delisted,Consumer Staples
+SIVB,NASDAQ,Financials
+SIX,NYSE,Consumer Discretionary
+SJI,NYSE,Utilities
 SJM,NYSE,Consumer Staples
+SJNK,NYSE_Arca,FUND
+SJR,NYSE,Communications
+SJT,NYSE,Energy
+SJW,NYSE,Utilities
+SKF,NYSE_Arca,FUND
+SKM,NYSE,Communications
+SKS,Delisted,Consumer Discretionary
+SKT,NYSE,Financials
+SKUL,NASDAQ,Technology
 SKX,NYSE,Consumer Discretionary
+SKYAY,NOT FOUND,NOT FOUND
+SKYW,NASDAQ,Consumer Discretionary
+SLA,NOT FOUND,NOT FOUND
+SLAB,NASDAQ,Technology
 SLB,NYSE,Energy
+SLCA,NYSE,Materials
+SLF,NYSE,Financials
 SLG,NYSE,Financials
+SLGN,NASDAQ,Materials
+SLH,NYSE,Technology
+SLI,AMEX,Industrials
+SLM,NASDAQ,Financials
+SLRC,NASDAQ,Financials
+SLTM,Delisted,Health Care
+SLV,NYSE_Arca,FUND
+SLW,NYSE,Materials
+SLXP,NOT FOUND,NOT FOUND
 SM,NYSE,Energy
+SMB,NYSE_Arca,FUND
+SMBC,NASDAQ,Financials
+SMCG,Delisted,FUND
+SMCI,NASDAQ,Technology
+SMFG,NYSE,Financials
+SMG,NYSE,Consumer Discretionary
+SMH,NYSE_Arca,FUND
+SMI,NYSE,Technology
+SMMF,NASDAQ,Financials
+SMMT,NASDAQ,Health Care
+SMP,NYSE,Consumer Discretionary
+SMPL,Delisted,Financials
+SMRT,NASDAQ,Consumer Discretionary
+SMSI,NASDAQ,Technology
+SMT,NASDAQ,Technology
+SMTC,NASDAQ,Technology
 SN,NYSE,Energy
+SN.,NOT FOUND,NOT FOUND
 SNA,NYSE,Consumer Discretionary
+SNBC,NASDAQ,Financials
+SNC,NASDAQ,Financials
+SNCR,NASDAQ,Technology
 SNDK,NASDAQ,Technology
+SNE,NYSE,Technology
+SNFCA,NASDAQ,Financials
+SNH,NYSE,Financials
+SNHY,NASDAQ,Industrials
 SNI,NASDAQ,Communications
+SNMX,NASDAQ,Consumer Staples
+SNN,NYSE,Health Care
+SNOW,NYSE,Consumer Discretionary
+SNP,NYSE,Energy
+SNPS,NASDAQ,Technology
+SNR,NYSE,Financials
 SNSS,NASDAQ,Health Care
+SNTS,Delisted,Health Care
+SNV,NYSE,Financials
+SNX,NYSE,Consumer Discretionary
+SNY,NYSE,Health Care
 SO,NYSE,Utilities
+SODA,NASDAQ,Consumer Staples
+SOHU,NASDAQ,Communications
+SOIEF,NOT FOUND,NOT FOUND
+SOL,NYSE,Energy
+SOMH,Delisted,Financials
+SON,NYSE,Materials
+SONA,NASDAQ,Financials
+SONC,NASDAQ,Consumer Discretionary
+SONS,NASDAQ,Technology
+SOUHY,NOT FOUND,NOT FOUND
+SP,NASDAQ,Consumer Discretionary
+SPAR,NASDAQ,Industrials
+SPB,NYSE,Consumer Staples
+SPCB,NASDAQ,Technology
+SPE,NYSE,FUND
 SPG,NYSE,Financials
-SPGI,#N/A,#N/A
+SPGI,NOT FOUND,NOT FOUND
+SPH,NYSE,Energy
+SPIL,NASDAQ,Technology
+SPKE,NASDAQ,Utilities
+SPLK,NASDAQ,Technology
+SPLP,NYSE,Financials
 SPLS,NASDAQ,Consumer Discretionary
+SPMD,Delisted,Communications
+SPN,NYSE,Energy
+SPNC,NASDAQ,Health Care
+SPNS,NASDAQ,Technology
+SPOK,NASDAQ,Communications
+SPOXF,NOT FOUND,NOT FOUND
+SPPI,NASDAQ,Health Care
+SPR,NYSE,Industrials
+SPRD,Delisted,Technology
+SPRT,NASDAQ,Technology
+SPSC,NASDAQ,Technology
+SPTN,NASDAQ,Consumer Staples
+SPWH,NASDAQ,Consumer Discretionary
+SPWR,NASDAQ,Energy
+SPXC,NYSE,Industrials
+SPXL,NYSE_Arca,FUND
+SPY,NYSE_Arca,FUND
 SQ,NYSE,Financials
+SQBG,NASDAQ,Consumer Discretionary
+SQBK,NOT FOUND,NOT FOUND
+SQI,NASDAQ,Technology
+SQM,NYSE,Materials
+SQNM,NASDAQ,Health Care
+SQNS,NYSE,Technology
+SR,NOT FOUND,NOT FOUND
+SRAQ,NOT FOUND,NOT FOUND
+SRC,NYSE,Financials
 SRCL,NASDAQ,Industrials
+SRDX,NASDAQ,Health Care
 SRE,NYSE,Utilities
+SREV,NASDAQ,Technology
+SRG,NYSE,Financials
+SRI,NYSE,Industrials
+SRNE,NASDAQ,Health Care
 SRPT,NASDAQ,Health Care
+SRS,NYSE_Arca,FUND
+SRSC,NASDAQ,Consumer Discretionary
+SSB,NASDAQ,Financials
+SSD,NYSE,Industrials
+SSI,NYSE,Consumer Discretionary
+SSL,NYSE,Energy
+SSNC,NASDAQ,Technology
+SSNI,NYSE,Energy
+SSNLF,NOT FOUND,NOT FOUND
+SSO,NYSE_Arca,FUND
+SSP,NYSE,Communications
+SSPC,Delisted,Financials
+SSREY,NOT FOUND,NOT FOUND
+SSRI,NASDAQ,Health Care
+SSTK,NYSE,FUND
+SSW,NYSE,Industrials
+SSYS,NASDAQ,Technology
+ST,NYSE,Industrials
+STAA,NASDAQ,Health Care
+STAG,NYSE,Financials
+STAR,NYSE,Financials
+STAY,NYSE,Consumer Discretionary
+STBA,NASDAQ,Financials
+STBZ,NASDAQ,Financials
+STC,NYSE,Financials
+STE,NYSE,Health Care
+STEC,Delisted,Technology
+STEI,Delisted,Consumer Discretionary
+STEM,NASDAQ,Health Care
 STI,NYSE,Financials
 STJ,NYSE,Health Care
+STKL,NASDAQ,Consumer Staples
+STL,NYSE,Financials
+STLD,NASDAQ,Materials
+STLY,NASDAQ,Consumer Discretionary
+STM,NYSE,Technology
+STML,NASDAQ,Health Care
+STMP,NASDAQ,Industrials
+STN,NYSE,Industrials
+STNG,NYSE,Industrials
+STNR,NOT FOUND,NOT FOUND
+STO,NYSE,Energy
+STON,NYSE,Consumer Discretionary
+STOR,NYSE,Financials
+STR,NYSE,Utilities
+STRA,NASDAQ,Consumer Discretionary
+STRL,NASDAQ,Industrials
 STRP,AMEX,Communications
+STRT,NASDAQ,Consumer Discretionary
+STRZA,NASDAQ,Communications
+STSA,Delisted,Financials
 STT,NYSE,Financials
+STV,NYSE,Technology
+STWD,NYSE,Financials
 STX,NASDAQ,Technology
 STZ,NYSE,Consumer Staples
+SU,NYSE,Energy
+SUI,NYSE,Financials
+SUM,NYSE,Materials
+SUN,NYSE,Energy
+SUNEQ,NOT FOUND,NOT FOUND
+SUNS,NASDAQ,Financials
+SUP,NYSE,Consumer Discretionary
+SUPN,NASDAQ,Health Care
+SUPV,NOT FOUND,NOT FOUND
+SUPX,Delisted,Technology
+SUSQ,NOT FOUND,NOT FOUND
+SUSS,Delisted,Consumer Staples
+SVA,NASDAQ,Health Care
+SVCTF,NOT FOUND,NOT FOUND
+SVLC,NOT FOUND,NOT FOUND
+SVN,Delisted,Consumer Discretionary
+SVT,AMEX,Industrials
 SVU,NYSE,Consumer Staples
+SVVC,NASDAQ,Financials
+SVXY,NYSE_Arca,FUND
+SWC,NYSE,Materials
+SWFT,NYSE,Industrials
+SWHC,NASDAQ,Industrials
+SWI,NOT FOUND,NOT FOUND
 SWIR,NASDAQ,Technology
 SWK,NYSE,Consumer Discretionary
 SWKS,NASDAQ,Technology
+SWM,NYSE,Materials
 SWN,NYSE,Energy
+SWNC,NYSE,NOT FOUND
+SWS,Delisted,Financials
+SWTF,NOT FOUND,NOT FOUND
+SWU,NOT FOUND,NOT FOUND
+SWX,NYSE,Utilities
+SWY,NOT FOUND,NOT FOUND
+SWZ,NYSE,FUND
 SXC,NYSE,Materials
+SXCL,NASDAQ,Energy
+SXCP,NYSE,Materials
+SXI,NYSE,Industrials
+SXL,NYSE,Energy
+SXT,NYSE,Materials
+SYA,NOT FOUND,NOT FOUND
+SYBT,NASDAQ,Financials
 SYF,NYSE,Financials
 SYK,NYSE,Health Care
+SYKE,NASDAQ,Technology
+SYLD,NYSE_Arca,FUND
 SYMC,NASDAQ,Technology
+SYMM,Delisted,Technology
+SYMX,NASDAQ,Energy
+SYNA,NASDAQ,Technology
+SYNC,NASDAQ,Technology
+SYNL,NASDAQ,Materials
+SYNT,NASDAQ,Technology
+SYRG,AMEX,Energy
+SYRX,NASDAQ,Technology
+SYSW,Delisted,Financials
+SYT,NYSE,Materials
+SYUT,NASDAQ,Health Care
+SYX,NYSE,Consumer Discretionary
 SYY,NYSE,Consumer Staples
-T,NYSE,Communications
+SZMK,NASDAQ,Communications
+T,NYSE,NOT FOUND
+TA,NYSE,Consumer Staples
+TAC,NYSE,Utilities
+TACO,NASDAQ,Consumer Discretionary
+TAHO,NYSE,Materials
+TAM,Delisted,Materials
+TAO,NYSE_Arca,FUND
+TAOM,NYSE,Communications
 TAP,NYSE,Consumer Staples
+TARO,NYSE,Health Care
+TASIF,NOT FOUND,NOT FOUND
+TASR,NASDAQ,Industrials
+TAST,NASDAQ,Consumer Discretionary
+TAX,NASDAQ,Financials
+TAYC,Delisted,Financials
+TBBK,NASDAQ,Financials
+TBF,NYSE_Arca,FUND
+TBI,NYSE,Consumer Discretionary
+TBNK,NASDAQ,Financials
+TBPH,NASDAQ,Health Care
+TBT,NYSE_Arca,FUND
+TCAP,NYSE,Financials
+TCB,NYSE,Financials
+TCBI,NASDAQ,Financials
+TCBK,NASDAQ,Financials
+TCEHY,NOT FOUND,NOT FOUND
+TCK,NYSE,Materials
+TCO,NYSE,Financials
+TCOPRK,NOT FOUND,NOT FOUND
+TCP,NYSE,Energy
+TCPC,NASDAQ,Financials
+TCPTF,NOT FOUND,NOT FOUND
+TCS,NYSE,Consumer Discretionary
+TD,NYSE,Financials
 TDC,NYSE,Technology
+TDG,NYSE,Industrials
+TDOC,NYSE,Health Care
+TDS,NYSE,Communications
 TDW,NYSE,Energy
+TDY,NYSE,Industrials
 TE,NYSE,Utilities
+TEAM,NASDAQ,Technology
+TECD,NASDAQ,Consumer Discretionary
+TECH,NASDAQ,Health Care
+TECL,NYSE_Arca,FUND
+TECS,NYSE_Arca,FUND
+TECU,NOT FOUND,NOT FOUND
+TEDU,NASDAQ,Consumer Discretionary
+TEF,NYSE,Communications
+TEG,Delisted,Utilities
+TEGP,NYSE,Energy
 TEL,NYSE,Industrials
+TEN,NYSE,Consumer Discretionary
+TEO,NYSE,Communications
+TEP,NYSE,Energy
+TER,NYSE,Technology
 TERP,NASDAQ,Utilities
+TESO,NASDAQ,Energy
+TESS,NASDAQ,Technology
+TEVA,NYSE,Health Care
+TEVVF,NOT FOUND,NOT FOUND
+TEX,NYSE,Industrials
+TFI,NYSE_Arca,FUND
+TFM,NASDAQ,Consumer Staples
+TFSL,NASDAQ,Financials
+TFX,NYSE,Health Care
+TG,NYSE,Materials
+TGA,NASDAQ,Energy
+TGB,AMEX,Materials
+TGD,AMEX,Materials
+TGH,NYSE,Financials
+TGI,NYSE,Industrials
 TGNA,NYSE,Communications
+TGP,NYSE,Industrials
+TGS,NYSE,Energy
 TGT,NYSE,Consumer Staples
 THC,NYSE,Health Care
+THD,NYSE_Arca,FUND
+THG,NYSE,Financials
+THI,Delisted,Consumer Discretionary
+THLD,NASDAQ,Health Care
+THO,NYSE,Consumer Discretionary
+THOR,NOT FOUND,NOT FOUND
+THR,NYSE,Energy
+THRM,NASDAQ,Consumer Discretionary
+THS,NYSE,Consumer Staples
+THST,NASDAQ,Consumer Staples
+TI,NYSE,Communications
+TIBX,Delisted,Technology
+TICC,NASDAQ,Financials
+TIE,Delisted,Materials
 TIF,NYSE,Consumer Discretionary
+TILE,NASDAQ,Consumer Discretionary
+TIME,NYSE,Communications
+TINY,NASDAQ,Financials
+TIP,NYSE_Arca,FUND
+TIS,AMEX,Consumer Staples
+TISI,NYSE,Industrials
+TITN,NASDAQ,Industrials
+TIVO,NASDAQ,Technology
 TJX,NYSE,Consumer Discretionary
 TK,NYSE,Industrials
-TLRD,NYSE,#N/A
+TKC,NYSE,Communications
+TKR,NYSE,Industrials
+TLAB,Delisted,Technology
+TLI,NYSE,FUND
+TLK,NYSE,Communications
+TLLP,NYSE,Energy
+TLM,NOT FOUND,NOT FOUND
+TLMR,NASDAQ,Financials
+TLN,NYSE,Utilities
+TLP,NYSE,Energy
+TLRD,NYSE,Materials
+TLT,NASDAQ,FUND
+TM,NYSE,Consumer Discretionary
+TMH,NYSE,Health Care
+TMHC,NYSE,Consumer Discretionary
 TMK,NYSE,Financials
 TMO,NYSE,Health Care
+TMS,Delisted,Materials
+TMST,NYSE,Materials
+TMUS,NASDAQ,Communications
+TMV,NYSE_Arca,FUND
 TNA,NYSE_Arca,FUND
+TNAV,NASDAQ,Technology
+TNC,NYSE,Industrials
+TNDM,NASDAQ,Health Care
+TNET,NYSE,Consumer Discretionary
+TNGO,NASDAQ,Technology
+TNH,NYSE,Materials
+TNK,NYSE,Industrials
+TNP,NYSE,Industrials
+TOFC,Delisted,Financials
+TOL,NYSE,Consumer Discretionary
+TOO,NYSE,Industrials
+TOPS,NASDAQ,Industrials
+TOT,NYSE,Energy
+TOUR,NASDAQ,Communications
+TOWN,NASDAQ,Financials
+TOWR,NYSE,Consumer Discretionary
+TPB,NOT FOUND,NOT FOUND
+TPC,NYSE,Industrials
+TPCA,Delisted,Consumer Discretionary
+TPGI,Delisted,Financials
+TPH,NYSE,Consumer Discretionary
+TPHS,AMEX,Financials
+TPL,NYSE,Financials
+TPLM,AMEX,Energy
+TPRE,NYSE,Financials
+TPVG,NYSE,Financials
+TPX,NYSE,Consumer Discretionary
+TQNT,Delisted,Technology
+TR,NYSE,Consumer Staples
+TRAK,NOT FOUND,NOT FOUND
+TRC,NYSE,Consumer Staples
+TRCO,NYSE,Communications
+TREE,NASDAQ,Financials
+TREX,NYSE,Financials
+TRF,NOT FOUND,NOT FOUND
+TRGP,NYSE,Energy
+TRI,NYSE,Technology
+TRIB,NASDAQ,Health Care
+TRIL,NASDAQ,Health Care
 TRIP,NASDAQ,Communications
+TRK,NYSE,Consumer Discretionary
+TRLA,Delisted,Communications
+TRLG,Delisted,Consumer Discretionary
+TRMB,NASDAQ,Industrials
+TRMK,NASDAQ,Financials
+TRMR,NYSE,Communications
+TRN,NYSE,Industrials
+TRNC,NOT FOUND,NOT FOUND
+TRNO,NYSE,Financials
+TRNX,NOT FOUND,NOT FOUND
+TROV,NASDAQ,Health Care
 TROW,NASDAQ,Financials
+TROX,NYSE,Materials
+TRP,NYSE,Energy
+TRQ,NYSE,Materials
+TRS,NASDAQ,Consumer Discretionary
+TRST,NASDAQ,Financials
+TRU,NYSE,Technology
+TRUMY,NOT FOUND,NOT FOUND
+TRUP,NYSE,Financials
 TRV,NYSE,Financials
+TRW,Delisted,Consumer Discretionary
+TS,NYSE,Materials
+TSC,NASDAQ,Financials
+TSCDY,NOT FOUND,NOT FOUND
 TSCO,NASDAQ,Consumer Discretionary
+TSE,NYSE,Materials
+TSEM,NASDAQ,Technology
+TSI,NYSE,FUND
+TSL,NYSE,Energy
+TSLA,NASDAQ,Consumer Discretionary
+TSLX,NYSE,Financials
+TSM,NYSE,Technology
 TSN,NYSE,Consumer Staples
 TSO,NYSE,Energy
+TSQ,NYSE,Communications
+TSRA,NASDAQ,Technology
+TSRE,NOT FOUND,NOT FOUND
+TSRO,NASDAQ,Health Care
+TSRX,Delisted,Health Care
 TSS,NYSE,Financials
+TST,NASDAQ,Communications
+TSU,NYSE,Communications
+TSYS,NOT FOUND,NOT FOUND
+TTC,NYSE,Industrials
+TTEC,NASDAQ,Technology
+TTEK,NASDAQ,Industrials
+TTF,NYSE,FUND
+TTFS,NYSE_Arca,FUND
+TTI,NYSE,Energy
+TTM,NYSE,Consumer Discretionary
+TTMI,NASDAQ,Technology
+TTOO,NASDAQ,Health Care
+TTPH,NASDAQ,Health Care
+TTS,NASDAQ,Consumer Discretionary
+TTWO,NASDAQ,Technology
+TU,NYSE,Communications
+TUBE,NASDAQ,Technology
+TUC,Delisted,NOT FOUND
+TUES,NASDAQ,Consumer Discretionary
+TUMI,NYSE,Consumer Discretionary
+TUP,NYSE,Consumer Discretionary
+TUR,NYSE_Arca,FUND
+TUZ,NYSE_Arca,FUND
+TV,NYSE,Communications
+TVIA,NOT FOUND,NOT FOUND
+TVPT,NYSE,Technology
+TW,Delisted,Consumer Discretionary
 TWC,NYSE,Communications
+TWER,NASDAQ,Communications
+TWGP,Delisted,Financials
+TWI,NYSE,Industrials
+TWIN,NASDAQ,Industrials
+TWLO,NOT FOUND,NOT FOUND
+TWM,NYSE_Arca,FUND
+TWN,NYSE,FUND
+TWO,NYSE,Financials
+TWOU,NASDAQ,Technology
+TWTC,Delisted,Communications
+TWTR,NYSE,Communications
 TWX,NYSE,Communications
+TX,NYSE,Materials
+TXI,Delisted,Materials
+TXMD,AMEX,Health Care
 TXN,NASDAQ,Technology
+TXRH,NASDAQ,Consumer Discretionary
 TXT,NYSE,Industrials
+TXTR,NYSE,Technology
+TY,NYSE,FUND
 TYC,NYSE,Industrials
+TYG,NYSE,FUND
+TYL,NYSE,Technology
+TYPE,NASDAQ,Technology
+TZA,NYSE_Arca,FUND
+TZOO,NASDAQ,Communications
 UA,NYSE,Consumer Discretionary
+UA.C,NOT FOUND,NOT FOUND
 UAL,NYSE,Consumer Discretionary
+UAM,NYSE,Health Care
+UAN,NYSE,Materials
+UBA,NYSE,Financials
+UBFO,NASDAQ,Financials
+UBNK,NASDAQ,Financials
+UBNT,NASDAQ,Technology
+UBPPRG,NOT FOUND,NOT FOUND
+UBS,NYSE,Financials
+UBSH,NASDAQ,Financials
+UBSI,NASDAQ,Financials
+UCBI,NASDAQ,Financials
+UCFC,NASDAQ,Financials
+UCP,NYSE,Consumer Discretionary
+UCTT,NASDAQ,Technology
+UDN,NYSE_Arca,FUND
 UDR,NYSE,Financials
+UE,NYSE,Financials
+UEIC,NASDAQ,Technology
+UEPS,NASDAQ,Financials
+UFAB,AMEX,Consumer Discretionary
+UFI,NYSE,Consumer Discretionary
+UFPI,NASDAQ,Materials
+UFPT,NASDAQ,Materials
+UFS,NYSE,Materials
+UG,NASDAQ,Consumer Staples
+UGI,NYSE,Utilities
+UGP,NYSE,Energy
+UHAL,NASDAQ,Financials
 UHS,NYSE,Health Care
+UHT,NYSE,Financials
+UIHC,NASDAQ,Financials
 UIS,NYSE,Technology
+UL,NYSE,Consumer Staples
+ULTA,NASDAQ,Consumer Discretionary
+ULTI,NASDAQ,Technology
+ULTR,NASDAQ,Industrials
+UMBF,NASDAQ,Financials
+UMC,NYSE,Technology
+UMPQ,NASDAQ,Financials
+UN,NYSE,Consumer Staples
+UNF,NYSE,Consumer Discretionary
+UNFI,NASDAQ,Consumer Staples
+UNG,NYSE_Arca,FUND
 UNH,NYSE,Health Care
 UNM,NYSE,Financials
 UNP,NYSE,Industrials
+UNS,Delisted,Utilities
 UNT,NYSE,Energy
+UNTD,NASDAQ,Consumer Discretionary
+UNVR,NYSE,Materials
+UPLMQ,NOT FOUND,NOT FOUND
+UPRO,NYSE_Arca,FUND
 UPS,NYSE,Industrials
 URBN,NASDAQ,Consumer Discretionary
+URG,AMEX,Materials
 URI,NYSE,Industrials
+URS,Delisted,NOT FOUND
+USAK,NASDAQ,Industrials
+USAP,NASDAQ,Materials
+USAT,NASDAQ,Technology
 USB,NYSE,Financials
+USCR,NASDAQ,Materials
+USEG,NASDAQ,Energy
+USFD,NOT FOUND,NOT FOUND
+USG,NYSE,Materials
+USLM,NASDAQ,Materials
+USLV,NASDAQ,FUND
+USM,NYSE,Communications
+USNA,NYSE,Health Care
+USO,NYSE_Arca,FUND
+USPH,NYSE,Health Care
+UTEK,NASDAQ,Technology
+UTHR,NASDAQ,Health Care
+UTI,NYSE,Consumer Discretionary
+UTIW,NOT FOUND,NOT FOUND
+UTL,NYSE,Utilities
+UTMD,NASDAQ,Health Care
+UTRA,NOT FOUND,NOT FOUND
+UTSI,NASDAQ,Technology
 UTX,NYSE,Industrials
+UUP,NYSE_Arca,FUND
 UVE,NYSE,Financials
+UVV,NYSE,Consumer Staples
 UVXY,NYSE_Arca,FUND
+UWBKQ,Delisted,Financials
+UWM,NYSE_Arca,FUND
+UYG,NYSE_Arca,FUND
+UYM,NYSE_Arca,FUND
 V,NYSE,Financials
+VA,NASDAQ,Consumer Discretionary
+VAC,NYSE,Consumer Discretionary
+VAL,NYSE,Materials
+VALE,NYSE,Materials
+VALEPR,NOT FOUND,NOT FOUND
 VAR,NYSE,Health Care
+VASC,NASDAQ,Health Care
+VB,NYSE_Arca,FUND
+VC,NYSE,Consumer Discretionary
+VCBI,Delisted,Financials
+VCI,Delisted,Communications
+VCIT,NASDAQ,FUND
+VCLT,NASDAQ,FUND
+VCRA,NYSE,Technology
+VCSH,NASDAQ,FUND
+VDSI,NASDAQ,Technology
+VEA,NYSE_Arca,FUND
+VEC,NYSE,Consumer Discretionary
+VECO,NASDAQ,Technology
+VEDL,NYSE,Materials
+VEEV,NYSE,Technology
+VEOEY,NOT FOUND,NOT FOUND
+VER,NYSE,Financials
+VET,NYSE,Energy
+VEU,NYSE_Arca,FUND
 VFC,NYSE,Consumer Discretionary
+VG,NYSE,Communications
+VGK,NYSE_Arca,FUND
+VGR,NYSE,Consumer Staples
 VHC,AMEX,Technology
+VHI,NYSE,Materials
+VHS,Delisted,Health Care
+VIA,NASDAQ,Communications
 VIAB,NASDAQ,Communications
+VIAS,Delisted,Technology
+VIAV,NASDAQ,Technology
+VICL,NASDAQ,Health Care
+VICR,NASDAQ,Technology
+VIG,NYSE_Arca,FUND
+VIMC,NOT FOUND,NOT FOUND
+VIP,NASDAQ,Communications
 VIPS,NYSE,Consumer Discretionary
+VIRT,NASDAQ,NOT FOUND
+VIS,NYSE_Arca,FUND
+VISN,NASDAQ,Communications
+VITC,Delisted,Communications
+VIV,NYSE,Communications
+VIVO,NASDAQ,Health Care
+VIXY,NYSE_Arca,FUND
+VKQ,NYSE,FUND
+VLGEA,NASDAQ,Consumer Staples
 VLO,NYSE,Energy
+VLP,NYSE,Energy
+VLRS,NYSE,Consumer Discretionary
+VLTR,Delisted,Technology
+VLY,NYSE,Financials
+VMBS,NASDAQ,Financials
 VMC,NYSE,Materials
+VMED,Delisted,Communications
+VMEM,NYSE,Technology
+VMI,NYSE,Industrials
+VMW,NYSE,Technology
+VNCE,NYSE,Consumer Discretionary
+VNDA,NASDAQ,Health Care
+VNET,NASDAQ,Communications
+VNM,NYSE_Arca,FUND
 VNO,NYSE,Financials
+VNQ,NYSE_Arca,FUND
+VNQI,NASDAQ,FUND
+VNR,NASDAQ,Energy
+VNTV,NYSE,Financials
+VOCS,Delisted,Technology
+VOD,NASDAQ,Communications
+VOLC,NOT FOUND,NOT FOUND
+VOO,NYSE_Arca,FUND
+VOX,NYSE_Arca,FUND
+VOXX,NASDAQ,Technology
+VOYA,NYSE,Financials
+VPG,NYSE,Technology
+VPHM,Delisted,Health Care
+VPL,NYSE_Arca,FUND
+VR,NYSE,Financials
+VRA,NASDAQ,Consumer Discretionary
+VRML,NASDAQ,Health Care
+VRNS,NASDAQ,Technology
+VRNT,NASDAQ,Technology
+VRS,NOT FOUND,NOT FOUND
 VRSK,NASDAQ,Technology
 VRSN,NASDAQ,Communications
+VRTS,NASDAQ,Financials
+VRTU,NASDAQ,Technology
+VRTV,NYSE,Consumer Discretionary
 VRTX,NASDAQ,Health Care
 VRX,NYSE,Health Care
+VSAR,NASDAQ,Health Care
+VSAT,NASDAQ,Technology
+VSH,NYSE,Technology
+VSI,NYSE,Consumer Discretionary
+VSLR,NYSE,Energy
+VSR,AMEX,Consumer Discretionary
+VSS,NYSE_Arca,FUND
+VSTM,NASDAQ,Health Care
+VSTO,NYSE,Consumer Discretionary
+VT,NYSE_Arca,FUND
+VTA,NYSE,FUND
 VTAE,NASDAQ,Health Care
+VTGDF,NOT FOUND,NOT FOUND
+VTI,NYSE_Arca,FUND
+VTL,NASDAQ,Health Care
+VTN,NYSE,FUND
+VTNC,Delisted,Industrials
 VTR,NYSE,Financials
+VTSS,NOT FOUND,NOT FOUND
+VVC,NYSE,Utilities
+VVI,NYSE,Consumer Discretionary
+VVUS,NASDAQ,Health Care
+VWO,NYSE_Arca,FUND
+VWR,NASDAQ,Health Care
+VXF,NYSE_Arca,FUND
+VXX,NYSE_Arca,FUND
 VZ,NYSE,Communications
-W,NYSE,Consumer Discretionary
+W,NYSE,NOT FOUND
+WAB,NYSE,Industrials
+WABC,NASDAQ,Financials
+WAC,NYSE,Financials
+WAFD,NASDAQ,Financials
+WAGE,NYSE,Technology
+WAIR,NYSE,Industrials
+WAL,NYSE,Financials
+WASH,NASDAQ,Financials
 WAT,NYSE,Health Care
+WB,NASDAQ,Communications
 WBA,NASDAQ,Consumer Staples
+WBAI,NYSE,Consumer Discretionary
+WBB,NASDAQ,Financials
+WBC,NYSE,Industrials
+WBK,NYSE,Financials
+WBMD,NASDAQ,Communications
+WBS,NYSE,Financials
+WBSN,Delisted,Technology
+WCBO,Delisted,Financials
+WCC,NYSE,Industrials
+WCG,NYSE,Health Care
+WCIC,NYSE,Consumer Discretionary
+WCN,NYSE,Industrials
+WCRX,Delisted,Health Care
+WD,NYSE,Financials
+WDAY,NYSE,Technology
 WDC,NASDAQ,Technology
+WDFC,NASDAQ,Materials
+WDR,NYSE,Financials
+WEB,NASDAQ,Technology
 WEC,NYSE,Utilities
+WEICY,NOT FOUND,NOT FOUND
+WEN,NASDAQ,Consumer Discretionary
+WERN,NASDAQ,Industrials
+WES,NYSE,Energy
+WETF,NASDAQ,Financials
+WEX,NYSE,Financials
 WFC,NYSE,Financials
+WFCPRL,NOT FOUND,NOT FOUND
+WFD,NASDAQ,Financials
 WFM,NASDAQ,Consumer Staples
+WFT,NYSE,Energy
+WG,NYSE,Industrials
+WGL,NYSE,Utilities
+WGO,NYSE,Consumer Discretionary
 WGP,NYSE,Energy
+WHG,NYSE,Financials
+WHLR,NASDAQ,Financials
+WHLRP,NASDAQ,NOT FOUND
 WHR,NYSE,Consumer Discretionary
+WHXT,NOT FOUND,NOT FOUND
+WIBC,NASDAQ,Financials
+WIFI,NASDAQ,Communications
+WILC,NASDAQ,Consumer Staples
 WIN,NASDAQ,Communications
+WINA,NASDAQ,Consumer Discretionary
+WING,NASDAQ,Consumer Discretionary
+WIRE,NASDAQ,Materials
+WIT,NYSE,Technology
+WIW,NYSE,FUND
+WIX,NASDAQ,Communications
+WK,NYSE,Technology
+WLB,NASDAQ,Energy
+WLH,NYSE,Consumer Discretionary
+WLK,NYSE,Materials
+WLKP,NYSE,Materials
 WLL,NYSE,Energy
-WLTW,NASDAQ,#N/A
+WLTGQ,NOT FOUND,NOT FOUND
+WLTW,NASDAQ,Consumer Staples
 WM,NYSE,Industrials
+WMAR,NASDAQ,Consumer Discretionary
 WMB,NYSE,Energy
+WMC,NYSE,Financials
+WMGI,NASDAQ,Health Care
+WMIH,NASDAQ,Financials
+WMK,NYSE,Consumer Staples
+WMLP,NYSE,Energy
+WMS,NYSE,Materials
 WMT,NYSE,Consumer Staples
+WNC,NYSE,Industrials
+WNR,NYSE,Energy
+WNRL,NYSE,Energy
+WNS,NYSE,Technology
+WOOD,NASDAQ,FUND
+WOOF,NASDAQ,Health Care
+WOR,NYSE,Materials
+WPC,NYSE,Financials
+WPG,NYSE,Financials
+WPP,NOT FOUND,NOT FOUND
+WPPGY,NASDAQ,Communications
+WPRT,NASDAQ,Consumer Discretionary
+WPS,NYSE_Arca,FUND
+WPX,NYSE,Energy
+WPXP,NYSE,NOT FOUND
 WPZ,NYSE,Energy
+WR,NYSE,Utilities
+WRB,NYSE,Financials
+WRE,NYSE,Financials
+WRESQ,NOT FOUND,NOT FOUND
+WRI,NYSE,Financials
 WRK,NYSE,Materials
+WRLD,NASDAQ,Financials
+WRN,AMEX,Materials
+WSBC,NASDAQ,Financials
+WSBF,NASDAQ,Financials
+WSFS,NASDAQ,Financials
+WSM,NYSE,Consumer Discretionary
+WSO,NYSE,Industrials
+WSR,NYSE,Financials
+WST,NYSE,Health Care
+WSTC,NASDAQ,Communications
+WSTG,NASDAQ,Consumer Discretionary
+WSTL,NASDAQ,Technology
+WTFC,NASDAQ,Financials
+WTI,NYSE,Energy
+WTM,NYSE,Financials
+WTR,NYSE,Utilities
+WTS,NYSE,Industrials
+WTSLQ,NOT FOUND,NOT FOUND
 WTW,NYSE,Consumer Discretionary
 WU,NYSE,Financials
+WUBA,NYSE,Communications
+WWAV,NYSE,Consumer Staples
+WWD,NASDAQ,Industrials
+WWE,NYSE,Communications
+WWW,NYSE,Consumer Discretionary
+WX,NOT FOUND,NOT FOUND
 WY,NYSE,Financials
 WYN,NYSE,Consumer Discretionary
 WYNN,NASDAQ,Consumer Discretionary
 X,NYSE,Materials
+XAA,NOT FOUND,NOT FOUND
+XBI,NYSE_Arca,FUND
+XCO,NYSE,Energy
+XCRA,NASDAQ,Technology
 XEC,NYSE,Energy
 XEL,NYSE,Utilities
+XENE,NASDAQ,Health Care
+XENT,NASDAQ,Health Care
+XHB,NYSE_Arca,FUND
+XHR,NYSE,Financials
+XIN,NYSE,Financials
 XIV,NASDAQ,FUND
 XL,NYSE,Financials
+XLB,NYSE_Arca,FUND
+XLE,NYSE_Arca,FUND
+XLF,NYSE_Arca,FUND
+XLI,NYSE_Arca,FUND
+XLK,NYSE_Arca,FUND
 XLNX,NASDAQ,Technology
+XLP,NYSE_Arca,FUND
+XLRN,NASDAQ,Health Care
+XLS,NOT FOUND,NOT FOUND
+XLU,NYSE_Arca,FUND
+XLV,NYSE_Arca,FUND
+XLY,NYSE_Arca,FUND
+XME,NYSE_Arca,FUND
+XNCR,NASDAQ,Health Care
+XNET,NASDAQ,Communications
+XNPT,NASDAQ,Health Care
+XNY,NYSE,Consumer Discretionary
 XOM,NYSE,Energy
 XOMA,NASDAQ,Health Care
 XON,NYSE,Health Care
+XONE,NASDAQ,Technology
+XOOM,NOT FOUND,NOT FOUND
+XOP,NYSE_Arca,FUND
+XOXO,NYSE,Communications
+XPL,AMEX,Materials
+XPO,NYSE,Industrials
+XRA,AMEX,Materials
 XRAY,NASDAQ,Health Care
+XRM,NYSE,Industrials
+XRS,NYSE,Consumer Discretionary
+XRT,NYSE_Arca,FUND
+XRTX,Delisted,Technology
 XRX,NYSE,Technology
+XTLY,NYSE,Technology
+XUE,NYSE,Consumer Discretionary
+XXIA,NASDAQ,Technology
+XXV,NYSE_Arca,FUND
 XYL,NYSE,Industrials
+Y,NYSE,Financials
+YCS,NYSE_Arca,FUND
+YDKN,NYSE,Financials
+YDLE,NOT FOUND,NOT FOUND
+YELP,NYSE,Communications
+YGE,NYSE,Energy
 YHOO,NASDAQ,Communications
+YMLP,NYSE_Arca,FUND
+YNDX,NASDAQ,Communications
+YOKU,NYSE,Communications
+YORW,NASDAQ,Utilities
+YPF,NYSE,Energy
+YRCW,NASDAQ,Industrials
+YRD,NYSE,Industrials
 YUM,NYSE,Consumer Discretionary
+YUME,NYSE,Communications
+YY,NASDAQ,Communications
+YZC,NYSE,Energy
+Z,NASDAQ,NOT FOUND
+ZAGG,NASDAQ,Materials
+ZAIS,NASDAQ,Financials
+ZAYO,NYSE,Communications
 ZBH,NYSE,Health Care
+ZBRA,NASDAQ,Technology
+ZEN,NYSE,Technology
+ZEP,NOT FOUND,NOT FOUND
+ZEUS,NASDAQ,Materials
 ZFGN,NASDAQ,Health Care
+ZG,NASDAQ,Communications
+ZGNX,NASDAQ,Health Care
+ZHNE,NASDAQ,Technology
+ZIGO,Delisted,Technology
+ZINCQ,NOT FOUND,NOT FOUND
 ZION,NASDAQ,Financials
+ZIOP,NASDAQ,Health Care
+ZIP,Delisted,Consumer Discretionary
+ZIPR,Delisted,Financials
+ZIXI,NASDAQ,Communications
+ZLC,Delisted,Consumer Discretionary
+ZLTQ,NASDAQ,Health Care
+ZNGA,NASDAQ,Technology
+ZNH,NYSE,Consumer Discretionary
+ZOES,NYSE,Consumer Discretionary
+ZOLT,Delisted,Materials
+ZPIN,NYSE,Communications
+ZQKSQ,NOT FOUND,NOT FOUND
+ZSPH,NOT FOUND,NOT FOUND
 ZTS,NYSE,Health Care
+ZU,NOT FOUND,NOT FOUND
+ZUMZ,NASDAQ,Consumer Discretionary
+ZX,NYSE,Consumer Discretionary
