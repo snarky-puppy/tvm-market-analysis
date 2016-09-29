@@ -196,7 +196,7 @@ public class Database {
 
                 stmt.setInt(1, symbol.id);
                 stmt.setDate(2, Date.valueOf(date));
-                stmt.setDouble(3, quote.getClose().doubleValue());
+                stmt.setDouble(3, quote.getAdjClose().doubleValue());
                 stmt.setDouble(4, quote.getOpen().doubleValue());
                 stmt.setLong(5, quote.getVolume());
                 stmt.execute();

@@ -11,6 +11,7 @@ import yahoofinance.histquotes.Interval;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -68,8 +69,8 @@ public class DailySlope {
         public String toString() {
             final StringBuffer sb = new StringBuffer("");
             sb.append("").append(symbol);
-            sb.append(",'").append(exchange);
-            sb.append(",'").append(category);
+            sb.append(",").append(exchange);
+            sb.append(",").append(category);
             sb.append(",").append(d0);
             sb.append(",").append(d7);
             sb.append(",").append(d14);
@@ -89,11 +90,8 @@ public class DailySlope {
         dailySlope.run();
 
         //1 | NYSE      | A      | Health Care            | 2016-09-18
-        //Database.ActiveSymbol activeSymbol = new Database.ActiveSymbol(112, "CHD", "NYSE", "Consumer Staples", null);
+        //Database.ActiveSymbol activeSymbol = new Database.ActiveSymbol(4402, "TTC", "NYSE", "Industrials", null);
         //dailySlope.processSymbol(activeSymbol);
-
-        //dailySlope.writeResults(null);
-
     }
 
     private void run() throws IOException {
@@ -155,6 +153,7 @@ public class DailySlope {
                 Result r = new Result();
                 r.symbol = activeSymbol.symbol;
                 r.exchange = activeSymbol.exchange;
+                r.category = activeSymbol.sector;
 
                 r.d0 = data.date[idx];
                 r.d7 = data.date[idx + 7 - 1];
@@ -193,12 +192,18 @@ public class DailySlope {
             Stock stock = YahooFinance.get(symbol.symbol.replace('.', '-'), c, DEFAULT_TO, Interval.DAILY);
             Database.saveData(symbol, stock);
             Database.updateLastCheck(symbol);
-        } catch(FileNotFoundException e) {
+        } catch(SocketTimeoutException|FileNotFoundException e) {
             e.printStackTrace();
-            if(!secondRun)
+            if (!secondRun) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
                 updateData(symbol, true);
-            else
+            } else
                 Database.updateLastCheck(symbol);
+
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
