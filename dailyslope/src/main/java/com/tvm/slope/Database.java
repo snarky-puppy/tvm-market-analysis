@@ -10,20 +10,18 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Database interface
  * <p>
  * Created by horse on 19/03/2016.
  */
-public class Database {
+class Database {
 
     private static final Logger logger = LogManager.getLogger(Database.class);
 
-    public static Connection connection() {
+    private static Connection connection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://localhost/slope?" +
                     "useSSL=false&autoReconnect=true&serverTimezone=Australia/Sydney", "slope", "slope");
@@ -39,11 +37,10 @@ public class Database {
         throw new RuntimeException();
     }
 
-    public static void updateLastCheck(ActiveSymbol symbol) {
+    static void updateLastCheck(ActiveSymbol symbol) {
         //stock.getHistory().forEach(h -> System.out.println(h));
         Connection connection = connection();
         PreparedStatement stmt = null;
-        ResultSet rs = null;
         try {
             stmt = connection.prepareStatement("UPDATE active_symbols SET last_check = ? WHERE id = ?");
 
@@ -56,35 +53,7 @@ public class Database {
             e.printStackTrace();
             System.exit(1);
         } finally {
-            close(rs, stmt, connection);
-        }
-    }
-
-    static class ActiveSymbol {
-        public int id;
-        public String symbol;
-        public String exchange;
-        public String sector;
-        public LocalDate lastCheck;
-
-        public ActiveSymbol(int id, String symbol, String exchange, String sector, LocalDate lastCheck) {
-            this.id = id;
-            this.symbol = symbol;
-            this.exchange = exchange;
-            this.sector = sector;
-            this.lastCheck = lastCheck;
-        }
-
-        @Override
-        public String toString() {
-            final StringBuffer sb = new StringBuffer("ActiveSymbol{");
-            sb.append("id=").append(id);
-            sb.append(", symbol='").append(symbol).append('\'');
-            sb.append(", exchange='").append(exchange).append('\'');
-            sb.append(", sector='").append(sector).append('\'');
-            sb.append(", lastCheck=").append(lastCheck);
-            sb.append('}');
-            return sb.toString();
+            close(null, stmt, connection);
         }
     }
 
@@ -101,7 +70,7 @@ public class Database {
             while (rs.next()) {
                 Date dt = rs.getDate("last_check");
                 LocalDate ldt = null;
-                if(dt != null)
+                if (dt != null)
                     ldt = dt.toLocalDate();
 
                 rv.add(new ActiveSymbol(
@@ -120,7 +89,7 @@ public class Database {
         return rv;
     }
 
-    public static LocalDate getLastDate(ActiveSymbol activeSymbol) {
+    static LocalDate getLastDate(ActiveSymbol activeSymbol) {
         Connection connection = connection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -138,17 +107,10 @@ public class Database {
         } finally {
             close(rs, stmt, connection);
         }
-        return null;
+        return LocalDate.now();
     }
 
-    static class YahooData {
-        public double open[] = new double[21];
-        public double close[] = new double[21];
-        public int volume[] = new int[21];
-        public LocalDate date[] = new LocalDate[21];
-    }
-
-    public static YahooData getYahooData(ActiveSymbol activeSymbol) {
+    static YahooData getYahooData(ActiveSymbol activeSymbol) {
         Connection connection = connection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -179,11 +141,9 @@ public class Database {
         return null;
     }
 
-    public static void saveData(ActiveSymbol symbol, Stock stock) {
-        //stock.getHistory().forEach(h -> System.out.println(h));
+    static void saveData(ActiveSymbol symbol, Stock stock) {
         Connection connection = connection();
         PreparedStatement stmt = null;
-        ResultSet rs = null;
         try {
             connection.setAutoCommit(false);
             stmt = connection.prepareStatement("INSERT INTO yahoo_data VALUES(NULL,?,?,?,?,?);");
@@ -201,7 +161,7 @@ public class Database {
                 stmt.setLong(5, quote.getVolume());
                 stmt.execute();
             }
-        } catch(SQLIntegrityConstraintViolationException e) {
+        } catch (SQLIntegrityConstraintViolationException e) {
             // ignore
 
         } catch (SQLException | IOException e) {
@@ -214,11 +174,11 @@ public class Database {
                 e.printStackTrace();
                 System.exit(1);
             }
-            close(rs, stmt, connection);
+            close(null, stmt, connection);
         }
     }
 
-    public static String generateParams(int nParams) {
+    private static String generateParams(int nParams) {
         StringBuilder builder = new StringBuilder();
         while (nParams > 0) {
             builder.append("?");
@@ -229,7 +189,7 @@ public class Database {
         return builder.toString();
     }
 
-    public static void close(Connection connection) {
+    private static void close(Connection connection) {
         try {
             if (connection != null) {
                 connection.close();
@@ -240,7 +200,7 @@ public class Database {
         }
     }
 
-    public static void close(PreparedStatement stmt) {
+    private static void close(PreparedStatement stmt) {
         try {
             if (stmt != null)
                 stmt.close();
@@ -251,7 +211,7 @@ public class Database {
 
     }
 
-    public static void close(ResultSet rs) {
+    private static void close(ResultSet rs) {
         try {
             if (rs != null)
                 rs.close();
@@ -261,44 +221,42 @@ public class Database {
         }
     }
 
-    public static void close(PreparedStatement stmt, Connection connection) {
-        close(stmt);
-        close(connection);
-    }
-
-    public static void close(ResultSet rs, PreparedStatement stmt, Connection connection) {
+    private static void close(ResultSet rs, PreparedStatement stmt, Connection connection) {
         close(rs);
         close(stmt);
         close(connection);
     }
 
-    public static void close(ResultSet rs, PreparedStatement stmt) {
-        close(rs);
-        close(stmt);
+    static class ActiveSymbol {
+        final int id;
+        final String symbol;
+        final String exchange;
+        final String sector;
+        final LocalDate lastCheck;
+
+        ActiveSymbol(int id, String symbol, String exchange, String sector, LocalDate lastCheck) {
+            this.id = id;
+            this.symbol = symbol;
+            this.exchange = exchange;
+            this.sector = sector;
+            this.lastCheck = lastCheck;
+        }
+
+        @Override
+        public String toString() {
+            return "ActiveSymbol{" + "id=" + id +
+                    ", symbol='" + symbol + '\'' +
+                    ", exchange='" + exchange + '\'' +
+                    ", sector='" + sector + '\'' +
+                    ", lastCheck=" + lastCheck +
+                    '}';
+        }
     }
 
-    public static String generateInsertParams(String[] fields) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("(");
-        sb.append(String.join(",", fields));
-        sb.append(") VALUES(");
-        sb.append(generateParams(fields.length));
-        sb.append(")");
-        return sb.toString();
+    static class YahooData {
+        final double[] open = new double[21];
+        final double[] close = new double[21];
+        final int[] volume = new int[21];
+        final LocalDate[] date = new LocalDate[21];
     }
-
-    public static String generateInsertSQL(String table, String[] fields) {
-        return "INSERT INTO " + table + generateInsertParams(fields);
-    }
-
-    public static String generateUpdateSQL(String table, String idField, String[] fields) {
-        return "UPDATE " + table + " SET " + generateUpdateParams(fields) + " WHERE " + idField + " = ?";
-    }
-
-    private static String generateUpdateParams(String[] fields) {
-        return Arrays.stream(fields)
-                .map(s -> s + "=?")
-                .collect(Collectors.joining(", "));
-    }
-
 }

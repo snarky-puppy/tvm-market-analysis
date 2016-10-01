@@ -2,8 +2,6 @@ package com.tvm.slope;
 
 import org.apache.commons.math3.stat.descriptive.moment.Mean;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.Interval;
@@ -21,71 +19,26 @@ import java.util.*;
 import static yahoofinance.histquotes.HistQuotesRequest.DEFAULT_TO;
 
 /**
+ * Produce a slope report from Yahoo data
+ * <p>
  * Created by horse on 4/09/2016.
  */
 public class DailySlope {
 
-    private static final Logger logger = LogManager.getLogger(DailySlope.class);
+    private static final Path OUT_DIR = Paths.get("/Users/horse/Google Drive/Stuff from Matt/slope");
 
-    public static final Path OUT_DIR = Paths.get("/Users/horse/Google Drive/Stuff from Matt/slope");
-
-    public static String getHeader() {
-        final StringBuffer sb = new StringBuffer("symbol");
-        sb.append(",exchange");
-        sb.append(",category");
-        sb.append(",d0");
-        sb.append(",d7");
-        sb.append(",d14");
-        sb.append(",d21");
-        sb.append(",pl7");
-        sb.append(",pl14");
-        sb.append(",pl21");
-        sb.append(",slope");
-        sb.append(",dollarVolume");
-        return sb.toString();
-    }
-    
-    class Result {
-        public String symbol;
-        public String exchange;
-        public String category;
-
-        // dates
-        public LocalDate d0;
-        public LocalDate d7;
-        public LocalDate d14;
-        public LocalDate d21;
-
-        // profit/loss
-        public double pl7;
-        public double pl14;
-        public double pl21;
-        public double slope;
-        public double dollarVolume;
-
-
-
-        @Override
-        public String toString() {
-            final StringBuffer sb = new StringBuffer("");
-            sb.append("").append(symbol);
-            sb.append(",").append(exchange);
-            sb.append(",").append(category);
-            sb.append(",").append(d0);
-            sb.append(",").append(d7);
-            sb.append(",").append(d14);
-            sb.append(",").append(d21);
-            sb.append(String.format(",%.4f", pl7));
-            sb.append(String.format(",%.4f", pl14));
-            sb.append(String.format(",%.4f", pl21));
-            sb.append(String.format(",%.4f", slope));
-            sb.append(String.format(",%.4f", dollarVolume));
-            return sb.toString();
-        }
-
-
-
-
+    private static String getHeader() {
+        return "symbol,exchange" +
+                ",category" +
+                ",d0" +
+                ",d7" +
+                ",d14" +
+                ",d21" +
+                ",pl7" +
+                ",pl14" +
+                ",pl21" +
+                ",slope" +
+                ",dollarVolume";
     }
 
     public static void main(String[] args) throws IOException {
@@ -97,23 +50,29 @@ public class DailySlope {
         //dailySlope.processSymbol(activeSymbol);
     }
 
+    private static long timestamp() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
+        return Long.parseLong(sdf.format(date));
+    }
+
     private void run() throws IOException {
         List<Result> results = new ArrayList<>();
-        for(Database.ActiveSymbol symbol : Database.getActiveSymbols()) {
+        for (Database.ActiveSymbol symbol : Database.getActiveSymbols()) {
             Result r = processSymbol(symbol);
-            if(r != null)
+            if (r != null)
                 results.add(r);
         }
-        if(results.size() > 0) {
+        if (results.size() > 0) {
             writeResults(results);
         }
     }
 
     private void writeResults(List<Result> results) throws IOException {
-        FileWriter fw = new FileWriter(String.valueOf(OUT_DIR.resolve("slope-"+timestamp()+".csv")));
-        fw.write(getHeader()+"\n");
-        for(Result r : results) {
-            fw.write(r.toString()+"\n");
+        FileWriter fw = new FileWriter(String.valueOf(OUT_DIR.resolve("slope-" + timestamp() + ".csv")));
+        fw.write(getHeader() + "\n");
+        for (Result r : results) {
+            fw.write(r.toString() + "\n");
         }
         fw.close();
     }
@@ -121,14 +80,14 @@ public class DailySlope {
     private Result processSymbol(Database.ActiveSymbol activeSymbol) {
         updateData(activeSymbol);
         Database.YahooData data = Database.getYahooData(activeSymbol);
-        if(data != null) {
+        if (data != null) {
             return regression(activeSymbol, data);
         }
         return null;
     }
 
     private double change(double start, double end) {
-        return ((end - start)/start);
+        return ((end - start) / start);
     }
 
     private Result regression(Database.ActiveSymbol activeSymbol, Database.YahooData data) {
@@ -136,9 +95,9 @@ public class DailySlope {
         double[] c = data.close;
         int idx = 0;
 
-        p1 = change(c[idx], c[idx + 7-1]);
-        p2 = change(c[idx], c[idx + 14-1]);
-        p3 = change(c[idx], c[idx + 21-1]);
+        p1 = change(c[idx], c[idx + 7 - 1]);
+        p2 = change(c[idx], c[idx + 14 - 1]);
+        p3 = change(c[idx], c[idx + 21 - 1]);
 
         SimpleRegression simpleRegression = new SimpleRegression();
 
@@ -148,7 +107,7 @@ public class DailySlope {
 
         double slope = simpleRegression.getSlope();
 
-        if(slope <= -0.2) {
+        if (slope <= -0.2) {
             //double avgVolume = new Mean().evaluate(data.volume, idx, 21);
             double avgVolume = Arrays.stream(data.volume, idx, idx + 21 - 1).average().getAsDouble();
             double avgClose = new Mean().evaluate(data.close, idx, 21 - 1);
@@ -181,7 +140,7 @@ public class DailySlope {
 
     private void updateData(Database.ActiveSymbol symbol, boolean secondRun) {
 
-        if(symbol.lastCheck != null && LocalDate.now().isEqual(symbol.lastCheck))
+        if (symbol.lastCheck != null && LocalDate.now().isEqual(symbol.lastCheck))
             return;
 
         LocalDate dt = Database.getLastDate(symbol);
@@ -195,7 +154,7 @@ public class DailySlope {
             Stock stock = YahooFinance.get(symbol.symbol.replace('.', '-'), c, DEFAULT_TO, Interval.DAILY);
             Database.saveData(symbol, stock);
             Database.updateLastCheck(symbol);
-        } catch(SocketTimeoutException|FileNotFoundException e) {
+        } catch (SocketTimeoutException | FileNotFoundException e) {
             e.printStackTrace();
             if (!secondRun) {
                 try {
@@ -213,11 +172,36 @@ public class DailySlope {
         }
     }
 
+    private class Result {
+        double slope;
+        double dollarVolume;
+        String symbol;
+        String exchange;
+        String category;
+        // dates
+        LocalDate d0;
+        LocalDate d7;
+        LocalDate d14;
+        LocalDate d21;
+        // profit/loss
+        double pl7;
+        double pl14;
+        double pl21;
 
-    public static long timestamp() {
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
-        return Long.parseLong(sdf.format(date));
+        @Override
+        public String toString() {
+            return symbol +
+                    "," + exchange +
+                    "," + category +
+                    "," + d0 +
+                    "," + d7 +
+                    "," + d14 +
+                    "," + d21 +
+                    String.format(",%.4f", pl7) +
+                    String.format(",%.4f", pl14) +
+                    String.format(",%.4f", pl21) +
+                    String.format(",%.4f", slope) +
+                    String.format(",%.4f", dollarVolume);
+        }
     }
-
 }
