@@ -75,14 +75,17 @@ public class DailySlope {
             sb.append(",").append(d7);
             sb.append(",").append(d14);
             sb.append(",").append(d21);
-            sb.append(",").append(pl7);
-            sb.append(",").append(pl14);
-            sb.append(",").append(pl21);
-            sb.append(",").append(slope);
-            sb.append(",").append(dollarVolume);
-            
+            sb.append(String.format(",%.4f", pl7));
+            sb.append(String.format(",%.4f", pl14));
+            sb.append(String.format(",%.4f", pl21));
+            sb.append(String.format(",%.4f", slope));
+            sb.append(String.format(",%.4f", dollarVolume));
             return sb.toString();
         }
+
+
+
+
     }
 
     public static void main(String[] args) throws IOException {
