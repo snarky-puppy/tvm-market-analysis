@@ -5,8 +5,8 @@
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %C{1} - %msg%n"/>
         </Console>
 
-        <RollingFile name="RollingFile" fileName="/lotus/lotus2.log"
-                     filePattern="/lotus/old_logs/lotus-%d{MM-dd-yyyy}-%i.log.gz">
+        <RollingFile name="RollingFile" fileName="lotus.log"
+                     filePattern="old_logs/lotus-%d{MM-dd-yyyy}-%i.log.gz">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %C{1} - %msg%n"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="256 MB"/>
