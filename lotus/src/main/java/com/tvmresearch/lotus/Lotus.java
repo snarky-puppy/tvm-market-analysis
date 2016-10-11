@@ -268,6 +268,14 @@ public class Lotus {
 
                 investment.buyLimit = round(investment.trigger.price * Configuration.BUY_LIMIT_FACTOR);
                 investment.qty = (int) Math.floor(investment.cmpTotal / investment.buyLimit);
+
+                if(investment.qty <= 0) {
+                    trigger.rejectReason = Trigger.RejectReason.NOFUNDS;
+                    triggerDao.serialise(trigger);
+                    compounder.cancel(investment);
+                    continue;
+                }
+
                 investment.qtyValue = investment.qty * investment.buyLimit;
 
                 investment.sellLimit = round(investment.trigger.price * Configuration.SELL_LIMIT_FACTOR);
