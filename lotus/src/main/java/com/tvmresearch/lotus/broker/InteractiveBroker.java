@@ -21,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 /**
  * IB API
@@ -316,7 +317,8 @@ public class InteractiveBroker implements Broker {
                         }
                     });
 
-            semaphore.acquire();
+            if(!semaphore.tryAcquire(2, TimeUnit.MINUTES))
+                return 0;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -372,7 +374,9 @@ public class InteractiveBroker implements Broker {
 
                 controller.reqHistoricalData(contract, timeLimit, fetchedDays, Types.DurationUnit.DAY,
                         Types.BarSize._1_day, Types.WhatToShow.TRADES, true, historicalDataHandler);
-                semaphore.acquire();
+
+                if(!semaphore.tryAcquire(2, TimeUnit.MINUTES))
+                    return;
 
                 missingDays -= fetchedDays;
 
