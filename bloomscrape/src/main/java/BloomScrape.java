@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Bloomberg scraper
@@ -23,6 +24,10 @@ public class BloomScrape {
 
     private static final String outputPath = "data";
 
+    ObjectMapper mapper;
+    WebClient client;
+    Random random;
+
     private class BloomData {
         public String symbol;
         public String ticker;
@@ -33,20 +38,25 @@ public class BloomScrape {
         public String subIndustry;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         BloomScrape bloomScrape = new BloomScrape();
         bloomScrape.scrapeAll("all_symbols2.txt");
+    }
+
+    BloomScrape() {
+        mapper = new ObjectMapper();
+        random = new Random();
+        client = new WebClient(BrowserVersion.CHROME);
+        client.getOptions().setJavaScriptEnabled(false);
+        client.getOptions().setThrowExceptionOnScriptError(false);
     }
 
     private String getXPathText(HtmlPage page, String xpath) {
         return ((HtmlElement)page.getFirstByXPath(xpath)).getTextContent();
     }
 
-    private void scrapeAll(String inputFile) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        WebClient client = new WebClient(BrowserVersion.CHROME);
-        client.getOptions().setJavaScriptEnabled(false);
-        client.getOptions().setThrowExceptionOnScriptError(false);
+    private void scrapeAll(String inputFile) throws IOException, InterruptedException {
+
 
         List<String> allSymbols = Files.readAllLines(Paths.get(inputFile));
 
@@ -61,21 +71,23 @@ public class BloomScrape {
 
             HtmlPage page = client.getPage("http://www.bloomberg.com/quote/"+stock+":US");
 
-            System.out.println(page);
+            if(page.getFirstByXPath("//*[text()=\" Fund Managers \"]") == null) {
 
-            BloomData data = new BloomData();
-            data.symbol = stock;
-            data.ticker = getXPathText(page, "//*[@class=\"ticker\"]");
-            data.companyName = getXPathText(page, "//*[@class=\"name\"]");
-            data.market = getXPathText(page, "//*[@class=\"exchange\"]");
-            data.sector = getXPathText(page, "//*[text()=\" Sector \"]/following-sibling::div");
-            data.industry = getXPathText(page, "//*[text()=\" Industry \"]/following-sibling::div");
-            data.subIndustry = getXPathText(page, "//*[text()=\" Sub-Industry \"]/following-sibling::div");
+                BloomData data = new BloomData();
+                data.symbol = stock;
+                data.ticker = getXPathText(page, "//*[@class=\"ticker\"]");
+                data.companyName = getXPathText(page, "//*[@class=\"name\"]");
+                data.market = getXPathText(page, "//*[@class=\"exchange\"]");
+                data.sector = getXPathText(page, "//*[text()=\" Sector \"]/following-sibling::div");
+                data.industry = getXPathText(page, "//*[text()=\" Industry \"]/following-sibling::div");
+                data.subIndustry = getXPathText(page, "//*[text()=\" Sub-Industry \"]/following-sibling::div");
 
-            mapper.writeValue(file.toFile(), data);
+                mapper.writeValue(file.toFile(), data);
+            } else
+                Files.write(file, "{}\n".getBytes());
 
-            System.exit(1);
-
+            int delayTime = random.nextInt(10);
+            Thread.sleep(delayTime*1000);
         }
 
     }
