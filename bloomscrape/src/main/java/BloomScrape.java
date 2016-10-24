@@ -57,7 +57,7 @@ public class BloomScrape {
 
     private void scrapeAll(String inputFile) throws IOException, InterruptedException {
 
-
+        int cnt = 0;
         List<String> allSymbols = Files.readAllLines(Paths.get(inputFile));
 
         Files.createDirectories(Paths.get(outputPath));
@@ -86,8 +86,15 @@ public class BloomScrape {
             } else
                 Files.write(file, "{}\n".getBytes());
 
-            int delayTime = random.nextInt(10);
+            int delayTime = 20+random.nextInt(10);
+            System.out.printf("Sleeping %d seconds\n", delayTime);
             Thread.sleep(delayTime*1000);
+
+            if(cnt++ > 100) {
+                System.out.printf("Sleeping an additional 5 minutes\n");
+                Thread.sleep(1000*60*5);
+                cnt = 0;
+            }
         }
 
     }
