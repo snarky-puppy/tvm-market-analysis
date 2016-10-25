@@ -31,18 +31,6 @@ public class BloomScrape {
     ObjectMapper mapper;
     Random random;
 
-    private class BloomData {
-        public int code;
-        public String symbol;
-        public String ticker;
-        public String companyName;
-        public String market;
-        public String sector;
-        public String industry;
-        public String subIndustry;
-        public BloomData acquiredBy;
-    }
-
     public static void main(String[] args) throws Exception {
         BloomScrape bloomScrape = new BloomScrape();
         bloomScrape.scrapeAll("all_symbols2.txt");
@@ -63,7 +51,7 @@ public class BloomScrape {
 
     private String getXPathText(HtmlPage page, String xpath) {
         try {
-            return ((HtmlElement) page.getFirstByXPath(xpath)).getTextContent().replaceAll(" ", "");
+            return ((HtmlElement) page.getFirstByXPath(xpath)).getTextContent().replaceFirst(" ", "");
         } catch(NullPointerException e) {
             System.out.println(page.getWebResponse().getContentAsString());
             throw e;
@@ -76,7 +64,7 @@ public class BloomScrape {
 
         Files.createDirectories(Paths.get(outputPath));
 
-        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        ExecutorService executorService = Executors.newFixedThreadPool(8);
 
 
         for(String stock : allSymbols) {
