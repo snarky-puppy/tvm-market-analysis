@@ -43,7 +43,7 @@ public class BloomScrape {
     }
 
     WebClient getWebClient() {
-        WebClient client = new WebClient(BrowserVersion.CHROME, "localhost", 3128);
+        WebClient client = new WebClient(BrowserVersion.CHROME); // "127.0.0.1", 8080);
         client.getOptions().setJavaScriptEnabled(false);
         client.getOptions().setThrowExceptionOnScriptError(false);
         return client;
@@ -85,7 +85,10 @@ public class BloomScrape {
                         try {
                             data = scrapeStock(stock + ":US");
                         } catch (FailingHttpStatusCodeException e) {
-                            System.out.println("== Failed with " + e.getStatusCode());
+                            int code = e.getStatusCode();
+                            System.out.println("== Failed with " + code);
+                            if(code == 400 || code == 403)
+                                System.exit(1);
                             return;
                         }
 
