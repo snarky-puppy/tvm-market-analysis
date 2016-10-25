@@ -51,7 +51,7 @@ public class BloomScrape {
 
     private String getXPathText(HtmlPage page, String xpath) {
         try {
-            return ((HtmlElement) page.getFirstByXPath(xpath)).getTextContent().replaceFirst(" ", "");
+            return ((HtmlElement) page.getFirstByXPath(xpath)).getTextContent().trim();
         } catch(NullPointerException e) {
             System.out.println(page.getWebResponse().getContentAsString());
             throw e;
