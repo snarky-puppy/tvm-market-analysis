@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -29,6 +30,7 @@ public class BloomScrape {
     Random random;
 
     private class BloomData {
+        public int code;
         public String symbol;
         public String ticker;
         public String companyName;
@@ -36,6 +38,7 @@ public class BloomScrape {
         public String sector;
         public String industry;
         public String subIndustry;
+        public BloomData acquiredBy;
     }
 
     public static void main(String[] args) throws Exception {
@@ -45,8 +48,10 @@ public class BloomScrape {
 
     BloomScrape() {
         mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         random = new Random();
-        client = new WebClient(BrowserVersion.CHROME);
+        client = new WebClient(BrowserVersion.CHROME, "localhost", 3128);
+
         client.getOptions().setJavaScriptEnabled(false);
         client.getOptions().setThrowExceptionOnScriptError(false);
     }
@@ -63,30 +68,19 @@ public class BloomScrape {
         Files.createDirectories(Paths.get(outputPath));
 
         for(String stock : allSymbols) {
-            Path file = Paths.get(outputPath, stock+".json");
+            Path file = Paths.get(outputPath, stock + ".json");
             if(Files.exists(file))
                 continue;
 
             System.out.println("== Checking "+stock);
 
-            HtmlPage page = client.getPage("http://www.bloomberg.com/quote/"+stock+":US");
-
-            if(page.getFirstByXPath("//*[text()=\" Fund Managers \"]") == null) {
-
-                BloomData data = new BloomData();
-                data.symbol = stock;
-                data.ticker = getXPathText(page, "//*[@class=\"ticker\"]");
-                data.companyName = getXPathText(page, "//*[@class=\"name\"]");
-                data.market = getXPathText(page, "//*[@class=\"exchange\"]");
-                data.sector = getXPathText(page, "//*[text()=\" Sector \"]/following-sibling::div");
-                data.industry = getXPathText(page, "//*[text()=\" Industry \"]/following-sibling::div");
-                data.subIndustry = getXPathText(page, "//*[text()=\" Sub-Industry \"]/following-sibling::div");
-
-                mapper.writeValue(file.toFile(), data);
-            } else
+            BloomData data = scrapeStock(stock+":US");
+            if(data == null)
                 Files.write(file, "{}\n".getBytes());
+            else
+                mapper.writeValue(file.toFile(), data);
 
-            int delayTime = 20+random.nextInt(10);
+            int delayTime = random.nextInt(10);
             System.out.printf("Sleeping %d seconds\n", delayTime);
             Thread.sleep(delayTime*1000);
 
@@ -96,6 +90,34 @@ public class BloomScrape {
                 cnt = 0;
             }
         }
+    }
 
+    private BloomData scrapeStock(String stock) throws IOException {
+        BloomData data = new BloomData();
+        HtmlPage page = client.getPage("http://www.bloomberg.com/quote/"+stock);
+
+        data.code = page.getWebResponse().getStatusCode();
+
+        if(page.getFirstByXPath("//*[contains(text(), \"The search for\")]") != null) {
+            data.code = 404;
+
+        } else if (page.getFirstByXPath("//*[text()=\" Fund Managers \"]") == null) {
+
+            data.symbol = stock;
+            data.ticker = getXPathText(page, "//*[@class=\"ticker\"]");
+            data.companyName = getXPathText(page, "//*[@class=\"name\"]");
+            data.market = getXPathText(page, "//*[@class=\"exchange\"]");
+            data.sector = getXPathText(page, "//*[text()=\" Sector \"]/following-sibling::div");
+            data.industry = getXPathText(page, "//*[text()=\" Industry \"]/following-sibling::div");
+            data.subIndustry = getXPathText(page, "//*[text()=\" Sub-Industry \"]/following-sibling::div");
+
+            HtmlElement acq = page.getFirstByXPath("//*[@class=\"market-status-message_link\"]");
+            if(acq != null)
+                data.acquiredBy = scrapeStock(acq.getTextContent());
+
+        } else
+            data = null;
+
+        return data;
     }
 }
