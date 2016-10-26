@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Bloomberg scraper
@@ -43,7 +44,7 @@ public class BloomScrape {
     }
 
     WebClient getWebClient() {
-        WebClient client = new WebClient(BrowserVersion.CHROME); // "127.0.0.1", 8080);
+        WebClient client = new WebClient(BrowserVersion.CHROME, "127.0.0.1", 3128);
         client.getOptions().setJavaScriptEnabled(false);
         client.getOptions().setThrowExceptionOnScriptError(false);
         return client;
@@ -69,7 +70,7 @@ public class BloomScrape {
 
         for(String stock : allSymbols) {
             Path file = Paths.get(outputPath, stock + ".json");
-            if(Files.exists(file))
+            if (Files.exists(file))
                 continue;
 
             executorService.submit(new Runnable() {
@@ -87,7 +88,7 @@ public class BloomScrape {
                         } catch (FailingHttpStatusCodeException e) {
                             int code = e.getStatusCode();
                             System.out.println("== Failed with " + code);
-                            if(code == 400 || code == 403)
+                            if (code == 400 || code == 403)
                                 System.exit(1);
                             return;
                         }
@@ -97,25 +98,16 @@ public class BloomScrape {
                             Files.write(file, "{}\n".getBytes());
                         else
                             mapper.writeValue(file.toFile(), data);
-                    } catch(Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                         System.exit(1);
                     }
-                }});
-
-            /*
-            int delayTime = random.nextInt(10);
-            System.out.printf("Sleeping %d seconds\n", delayTime);
-            //Thread.sleep(delayTime*1000);
-
-            if(cnt++ > 100) {
-                System.out.printf("Sleeping an additional 5 minutes\n");
-                //Thread.sleep(1000*60*5);
-                cnt = 0;
-            }
-            */
-
+                }
+            });
         }
+
+        executorService.shutdown();
+        executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.DAYS);
     }
 
     private BloomData scrapeStock(String stock) throws IOException {
