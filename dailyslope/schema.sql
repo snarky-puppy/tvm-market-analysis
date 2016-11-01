@@ -17,15 +17,18 @@ CREATE TABLE yahoo_data (
 
 	UNIQUE KEY yahoo_uniq (symbol_id, dt)
 );
+ALTER TABLE yahoo_data modify volume bigint;
 
 CREATE TABLE active_symbols (
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	exchange CHAR(16) NOT NULL,
-	symbol CHAR(16) NOT NULL,
+	symbol CHAR(32) NOT NULL,
 	sector CHAR(32) NOT NULL,
     last_check DATE,
 	UNIQUE KEY mapping_uniq (exchange, symbol)
 );
+
+ALTER TABLE active_symbols modify symbol char(64);
 
 LOAD DATA LOCAL INFILE 'active_symbols.csv' INTO TABLE active_symbols
 	FIELDS TERMINATED BY ','
