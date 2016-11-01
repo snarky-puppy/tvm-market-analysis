@@ -152,7 +152,7 @@ class Database {
 
                 LocalDate date = quote.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-                System.out.println(String.format("save: id=%d, date=%s, close=%.2f", symbol.id, date, quote.getClose().doubleValue()));
+                System.out.println(String.format("save: id=%d, date=%s, close=%.2f", symbol.id, date, quote.getAdjClose().doubleValue()));
 
                 stmt.setInt(1, symbol.id);
                 stmt.setDate(2, Date.valueOf(date));
