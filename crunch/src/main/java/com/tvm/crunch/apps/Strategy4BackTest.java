@@ -36,7 +36,7 @@ public class Strategy4BackTest extends MarketExecutor {
             //strategy4BackTest.processSymbol("CECO");
 
         } else {
-            factory.updateFromWeb(100, 0);
+            factory.updateFromWeb();
 
             executeAllMarkets(factory, Strategy4BackTest::new);
         }

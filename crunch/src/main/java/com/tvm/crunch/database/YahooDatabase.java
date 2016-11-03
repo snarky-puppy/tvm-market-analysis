@@ -46,10 +46,9 @@ class YahooDatabase implements Database {
     public YahooDatabase() {
     }
 
-    public void update(int years, int months) throws IOException {
-
+    public void update() throws IOException {
         updateActiveSymbolsTable();
-        updateYahooData(years, months);
+        updateYahooData();
     }
 
     private void updateActiveSymbolsTable() {
@@ -91,7 +90,7 @@ class YahooDatabase implements Database {
         }
     }
 
-    private void updateYahooData(int years, int months) {
+    private void updateYahooData() {
 
         ExecutorService executorService = Executors.newFixedThreadPool(16);
 
@@ -99,7 +98,7 @@ class YahooDatabase implements Database {
             executorService.submit(new Runnable() {
                 @Override
                 public void run() {
-                    updateData(r, years, months);
+                    updateData(r);
                 }
             });
         }
@@ -112,18 +111,19 @@ class YahooDatabase implements Database {
 
     }
 
-    public void updateData(Row row, int years, int months) {
+    public void updateData(Row row) {
 
         LocalDate now = LocalDate.now();
 
-        LocalDate first = getDate(row, true);
+        //LocalDate first = getDate(row, true);
         LocalDate last = getDate(row, false);
 
-        if(first == null)
-            first = now;
+        //if(first == null)
+        //    first = now;
         if(last == null)
-            last = now;
+            last = now.minusYears(100);
 
+        /*
         LocalDate goalFirst = now.minusYears(years).minusMonths(months);
         if(goalFirst.isBefore(first)) {
             System.out.println("1st: "+row.symbol + ": from " + goalFirst + " to "+ first);
@@ -133,6 +133,7 @@ class YahooDatabase implements Database {
             to.set(first.getYear(), first.getMonthValue() - 1, first.getDayOfMonth());
             updateData(row, from, to, false);
         }
+        */
 
         if(now.isAfter(last)) {
             System.out.println("2nd: "+row.symbol + ": from " + last + " to "+ now);
@@ -458,7 +459,7 @@ class YahooDatabase implements Database {
     public static void main(String[] args) {
         Row r = new Row(801, "CECO", "NASDAQ", "Consumer", null);
         YahooDatabase db = new YahooDatabase();
-        db.updateData(r, 100, 0);
+        db.updateData(r);
     }
 }
 

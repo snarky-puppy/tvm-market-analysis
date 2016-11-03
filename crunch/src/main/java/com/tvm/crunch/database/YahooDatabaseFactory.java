@@ -12,7 +12,7 @@ public class YahooDatabaseFactory implements DatabaseFactory {
         return new YahooDatabase();
     }
 
-    public void updateFromWeb(int years, int months) throws IOException {
-        new YahooDatabase().update(years, months);
+    public void updateFromWeb() throws IOException {
+        new YahooDatabase().update();
     }
 }
