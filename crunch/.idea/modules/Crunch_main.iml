@@ -18,6 +18,8 @@
     <orderEntry type="library" name="Gradle: com.google.api-client:google-api-client:1.20.0" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.commons:commons-compress:1.0" level="project" />
     <orderEntry type="library" name="Gradle: org.xerial:sqlite-jdbc:3.8.11.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.yahoofinance-api:YahooFinanceAPI:3.5.0" level="project" />
+    <orderEntry type="library" name="Gradle: mysql:mysql-connector-java:6.0.3" level="project" />
     <orderEntry type="library" name="Gradle: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.poi:poi:3.10.1" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.poi:poi-ooxml-schemas:3.10.1" level="project" />

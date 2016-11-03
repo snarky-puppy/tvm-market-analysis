@@ -1,9 +1,10 @@
 package com.tvm.crunch.apps;
 
 import com.tvm.crunch.*;
+import com.tvm.crunch.database.DatabaseFactory;
 import com.tvm.crunch.database.FileDatabaseFactory;
 import com.tvm.crunch.scenario.AbstractScenarioFactory;
-import com.tvm.crunch.scenario.CSVScenarioFactory;
+import com.tvm.crunch.scenario.DailyBackTestScenarioFactory;
 import com.tvm.crunch.scenario.Scenario;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -15,7 +16,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class ZScoreBackTest extends MarketExecutor implements TriggerProcessor {
 
-    static final AbstractScenarioFactory scenarioFactory = new CSVScenarioFactory();
+    static final AbstractScenarioFactory scenarioFactory = new DailyBackTestScenarioFactory(2);
 
     @Override
     public int getEntryZScore() {
@@ -34,7 +35,7 @@ public class ZScoreBackTest extends MarketExecutor implements TriggerProcessor {
         Util.waitForKeypress(visualvm);
 
         if(false) {
-            ZScoreBackTest trendContBackTest = new ZScoreBackTest("test");
+            ZScoreBackTest trendContBackTest = new ZScoreBackTest("test", new FileDatabaseFactory());
             trendContBackTest.executeAllSymbols();
         } else {
             executeAllMarkets(new FileDatabaseFactory(), ZScoreBackTest::new);
@@ -43,8 +44,8 @@ public class ZScoreBackTest extends MarketExecutor implements TriggerProcessor {
         Util.waitForKeypress(visualvm);
     }
 
-    private ZScoreBackTest(String market) {
-        super(market);
+    private ZScoreBackTest(String market, DatabaseFactory databaseFactory) {
+        super(market, databaseFactory);
     }
 
     @Override

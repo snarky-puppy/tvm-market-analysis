@@ -2,7 +2,6 @@ package com.tvm.crunch;
 
 import com.tvm.crunch.database.Database;
 import com.tvm.crunch.database.DatabaseFactory;
-import com.tvm.crunch.database.FileDatabaseFactory;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -103,14 +102,15 @@ m=8 s=16 -> 00:00:16.926
     private final ResultWriter writer;
     private final ArrayBlockingQueue<Result> queue;
     protected final String market;
-    private DatabaseFactory databaseFactory = new FileDatabaseFactory();
+    private DatabaseFactory databaseFactory = null;
 
     protected abstract ResultWriter createResultWriter(ArrayBlockingQueue<Result> queue);
     protected abstract void processSymbol(String symbol);
 
 
-    public MarketExecutor(String market) {
+    public MarketExecutor(String market, DatabaseFactory databaseFactory) {
         this.market = market;
+        this.databaseFactory = databaseFactory;
         queue = new ArrayBlockingQueue<Result>(QUEUE_SIZE);
         writer = createResultWriter(queue);
     }
@@ -127,7 +127,7 @@ m=8 s=16 -> 00:00:16.926
                 executorService.submit(new Runnable() {
                     public void run() {
                         try {
-                            MarketExecutor executor = marketExecutorFactory.create(market);
+                            MarketExecutor executor = marketExecutorFactory.create(market, databaseFactory);
                             executor.executeAllSymbols();
                         } catch(Exception e) {
                             e.printStackTrace();
@@ -209,6 +209,6 @@ m=8 s=16 -> 00:00:16.926
      * Created by horse on 23/07/2016.
      */
     public interface MarketExecutorFactory {
-        MarketExecutor create(String market);
+        MarketExecutor create(String market, DatabaseFactory databaseFactory);
     }
 }

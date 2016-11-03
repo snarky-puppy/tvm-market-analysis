@@ -23,16 +23,19 @@ public class Strategy4Result extends Result {
     public double pl14;
     public double pl21;
     public double slope;
-    public double dollarVolume;
+    public double dollarVolume21Day;
+    public double dollarVolume3Month;
 
     public String news;
 
-    public static int holdMin = 22;
+    public static int holdMin = 21;
     public static int holdMax = 49;
     public static int numHolds = holdMax - holdMin + 1;
     Integer holdDate[] = new Integer[numHolds];
-    Double holdPrice[] = new Double[numHolds];
-    Double holdPc[] = new Double[numHolds];
+    Double holdOpenPrice[] = new Double[numHolds];
+    Double holdOpenPc[] = new Double[numHolds];
+    Double holdClosePrice[] = new Double[numHolds];
+    Double holdClosePc[] = new Double[numHolds];
 
     @Override
     public String toString() {
@@ -48,14 +51,17 @@ public class Strategy4Result extends Result {
         sb.append(",").append(pl14);
         sb.append(",").append(pl21);
         sb.append(",").append(slope);
-        sb.append(",").append(String.format("%.8f", dollarVolume));
+        sb.append(",").append(String.format("%.8f", dollarVolume21Day));
+        sb.append(",").append(String.format("%.8f", dollarVolume3Month));
         sb.append(",\"").append(news).append("\"");
 
         for(int i = 0, h = holdMin; h <= holdMax; h++, i++) {
             if(holdDate[i] != null) {
                 sb.append(",").append(holdDate[i]);
-                sb.append(",").append(holdPrice[i]);
-                sb.append(",").append(holdPc[i]);
+                sb.append(",").append(holdOpenPrice[i]);
+                sb.append(",").append(holdOpenPc[i]);
+                sb.append(",").append(holdClosePrice[i]);
+                sb.append(",").append(holdClosePc[i]);
             } else {
                 sb.append(",,,");
             }
@@ -80,13 +86,16 @@ public class Strategy4Result extends Result {
         bw.append("P2,");
         bw.append("P3,");
         bw.append("Slope,");
-        bw.append("Dollar Volume,");
+        bw.append("21 Day Dollar Volume,");
+        bw.append("3 Month Dollar Volume,");
         bw.append("News,");
 
         for(int i = 0, h = holdMin; h <= holdMax; h++, i++) {
             bw.append(String.format("Hold %d Date,", h));
-            bw.append(String.format("Hold %d Price,", h));
-            bw.append(String.format("Hold %d Pc,", h));
+            bw.append(String.format("Hold %d Open Price,", h));
+            bw.append(String.format("Hold %d Open Pc,", h));
+            bw.append(String.format("Hold %d Close Price,", h));
+            bw.append(String.format("Hold %d Close Pc,", h));
         }
 
         bw.append('\n');

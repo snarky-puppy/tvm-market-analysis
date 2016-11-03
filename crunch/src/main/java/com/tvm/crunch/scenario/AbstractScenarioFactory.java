@@ -34,6 +34,8 @@ public abstract class AbstractScenarioFactory {
                 reducedScenarios.put(s.sampleStart, new ScenarioSet(s));
             }
         }
+
+        System.out.printf("Reduced scenarios from %d to %d\n", scenarios.size(), reducedScenarios.size());
     }
 
 }

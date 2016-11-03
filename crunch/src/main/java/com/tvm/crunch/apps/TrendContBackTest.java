@@ -1,6 +1,7 @@
 package com.tvm.crunch.apps;
 
 import com.tvm.crunch.*;
+import com.tvm.crunch.database.DatabaseFactory;
 import com.tvm.crunch.database.FileDatabaseFactory;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -18,8 +19,8 @@ public class TrendContBackTest extends MarketExecutor {
 
         Util.waitForKeypress(visualvm);
 
-        if(false) {
-            TrendContBackTest trendContBackTest = new TrendContBackTest("test");
+        if(true) {
+            TrendContBackTest trendContBackTest = new TrendContBackTest("ASX", new FileDatabaseFactory());
             trendContBackTest.executeAllSymbols();
         } else {
             executeAllMarkets(new FileDatabaseFactory(), TrendContBackTest::new);
@@ -28,8 +29,8 @@ public class TrendContBackTest extends MarketExecutor {
         Util.waitForKeypress(visualvm);
     }
 
-    private TrendContBackTest(String market) {
-        super(market);
+    private TrendContBackTest(String market, DatabaseFactory databaseFactory) {
+        super(market, databaseFactory);
     }
 
     @Override

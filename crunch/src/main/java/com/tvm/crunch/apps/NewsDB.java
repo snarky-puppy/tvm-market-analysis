@@ -1,10 +1,10 @@
 package com.tvm.crunch.apps;
 
 import com.tvm.crunch.Result;
+import org.apache.commons.io.FilenameUtils;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
@@ -13,6 +13,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Created by horse on 23/08/2016.
@@ -82,12 +86,12 @@ public class NewsDB {
         Connection connection = getConnection();
         createTable(connection);
 
-        File newsDir = new File("/Users/horse/Projects/news");
+        File newsDir = new File("/Users/horse/Google Drive/Stuff from Matt/scrapes");
         final File[] files = newsDir.listFiles(new FilenameFilter() {
             @Override
             public boolean accept( final File dir,
                                    final String name ) {
-                return name.matches(".*\\.csv");
+                return name.matches(".*\\.zip");
             }
         });
 
@@ -96,31 +100,43 @@ public class NewsDB {
             connection.setAutoCommit(false);
             int cnt = 0;
             for (File file : files) {
-                String category = file.getName().substring(0, file.getName().indexOf('-'));
-                List<NewsRow> data = loadNews(file);
-                for(NewsRow r : data) {
-                    stmt = connection.prepareStatement("INSERT INTO NEWS VALUES(?,?,?,?)");
-                    stmt.setInt(1, r.date);
-                    stmt.setString(2, r.symbol);
-                    stmt.setString(3, category);
-                    stmt.setString(4, r.news);
-                    try {
-                        stmt.execute();
-                        stmt.close();
-                    } catch(SQLException e) {
-                        if(e.getErrorCode() != 19)
-                            throw e;
-                        //e.printStackTrace();
-                        //System.out.println(e.getErrorCode());
-                    }
+                ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file));
+                ZipEntry zipEntry;
+                while((zipEntry = zipInputStream.getNextEntry()) != null) {
+                    String basename = FilenameUtils.getBaseName(zipEntry.getName());
+                    if(basename.indexOf('-') == -1)
+                        continue;
+                    String category = basename.substring(0, basename.indexOf('-'));
+                    List<NewsRow> data = loadNews(zipInputStream);
+                    System.out.printf("%s/%s: %d\n", file.getName(), category, data.size());
+                    for (NewsRow r : data) {
+                        stmt = connection.prepareStatement("INSERT INTO NEWS VALUES(?,?,?,?)");
+                        stmt.setInt(1, r.date);
+                        stmt.setString(2, r.symbol);
+                        stmt.setString(3, category);
+                        stmt.setString(4, r.news);
+                        try {
+                            stmt.execute();
+                            stmt.close();
+                        } catch (SQLException e) {
+                            if (e.getErrorCode() != 19)
+                                throw e;
+                            //e.printStackTrace();
+                            //System.out.println(e.getErrorCode());
+                        }
 
-                    if(cnt++ > 10000) {
-                        connection.commit();
-                        cnt = 0;
+                        if (cnt++ > 10000) {
+                            connection.commit();
+                            cnt = 0;
+                        }
                     }
                 }
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             close(stmt);
@@ -128,13 +144,15 @@ public class NewsDB {
         }
     }
 
-    private List<NewsRow> loadNews(File file) {
+    private List<NewsRow> loadNews(InputStream inputStream) {
         try {
             final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             final SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
 
             List<NewsRow> rv = new ArrayList<>();
-            for(String line : Files.readAllLines(file.toPath())){
+            List<String> lines = new BufferedReader(new InputStreamReader(inputStream,
+                    StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
+            for(String line : lines){
                 // "date","SYMBOL","News blah blah"
                 String[] fields = line.split("\"");
 
@@ -150,7 +168,7 @@ public class NewsDB {
             }
             return rv;
 
-        } catch (IOException | ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }

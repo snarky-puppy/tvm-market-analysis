@@ -1,37 +1,51 @@
 package com.tvm.crunch.apps;
 
 import com.tvm.crunch.*;
+import com.tvm.crunch.database.DatabaseFactory;
 import com.tvm.crunch.database.FileDatabaseFactory;
+import com.tvm.crunch.database.YahooDatabaseFactory;
 import org.apache.commons.math3.stat.descriptive.moment.Mean;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by horse on 23/08/2016.
  */
 public class Strategy4BackTest extends MarketExecutor {
 
-    public static void main(String[] args) {
+    final int DOL_VOL_CUTOFF = 3000000;
+    final double SLOPE_CUTOFF = 0;
+
+    public static void main(String[] args) throws IOException {
         boolean visualvm = false;
 
         Util.waitForKeypress(visualvm);
 
+        YahooDatabaseFactory factory = new YahooDatabaseFactory();
+        //DatabaseFactory factory = new FileDatabaseFactory();
+
         if(false) {
-            Strategy4BackTest strategy4BackTest = new Strategy4BackTest("NYSE");
-            strategy4BackTest.executeAllSymbols();
+            //Strategy4BackTest strategy4BackTest = new Strategy4BackTest("ASX", factory);
+            //strategy4BackTest.executeAllSymbols();
+            Strategy4BackTest strategy4BackTest = new Strategy4BackTest("NASDAQ", factory);
+            //strategy4BackTest.processSymbol("CECO");
+
         } else {
-            executeAllMarkets(new FileDatabaseFactory(), Strategy4BackTest::new);
+            factory.updateFromWeb(100, 0);
+
+            executeAllMarkets(factory, Strategy4BackTest::new);
         }
 
         Util.waitForKeypress(visualvm);
     }
 
-    public Strategy4BackTest(String market) {
-        super(market);
+    public Strategy4BackTest(String market, DatabaseFactory databaseFactory) {
+        super(market, databaseFactory);
     }
 
     @Override
@@ -56,6 +70,10 @@ public class Strategy4BackTest extends MarketExecutor {
     @Override
     protected void processSymbol(String symbol) {
         Data data = db().loadData(market, symbol);
+
+        if(data == null)
+            return;
+
         double[] c = data.close;
 
         int idx = 0;
@@ -76,11 +94,11 @@ public class Strategy4BackTest extends MarketExecutor {
 
             double slope = simpleRegression.getSlope();
 
-            if(slope <= -0.2) {
+            if(slope <= SLOPE_CUTOFF) {
                 //double avgVolume = new Mean().evaluate(data.volume, idx, 21);
                 double avgVolume = Arrays.stream(data.volume, idx, idx + 21).average().getAsDouble();
                 double avgClose = new Mean().evaluate(data.close, idx, 21);
-                if (avgClose * avgVolume >= 10000000) {
+                if (avgClose * avgVolume >= DOL_VOL_CUTOFF) {
                     Strategy4Result r = new Strategy4Result();
                     r.symbol = symbol;
                     r.exchange = market;
@@ -94,13 +112,36 @@ public class Strategy4BackTest extends MarketExecutor {
                     r.pl14 = p2;
                     r.pl21 = p3;
                     r.slope = slope;
-                    r.dollarVolume = avgVolume * avgClose;
+                    r.dollarVolume21Day = avgVolume * avgClose;
+
+                    int threeMonthsInDays = (21*3);
+                    if(idx + threeMonthsInDays < data.close.length) {
+
+                        double avgClose3Month = 0;
+                        double avgVol3Month = 0;
+                        OptionalDouble optionalDouble = null;
+                        try {
+                            optionalDouble = Arrays.stream(data.volume, idx, idx + threeMonthsInDays).average();
+                        } catch(ArrayIndexOutOfBoundsException e) {
+                            e.printStackTrace();
+                            System.out.println(e);
+                            System.out.println("idx="+idx+", len="+data.close.length);
+                            System.exit(1);
+                        }
+                        if (optionalDouble.isPresent())
+                            avgVol3Month = optionalDouble.getAsDouble();
+                        avgClose3Month = new Mean().evaluate(data.close, idx, threeMonthsInDays);
+                        r.dollarVolume3Month = avgVol3Month * avgClose3Month;
+                    } else
+                        r.dollarVolume3Month = -1;
 
                     int n = idx + Strategy4Result.holdMin;
                     for(int i = 0, q = n + i; q < data.open.length && i < Strategy4Result.numHolds; i++, q++) {
                         r.holdDate[i] = data.date[q];
-                        r.holdPc[i] = change(data.open[n], data.open[q]);
-                        r.holdPrice[i] = data.open[q];
+                        r.holdOpenPc[i] = change(data.open[n], data.open[q]);
+                        r.holdOpenPrice[i] = data.open[q];
+                        r.holdClosePc[i] = change(data.close[n], data.close[q]);
+                        r.holdClosePrice[i] = data.close[q];
                     }
 
                     List<NewsDB.NewsRow> newsResult = new NewsDB().findNews(data.date[idx], symbol);

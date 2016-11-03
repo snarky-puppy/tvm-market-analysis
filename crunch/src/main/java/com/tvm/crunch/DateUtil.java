@@ -36,9 +36,13 @@ public class DateUtil {
     }
 
     public static long timestamp() {
-        Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
-        return Long.parseLong(sdf.format(date));
+        return Long.parseLong(sdf.format(new Date()));
+    }
+
+    public static int toInteger(Date d) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        return Integer.parseInt(sdf.format(d));
     }
 
 
