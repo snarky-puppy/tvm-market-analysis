@@ -65,7 +65,7 @@ public class BloomScrape {
 
         Files.createDirectories(Paths.get(outputPath));
 
-        ExecutorService executorService = Executors.newFixedThreadPool(8);
+        //ExecutorService executorService = Executors.newFixedThreadPool(8);
 
 
         for(String stock : allSymbols) {
@@ -73,10 +73,11 @@ public class BloomScrape {
             if (Files.exists(file))
                 continue;
 
+            /*
             executorService.submit(new Runnable() {
                 @Override
                 public void run() {
-
+            */
                     try {
 
                         System.out.println("== Checking " + stock);
@@ -90,7 +91,7 @@ public class BloomScrape {
                             System.out.println("== Failed with " + code);
                             if (code == 400 || code == 403)
                                 System.exit(1);
-                            return;
+                            //return;
                         }
 
 
@@ -98,16 +99,20 @@ public class BloomScrape {
                             Files.write(file, "{}\n".getBytes());
                         else
                             mapper.writeValue(file.toFile(), data);
+
+                        Thread.sleep(30*1000);
                     } catch (Exception e) {
                         e.printStackTrace();
                         System.exit(1);
                     }
+            /*
                 }
             });
+            */
         }
 
-        executorService.shutdown();
-        executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.DAYS);
+        //executorService.shutdown();
+        //executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.DAYS);
     }
 
     private BloomData scrapeStock(String stock) throws IOException {
