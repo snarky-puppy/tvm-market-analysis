@@ -54,7 +54,7 @@ public class BloomScrape {
         try {
             return ((HtmlElement) page.getFirstByXPath(xpath)).getTextContent().trim();
         } catch(NullPointerException e) {
-            System.out.println(page.getWebResponse().getContentAsString());
+            //System.out.println(page.getWebResponse().getContentAsString());
             throw e;
         }
     }
@@ -131,6 +131,16 @@ public class BloomScrape {
             data.sector = getXPathText(page, "//*[@class=\"sector\"]").replaceFirst("Sector: ", "");
             data.industry = getXPathText(page, "//*[@class=\"industry\"]").replaceFirst("Industry: ", "");
             data.subIndustry = getXPathText(page, "//*[@class=\"sub_industry\"]").replaceFirst("Sub-Industry: ", "");
+
+        } else if (page.getFirstByXPath("//*[text()=\" Ticker Delisted \"]") != null) {
+            data.ticker = getXPathText(page, "//*[@class=\"ticker\"]");
+            data.companyName = getXPathText(page, "//*[@class=\"name\"]");
+            data.delisted = true;
+
+        } else if (page.getFirstByXPath("//*[text()=\" Ticker Change \"]") != null) {
+            data.ticker = getXPathText(page, "//*[@class=\"ticker\"]");
+            data.companyName = getXPathText(page, "//*[@class=\"name\"]");
+            data.changed = true;
 
         } else if (page.getFirstByXPath("//*[text()=\" Fund Managers \"]") == null) {
             data.ticker = getXPathText(page, "//*[@class=\"ticker\"]");

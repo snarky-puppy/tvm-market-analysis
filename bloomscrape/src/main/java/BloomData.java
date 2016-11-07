@@ -13,6 +13,8 @@ class BloomData {
     public String industry;
     public String subIndustry;
     public BloomData acquiredBy;
+    public boolean delisted = false;
+    public boolean changed = false;
 
     @Override
     public String toString() {
@@ -30,6 +32,7 @@ class BloomData {
         sb.append(",").append(industry);
         sb.append(",").append(subIndustry);
         sb.append(",").append(acquiredBy);
+        sb.append(",").append(delisted);
 
         return sb.toString();
     }
