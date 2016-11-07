@@ -13,8 +13,8 @@ class BloomData {
     public String industry;
     public String subIndustry;
     public BloomData acquiredBy;
-    public boolean delisted = false;
-    public boolean changed = false;
+    public Boolean delisted;
+    public Boolean changed;
 
     @Override
     public String toString() {
