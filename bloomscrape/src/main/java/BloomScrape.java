@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -58,6 +59,18 @@ public class BloomScrape {
             throw e;
         }
     }
+    private String getXPathTextSafe(HtmlPage page, String xpath) {
+        try {
+            HtmlElement el = (HtmlElement) page.getFirstByXPath(xpath);
+            if(el == null)
+                return "";
+            else
+                return el.getTextContent().trim();
+        } catch(NullPointerException e) {
+            //System.out.println(page.getWebResponse().getContentAsString());
+            throw e;
+        }
+    }
 
     private void scrapeAll(String inputFile) throws IOException, InterruptedException {
         List<String> allSymbols = Files.readAllLines(Paths.get(inputFile));
@@ -99,7 +112,7 @@ public class BloomScrape {
                         else
                             mapper.writeValue(file.toFile(), data);
 
-                        Thread.sleep(15*1000);
+                        Thread.sleep(20*1000);
                     } catch (Exception e) {
                         e.printStackTrace();
                         System.exit(1);
@@ -140,6 +153,9 @@ public class BloomScrape {
         } else if (page.getFirstByXPath("//*[text()=\" Ticker Change \"]") != null) {
             data.ticker = getXPathText(page, "//*[@class=\"ticker\"]");
             data.companyName = getXPathText(page, "//*[@class=\"name\"]");
+
+            data.sector = getXPathTextSafe(page, "//*[text()=\"Sector\"]/following-sibling::a");
+            data.industry = getXPathTextSafe(page, "//*[text()=\"Industry\"]/following-sibling::a");
             data.changed = true;
 
         } else if (page.getFirstByXPath("//*[text()=\" Acquired \"]") != null) {
@@ -154,8 +170,12 @@ public class BloomScrape {
             data.ticker = getXPathText(page, "//*[@class=\"ticker\"]");
             data.companyName = getXPathText(page, "//*[@class=\"name\"]");
             data.market = getXPathText(page, "//*[@class=\"exchange\"]");
-            data.sector = getXPathText(page, "//*[text()=\"Sector\"]/following-sibling::a");
-            data.industry = getXPathText(page, "//*[text()=\"Industry\"]/following-sibling::a");
+            data.sector = getXPathTextSafe(page, "//*[text()=\"Sector\"]/following-sibling::a");
+            data.industry = getXPathTextSafe(page, "//*[text()=\"Industry\"]/following-sibling::a");
+
+
+
+
             //data.subIndustry = getXPathText(page, "//*[text()=\" Sub-Industry \"]/following-sibling::div");
 
             HtmlElement acq = page.getFirstByXPath("//*[@class=\"market-status-message_link\"]");
