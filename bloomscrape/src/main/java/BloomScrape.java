@@ -111,8 +111,8 @@ public class BloomScrape {
                             Files.write(file, "{}\n".getBytes());
                         else
                             mapper.writeValue(file.toFile(), data);
+                        Thread.sleep(30*1000);
 
-                        Thread.sleep(20*1000);
                     } catch (Exception e) {
                         e.printStackTrace();
                         System.exit(1);
