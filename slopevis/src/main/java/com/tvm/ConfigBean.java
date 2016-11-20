@@ -1,5 +1,15 @@
 package com.tvm;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
+import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.*;
@@ -13,18 +23,27 @@ public class ConfigBean {
 
     ConfigBean() {
         symbols = new ArrayList<>();
+        pointDistances = new ArrayList<>();
     }
 
     public Path dataDir;
     public double minDolVol;
-    public double daysDolVol;
+    public int daysDolVol;
     public double slopeCutoff;
     public double maxHoldDays;
     public double stopPc;
     public double targetPc;
-    public Date fromDate;
-    public Date toDate;
+
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using=LocalDateDeserializer.class)
+    public LocalDate fromDate;
+
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using=LocalDateDeserializer.class)
+    public LocalDate toDate;
+
     public List<String> symbols;
+    public List<Integer> pointDistances;
 
     @Override
     public String toString() {
@@ -42,4 +61,6 @@ public class ConfigBean {
         sb.append('}');
         return sb.toString();
     }
+
+
 }

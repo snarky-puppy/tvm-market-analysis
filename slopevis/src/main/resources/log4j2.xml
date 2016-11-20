@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-<Configuration status="DEBUG">
+<Configuration packages="com.tvm" status="DEBUG">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %C{1} - %msg%n"/>
         </Console>
-    </Appenders>
-    <Loggers>
-        <Root level="trace">
-            <AppenderRef ref="Console"/>
-        </Root>
-    </Loggers>
-</Configuration>
--->
-<Configuration packages="com.tvm" status="DEBUG">
-    <Appenders>
         <GuiAppender name="GuiAppender">
             <PatternLayout pattern="%p: %msg%n"/>
         </GuiAppender>
+        <Async name="Async">
+            <AppenderRef ref="GuiAppender"/>
+        </Async>
     </Appenders>
-    <Loggers><Root level="trace"><AppenderRef ref="GuiAppender"/></Root></Loggers>
+    <Loggers><Root level="trace"><AppenderRef ref="Async"/></Root></Loggers>
 </Configuration>
 

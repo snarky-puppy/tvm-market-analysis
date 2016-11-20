@@ -11,14 +11,18 @@ public class TabbedWindow {
     JTextArea logText;
 
     ConfigWindow configWindow;
+    private ResultsWindow resultsWindow;
 
     public void init() {
-        configWindow = new ConfigWindow();
+        configWindow = new ConfigWindow(this);
+        resultsWindow = new ResultsWindow();
 
         tabbedPane.addTab("Config", configWindow.panel);
-        //tabbedPane1.addTab("Solver", solverWindow.panel1);
-        //tabbedPane1.addTab("Debug", DebugWindow.getInstance().panel1);
+        tabbedPane.addTab("Results", resultsWindow.panel);
     }
 
-
+    public void switchToResults() {
+        tabbedPane.setSelectedIndex(1);
+        resultsWindow.runCalculation(configWindow.bean);
+    }
 }

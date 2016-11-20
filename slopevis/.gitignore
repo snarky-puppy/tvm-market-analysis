@@ -51,3 +51,8 @@ app.log
 lotus.log
 
 target
+
+lib/*.jar
+
+slopevis.json
+SlopeVis-VERSION.zip

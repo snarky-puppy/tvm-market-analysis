@@ -1,15 +1,18 @@
 package com.tvm;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jdatepicker.JDateComponentFactory;
-import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,10 +30,11 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.*;
+
+import static java.awt.event.ActionEvent.ACTION_PERFORMED;
 
 /**
  * Configuration panel
@@ -40,7 +44,8 @@ import java.util.Set;
 public class ConfigWindow {
     private static final Logger logger = LogManager.getLogger(ConfigWindow.class);
     private static final Path configFileName = Paths.get("slopevis.json");
-    private ObjectMapper mapper;
+    private PointModel pointModel = null;
+    private ObjectMapper mapper = new ObjectMapper();
 
     JPanel panel;
     private JTextField dataDirText;
@@ -48,114 +53,122 @@ public class ConfigWindow {
     private JTable paramTable;
     private JPanel pickerPanel;
     private JButton loadButton;
-
-    JDatePicker pickerTo, pickerFrom;
+    private JTable slopeConfigTable;
+    private JSpinner pointSpinner;
+    private JTextField fromDateText;
+    private JTextField toDateText;
+    private JButton calcBtn;
 
     ConfigBean bean;
-    ConfigParamListModel listModel;
+    private TabbedWindow tabbedWindow;
 
-    public ConfigWindow() {
+    public ConfigWindow(TabbedWindow tabbedWindow) {
+        this.tabbedWindow = tabbedWindow;
+        System.out.println("ConfigWindow ctor");
+
+        loadBean();
+
+        pointModel = new PointModel(bean);
+
+        paramTable.setModel(new ConfigParamTableModel(bean));
+        slopeConfigTable.setModel(pointModel);
+        symbolsList.setModel(new ConfigParamListModel(bean));
+
+        pointSpinner.setValue(bean.pointDistances.size());
+
+        pointSpinner.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                Integer newVal = (Integer) pointSpinner.getValue();
+                if(newVal <= 0) {
+                    pointSpinner.setValue(1);
+                    newVal = 1;
+                }
+
+                while(bean.pointDistances.size() > newVal)
+                    bean.pointDistances.remove((int)newVal);
+
+                while(bean.pointDistances.size() < newVal)
+                    bean.pointDistances.add(7);
+
+                pointModel.fireTableDataChanged();
+            }
+        });
+
+        dataDirText.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JFileChooser chooser = new JFileChooser();
+                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                int rv = chooser.showOpenDialog(panel);
+                if (rv == JFileChooser.APPROVE_OPTION) {
+                    bean.dataDir = chooser.getSelectedFile().toPath();
+                    FileFinder.setBaseDir(bean.dataDir);
+                    dataDirText.setText(bean.dataDir.toString());
+                    syncBean();
+                }
+            }
+        });
+
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    loadFile();
+                    FileFinder.setSymbols(bean.symbols);
+                    //update();
+                } catch (IOException | ParseException ex) {
+                    logger.error(ex);
+                }
+            }
+        });
+
+        if(bean.fromDate == null)
+            bean.fromDate = LocalDate.now();
+
+        if(bean.toDate == null)
+            bean.toDate = LocalDate.now().minusYears(5);
+
+        toDateText.setInputVerifier(new DateVerifier(false));
+        fromDateText.setInputVerifier(new DateVerifier(true));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        toDateText.setText(formatter.format(bean.toDate));
+        fromDateText.setText(formatter.format(bean.fromDate));
+
+        calcBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getID() == ACTION_PERFORMED)
+                    tabbedWindow.switchToResults();
+            }
+        });
+    }
+
+    private void loadBean() {
+
         try {
-            mapper = new ObjectMapper();
 
             if (Files.exists(configFileName)) {
                 logger.info("loading previous configuration");
                 bean = mapper.readValue(configFileName.toFile(), ConfigBean.class);
                 logger.info(bean.toString());
-                if(bean.dataDir != null)
+                if (bean.dataDir != null) {
                     dataDirText.setText(bean.dataDir.toString());
+                    FileFinder.setBaseDir(bean.dataDir);
+                }
+                FileFinder.setSymbols(bean.symbols);
             } else {
                 logger.info("No previous configuration, resetting to zero");
                 bean = new ConfigBean();
             }
-
-            listModel = new ConfigParamListModel(bean);
-
-            paramTable.setModel(new ConfigParamTableModel(bean));
-            symbolsList.setModel(listModel);
-
-
-
-            dataDirText.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    JFileChooser chooser = new JFileChooser();
-                    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                    int rv = chooser.showOpenDialog(panel);
-                    if (rv == JFileChooser.APPROVE_OPTION) {
-                        bean.dataDir = chooser.getSelectedFile().toPath();
-                        dataDirText.setText(bean.dataDir.toString());
-                        syncBean();
-
-                    }
-
-                }
-            });
-
-            loadButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        loadFile();
-                        //update();
-                    } catch (IOException | ParseException ex) {
-                        logger.error(ex);
-                    }
-                }
-            });
-
-            if(bean.fromDate == null)
-                bean.fromDate = Date.from(LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-
-            if(bean.toDate == null)
-                bean.toDate = Date.from(LocalDate.now().minusYears(5).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-
-            pickerPanel.setLayout(new FlowLayout());
-
-            JPanel DatePanel = new JPanel();
-            DatePanel.setLayout(new BorderLayout());
-
-            JPanel jPanel = new JPanel(new FlowLayout());
-            pickerFrom = new JDateComponentFactory().createJDatePicker(bean.fromDate);
-            pickerFrom.setTextEditable(true);
-            pickerFrom.setShowYearButtons(true);
-            jPanel.add(new JLabel("Date From:"));
-            jPanel.add((JComponent)pickerFrom);
-            DatePanel.add(jPanel, BorderLayout.NORTH);
-
-            jPanel = new JPanel(new FlowLayout());
-            pickerTo = new JDateComponentFactory().createJDatePicker(bean.toDate);
-            pickerTo.setTextEditable(true);
-            pickerTo.setShowYearButtons(true);
-            jPanel.add(new JLabel("Date To:"));
-            jPanel.add((JComponent)pickerTo);
-            DatePanel.add(jPanel, BorderLayout.SOUTH);
-
-            pickerPanel.add(DatePanel);
-
-            pickerTo.getModel().addPropertyChangeListener(new PropertyChangeListener() {
-                @Override
-                public void propertyChange(PropertyChangeEvent evt) {
-                    if(evt.getPropertyName().equals("value")) {
-                        bean.toDate = (Date)evt.getNewValue();
-                    }
-                }
-            });
-
-            pickerFrom.getModel().addPropertyChangeListener(new PropertyChangeListener() {
-                @Override
-                public void propertyChange(PropertyChangeEvent evt) {
-                    if(evt.getPropertyName().equals("value")) {
-                        bean.fromDate = (Date)evt.getNewValue();
-                    }
-                }
-            });
-
-
-        } catch(IOException e) {
+        } catch (IOException e) {
+            e.printStackTrace();
             logger.error(e);
         }
+
     }
+
 
     public void syncBean() {
         logger.info("Syncing bean");
@@ -187,17 +200,16 @@ public class ConfigWindow {
                 String[] data = line.split("[,\\t]");
                 if(data[0] != null)
                     hashSet.add(data[0]);
-
             }
+
+            logger.info("Read "+hashSet.size()+" symbols");
             bean.symbols = new ArrayList<>(hashSet);
 
-            symbolsList.setModel(listModel);
+            symbolsList.setModel(new ConfigParamListModel(bean));
         }
     }
 
     public class ConfigParamListModel implements ListModel<String> {
-        //private static final Logger logger = LogManager.getLogger(ConfigParamListModel.class);
-
         private ConfigBean bean;
 
         ConfigParamListModel(ConfigBean bean) {
@@ -220,12 +232,62 @@ public class ConfigWindow {
 
         @Override
         public void addListDataListener(ListDataListener l) {
-            logger.info(l);
         }
 
         @Override
         public void removeListDataListener(ListDataListener l) {
-            logger.info(l);
+        }
+    }
+
+    public static class PointModel extends AbstractTableModel {
+
+        private ConfigBean bean;
+
+        PointModel(ConfigBean bean) {
+            this.bean = bean;
+        }
+
+        @Override
+        public int getRowCount() {
+            return bean.pointDistances.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return 2;
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int ci) {
+            if(ci == 0)
+                return "Point "+rowIndex;
+            else
+                return bean.pointDistances.get(rowIndex);
+        }
+
+        @Override
+        public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+            logger.info(String.format("Setting param value %d/%d: %s", rowIndex, columnIndex, (String)aValue));
+            try {
+                bean.pointDistances.set(rowIndex, Integer.parseInt((String) aValue));
+            } catch(NumberFormatException ex) {
+                logger.error("NumberFormatException: "+(String)aValue +" just isn't cool");
+            }
+        }
+
+        @Override
+        public String getColumnName(int column) {
+            if(column == 0)
+                return "Point Number";
+            return "Distance day0";
+
+        }
+
+        @Override
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            if(columnIndex == 0)
+                return false;
+            return true;
         }
     }
 
@@ -235,8 +297,6 @@ public class ConfigWindow {
      * Created by horse on 25/10/16.
      */
     public static class ConfigParamTableModel extends AbstractTableModel {
-
-        private static final Logger logger = LogManager.getLogger(ConfigParamTableModel.class);
 
         private ConfigBean bean;
 
@@ -285,7 +345,7 @@ public class ConfigWindow {
 
                     case 2: bean.maxHoldDays = Double.parseDouble((String) aValue); break;
                     case 3: bean.slopeCutoff = Double.parseDouble((String) aValue); break;
-                    case 4: bean.daysDolVol = Double.parseDouble((String) aValue); break;
+                    case 4: bean.daysDolVol = Integer.parseInt((String) aValue); break;
 
                     case 5: bean.minDolVol = Double.parseDouble((String) aValue); break;
 
@@ -308,6 +368,33 @@ public class ConfigWindow {
             if(columnIndex == 0)
                 return false;
             return true;
+        }
+    }
+
+    private class DateVerifier extends InputVerifier {
+
+        private boolean isFromDate;
+
+        public DateVerifier(boolean isFromDate) {
+            this.isFromDate = isFromDate;
+        }
+
+        @Override
+        public boolean verify(JComponent input) {
+            String text = ((JTextField) input).getText();
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+                if(isFromDate)
+                    bean.fromDate = LocalDate.parse(text, formatter);
+                else
+                    bean.toDate = LocalDate.parse(text, formatter);
+                logger.info("Date Validated");
+                return true;
+            } catch (DateTimeParseException e) {
+                logger.error("Invalid Date format: "+text+" expecting dd/MM/yyyy");
+                return false;
+            }
         }
     }
 }
