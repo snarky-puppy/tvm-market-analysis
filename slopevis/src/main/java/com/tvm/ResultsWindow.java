@@ -137,12 +137,16 @@ public class ResultsWindow {
                                     BigDecimal targetPrice = BigDecimal.valueOf(r.entryOpen + ((r.entryOpen/100)*(bean.targetPc))).setScale(4, BigDecimal.ROUND_HALF_UP);
                                     BigDecimal stopPrice = BigDecimal.valueOf(r.entryOpen + ((r.entryOpen/100)*(bean.stopPc))).setScale(4, BigDecimal.ROUND_HALF_UP);;
 
+                                    r.target = targetPrice.toString();
+
                                     for(i = 2; i < bean.maxHoldDays+2; i++) {
                                         if(idx+i >= data.close.length) {
                                             r.exitReason = "END DATA";
                                             break;
                                         }
-                                        if(targetPrice.compareTo(BigDecimal.valueOf(data.close[idx+i])) >= 0) {
+
+                                        BigDecimal close = BigDecimal.valueOf(data.close[idx+i]).setScale(4, BigDecimal.ROUND_HALF_UP);
+                                        if(close.compareTo(targetPrice) >= 0) {
                                             if(idx+i+1 < data.close.length) {
                                                 r.exitDate = data.date[idx + i + 1];
                                                 r.exitOpen = data.open[idx + i + 1];
@@ -154,7 +158,7 @@ public class ResultsWindow {
                                             }
                                             break;
                                         }
-                                        if(stopPrice.compareTo(BigDecimal.valueOf(data.close[idx+i])) <= 0) {
+                                        if(close.compareTo(stopPrice) <= 0) {
                                             if(idx+i+1 < data.close.length) {
                                                 r.exitDate = data.date[idx + i + 1];
                                                 r.exitOpen = data.open[idx + i + 1];
@@ -234,6 +238,7 @@ public class ResultsWindow {
 
         public double slope;
         public double dollarVolume;
+        public String target;
     }
 
     public class ResultTableModel extends AbstractTableModel {
@@ -243,6 +248,7 @@ public class ResultsWindow {
                 new ColumnDef("Entry Date", Integer.class),
                 new ColumnDef("Entry Open", Double.class),
 
+                new ColumnDef("Target", String.class),
                 new ColumnDef("Exit Date", Integer.class),
                 new ColumnDef("Exit Open", Double.class),
                 new ColumnDef("Exit Reason", String.class),
@@ -291,12 +297,13 @@ public class ResultsWindow {
                 case 0:                return data.get(rowIndex).symbol;
                 case 1:                return data.get(rowIndex).entryDate;
                 case 2:                return data.get(rowIndex).entryOpen;
-                case 3:                return data.get(rowIndex).exitDate;
-                case 4:                return data.get(rowIndex).exitOpen;
-                case 5:                return data.get(rowIndex).exitReason;
-                case 6:                return calcProfit(rowIndex);
-                case 7:                return data.get(rowIndex).slope;
-                case 8:                return data.get(rowIndex).dollarVolume;
+                case 3:                return data.get(rowIndex).target;
+                case 4:                return data.get(rowIndex).exitDate;
+                case 5:                return data.get(rowIndex).exitOpen;
+                case 6:                return data.get(rowIndex).exitReason;
+                case 7:                return calcProfit(rowIndex);
+                case 8:                return data.get(rowIndex).slope;
+                case 9:                return data.get(rowIndex).dollarVolume;
 
                 default:
                     logger.error(String.format("Invalid column index: r=%d c=%d", rowIndex, columnIndex));
