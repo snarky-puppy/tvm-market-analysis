@@ -58,6 +58,7 @@ public class ConfigWindow {
     private JTextField fromDateText;
     private JTextField toDateText;
     private JButton calcBtn;
+    private JCheckBox debugCheckBox;
 
     ConfigBean bean;
     private TabbedWindow tabbedWindow;
@@ -76,23 +77,31 @@ public class ConfigWindow {
 
         pointSpinner.setValue(bean.pointDistances.size());
 
-        pointSpinner.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                Integer newVal = (Integer) pointSpinner.getValue();
-                if(newVal <= 0) {
-                    pointSpinner.setValue(1);
-                    newVal = 1;
-                }
-
-                while(bean.pointDistances.size() > newVal)
-                    bean.pointDistances.remove((int)newVal);
-
-                while(bean.pointDistances.size() < newVal)
-                    bean.pointDistances.add(7);
-
-                pointModel.fireTableDataChanged();
+        pointSpinner.addChangeListener(e -> {
+            Integer newVal = (Integer) pointSpinner.getValue();
+            if(newVal <= 0) {
+                pointSpinner.setValue(1);
+                newVal = 1;
             }
+
+            int max = 0;
+            OptionalInt optionalInt = bean.pointDistances.stream().mapToInt(Integer::intValue).max();
+            if(optionalInt.isPresent())
+                max = optionalInt.getAsInt();
+
+            while(bean.pointDistances.size() > newVal)
+                bean.pointDistances.remove((int)newVal);
+
+            while(bean.pointDistances.size() < newVal) {
+                max += 7;
+                bean.pointDistances.add(max);
+            }
+
+            pointModel.fireTableDataChanged();
+        });
+
+        debugCheckBox.addChangeListener(e -> {
+            bean.debug = debugCheckBox.isSelected();
         });
 
         dataDirText.addMouseListener(new MouseAdapter() {
@@ -110,16 +119,13 @@ public class ConfigWindow {
             }
         });
 
-        loadButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    loadFile();
-                    FileFinder.setSymbols(bean.symbols);
-                    //update();
-                } catch (IOException | ParseException ex) {
-                    logger.error(ex);
-                }
+        loadButton.addActionListener(e -> {
+            try {
+                loadFile();
+                FileFinder.setSymbols(bean.symbols);
+                //update();
+            } catch (IOException | ParseException ex) {
+                logger.error(ex);
             }
         });
 
@@ -146,9 +152,7 @@ public class ConfigWindow {
     }
 
     private void loadBean() {
-
         try {
-
             if (Files.exists(configFileName)) {
                 logger.info("loading previous configuration");
                 bean = mapper.readValue(configFileName.toFile(), ConfigBean.class);
@@ -157,6 +161,7 @@ public class ConfigWindow {
                     dataDirText.setText(bean.dataDir.toString());
                     FileFinder.setBaseDir(bean.dataDir);
                 }
+                debugCheckBox.setSelected(bean.debug);
                 FileFinder.setSymbols(bean.symbols);
             } else {
                 logger.info("No previous configuration, resetting to zero");
@@ -166,7 +171,6 @@ public class ConfigWindow {
             e.printStackTrace();
             logger.error(e);
         }
-
     }
 
 
@@ -330,6 +334,10 @@ public class ConfigWindow {
 
                 case 5:
                     return ci == 0 ? "Min Dol Vol" : Double.toString(bean.minDolVol);
+
+                case 6:
+                    return ci == 0 ? "Trade Start Days" : Integer.toString(bean.tradeStartDays);
+
                 default:
                     return "n/a";
             }
@@ -349,9 +357,11 @@ public class ConfigWindow {
 
                     case 5: bean.minDolVol = Double.parseDouble((String) aValue); break;
 
+                    case 6: bean.tradeStartDays = Integer.parseInt((String) aValue); break;
+
                 }
             } catch(NumberFormatException ex) {
-                logger.error("NumberFormatException: "+(String)aValue +" just isn't cool");
+                logger.error("NumberFormatException: "+(String)aValue +" just isn't cool", ex);
             }
         }
 

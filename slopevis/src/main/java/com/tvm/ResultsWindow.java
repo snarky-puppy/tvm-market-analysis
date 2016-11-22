@@ -9,14 +9,20 @@ import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by horse on 6/10/2016.
@@ -27,11 +33,13 @@ public class ResultsWindow {
 
     JPanel panel;
     private JTable resultsTable;
-    private JButton button1;
+    private JButton debugButton;
     private JProgressBar progressBar;
 
     private int totalTasks;
     private int doneTasks;
+
+    private Map<String, StringBuilder> debugLog;
 
     public ResultsWindow() {
         resultTableModel = new ResultTableModel();
@@ -41,11 +49,24 @@ public class ResultsWindow {
         progressBar.setVisible(false);
         progressBar.setMaximum(100);
         progressBar.setMinimum(0);
+
+        debugButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == debugButton) {
+                    openResults();
+                }
+            }
+        });
     }
 
     public void runCalculation(ConfigBean bean) {
         logger.info("Starting Calculation");
         Map<String, Path> files = FileFinder.getFiles();
+
+        debugButton.setEnabled(bean.debug);
+
+        debugLog = new HashMap<>();
 
         resultTableModel = new ResultTableModel();
         resultsTable.setModel(resultTableModel);
@@ -76,12 +97,16 @@ public class ResultsWindow {
     private class CalculationTask extends SwingWorker<List<Result>, Result> {
 
         private final File file;
+        private final String symbol;
         private ConfigBean bean;
 
         public CalculationTask(File file, ConfigBean bean) {
             this.file = file;
             this.bean = bean;
+            symbol = file.getName().replace(".csv", "");
         }
+
+        private void debug(String fmt, Object ...args) { debugSymbol(symbol, new Formatter().format(fmt, args).toString()); }
 
         private double change(double start, double end) {
             return ((end - start)/start);
@@ -89,7 +114,6 @@ public class ResultsWindow {
 
         @Override
         protected List<Result> doInBackground() throws Exception {
-            String symbol = file.getName().replace(".csv", "");
             List<Result> rv = new ArrayList<>();
             try {
                 //logger.info("processing "+file.getName());
@@ -113,10 +137,12 @@ public class ResultsWindow {
                     int i = 0;
                     for(int d : bean.pointDistances) {
                         p[i++] = change(c[idx], c[idx + d-1]);
+                        debug("date=,%d,d=,%d,close=,%.2f,close+d=,%.2f,x=,%d,y=,%.2f", data.date[idx], d, c[idx], c[idx+d-1], i, p[i-1]);
                         simpleRegression.addData(i, p[i-1]);
                     }
 
                     double slope = simpleRegression.getSlope();
+                    debug("slope,%.2f,%s", slope, slope <= bean.slopeCutoff ? "yes" : "no");
 
                     if(slope <= bean.slopeCutoff) {
                         //double avgVolume = new Mean().evaluate(data.volume, idx, 21);
@@ -125,36 +151,49 @@ public class ResultsWindow {
                             double avgVolume = optionalDouble.getAsDouble();
                             double avgClose = new Mean().evaluate(data.close, idx, bean.daysDolVol);
                             double dollarVolume = avgClose * avgVolume;
+                            debug("volume,avgVol=,%.2f,avgClose=,%.2f,dolVol=,%.2f,%s", avgVolume, avgClose, dollarVolume, dollarVolume >= bean.minDolVol ? "yes": "no");
                             if (dollarVolume >= bean.minDolVol) {
                                 Result r = new Result();
                                 r.symbol = symbol;
                                 r.slope = slope;
                                 r.dollarVolume = dollarVolume;
-                                if(idx+1 < data.open.length) {
-                                    r.entryDate = data.date[idx + 1];
-                                    r.entryOpen = data.open[idx + 1];
+
+                                if(idx+bean.tradeStartDays < data.open.length) {
+                                    r.entryDate = data.date[idx + bean.tradeStartDays];
+                                    r.entryOpen = data.open[idx + bean.tradeStartDays];
 
                                     BigDecimal targetPrice = BigDecimal.valueOf(r.entryOpen + ((r.entryOpen/100)*(bean.targetPc))).setScale(4, BigDecimal.ROUND_HALF_UP);
                                     BigDecimal stopPrice = BigDecimal.valueOf(r.entryOpen + ((r.entryOpen/100)*(bean.stopPc))).setScale(4, BigDecimal.ROUND_HALF_UP);;
 
                                     r.target = targetPrice.toString();
 
-                                    for(i = 2; i < bean.maxHoldDays+2; i++) {
+                                    debug("entryDate=,%d,entryOpen=,%.2f,targetPrice=,%.2f,stopPrice=,%.2f", r.entryDate, r.entryOpen, targetPrice.doubleValue(), stopPrice.doubleValue());
+
+                                    for(i = bean.tradeStartDays + 1; i < bean.tradeStartDays+bean.maxHoldDays+1; i++) {
                                         if(idx+i >= data.close.length) {
                                             r.exitReason = "END DATA";
+                                            debug("exitReason=,END DATA (run out of data before found target/stop/maxHold),max=,%d",
+                                                    data.date[data.date.length-1]);
                                             break;
                                         }
 
                                         BigDecimal close = BigDecimal.valueOf(data.close[idx+i]).setScale(4, BigDecimal.ROUND_HALF_UP);
+
+                                        debug("find target,date=,%d,close=,%.2f,isTarget=%s,isStop=%s", data.date[idx+i], data.close[idx+1],
+                                                close.compareTo(targetPrice) >= 0,
+                                                close.compareTo(stopPrice) <= 0);
+
                                         if(close.compareTo(targetPrice) >= 0) {
                                             if(idx+i+1 < data.close.length) {
                                                 r.exitDate = data.date[idx + i + 1];
                                                 r.exitOpen = data.open[idx + i + 1];
                                                 r.exitReason = "TARGET";
+                                                debug("find target,TARGET FOUND,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
                                             } else {
                                                 r.exitDate = data.date[idx + i];
-                                                r.exitOpen = data.open[idx + i];
-                                                r.exitReason = "TARGET (EOD)";
+                                                r.exitOpen = data.close[idx + i];
+                                                r.exitReason = "TARGET (No Next Day Data - showing close of target date)";
+                                                debug("find target,TARGET FOUND but next day no data so showing found date,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
                                             }
                                             break;
                                         }
@@ -163,10 +202,12 @@ public class ResultsWindow {
                                                 r.exitDate = data.date[idx + i + 1];
                                                 r.exitOpen = data.open[idx + i + 1];
                                                 r.exitReason = "STOP";
+                                                debug("find target,STOP FOUND,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
                                             } else {
                                                 r.exitDate = data.date[idx + i];
                                                 r.exitOpen = data.open[idx + i];
-                                                r.exitReason = "STOP (EOD)";
+                                                r.exitReason = "STOP (No Next Day Data - showing close)";
+                                                debug("find target,STOP FOUND but next day no data so showing found date,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
                                             }
                                             break;
                                         }
@@ -176,15 +217,18 @@ public class ResultsWindow {
                                         r.exitDate = data.date[idx + i];
                                         r.exitOpen = data.open[idx + i];
                                         r.exitReason = "MAX HOLD";
+                                        debug("exitReason=,MAX HOLD");
                                     }
 
                                 } else {
-                                    r.exitReason = "NO ENTRY DATA";
+                                    r.exitReason = "NO TRADE DAY DATA";
+                                    debug("exitReason=,NO TRADE DAY DATA (trade day starts after our data ends),max=,%d", data.date[data.date.length-1]);
                                 }
                                 publish(r);
                                 rv.add(r);
                             }
-                        }
+                        } else
+                            debug("volume, not enough data");
                     }
                     idx++;
                 }
@@ -326,4 +370,43 @@ public class ResultsWindow {
         }
     }
 
+    void debugSymbol(String symbol, String line) {
+        if(debugButton.isEnabled()) {
+            if(!debugLog.containsKey(symbol)) {
+                debugLog.put(symbol, new StringBuilder());
+            }
+            StringBuilder sb = debugLog.get(symbol);
+            sb.append(symbol);
+            sb.append(',');
+            sb.append(line);
+            sb.append('\n');
+        }
+    }
+
+    public void openResults() {
+
+        File f = null;
+        try {
+            f = File.createTempFile("SlopeVis", ".csv");
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+
+            for(String key : debugLog.keySet()) {
+                StringBuilder sb = debugLog.get(key);
+                bw.write(sb.toString());
+                bw.write("------\n");
+            }
+            bw.flush();
+            bw.close();
+
+            f.deleteOnExit();
+
+            Desktop.getDesktop().open(f);
+        } catch (IOException e) {
+            logger.error("Could not write file", e);
+            e.printStackTrace();
+        }
+
+
+    }
 }

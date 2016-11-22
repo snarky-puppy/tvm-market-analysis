@@ -31,8 +31,12 @@ public class ConfigBean {
     public int daysDolVol;
     public double slopeCutoff;
     public double maxHoldDays;
+
     public double stopPc;
     public double targetPc;
+    public int tradeStartDays;
+
+    public boolean debug = false;
 
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using=LocalDateDeserializer.class)
@@ -45,6 +49,7 @@ public class ConfigBean {
     public List<String> symbols;
     public List<Integer> pointDistances;
 
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("ConfigBean{");
@@ -55,12 +60,13 @@ public class ConfigBean {
         sb.append(", maxHoldDays=").append(maxHoldDays);
         sb.append(", stopPc=").append(stopPc);
         sb.append(", targetPc=").append(targetPc);
+        sb.append(", tradeStartDays=").append(tradeStartDays);
+        sb.append(", debug=").append(debug);
         sb.append(", fromDate=").append(fromDate);
         sb.append(", toDate=").append(toDate);
         sb.append(", symbols=").append(symbols);
+        sb.append(", pointDistances=").append(pointDistances);
         sb.append('}');
         return sb.toString();
     }
-
-
 }
