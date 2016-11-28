@@ -55,4 +55,5 @@ target
 lib/*.jar
 
 slopevis.json
-SlopeVis-VERSION.zip
+*.zip
+.DS_Store

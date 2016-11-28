@@ -310,7 +310,7 @@ public class ConfigWindow {
 
         @Override
         public int getRowCount() {
-            return 6;
+            return 7;
         }
 
         @Override

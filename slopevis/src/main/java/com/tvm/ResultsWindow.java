@@ -116,7 +116,7 @@ public class ResultsWindow {
         protected List<Result> doInBackground() throws Exception {
             List<Result> rv = new ArrayList<>();
             try {
-                //logger.info("processing "+file.getName());
+                //logger.info("Processing "+file.getName());
 
                 Data data = new FileDatabase().loadData(file);
 
