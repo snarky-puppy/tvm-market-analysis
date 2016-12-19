@@ -40,9 +40,14 @@ public class MainWindow implements ActionListener, ListSelectionListener {
     int selectedRow = -1;
     int matchingRow = -1;
 
+    NumberFormat currency = NumberFormat.getCurrencyInstance();
+    static NumberFormat percent = NumberFormat.getPercentInstance();
+
+
     private CompoundTableModel model;
 
     public MainWindow() {
+        percent.setMaximumFractionDigits(2);
         loadButton.addActionListener(this);
         recalcButton.addActionListener(this);
         showWorkingOutButton.addActionListener(this);
@@ -69,8 +74,6 @@ public class MainWindow implements ActionListener, ListSelectionListener {
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
 
             public Color oldBg = null;
-            NumberFormat currency = NumberFormat.getCurrencyInstance();
-            NumberFormat percent = NumberFormat.getPercentInstance();
 
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {

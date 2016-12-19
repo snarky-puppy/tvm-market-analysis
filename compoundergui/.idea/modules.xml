@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/compoundergui.iml" filepath="$PROJECT_DIR$/compoundergui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/compoundergui.iml" filepath="$PROJECT_DIR$/.idea/modules/compoundergui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/compoundergui_main.iml" filepath="$PROJECT_DIR$/.idea/modules/compoundergui_main.iml" group="compoundergui" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/compoundergui_test.iml" filepath="$PROJECT_DIR$/.idea/modules/compoundergui_test.iml" group="compoundergui" />
     </modules>
   </component>
 </project>

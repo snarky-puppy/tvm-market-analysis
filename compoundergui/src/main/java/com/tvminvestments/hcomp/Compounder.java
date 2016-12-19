@@ -265,13 +265,8 @@ public class Compounder {
                 double profit = i.compTransact * roi;
                 double withdrawal = i.compTransact + profit;
 
-                // redefinition of the term "profit", since it goes into a counter for distribution
-                if(withdrawal > i.compoundInvestAmt) {
-                    profit = withdrawal - i.compoundInvestAmt;
-                }
-
                 if(roi > 0) {
-                    compoundTally += profit;
+                    compoundTally += minInvestment + profit;
                     sliceCount = 0;
                     tallySlice = compoundTally / spread;
                 }

@@ -19,5 +19,6 @@ public class HComp {
         frame.setVisible(true);
 
         tabbedWindow.init();
+
     }
 }
