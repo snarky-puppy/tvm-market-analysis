@@ -169,7 +169,7 @@ public class Compounder {
         balanceCash = startBank;
         balanceTrades = 0.0;
 
-        if(spread == 0 || investPercent == 0) {
+        if(spread == 0) {
             log("Parameters failed sanity check. Zero action means zero result.", iteration);
             return;
         }
@@ -210,7 +210,7 @@ public class Compounder {
             // investment
             if(r.transact != null && r.transact > 0) {
 
-                double investAmt = minInvestment;
+                double investAmt = minInvestment == 0 ? r.transact : minInvestment;
 
                 if((balanceCash - investAmt) < 0) {
                     //logger.info(String.format("%s: I: not enough funds[%.2f] to cover investment[%.2f], skipping", r.symbol, totalBank, investAmt));
@@ -266,7 +266,10 @@ public class Compounder {
                 double withdrawal = i.compTransact + profit;
 
                 if(roi > 0) {
-                    compoundTally += minInvestment + profit;
+                    // if minInvest is 0 just use simulated transaction
+                    //compoundTally += minInvestment + profit;
+                    compoundTally += (minInvestment == 0 ? i.transact : minInvestment) + profit;
+
                     sliceCount = 0;
                     tallySlice = compoundTally / spread;
                 }
