@@ -220,7 +220,7 @@ public class Compounder {
             // investment
             if(r.transact != null && r.transact > 0) {
 
-                double investAmt = minInvestment == 0 ? r.transact : minInvestment * r.weight;
+                double investAmt = (minInvestment == 0 ? r.transact : minInvestment) * r.weight;
 
                 if((balanceCash - investAmt) < 0) {
                     //logger.info(String.format("%s: I: not enough funds[%.2f] to cover investment[%.2f], skipping", r.symbol, totalBank, investAmt));

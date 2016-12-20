@@ -227,12 +227,7 @@ public class SolverWindow implements ActionListener {
             }
             doneTasks += chunks.size();
             if(doneTasks == totalTasks) {
-                progressBar.setVisible(false);
-
-                runCalculationButton.setEnabled(true);
-                loadFilesButton.setEnabled(true);
-                clearFilesListButton.setEnabled(true);
-                resultTableModel.fireTableDataChanged();
+                reset();
             } else {
 
                 Double d = ((float)doneTasks / totalTasks) * 100.00;
@@ -243,12 +238,28 @@ public class SolverWindow implements ActionListener {
         }
     }
 
+    private void reset() {
+        progressBar.setVisible(false);
+
+        runCalculationButton.setEnabled(true);
+        loadFilesButton.setEnabled(true);
+        clearFilesListButton.setEnabled(true);
+        resultTableModel.fireTableDataChanged();
+    }
+
+
     private void runCalculation() {
         SolveParamTableModel solverParameters = paramTableModel;
 
         CompounderLogResults.reset();
 
         ArrayList<Combination> options = new ArrayList<>();
+
+        if(solverParameters.stepPercent == 0.0 || solverParameters.stepSpread == 0.0) {
+            JOptionPane.showMessageDialog(null, "Invalid step - set to something greater than zero", "Invalid settings", JOptionPane.PLAIN_MESSAGE);
+            reset();
+            return;
+        }
 
         for(double p = solverParameters.minPercent; p <= solverParameters.maxPercent; p += solverParameters.stepPercent) {
             for(int s = solverParameters.minSpread; s <= solverParameters.maxSpread; s += solverParameters.stepSpread) {
