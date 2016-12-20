@@ -53,6 +53,7 @@ public class Compounder {
         public int order;
         public double preCompoundInvestAmt;
         public double compoundInvestAmt;
+        public double weight = 0.0;
 
         public String getSymbol() {
             return symbol;
@@ -109,7 +110,7 @@ public class Compounder {
     }
 
     private void addLine(String[] line, int lineNumber) throws ParseException {
-        if(line == null || line.length < 3) {
+        if(line == null || line.length < 4) {
             logger.warn(String.format("Line %d: Ignoring source line, not enough elements (should be 4)", lineNumber));
             return; // ignore row
         }
@@ -143,6 +144,15 @@ public class Compounder {
                 logger.warn(String.format("Line %d: Could not parse date (%s): ", lineNumber, line[1]), e);
             }
         }
+
+        if(line[3] != null && line[3].length() > 0) {
+            try {
+                r.weight = Double.parseDouble(line[3]);
+            } catch (NumberFormatException e) {
+                logger.warn(String.format("Line %d: Could not parse double (%s): ", lineNumber, line[3]), e);
+            }
+        }
+
 
         r.order = order++;
         data.add(r);
@@ -210,7 +220,7 @@ public class Compounder {
             // investment
             if(r.transact != null && r.transact > 0) {
 
-                double investAmt = minInvestment == 0 ? r.transact : minInvestment;
+                double investAmt = minInvestment == 0 ? r.transact : minInvestment * r.weight;
 
                 if((balanceCash - investAmt) < 0) {
                     //logger.info(String.format("%s: I: not enough funds[%.2f] to cover investment[%.2f], skipping", r.symbol, totalBank, investAmt));
