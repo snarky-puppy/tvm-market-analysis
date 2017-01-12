@@ -146,10 +146,10 @@ public class ResultsWindow {
 
                     if(slope <= bean.slopeCutoff) {
                         //double avgVolume = new Mean().evaluate(data.volume, idx, 21);
-                        OptionalDouble optionalDouble = Arrays.stream(data.volume, idx, idx + bean.daysDolVol).average();
+                        OptionalDouble optionalDouble = Arrays.stream(data.volume, idx - bean.daysDolVol, idx).average();
                         if(optionalDouble.isPresent()) {
                             double avgVolume = optionalDouble.getAsDouble();
-                            double avgClose = new Mean().evaluate(data.close, idx, bean.daysDolVol);
+                            double avgClose = new Mean().evaluate(data.close, idx - bean.daysDolVol, bean.daysDolVol);
                             double dollarVolume = avgClose * avgVolume;
                             debug("volume,avgVol=,%.2f,avgClose=,%.2f,dolVol=,%.2f,%s", avgVolume, avgClose, dollarVolume, dollarVolume >= bean.minDolVol ? "yes": "no");
                             if (dollarVolume >= bean.minDolVol) {

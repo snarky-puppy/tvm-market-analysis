@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=1.1
+VERSION=1.2
 NAME=SlopeVis-$VERSION
 
 
@@ -10,6 +10,8 @@ mkdir $pkgdir
 
 cp lib/* $pkgdir
 rm -f $pkgdir/slopevis.json
+
+cp slopevis.bat $pkgdir
 
 (cd $tmp; zip -r -0 $NAME.zip $NAME)
 
