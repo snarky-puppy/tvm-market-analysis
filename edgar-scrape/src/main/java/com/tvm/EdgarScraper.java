@@ -158,7 +158,12 @@ public class EdgarScraper {
 
                 HtmlTable table = page.getFirstByXPath("//*[@id=\"seriesDiv\"]/table");
 
+                boolean header = true;
                 for (HtmlTableRow r : table.getRows()) {
+                    if(header) {
+                        header = false;
+                        continue;
+                    }
                     Row row = new Row();
                     row.filing = r.getCell(0).asText();
                     row.format = r.getCell(1).asText();

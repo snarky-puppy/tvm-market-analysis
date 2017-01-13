@@ -25,15 +25,15 @@ public class Data {
             append(sb, Integer.toString(code));
             append(sb, symbol);
             append(sb, company);
-            append(sb, "\n");
+            sb.append("\n");
 
         } else {
             for(Row r : rows) {
                 append(sb, Integer.toString(code));
                 append(sb, symbol);
                 append(sb, company);
-                append(sb, r.toString());
-                append(sb, "\n");
+                sb.append(r.toString());
+                sb.append("\n");
             }
         }
 
@@ -43,7 +43,11 @@ public class Data {
     static void append(StringBuffer sb, String s) {
         if(s == null)
             sb.append(',');
-        else
-            sb.append("\""+s.replaceAll("\n", "\\n")+"\",");
+        else {
+            s = s.replaceAll("\n", " ");
+            s = s.replaceAll("\"", "");
+
+            sb.append("\""+ s + "\",");
+        }
     }
 }
