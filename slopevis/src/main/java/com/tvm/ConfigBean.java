@@ -32,6 +32,8 @@ public class ConfigBean {
     public double slopeCutoff;
     public double maxHoldDays;
 
+    public int daysLiqVol;
+
     public double stopPc;
     public double targetPc;
     public int tradeStartDays;
