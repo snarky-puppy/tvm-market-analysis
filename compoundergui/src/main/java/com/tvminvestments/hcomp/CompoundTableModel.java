@@ -18,14 +18,16 @@ public class CompoundTableModel extends AbstractTableModel {
     private Compounder compounder;
 
     final ColumnDef[] columnDefs = new ColumnDef[] {
-            new ColumnDef("Symbol", String.class),
-            new ColumnDef("Transact", Double.class),
             new ColumnDef("Date", Date.class),
+            new ColumnDef("Symbol", String.class),
+            new ColumnDef("Liquidity", Double.class),
+            new ColumnDef("Transact", Double.class),
             new ColumnDef("Real Transact", Double.class),
-            new ColumnDef("Bank Balance", Double.class),
             new ColumnDef("ROI%", Double.class),
             new ColumnDef("Compound Tally", Double.class),
-            new ColumnDef("Total Assets", Double.class)
+            new ColumnDef("Bank Balance", Double.class),
+            new ColumnDef("Total Assets", Double.class),
+            new ColumnDef("Note", String.class)
     };
 
 
@@ -75,21 +77,26 @@ public class CompoundTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch(columnIndex) {
             case 0:
-                return compounder.get(rowIndex).symbol;
-            case 1:
-                return compounder.get(rowIndex).transact;
-            case 2:
                 return compounder.get(rowIndex).date;
+            case 1:
+                return compounder.get(rowIndex).symbol;
+            case 2:
+                return compounder.get(rowIndex).liquidity;
             case 3:
-                return compounder.get(rowIndex).compTransact;
+                return compounder.get(rowIndex).transact;
             case 4:
-                return compounder.get(rowIndex).bankBalance;
+                return compounder.get(rowIndex).compTransact;
             case 5:
                 return compounder.get(rowIndex).roi;
             case 6:
                 return compounder.get(rowIndex).compoundTally;
             case 7:
+                return compounder.get(rowIndex).bankBalance;
+            case 8:
                 return compounder.get(rowIndex).totalAssets;
+            case 9:
+                return compounder.get(rowIndex).note;
+
         }
         return null;
     }

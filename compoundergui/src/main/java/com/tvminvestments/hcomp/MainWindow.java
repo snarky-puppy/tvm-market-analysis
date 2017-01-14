@@ -36,6 +36,7 @@ public class MainWindow implements ActionListener, ListSelectionListener {
     private JButton showWorkingOutButton;
     private JCheckBox shuffleCheckBox;
     private JTextField rollover;
+    private JTextField maxDolVolText;
 
     int selectedRow = -1;
     int matchingRow = -1;
@@ -58,6 +59,7 @@ public class MainWindow implements ActionListener, ListSelectionListener {
         investPercentText.setText(Double.toString(model.getCompounder().investPercent));
         bankText.setText(Double.toString(model.getCompounder().startBank));
         rollover.setText(Integer.toString(model.getCompounder().profitRollover));
+        maxDolVolText.setText(Double.toString(model.getCompounder().maxDolVolPc));
 
 /*
         DefaultTableCellRenderer dateRender = new DefaultTableCellRenderer() {
@@ -80,11 +82,12 @@ public class MainWindow implements ActionListener, ListSelectionListener {
                 if(value != null) {
                     if(value instanceof Double) {
                         switch(column) {
-                            case 1:
+                            case 2:
                             case 3:
                             case 4:
                             case 6:
                             case 7:
+                            case 8:
                                 value = currency.format(value);
                                 break;
                             case 5:
@@ -127,6 +130,7 @@ public class MainWindow implements ActionListener, ListSelectionListener {
         model.getCompounder().investPercent = Double.parseDouble(investPercentText.getText());
         model.getCompounder().startBank = Double.parseDouble(bankText.getText());
         model.getCompounder().profitRollover = Integer.parseInt(rollover.getText());
+        model.getCompounder().maxDolVolPc = Double.parseDouble(maxDolVolText.getText());
 
         if(shuffleCheckBox.isSelected())
             model.getCompounder().shuffle();

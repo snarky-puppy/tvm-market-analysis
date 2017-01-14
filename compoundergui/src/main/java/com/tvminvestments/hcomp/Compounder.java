@@ -28,6 +28,7 @@ public class Compounder {
     public double balanceTotal;
 
     private int order = 0;
+    public double maxDolVolPc = 1;
 
     public int size() {
         return data.size();
@@ -54,6 +55,8 @@ public class Compounder {
         public double preCompoundInvestAmt;
         public double compoundInvestAmt;
         public double weight = 1.0;
+        public double liquidity;
+        public String note;
 
         public String getSymbol() {
             return symbol;
@@ -70,6 +73,7 @@ public class Compounder {
             compoundTally = null;
             preCompoundInvestAmt = 0.0;
             compoundInvestAmt = 0.0;
+            note = null;
         }
 
         public String toString() {
@@ -153,6 +157,14 @@ public class Compounder {
             }
         }
 
+        if(line[4] != null && line[4].length() > 0) {
+            try {
+                r.liquidity = Double.parseDouble(line[4]);
+            } catch (NumberFormatException e) {
+                logger.warn(String.format("Line %d: Could not parse double (%s): ", lineNumber, line[4]), e);
+            }
+        }
+
 
         r.order = order++;
         data.add(r);
@@ -204,6 +216,8 @@ public class Compounder {
         logRow.minInvest = minInvestment;
         logRow.balanceCash = balanceCash;
 
+        double maxVolPc = maxDolVolPc / 100;
+
         // now calculate what the actual investment would have been
         iter = 0;
         while(iter < data.size()) {
@@ -227,16 +241,23 @@ public class Compounder {
                     r.bankBalance = balanceCash;
                     r.totalAssets = balanceCash + balanceTrades;
                     iter++;
+                    r.note = "SKIPPED - no cash";
                     continue;
                 }
 
                 r.preCompoundInvestAmt = investAmt;
+
+
+                double oldCompoundTally = compoundTally;
+                int oldSliceCount = sliceCount;
+                double oldTallySlice = tallySlice;
 
                 if(compoundTally > 0) {
                     // use compound tally.
                     //logger.info(String.format("%s: I: Compounding, add %.2f to investment amount of %.2f", r.symbol, tallySlice, investAmt));
                     r.compoundInvestAmt = tallySlice;
                     investAmt += tallySlice;
+
                     sliceCount ++;
                     compoundTally -= tallySlice;
                     if(sliceCount == spread) {
@@ -250,12 +271,26 @@ public class Compounder {
                     investAmt = balanceCash;
                 }
 
-                //logger.info(String.format("%s: I: final_amount=%.2f balanceTrades=%.2f", r.symbol, investAmt, balanceTrades + investAmt));
+                double liqPc = investAmt / r.liquidity;
+                if(liqPc > maxVolPc) {
+                    // volume check failed
+                    //r.compTransact = -1.0;
+                    r.note = String.format("SKIPPED - volume %.2f%%", (liqPc*100));
+                    r.bankBalance = balanceCash;
 
-                balanceTrades += investAmt;
-                balanceCash -= investAmt;
-                r.bankBalance = balanceCash;
-                r.compTransact = investAmt;
+                    // reset any compounding
+                    compoundTally = oldCompoundTally;
+                    sliceCount = oldSliceCount;
+                    tallySlice = oldTallySlice;
+
+                } else {
+                    //logger.info(String.format("%s: I: final_amount=%.2f balanceTrades=%.2f", r.symbol, investAmt, balanceTrades + investAmt));
+
+                    balanceTrades += investAmt;
+                    balanceCash -= investAmt;
+                    r.bankBalance = balanceCash;
+                    r.compTransact = investAmt;
+                }
             }
 
             // withdrawal
