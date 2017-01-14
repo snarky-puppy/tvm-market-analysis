@@ -127,10 +127,13 @@ public class ResultsWindow {
 
                 int maxP = Collections.max(bean.pointDistances);
 
+                //int idx = maxP - bean.daysDolVol;
                 int idx = 0;
+
                 // maxP days is how many we need for the slope calc and dollar volume.
                 // if we trigger with less than the hold time left then we can still report it.
-                while(idx + maxP - 1 < data.close.length && idx + bean.daysDolVol - 1 < data.close.length) {
+                while(idx < data.close.length &&
+                        idx + maxP < data.close.length) {
                     double p[] = new double[bean.pointDistances.size()];
                     SimpleRegression simpleRegression = new SimpleRegression();
 
@@ -146,7 +149,12 @@ public class ResultsWindow {
 
                     if(slope <= bean.slopeCutoff) {
                         //double avgVolume = new Mean().evaluate(data.volume, idx, 21);
-                        OptionalDouble optionalDouble = Arrays.stream(data.volume, (idx + maxP) - bean.daysDolVol, idx + maxP).average();
+                        OptionalDouble optionalDouble = OptionalDouble.empty();
+                        try {
+                             optionalDouble = Arrays.stream(data.volume, (idx + maxP) - bean.daysDolVol, idx + maxP).average();
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                        }
+
                         if(optionalDouble.isPresent()) {
                             double avgVolume = optionalDouble.getAsDouble();
                             double avgClose = new Mean().evaluate(data.close, (idx + maxP) - bean.daysDolVol, bean.daysDolVol);
@@ -157,6 +165,18 @@ public class ResultsWindow {
                                 r.symbol = symbol;
                                 r.slope = slope;
                                 r.dollarVolume = dollarVolume;
+
+                                // calculate liquidity
+                                try {
+                                    OptionalDouble liqDbl = Arrays.stream(data.volume, (idx + maxP) - bean.daysLiqVol, idx + maxP).average();
+                                    double liqAvgVolume = liqDbl.getAsDouble();
+                                    double liqAvgClose = new Mean().evaluate(data.close, (idx + maxP) - bean.daysLiqVol, bean.daysLiqVol);
+                                    double liquidity = liqAvgClose * liqAvgVolume;
+                                    debug("liquidity,avgVol=,%.2f,avgClose=,%.2f,dolVol=,%.2f", liqAvgVolume, liqAvgClose, liquidity);
+                                    r.liquidity = liquidity;
+                                } catch(ArrayIndexOutOfBoundsException e) {
+                                    debug("liquidity,not enough data");
+                                }
 
                                 if(idx+bean.tradeStartDays < data.open.length) {
                                     r.entryDate = data.date[idx + bean.tradeStartDays];
@@ -283,6 +303,7 @@ public class ResultsWindow {
         public double slope;
         public double dollarVolume;
         public String target;
+        public double liquidity;
     }
 
     public class ResultTableModel extends AbstractTableModel {
@@ -300,6 +321,7 @@ public class ResultsWindow {
 
                 new ColumnDef("Slope", Double.class),
                 new ColumnDef("Dollar Volume", Double.class),
+                new ColumnDef("Liquidity", Double.class),
         };
 
         private ArrayList<Result> data = new ArrayList<>();
@@ -348,6 +370,7 @@ public class ResultsWindow {
                 case 7:                return calcProfit(rowIndex);
                 case 8:                return data.get(rowIndex).slope;
                 case 9:                return data.get(rowIndex).dollarVolume;
+                case 10:               return data.get(rowIndex).liquidity;
 
                 default:
                     logger.error(String.format("Invalid column index: r=%d c=%d", rowIndex, columnIndex));

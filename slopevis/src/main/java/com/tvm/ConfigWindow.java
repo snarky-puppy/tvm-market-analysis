@@ -310,7 +310,7 @@ public class ConfigWindow {
 
         @Override
         public int getRowCount() {
-            return 7;
+            return 8;
         }
 
         @Override
@@ -330,13 +330,16 @@ public class ConfigWindow {
                 case 3:
                     return ci == 0 ? "Slope Cutoff" : Double.toString(bean.slopeCutoff);
                 case 4:
-                    return ci == 0 ? "Days Dol Vol" : Double.toString(bean.daysDolVol);
+                    return ci == 0 ? "Days Dol Vol" : Integer.toString(bean.daysDolVol);
 
                 case 5:
                     return ci == 0 ? "Min Dol Vol" : Double.toString(bean.minDolVol);
 
                 case 6:
                     return ci == 0 ? "Trade Start Days" : Integer.toString(bean.tradeStartDays);
+
+                case 7:
+                    return ci == 0 ? "Days Liq Vol" : Integer.toString(bean.daysLiqVol);
 
                 default:
                     return "n/a";
@@ -358,6 +361,9 @@ public class ConfigWindow {
                     case 5: bean.minDolVol = Double.parseDouble((String) aValue); break;
 
                     case 6: bean.tradeStartDays = Integer.parseInt((String) aValue); break;
+
+                    case 7: bean.daysLiqVol = Integer.parseInt((String) aValue); break;
+
 
                 }
             } catch(NumberFormatException ex) {
