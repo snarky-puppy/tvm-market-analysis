@@ -53,7 +53,7 @@ public class Compounder {
         public int order;
         public double preCompoundInvestAmt;
         public double compoundInvestAmt;
-        public double weight = 0.0;
+        public double weight = 1.0;
 
         public String getSymbol() {
             return symbol;
@@ -278,7 +278,7 @@ public class Compounder {
                 if(roi > 0) {
                     // if minInvest is 0 just use simulated transaction
                     //compoundTally += minInvestment + profit;
-                    compoundTally += (minInvestment == 0 ? i.transact : minInvestment) + profit;
+                    compoundTally += ((minInvestment == 0 ? i.transact : minInvestment) * i.weight) + profit;
 
                     sliceCount = 0;
                     tallySlice = compoundTally / spread;
