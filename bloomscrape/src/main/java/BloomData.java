@@ -12,9 +12,9 @@ class BloomData {
     public String sector;
     public String industry;
     public String subIndustry;
-    public BloomData acquiredBy;
     public Boolean delisted;
     public Boolean changed;
+    public BloomData acquiredBy;
 
     @Override
     public String toString() {
@@ -24,16 +24,30 @@ class BloomData {
         if(symbol == null)
             return sb.toString();
 
-        sb.append(",").append(symbol.replaceAll(":[A-Z]*$", ""));
-        sb.append(",").append(ticker);
-        sb.append(",").append(companyName);
-        sb.append(",").append(market);
-        sb.append(",").append(sector);
-        sb.append(",").append(industry);
-        sb.append(",").append(subIndustry);
-        sb.append(",").append(acquiredBy);
-        sb.append(",").append(delisted);
+        nice(sb, symbol.replaceAll(":[A-Z]*$", ""));
+        nice(sb, ticker);
+        nice(sb, companyName);
+        nice(sb, market);
+        nice(sb, sector);
+        nice(sb, industry);
+        nice(sb, subIndustry);
+        nice(sb, delisted);
+        nice(sb, changed);
+        if(acquiredBy != null)
+            sb.append("\t").append(acquiredBy);
 
         return sb.toString();
+    }
+    
+    void nice(StringBuffer sb, String s) {
+        sb.append("\t");
+        if(s != null)
+            sb.append(s);
+    }
+
+    void nice(StringBuffer sb, Boolean s) {
+        sb.append("\t");
+        if(s != null)
+            sb.append(s);
     }
 }
