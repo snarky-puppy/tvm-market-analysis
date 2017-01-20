@@ -26,7 +26,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SlopeTestGenerator" target="1.5" />
+      <module name="SlopeTestGenerator" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
