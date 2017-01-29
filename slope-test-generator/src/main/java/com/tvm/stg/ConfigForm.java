@@ -1,19 +1,10 @@
 package com.tvm.stg;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.FileVisitOption;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Created by horse on 21/1/17.
@@ -33,7 +24,7 @@ public class ConfigForm {
     private ConfigBean bean;
 
     public ConfigForm() {
-        configMngr.setBeanCallback(b -> { applyBean(b); });
+        configMngr.setBeanCallback(this::applyBean);
     }
 
     private void applyBean(ConfigBean bean) {

@@ -20,7 +20,6 @@ import java.util.List;
 public class ConfigMngrForm extends JPanel {
     private static final Logger logger = LogManager.getLogger(ConfigMngrForm.class);
 
-    private String oldName;
     private static File home;
     ObjectMapper mapper = new ObjectMapper();
 
@@ -74,7 +73,7 @@ public class ConfigMngrForm extends JPanel {
         });
 
         renameBtn.addActionListener(e -> {
-            oldName = (String)configCombo.getSelectedItem();
+            String oldName = (String)configCombo.getSelectedItem();
             if(oldName == null)
                 return;
             String newName = (String)JOptionPane.showInputDialog(
@@ -104,7 +103,7 @@ public class ConfigMngrForm extends JPanel {
         });
 
         deleteBtn.addActionListener(e -> {
-            oldName = (String)configCombo.getSelectedItem();
+            String oldName = (String)configCombo.getSelectedItem();
             try {
                 Files.delete(getConfigFile(oldName).toPath());
             } catch (IOException e1) {
@@ -159,6 +158,9 @@ public class ConfigMngrForm extends JPanel {
 
     void setBeanCallback(BeanCallback beanCallback) {
         this.beanCallback = beanCallback;
+        String name = (String)configCombo.getSelectedItem();
+        if(name != null)
+            loadBean(name);
     }
 
     public void updateBean(ConfigBean bean) {
