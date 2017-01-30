@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.AbstractTableModel;
 import java.util.OptionalInt;
 
@@ -27,36 +29,16 @@ public class ConfigForm {
 
     private ConfigForm() {
         configMngr.setBeanCallback(this::applyBean);
-
-        pointsSpinner.addChangeListener(e -> {
-            Integer newVal = (Integer) pointsSpinner.getValue();
-            if(newVal <= 0) {
-                pointsSpinner.setValue(1);
-                newVal = 1;
-            }
-
-            int max = 0;
-            OptionalInt optionalInt = bean.pointDistances.stream().mapToInt(ConfigBean.IntRange::getStart).max();
-            if(optionalInt.isPresent())
-                max = optionalInt.getAsInt();
-
-            while(bean.pointDistances.size() > newVal)
-                bean.pointDistances.remove((int)newVal);
-
-            while(bean.pointDistances.size() < newVal) {
-                max += 7;
-                bean.pointDistances.add(new ConfigBean.IntRange(max, max + 7));
-            }
-
-            ((AbstractTableModel)pointsConfigTable.getModel()).fireTableDataChanged();
-
-            configMngr.updateBean(bean);
-        });
-
+        pointsSpinner.addChangeListener(new SlopeSpinnerListener());
     }
 
     private void applyBean(ConfigBean bean) {
+        if(bean == null)
+            bean = new ConfigBean();
         this.bean = bean;
+
+        pointsSpinner.setValue(new Integer(bean.pointDistances.size()));
+
         pointsConfigTable.setModel(new PointModel(bean));
         slopeConfigTable.setModel(new SlopeModel(bean));
     }
@@ -72,49 +54,55 @@ public class ConfigForm {
         frame.setVisible(true);
     }
 
-    public static class SlopeModel extends AbstractTableModel {
+    public class SlopeModel extends AbstractTableModel {
 
         private ConfigBean bean;
 
+        class ColumnDef {
+            String name;
+            ConfigBean.Range<?> val;
+
+            public ColumnDef(String name, ConfigBean.Range<?> val) {
+                this.name = name;
+                this.val = val;
+            }
+        }
+
+        ColumnDef[] defs;
+
         SlopeModel(ConfigBean bean) {
             this.bean = bean;
+
+            defs = new ColumnDef[]{
+                    new ColumnDef("Target %", bean.targetPc),
+                    new ColumnDef("Stop %", bean.stopPc),
+                    new ColumnDef("Max Hold Days", bean.maxHoldDays),
+                    new ColumnDef("Slope Cutoff", bean.slopeCutoff),
+                    new ColumnDef("Days Dol Vol", bean.daysDolVol),
+                    new ColumnDef("Min Dol Vol", bean.minDolVol),
+                    new ColumnDef("Trade Start Days", bean.tradeStartDays),
+                    new ColumnDef("Days Liq Vol", bean.daysLiqVol),
+            };
         }
 
         @Override
         public int getRowCount() {
-            return 8;
+            return defs.length;
         }
 
         @Override
         public int getColumnCount() {
-            return 3;
+            return 4;
         }
 
         @Override
-        public Object getValueAt(int rowIndex, int ci) {
-            switch (rowIndex) {
-                case 0:
-                    return ci == 0 ? "Target %" : Double.toString(bean.targetPc);
-                case 1:
-                    return ci == 0 ? "Stop %" : Double.toString(bean.stopPc);
-                case 2:
-                    return ci == 0 ? "Max Hold Days" : Double.toString(bean.maxHoldDays);
-                case 3:
-                    return ci == 0 ? "Slope Cutoff" : Double.toString(bean.slopeCutoff);
-                case 4:
-                    return ci == 0 ? "Days Dol Vol" : Integer.toString(bean.daysDolVol);
-
-                case 5:
-                    return ci == 0 ? "Min Dol Vol" : Double.toString(bean.minDolVol);
-
-                case 6:
-                    return ci == 0 ? "Trade Start Days" : Integer.toString(bean.tradeStartDays);
-
-                case 7:
-                    return ci == 0 ? "Days Liq Vol" : Integer.toString(bean.daysLiqVol);
-
-                default:
-                    return "n/a";
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            switch (columnIndex) {
+                case 0: return defs[rowIndex].name;
+                case 1: return defs[rowIndex].val.getStart();
+                case 2: return defs[rowIndex].val.getEnd();
+                case 3: return defs[rowIndex].val.getStep();
+                default: return "?";
             }
         }
 
@@ -122,22 +110,16 @@ public class ConfigForm {
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
             logger.info(String.format("Setting param value %d/%d: %s", rowIndex, columnIndex, (String)aValue));
             try {
-                switch (rowIndex) {
-                    case 0: bean.targetPc = Double.parseDouble((String) aValue); break;
-                    case 1: bean.stopPc = Double.parseDouble((String) aValue); break;
-
-                    case 2: bean.maxHoldDays = Double.parseDouble((String) aValue); break;
-                    case 3: bean.slopeCutoff = Double.parseDouble((String) aValue); break;
-                    case 4: bean.daysDolVol = Integer.parseInt((String) aValue); break;
-
-                    case 5: bean.minDolVol = Double.parseDouble((String) aValue); break;
-
-                    case 6: bean.tradeStartDays = Integer.parseInt((String) aValue); break;
-
-                    case 7: bean.daysLiqVol = Integer.parseInt((String) aValue); break;
-
-
+                switch (columnIndex) {
+                    case 1: defs[rowIndex].val.setStart((String)aValue);
+                        break;
+                    case 2: defs[rowIndex].val.setEnd((String)aValue);
+                        break;
+                    case 3: defs[rowIndex].val.setStep((String)aValue);
+                        break;
                 }
+                configMngr.updateBean(bean);
+
             } catch(NumberFormatException ex) {
                 logger.error("NumberFormatException: "+(String)aValue +" just isn't cool", ex);
             }
@@ -145,10 +127,13 @@ public class ConfigForm {
 
         @Override
         public String getColumnName(int column) {
-            if(column == 0)
-                return "Parameter";
-            return "Value";
-
+            switch (column) {
+                case 0: return "Parameter";
+                case 1: return "Start Range";
+                case 2: return "End Range";
+                case 3: return "Step";
+                default: return "?";
+            }
         }
 
         @Override
@@ -159,7 +144,7 @@ public class ConfigForm {
         }
     }
 
-    public static class PointModel extends AbstractTableModel {
+    public class PointModel extends AbstractTableModel {
 
         private ConfigBean bean;
 
@@ -174,18 +159,18 @@ public class ConfigForm {
 
         @Override
         public int getColumnCount() {
-            return 3;
+            return 4;
         }
 
         @Override
         public Object getValueAt(int rowIndex, int ci) {
-            if(ci == 0)
-                return "Point "+rowIndex;
-            else
-                if(ci == 1)
-                    return bean.pointDistances.get(rowIndex).getStart();
-                else
-                    return bean.pointDistances.get(rowIndex).getEnd();
+            switch (ci) {
+                case 0: return "Point "+Integer.toString(rowIndex+1);
+                case 1: return bean.pointDistances.get(rowIndex).getStart();
+                case 2: return bean.pointDistances.get(rowIndex).getEnd();
+                case 3: return bean.pointDistances.get(rowIndex).getStep();
+                default: return "?";
+            }
         }
 
         @Override
@@ -194,19 +179,33 @@ public class ConfigForm {
             try {
                 ConfigBean.IntRange range = bean.pointDistances.get(rowIndex);
                 int val = Integer.parseInt((String)aValue);
-                if(columnIndex == 1) {
-                    if(range.getEnd() <= val)
-                        logger.error("End range must be greater than start");
-                    else {
-                        range.setStart(val);
-                    }
-                } else if(columnIndex == 2) {
-                    if(range.getStart() >= val)
-                        logger.error("Start range must be less than end");
-                    else
-                        range.setEnd(val);
-                } else
-                    logger.error("Invalid column: "+columnIndex);
+                switch(columnIndex) {
+                    case 1:
+                        if(range.getEnd() <= val) {
+                            logger.error("End range must be greater than start");
+                        } else {
+                            range.setStart(val);
+                        }
+                        break;
+
+                    case 2:
+                        if(range.getStart() >= val)
+                            logger.error("Start range must be less than end");
+                        else
+                            range.setEnd(val);
+                        break;
+
+                    case 3:
+                        if(val <= 0)
+                            logger.error("Negative step make no sense");
+                        else
+                            range.setStep(val);
+                        break;
+                    default:
+                        logger.error("Invalid column: "+columnIndex);
+                        break;
+                }
+                configMngr.updateBean(bean);
 
             } catch(NumberFormatException ex) {
                 logger.error("NumberFormatException: "+(String)aValue +" just isn't cool");
@@ -219,7 +218,8 @@ public class ConfigForm {
                 case 0: return "Point Number";
                 case 1: return "Start";
                 case 2: return "End";
-                default: return "???";
+                case 3: return "Step";
+                default: return "?";
             }
         }
 
@@ -228,6 +228,36 @@ public class ConfigForm {
             if(columnIndex == 0)
                 return false;
             return true;
+        }
+    }
+
+    class SlopeSpinnerListener implements ChangeListener {
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            Integer newVal = (Integer) pointsSpinner.getValue();
+            logger.info("spinner new value: "+newVal);
+            if(newVal <= 0) {
+                pointsSpinner.setValue(1);
+                newVal = 1;
+            }
+
+            int max = 0;
+            OptionalInt optionalInt = bean.pointDistances.stream().mapToInt(ConfigBean.IntRange::getStart).max();
+            if(optionalInt.isPresent())
+                max = optionalInt.getAsInt();
+
+            while(bean.pointDistances.size() > newVal)
+                bean.pointDistances.remove((int)newVal);
+
+            while(bean.pointDistances.size() < newVal) {
+                max += 7;
+                bean.pointDistances.add(new ConfigBean.IntRange(max, max + 7, 1));
+            }
+
+            ((AbstractTableModel)pointsConfigTable.getModel()).fireTableDataChanged();
+
+            configMngr.updateBean(bean);
         }
     }
     
