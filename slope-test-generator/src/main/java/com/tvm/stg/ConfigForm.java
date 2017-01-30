@@ -25,7 +25,7 @@ public class ConfigForm {
     private ConfigMngrForm configMngr;
     private ConfigBean bean;
 
-    public ConfigForm() {
+    private ConfigForm() {
         configMngr.setBeanCallback(this::applyBean);
 
         pointsSpinner.addChangeListener(e -> {
@@ -36,7 +36,7 @@ public class ConfigForm {
             }
 
             int max = 0;
-            OptionalInt optionalInt = bean.pointDistances.stream().mapToInt(ConfigBean.SlopePointRange::getStart).max();
+            OptionalInt optionalInt = bean.pointDistances.stream().mapToInt(ConfigBean.IntRange::getStart).max();
             if(optionalInt.isPresent())
                 max = optionalInt.getAsInt();
 
@@ -45,7 +45,7 @@ public class ConfigForm {
 
             while(bean.pointDistances.size() < newVal) {
                 max += 7;
-                bean.pointDistances.add(new ConfigBean.SlopePointRange(max, max + 7));
+                bean.pointDistances.add(new ConfigBean.IntRange(max, max + 7));
             }
 
             ((AbstractTableModel)pointsConfigTable.getModel()).fireTableDataChanged();
@@ -57,8 +57,8 @@ public class ConfigForm {
 
     private void applyBean(ConfigBean bean) {
         this.bean = bean;
-        System.out.println("Copy bean data to widgets....");
         pointsConfigTable.setModel(new PointModel(bean));
+        slopeConfigTable.setModel(new SlopeModel(bean));
     }
 
 
@@ -70,6 +70,93 @@ public class ConfigForm {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         frame.setVisible(true);
+    }
+
+    public static class SlopeModel extends AbstractTableModel {
+
+        private ConfigBean bean;
+
+        SlopeModel(ConfigBean bean) {
+            this.bean = bean;
+        }
+
+        @Override
+        public int getRowCount() {
+            return 8;
+        }
+
+        @Override
+        public int getColumnCount() {
+            return 3;
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int ci) {
+            switch (rowIndex) {
+                case 0:
+                    return ci == 0 ? "Target %" : Double.toString(bean.targetPc);
+                case 1:
+                    return ci == 0 ? "Stop %" : Double.toString(bean.stopPc);
+                case 2:
+                    return ci == 0 ? "Max Hold Days" : Double.toString(bean.maxHoldDays);
+                case 3:
+                    return ci == 0 ? "Slope Cutoff" : Double.toString(bean.slopeCutoff);
+                case 4:
+                    return ci == 0 ? "Days Dol Vol" : Integer.toString(bean.daysDolVol);
+
+                case 5:
+                    return ci == 0 ? "Min Dol Vol" : Double.toString(bean.minDolVol);
+
+                case 6:
+                    return ci == 0 ? "Trade Start Days" : Integer.toString(bean.tradeStartDays);
+
+                case 7:
+                    return ci == 0 ? "Days Liq Vol" : Integer.toString(bean.daysLiqVol);
+
+                default:
+                    return "n/a";
+            }
+        }
+
+        @Override
+        public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+            logger.info(String.format("Setting param value %d/%d: %s", rowIndex, columnIndex, (String)aValue));
+            try {
+                switch (rowIndex) {
+                    case 0: bean.targetPc = Double.parseDouble((String) aValue); break;
+                    case 1: bean.stopPc = Double.parseDouble((String) aValue); break;
+
+                    case 2: bean.maxHoldDays = Double.parseDouble((String) aValue); break;
+                    case 3: bean.slopeCutoff = Double.parseDouble((String) aValue); break;
+                    case 4: bean.daysDolVol = Integer.parseInt((String) aValue); break;
+
+                    case 5: bean.minDolVol = Double.parseDouble((String) aValue); break;
+
+                    case 6: bean.tradeStartDays = Integer.parseInt((String) aValue); break;
+
+                    case 7: bean.daysLiqVol = Integer.parseInt((String) aValue); break;
+
+
+                }
+            } catch(NumberFormatException ex) {
+                logger.error("NumberFormatException: "+(String)aValue +" just isn't cool", ex);
+            }
+        }
+
+        @Override
+        public String getColumnName(int column) {
+            if(column == 0)
+                return "Parameter";
+            return "Value";
+
+        }
+
+        @Override
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            if(columnIndex == 0)
+                return false;
+            return true;
+        }
     }
 
     public static class PointModel extends AbstractTableModel {
@@ -96,27 +183,28 @@ public class ConfigForm {
                 return "Point "+rowIndex;
             else
                 if(ci == 1)
-                    return bean.pointDistances.get(rowIndex).start;
+                    return bean.pointDistances.get(rowIndex).getStart();
                 else
-                    return bean.pointDistances.get(rowIndex).end;
+                    return bean.pointDistances.get(rowIndex).getEnd();
         }
 
         @Override
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
             logger.info(String.format("Setting param value %d/%d: %s", rowIndex, columnIndex, (String)aValue));
             try {
-                ConfigBean.SlopePointRange range = bean.pointDistances.get(rowIndex);
+                ConfigBean.IntRange range = bean.pointDistances.get(rowIndex);
                 int val = Integer.parseInt((String)aValue);
                 if(columnIndex == 1) {
-                    if(range.end <= val)
+                    if(range.getEnd() <= val)
                         logger.error("End range must be greater than start");
-                    else
-                        range.start = val;
+                    else {
+                        range.setStart(val);
+                    }
                 } else if(columnIndex == 2) {
-                    if(range.start >= val)
+                    if(range.getStart() >= val)
                         logger.error("Start range must be less than end");
                     else
-                        range.end = val;
+                        range.setEnd(val);
                 } else
                     logger.error("Invalid column: "+columnIndex);
 
