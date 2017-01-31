@@ -1,6 +1,12 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="yee">
-    <output-path>$PROJECT_DIR$/out/artifacts/yee</output-path>
-    <root id="archive" name="yee.jar" />
+  <artifact type="jar" build-on-make="true" name="yee">
+    <output-path>$PROJECT_DIR$/dist/lib</output-path>
+    <root id="archive" name="yee.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="yahoo-eft-export" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/log4j2.xml" />
+    </root>
   </artifact>
 </component>

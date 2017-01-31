@@ -61,3 +61,6 @@ slopevis.json
 *.db
 
 data
+dist/lib/*.jar
+dist/data
+dist/yahoo.db
