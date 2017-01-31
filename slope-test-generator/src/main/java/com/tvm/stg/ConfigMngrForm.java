@@ -110,6 +110,9 @@ public class ConfigMngrForm extends JPanel {
                 logger.error(e1);
             }
             configCombo.removeItemAt(configCombo.getSelectedIndex());
+            if(configCombo.getItemCount() == 0) {
+                initEmptyConfig();
+            }
         });
     }
 
@@ -130,6 +133,17 @@ public class ConfigMngrForm extends JPanel {
         configCombo.removeAllItems();
         for(String s : configFiles)
             configCombo.addItem(s);
+
+        if(configCombo.getItemCount() == 0) {
+            initEmptyConfig();
+        }
+    }
+
+    private void initEmptyConfig() {
+        // nothing in the directory, create something
+        String name = "Untitled Configuration";
+        saveBean(name, new ConfigBean());
+        configCombo.addItem(name);
     }
 
 

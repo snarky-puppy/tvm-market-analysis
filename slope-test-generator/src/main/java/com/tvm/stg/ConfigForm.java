@@ -6,7 +6,18 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListDataListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.OptionalInt;
 
 
@@ -30,6 +41,30 @@ public class ConfigForm {
     private ConfigForm() {
         configMngr.setBeanCallback(this::applyBean);
         pointsSpinner.addChangeListener(new SlopeSpinnerListener());
+
+        loadSymbolsButton.addActionListener(e -> {
+            try {
+                loadFile();
+                FileFinder.setSymbols(bean.symbols);
+            } catch (IOException | ParseException ex) {
+                logger.error(ex);
+            }
+        });
+
+        dataDirText.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JFileChooser chooser = new JFileChooser();
+                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                int rv = chooser.showOpenDialog(panel);
+                if (rv == JFileChooser.APPROVE_OPTION) {
+                    bean.dataDir = chooser.getSelectedFile().toPath();
+                    //FileFinder.setBaseDir(bean.dataDir);
+                    dataDirText.setText(bean.dataDir.toString());
+                    configMngr.updateBean(bean);
+                }
+            }
+        });
     }
 
     private void applyBean(ConfigBean bean) {
@@ -37,12 +72,47 @@ public class ConfigForm {
             bean = new ConfigBean();
         this.bean = bean;
 
+        if(bean.dataDir == null)
+            dataDirText.setText(null);
+        else
+            dataDirText.setText(bean.dataDir.toString());
+
         pointsSpinner.setValue(new Integer(bean.pointDistances.size()));
 
         pointsConfigTable.setModel(new PointModel(bean));
         slopeConfigTable.setModel(new SlopeModel(bean));
+        symbolsList.setModel(new SymbolListModel(bean));
     }
 
+    private void loadFile() throws IOException, ParseException {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileFilter(new FileNameExtensionFilter("CSV File", "csv"));
+        chooser.setMultiSelectionEnabled(false);
+        int rv = chooser.showOpenDialog(panel);
+
+        if (rv == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+
+            if(bean.symbols != null)
+                bean.symbols.clear();
+
+            HashSet<String> hashSet = new HashSet<>();
+
+            while((line = br.readLine()) != null) {
+                String[] data = line.split("[,\\t]");
+                if(data[0] != null)
+                    hashSet.add(data[0]);
+            }
+
+            logger.info("Read "+hashSet.size()+" symbols");
+            bean.symbols = new ArrayList<>(hashSet);
+            configMngr.updateBean(bean);
+
+            symbolsList.setModel(new SymbolListModel(bean));
+        }
+    }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Config");
@@ -52,6 +122,36 @@ public class ConfigForm {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         frame.setVisible(true);
+    }
+
+    public class SymbolListModel implements ListModel<String> {
+        private ConfigBean bean;
+
+        SymbolListModel(ConfigBean bean) {
+            this.bean = bean;
+        }
+
+        @Override
+        public int getSize() {
+            if(bean.symbols == null)
+                return 0;
+            return bean.symbols.size();
+        }
+
+        @Override
+        public String getElementAt(int index) {
+            if(bean.symbols == null)
+                return null;
+            return bean.symbols.get(index);
+        }
+
+        @Override
+        public void addListDataListener(ListDataListener l) {
+        }
+
+        @Override
+        public void removeListDataListener(ListDataListener l) {
+        }
     }
 
     public class SlopeModel extends AbstractTableModel {
@@ -108,7 +208,7 @@ public class ConfigForm {
 
         @Override
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-            logger.info(String.format("Setting param value %d/%d: %s", rowIndex, columnIndex, (String)aValue));
+            logger.info(String.format("Setting param value %d/%d: %s", rowIndex, columnIndex, aValue));
             try {
                 switch (columnIndex) {
                     case 1: defs[rowIndex].val.setStart((String)aValue);
@@ -121,7 +221,7 @@ public class ConfigForm {
                 configMngr.updateBean(bean);
 
             } catch(NumberFormatException ex) {
-                logger.error("NumberFormatException: "+(String)aValue +" just isn't cool", ex);
+                logger.error("NumberFormatException: "+aValue +" just isn't cool", ex);
             }
         }
 
@@ -225,9 +325,7 @@ public class ConfigForm {
 
         @Override
         public boolean isCellEditable(int rowIndex, int columnIndex) {
-            if(columnIndex == 0)
-                return false;
-            return true;
+            return columnIndex != 0;
         }
     }
 

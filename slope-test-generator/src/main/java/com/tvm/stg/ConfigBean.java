@@ -2,6 +2,7 @@ package com.tvm.stg;
 
 import sun.misc.FDBigInteger;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,8 @@ import java.util.List;
  * Created by horse on 21/1/17.
  */
 public class ConfigBean {
-    public String configName;
+
+    public Path dataDir;
 
     // slope items
     public List<IntRange> pointDistances = new ArrayList<>();
@@ -22,7 +24,11 @@ public class ConfigBean {
     public IntRange tradeStartDays = new IntRange(10, 30, 5);
     public IntRange daysLiqVol = new IntRange(10, 30, 5);
 
-    static interface Range<T> {
+    // symbols list
+    public List<String> symbols;
+
+
+    interface Range<T> {
         T getStart();
         T getEnd();
         T getStep();
@@ -45,9 +51,6 @@ public class ConfigBean {
             this.end = end;
             this.step = step;
         }
-
-
-
 
         public Double getStart() {
             return start;
