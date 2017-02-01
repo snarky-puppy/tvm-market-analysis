@@ -430,7 +430,7 @@ class YahooDatabase {
             rs = stmt.executeQuery();
 
             if(rs.isBeforeFirst()) {
-                FileWriter fw = new FileWriter(new File("data/"+market+"-"+symbol+".csv"), false);
+                FileWriter fw = new FileWriter(new File("data/"+symbol+".csv"), false);
                 String hdr = "Date,Open,High,Low,Close,Volume,Open Interest,Ticker\n";
                 fw.write(hdr);
 
@@ -466,9 +466,28 @@ class YahooDatabase {
         if(!dir.exists())
             dir.mkdir();
 
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+
         for(Row r : getActiveSymbols()) {
-            exportFile(r.exchange, r.symbol);
+            executorService.submit(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        exportFile(r.exchange, r.symbol);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        System.exit(1);
+                    }
+                }
+            });
         }
+        executorService.shutdown();
+        try {
+            executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.DAYS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     static class ActiveSymbol {
