@@ -82,6 +82,7 @@ public class ConfigForm {
         pointsConfigTable.setModel(new PointModel(bean));
         slopeConfigTable.setModel(new SlopeModel(bean));
         symbolsList.setModel(new SymbolListModel(bean));
+        compConfigTable.setModel(new CompounderModel(bean));
     }
 
     private void loadFile() throws IOException, ParseException {
@@ -358,5 +359,82 @@ public class ConfigForm {
             configMngr.updateBean(bean);
         }
     }
-    
+
+    public class CompounderModel extends AbstractTableModel {
+
+        private ConfigBean bean;
+
+        public CompounderModel(ConfigBean bean) {
+            this.bean = bean;
+        }
+
+        @Override
+        public int getRowCount() {
+            return 9;
+        }
+
+        @Override
+        public int getColumnCount() {
+            return 2;
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int ci) {
+
+            switch(rowIndex) {
+                case 0: return ci == 0 ? "Start Bank" : Integer.toString(bean.startBank);
+                case 1: return ci == 0 ? "Profit Roll" : Integer.toString(bean.profitRollover);
+
+                case 2: return ci == 0 ? "Min %" : Double.toString(bean.minPercent);
+                case 3: return ci == 0 ? "Max %" : Double.toString(bean.maxPercent);
+                case 4: return ci == 0 ? "Step %" : Double.toString(bean.stepPercent);
+
+                case 5: return ci == 0 ? "Min Spread" : Integer.toString(bean.minSpread);
+                case 6: return ci == 0 ? "Max Spread" : Integer.toString(bean.maxSpread);
+                case 7: return ci == 0 ? "Step Spread" : Integer.toString(bean.stepSpread);
+
+                case 8: return ci == 0 ? "Iterations" : Integer.toString(bean.iterations);
+
+                default: return "n/a";
+            }
+        }
+
+        @Override
+        public String getColumnName(int column) {
+            if(column == 0)
+                return "Parameter";
+            return "Value";
+
+        }
+
+        @Override
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return columnIndex != 0;
+        }
+
+        @Override
+        public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+            logger.info(String.format("param value %d/%d: %s", rowIndex, columnIndex, (String)aValue));
+            try {
+                switch (rowIndex) {
+                    case 0: bean.startBank = Integer.parseInt((String) aValue); break;
+                    case 1: bean.profitRollover = Integer.parseInt((String) aValue); break;
+
+
+                    case 2: bean.minPercent = Double.parseDouble((String) aValue); break;
+                    case 3: bean.maxPercent = Double.parseDouble((String) aValue); break;
+                    case 4: bean.stepPercent = Double.parseDouble((String) aValue); break;
+
+                    case 5: bean.minSpread = Integer.parseInt((String) aValue); break;
+                    case 6: bean.maxSpread = Integer.parseInt((String) aValue); break;
+                    case 7: bean.stepSpread = Integer.parseInt((String) aValue); break;
+                    case 8: bean.iterations = Integer.parseInt((String) aValue); break;
+
+                }
+                configMngr.updateBean(bean);
+            } catch(NumberFormatException ex) {
+                logger.error("NumberFormatException: "+(String)aValue +" just isn't cool");
+            }
+        }
+    }
 }

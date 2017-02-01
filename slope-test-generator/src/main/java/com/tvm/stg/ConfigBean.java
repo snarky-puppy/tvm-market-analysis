@@ -27,6 +27,19 @@ public class ConfigBean {
     // symbols list
     public List<String> symbols;
 
+    // Compounder
+    public int startBank = 200000;
+    public int profitRollover = 20000;
+
+    public double minPercent = 0.0;
+    public double maxPercent = 50.0;
+    public double stepPercent = 10.0;
+
+    public int minSpread = 0;
+    public int maxSpread = 25;
+    public int stepSpread = 5;
+
+    public int iterations = 10;
 
     interface Range<T> {
         T getStart();
