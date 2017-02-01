@@ -449,6 +449,8 @@ class YahooDatabase {
                     fw.write(line);
                 }
 
+                fw.flush();
+                fw.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();

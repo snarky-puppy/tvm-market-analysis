@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=1.0
+VERSION=$(cat version.txt)
 NAME=Yahoo_EFT_Export-$VERSION
 
 
@@ -14,7 +14,7 @@ cp -r dist/* $pkgdir
 rm -f $pkgdir/yahoo.db
 rm -f $pkgdir/data
 
-(cd $tmp; zip -r -0 $NAME.zip $NAME)
+(cd $tmp; zip -r -9 $NAME.zip $NAME)
 
 mv $tmp/$NAME.zip .
 
