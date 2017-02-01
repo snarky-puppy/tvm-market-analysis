@@ -1,0 +1,1 @@
+A program to download historical Yahoo data and convert into csv. Optimised for periodic usage.
