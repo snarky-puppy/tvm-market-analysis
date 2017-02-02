@@ -21,6 +21,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static org.sqlite.SQLiteErrorCode.SQLITE_CONSTRAINT_UNIQUE;
 
@@ -34,8 +36,13 @@ class YahooDatabase {
 
     private static final Logger logger = LogManager.getLogger(YahooDatabase.class);
 
+    static int MAX_RETRIES = 5;
+
     static List<ActiveSymbol> symbols;
     static Map<String, Set<String>> marketSymbols;
+
+    private final Lock writeMux = new ReentrantLock(true);
+
 
     static {
         try {
@@ -79,6 +86,8 @@ class YahooDatabase {
         PreparedStatement stmt = null;
         try {
 
+            writeMux.lock();
+
             connection.setAutoCommit(false);
 
 
@@ -104,6 +113,7 @@ class YahooDatabase {
             e.printStackTrace();
             System.exit(1);
         } finally {
+            writeMux.unlock();
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
@@ -166,7 +176,7 @@ class YahooDatabase {
         */
 
         if(now.isAfter(last)) {
-            updateData(row, last, now, false);
+            updateData(row, last, now, 1);
         }
     }
 
@@ -176,7 +186,7 @@ class YahooDatabase {
         return c;
     }
 
-    private void updateData(Row row, LocalDate from, LocalDate to, boolean secondRun) {
+    private void updateData(Row row, LocalDate from, LocalDate to, int runNum) {
 
         if(to.equals(from))
             return;
@@ -188,21 +198,27 @@ class YahooDatabase {
 
             System.out.println(row.symbol + ": " + row.symbol + ": from " + from + " to " + to + ": " + data.size() + " rows");
 
-            saveData(row, data);
-            updateLastCheck(row);
+
+            try {
+                writeMux.lock();
+                saveData(row, data);
+                updateLastCheck(row);
+            } finally {
+                writeMux.unlock();
+            }
+
         } catch (FileNotFoundException e) {
             System.out.println(row.symbol + ": " + row.symbol + ": from " + from + " to " + to + ": not found");
         } catch (IOException e) {
             e.printStackTrace();
-            if (!secondRun) {
+            if (runNum <= MAX_RETRIES) {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(runNum * 5000);
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
-                updateData(row, from, to, true);
-            } else
-                updateLastCheck(row);
+                updateData(row, from, to, runNum + 1);
+            }
         }
     }
     private static void loadSymbols() throws IOException {
