@@ -162,7 +162,9 @@ public class ConfigMngrForm extends JPanel {
 
     private void loadBean(String name) {
         try {
-            ConfigBean bean = mapper.readValue(getConfigFile(name), ConfigBean.class);
+            File f = getConfigFile(name);
+            logger.info("Loading: "+f);
+            ConfigBean bean = mapper.readValue(f, ConfigBean.class);
             if(beanCallback != null)
                 beanCallback.updateBean(bean);
         } catch (IOException e) {

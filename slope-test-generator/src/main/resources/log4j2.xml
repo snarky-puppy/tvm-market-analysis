@@ -4,13 +4,13 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %C{1} - %msg%n"/>
         </Console>
-        <!-- GuiAppender name="GuiAppender">
+        <GuiAppender name="GuiAppender">
             <PatternLayout pattern="%p: %msg%n"/>
         </GuiAppender>
         <Async name="Async">
             <AppenderRef ref="GuiAppender"/>
-        </Async -->
+        </Async>
     </Appenders>
-    <Loggers><Root level="trace"><AppenderRef ref="Console"/></Root></Loggers>
+    <Loggers><Root level="trace"><AppenderRef ref="GuiAppender"/></Root></Loggers>
 </Configuration>
 

@@ -34,11 +34,16 @@ public class ConfigForm {
     private JTable pointsConfigTable;
     private JSpinner pointsSpinner;
     private JTable slopeConfigTable;
-    private JPanel panel;
+    protected JPanel panel;
     private ConfigMngrForm configMngr;
+    private JButton goBtn;
+    private JPanel goPanel;
+    private JTable table1;
     private ConfigBean bean;
+    private TabbedWindow tabbedWindow;
 
-    private ConfigForm() {
+    ConfigForm(TabbedWindow tabbedWindow) {
+        this.tabbedWindow = tabbedWindow;
         configMngr.setBeanCallback(this::applyBean);
         pointsSpinner.addChangeListener(new SlopeSpinnerListener());
 
@@ -64,6 +69,10 @@ public class ConfigForm {
                     configMngr.updateBean(bean);
                 }
             }
+        });
+
+        goBtn.addActionListener(e -> {
+            tabbedWindow.runCalc(bean);
         });
     }
 
@@ -113,16 +122,6 @@ public class ConfigForm {
 
             symbolsList.setModel(new SymbolListModel(bean));
         }
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Config");
-        ConfigForm form = new ConfigForm();
-        frame.setContentPane(form.panel);
-        frame.setSize(1024, 768);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        frame.setVisible(true);
     }
 
     public class SymbolListModel implements ListModel<String> {
