@@ -49,6 +49,8 @@ public class ConfigBean {
         void setStart(String s);
         void setEnd(String s);
         void setStep(String s);
+
+        List<T> permute();
     }
 
     static class DoubleRange implements Range<Double> {
@@ -97,6 +99,14 @@ public class ConfigBean {
             step = Double.parseDouble(s);
         }
 
+        @Override
+        public List<Double> permute() {
+            ArrayList<Double> rv = new ArrayList<>();
+            for(double d = getStart(); d <= getEnd(); d += getStep())
+                rv.add(d);
+            return rv;
+        }
+
         public void setEnd(double end) {
             this.end = end;
         }
@@ -141,6 +151,14 @@ public class ConfigBean {
         @Override
         public void setStep(String s) {
             step = Integer.parseInt(s);
+        }
+
+        @Override
+        public List<Integer> permute() {
+            ArrayList<Integer> rv = new ArrayList<>();
+            for(int d = getStart(); d <= getEnd(); d += getStep())
+                rv.add(d);
+            return rv;
         }
 
         public void setStart(int start) {

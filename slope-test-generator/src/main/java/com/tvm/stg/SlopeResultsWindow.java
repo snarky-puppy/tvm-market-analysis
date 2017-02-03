@@ -22,6 +22,8 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.List;
 
+import static com.sun.javafx.tools.resource.DeployResource.Type.data;
+
 /**
  * Created by matt on 2/02/17.
  */
@@ -59,6 +61,56 @@ public class SlopeResultsWindow {
         });
     }
 
+    public static List<List<Integer>> merge(List<IntRange> pointDistances) {
+        // copy array so original is unmolested
+        return mergePrivate(new ArrayList<>(pointDistances));
+    }
+
+
+    public static List<List<Integer>> mergePrivate(List<IntRange> pointDistances) {
+
+        if(pointDistances.size() == 1) {
+            List<Integer> list = pointDistances.get(0).permute();
+            List<List<Integer>> rv = new ArrayList<>();
+            for(int x : list) {
+                ArrayList<Integer> l = new ArrayList<>();
+                l.add(x);
+                rv.add(l);
+            }
+
+            return rv;
+        }
+
+        IntRange range = pointDistances.remove(0);
+        List<List<Integer>> permutations = merge(pointDistances);
+        List<List<Integer>> rv = new ArrayList<>();
+
+        List<Integer> rangePerms = range.permute();
+
+        if(rangePerms.size() > permutations.size()) {
+            for(int x : rangePerms) {
+                for(List<Integer> smallerPerm : permutations) {
+                    ArrayList<Integer> list = new ArrayList<>();
+                    list.add(x);
+                    list.addAll(smallerPerm);
+                    rv.add(list);
+                }
+
+            }
+
+        } else {
+            for(List<Integer> biggerPerm : permutations) {
+                for(int x : rangePerms) {
+                    ArrayList<Integer> list = new ArrayList<>();
+                    list.addAll(biggerPerm);
+                    list.add(x);
+                    rv.add(list);
+                }
+            }
+        }
+
+        return rv;
+    }
 
     static class SlopeBean {
         public double minDolVol;
@@ -90,6 +142,9 @@ public class SlopeResultsWindow {
         progressBar.setValue(0);
         progressBar.setVisible(true);
 
+        List<SlopeBean> slopeBeans = new ArrayList<>();
+        List<List<Integer>> points = merge(bean.pointDistances);
+
         for(String key : files.keySet()) {
             Path p = files.get(key);
             if(p != null) {
@@ -99,29 +154,15 @@ public class SlopeResultsWindow {
                 if(data == null)
                     continue;
 
-                List<List<Integer>> points = new ArrayList<>();
-
-
-                IntRange r = bean.pointDistances.get(0);
-                for(int x = r.getStart(); x <= r.getEnd(); x += r.getStep()) {
-                    ArrayList<Integer> l = new ArrayList<>();
-                    l.add(x);
-                    points.add(l);
+                for(SlopeBean slopeBean : slopeBeans) {
+                    CalculationTask task = new CalculationTask(f, data, slopeBean);
+                    task.addPropertyChangeListener(evt -> {
+                        if ("progress".equals(evt.getPropertyName())) {
+                            progressBar.setValue((Integer) evt.getNewValue());
+                        }
+                    });
+                    task.execute();
                 }
-
-
-                for(int i = 1; i < bean.pointDistances.size(); i++) {
-                    // XXX use recursion?
-
-                }
-
-                CalculationTask task = new CalculationTask(f, data, b);
-                task.addPropertyChangeListener(evt -> {
-                    if ("progress".equals(evt.getPropertyName())) {
-                        progressBar.setValue((Integer)evt.getNewValue());
-                    }
-                });
-                task.execute();
 
 
                 totalTasks ++;
@@ -133,10 +174,12 @@ public class SlopeResultsWindow {
 
         private final File file;
         private final String symbol;
+        private Data data;
         private SlopeBean bean;
 
         public CalculationTask(File file, Data data, SlopeBean bean) {
             this.file = file;
+            this.data = data;
             this.bean = bean;
             symbol = file.getName().replace(".csv", "");
         }
