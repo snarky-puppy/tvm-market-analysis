@@ -11,18 +11,18 @@ public class TabbedWindow {
     JTextArea logText;
 
     ConfigForm configForm;
-    private ResultsWindow resultsWindow;
+    private SlopeResultsWindow slopeResultsWindow;
 
     public void init() {
         configForm = new ConfigForm(this);
-        resultsWindow = new ResultsWindow();
+        slopeResultsWindow = new SlopeResultsWindow();
 
         tabbedPane.addTab("Config", configForm.panel);
-        tabbedPane.addTab("Results", resultsWindow.panel);
+        tabbedPane.addTab("Slope Results", slopeResultsWindow.panel);
     }
 
     public void runCalc(ConfigBean bean) {
         tabbedPane.setSelectedIndex(1);
-        resultsWindow.runCalculation(bean);
+        slopeResultsWindow.runCalculation(bean);
     }
 }
