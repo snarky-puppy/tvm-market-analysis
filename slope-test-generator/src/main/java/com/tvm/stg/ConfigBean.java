@@ -4,6 +4,7 @@ import sun.misc.FDBigInteger;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -15,14 +16,14 @@ public class ConfigBean {
 
     // slope items
     public List<IntRange> pointDistances = new ArrayList<>();
-    public DoubleRange targetPc = new DoubleRange(10, 20, 1);
-    public DoubleRange stopPc = new DoubleRange(5, 10, 1);
-    public DoubleRange maxHoldDays = new DoubleRange(30, 50, 2);
-    public DoubleRange slopeCutoff = new DoubleRange(-0.1, -0.3, 0.1);
-    public IntRange daysDolVol = new IntRange(30, 60, 10);
-    public DoubleRange minDolVol = new DoubleRange(1000000,10000000, 1000000);
-    public IntRange tradeStartDays = new IntRange(10, 30, 5);
-    public IntRange daysLiqVol = new IntRange(10, 30, 5);
+    public DoubleRange targetPc = new DoubleRange(10.0, 20.0, 1.0, false);
+    public DoubleRange stopPc = new DoubleRange(5.0, 10.0, 1.0, false);
+    public IntRange maxHoldDays = new IntRange(30, 50, 2, false);
+    public DoubleRange slopeCutoff = new DoubleRange(-0.25, 0.0, 0.1, true);
+    public IntRange daysDolVol = new IntRange(30, 60, 10, false);
+    public DoubleRange minDolVol = new DoubleRange(10000000.0,100000000.0, 1000000.0, false);
+    public IntRange tradeStartDays = new IntRange(10, 30, 5, false);
+    public IntRange daysLiqVol = new IntRange(10, 30, 5, false);
 
     // symbols list
     public List<String> symbols;
@@ -41,145 +42,89 @@ public class ConfigBean {
 
     public int iterations = 10;
 
-    interface Range<T> {
-        T getStart();
-        T getEnd();
-        T getStep();
+    static abstract class Range<T extends Number & Comparable> {
+        T start;
+        T end;
+        T step;
+        boolean range = false;
 
-        void setStart(String s);
-        void setEnd(String s);
-        void setStep(String s);
-
-        List<T> permute();
-    }
-
-    static class DoubleRange implements Range<Double> {
-        private double start;
-        private double end;
-        private double step;
-
-        public DoubleRange() {
-        }
-
-        public DoubleRange(double start, double end, double step) {
+        Range(T start, T end, T step, boolean range) {
             this.start = start;
             this.end = end;
             this.step = step;
+            this.range = range;
         }
 
-        public Double getStart() {
-            return start;
-        }
+        T getStart() { return start; }
+        T getEnd() { return end; }
+        T getStep() { return step; }
 
-        public void setStart(double start) {
-            this.start = start;
-        }
+        boolean isRange() { return range; }
+        void setRange(boolean b) { range = b; }
 
-        public Double getEnd() {
-            return end;
-        }
 
-        @Override
-        public Double getStep() {
-            return step;
-        }
+        protected abstract T fromString(String s);
+        protected abstract void permute(List<T> list);
 
-        @Override
-        public void setStart(String s) {
-            start = Double.parseDouble(s);
-        }
+        void setStart(String s) { start = fromString(s); }
+        void setEnd(String s) { end = fromString(s); }
+        void setStep(String s) { step = fromString(s); }
 
-        @Override
-        public void setEnd(String s) {
-            end = Double.parseDouble(s);
-        }
-
-        @Override
-        public void setStep(String s) {
-            step = Double.parseDouble(s);
-        }
-
-        @Override
-        public List<Double> permute() {
-            ArrayList<Double> rv = new ArrayList<>();
-            for(double d = getStart(); d <= getEnd(); d += getStep())
-                rv.add(d);
+        public List<T> permute() {
+            ArrayList<T> rv = new ArrayList<>();
+            if (range) {
+                permute(rv);
+            } else {
+                rv.add(start);
+            }
             return rv;
         }
 
-        public void setEnd(double end) {
-            this.end = end;
+        public void setStart(T val) {
+            start = val;
         }
 
-        public void setStep(double step) {
-            this.step = step;
+        public void setEnd(T val) {
+            end = val;
+        }
+
+        public void setStep(T val) {
+            step = val;
         }
     }
 
-    static class IntRange implements Range<Integer> {
-        private int start;
-        private int end;
-        private int step;
-
-        public IntRange() {
-        }
-
-        IntRange(int start, int end, int step) {
-            this.start = start;
-            this.end = end;
-            this.step = step;
-        }
-
-        public Integer getStart() { return start; }
-        public Integer getEnd() { return end; }
-
-        @Override
-        public Integer getStep() {
-            return step;
+    static class DoubleRange extends Range<Double> {
+        DoubleRange(Double start, Double end, Double step, boolean range) {
+            super(start, end, step, range);
         }
 
         @Override
-        public void setStart(String s) {
-            start = Integer.parseInt(s);
+        public Double fromString(String s) {
+            return Double.parseDouble(s);
         }
 
         @Override
-        public void setEnd(String s) {
-            end = Integer.parseInt(s);
+        protected void permute(List<Double> list) {
+            for (double d = start; d <= end; d += step)
+                list.add(d);
+
+        }
+    }
+
+    static class IntRange extends Range<Integer> {
+        IntRange(Integer start, Integer end, Integer step, boolean range) {
+            super(start, end, step, range);
         }
 
         @Override
-        public void setStep(String s) {
-            step = Integer.parseInt(s);
+        public Integer fromString(String s) {
+            return Integer.parseInt(s);
         }
 
         @Override
-        public List<Integer> permute() {
-            ArrayList<Integer> rv = new ArrayList<>();
-            for(int d = getStart(); d <= getEnd(); d += getStep())
-                rv.add(d);
-            return rv;
-        }
-
-        public void setStart(int start) {
-            this.start = start;
-        }
-
-        public void setEnd(int end) {
-            this.end = end;
-        }
-        public void setStep(int step) {
-            this.step = step;
-        }
-
-        @Override
-        public String toString() {
-            final StringBuffer sb = new StringBuffer("IntRange{");
-            sb.append("start=").append(start);
-            sb.append(", end=").append(end);
-            sb.append(", step=").append(step);
-            sb.append('}');
-            return sb.toString();
+        protected void permute(List<Integer> list) {
+            for (int d = start; d <= end; d += step)
+                list.add(d);
         }
     }
 }

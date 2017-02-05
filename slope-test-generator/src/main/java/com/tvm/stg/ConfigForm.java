@@ -64,7 +64,7 @@ public class ConfigForm {
                 int rv = chooser.showOpenDialog(panel);
                 if (rv == JFileChooser.APPROVE_OPTION) {
                     bean.dataDir = chooser.getSelectedFile().toPath();
-                    //FileFinder.setBaseDir(bean.dataDir);
+                    FileFinder.setBaseDir(bean.dataDir);
                     dataDirText.setText(bean.dataDir.toString());
                     configMngr.updateBean(bean);
                 }
@@ -92,6 +92,7 @@ public class ConfigForm {
         slopeConfigTable.setModel(new SlopeModel(bean));
         symbolsList.setModel(new SymbolListModel(bean));
         compConfigTable.setModel(new CompounderModel(bean));
+        FileFinder.setSymbols(bean.symbols);
     }
 
     private void loadFile() throws IOException, ParseException {
@@ -192,23 +193,41 @@ public class ConfigForm {
 
         @Override
         public int getColumnCount() {
-            return 4;
+            return 5;
+        }
+
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            if(columnIndex == 4)
+                return Boolean.class;
+            else
+                return String.class;
         }
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            switch (columnIndex) {
-                case 0: return defs[rowIndex].name;
-                case 1: return defs[rowIndex].val.getStart();
-                case 2: return defs[rowIndex].val.getEnd();
-                case 3: return defs[rowIndex].val.getStep();
-                default: return "?";
-            }
+            if (columnIndex == 0)
+                return defs[rowIndex].name;
+            if(columnIndex == 1)
+                return defs[rowIndex].val.getStart();
+            if(columnIndex == 4)
+                return defs[rowIndex].val.isRange();
+
+            if(defs[rowIndex].val.isRange()) {
+                switch (columnIndex) {
+                    case 2:
+                        return defs[rowIndex].val.getEnd();
+                    case 3:
+                        return defs[rowIndex].val.getStep();
+                    default: return "?";
+                }
+            } else
+                return null;
         }
 
         @Override
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-            logger.info(String.format("Setting param value %d/%d: %s", rowIndex, columnIndex, aValue));
+            logger.info(String.format("Setting param value %s/%d: %s", defs[rowIndex].name, columnIndex, aValue));
             try {
                 switch (columnIndex) {
                     case 1: defs[rowIndex].val.setStart((String)aValue);
@@ -216,6 +235,9 @@ public class ConfigForm {
                     case 2: defs[rowIndex].val.setEnd((String)aValue);
                         break;
                     case 3: defs[rowIndex].val.setStep((String)aValue);
+                        break;
+                    case 4: defs[rowIndex].val.setRange((Boolean)aValue);
+                            fireTableDataChanged();
                         break;
                 }
                 configMngr.updateBean(bean);
@@ -232,6 +254,7 @@ public class ConfigForm {
                 case 1: return "Start Range";
                 case 2: return "End Range";
                 case 3: return "Step";
+                case 4: return "Is Range";
                 default: return "?";
             }
         }
@@ -240,7 +263,9 @@ public class ConfigForm {
         public boolean isCellEditable(int rowIndex, int columnIndex) {
             if(columnIndex == 0)
                 return false;
-            return true;
+            if(columnIndex == 1 || columnIndex == 4)
+                return true;
+            return defs[rowIndex].val.isRange();
         }
     }
 
@@ -350,7 +375,7 @@ public class ConfigForm {
 
             while(bean.pointDistances.size() < newVal) {
                 max += 7;
-                bean.pointDistances.add(new ConfigBean.IntRange(max, max + 7, 1));
+                bean.pointDistances.add(new ConfigBean.IntRange(max, max + 7, 1, true));
             }
 
             ((AbstractTableModel)pointsConfigTable.getModel()).fireTableDataChanged();

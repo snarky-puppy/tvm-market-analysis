@@ -69,9 +69,9 @@ public class Test {
 
         List<IntRange> pointDistances = new ArrayList<>();
 
-        pointDistances.add(new IntRange(1, 2, 1));
-        pointDistances.add(new IntRange(1, 3, 1));
-        pointDistances.add(new IntRange(1, 2, 1));
+        pointDistances.add(new IntRange(1, 2, 1, true));
+        pointDistances.add(new IntRange(1, 3, 1, true));
+        pointDistances.add(new IntRange(1, 2, 1, true));
 
         points = merge(pointDistances);
 

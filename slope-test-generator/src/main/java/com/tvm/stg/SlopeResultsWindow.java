@@ -32,6 +32,8 @@ public class SlopeResultsWindow {
     private static final Logger logger = LogManager.getLogger(SlopeResultsWindow.class);
     private ResultTableModel resultTableModel;
 
+    public static long MAX_COMBOS = 100000;
+
     JPanel panel;
     private JTable resultsTable;
     private JButton debugButton;
@@ -142,9 +144,63 @@ public class SlopeResultsWindow {
         progressBar.setValue(0);
         progressBar.setVisible(true);
 
+        logger.info("Calculating slope params");
+
         List<SlopeBean> slopeBeans = new ArrayList<>();
         List<List<Integer>> points = merge(bean.pointDistances);
+        logger.info("{} point combinations (out of {} inputs)", points.size(), bean.pointDistances.size());
 
+        long cnt = points.size()
+                * bean.targetPc.permute().size()
+                * bean.stopPc.permute().size()
+                * bean.maxHoldDays.permute().size()
+                * bean.slopeCutoff.permute().size()
+                * bean.daysDolVol.permute().size()
+                * bean.minDolVol.permute().size()
+                * bean.tradeStartDays.permute().size()
+                * bean.daysLiqVol.permute().size();
+        if(cnt >= MAX_COMBOS) {
+            logger.error("Max param combinations reached ({}). Try reducing the variation.", cnt);
+            return;
+        }
+
+
+        for(List<Integer> pointSet : points) {
+            for(double targetPc : bean.targetPc.permute()) {
+                for(double stopPc : bean.stopPc.permute()) {
+                    for(int maxHoldDays : bean.maxHoldDays.permute()) {
+                        for(double slopeCutoff : bean.slopeCutoff.permute()) {
+                            for(int daysDolVol : bean.daysDolVol.permute()) {
+                                for(double minDolVol : bean.minDolVol.permute()) {
+                                    for(int tradeStartDays : bean.tradeStartDays.permute()) {
+                                        for(int daysLiqVol : bean.daysLiqVol.permute()) {
+                                            SlopeBean slopeBean = new SlopeBean();
+                                            slopeBean.stopPc = stopPc;
+                                            slopeBean.pointDistances = pointSet;
+                                            slopeBean.targetPc = targetPc;
+                                            slopeBean.maxHoldDays = maxHoldDays;
+                                            slopeBean.slopeCutoff = slopeCutoff;
+                                            slopeBean.daysDolVol = daysDolVol;
+                                            slopeBean.minDolVol = minDolVol;
+                                            slopeBean.tradeStartDays = tradeStartDays;
+                                            slopeBean.daysLiqVol = daysLiqVol;
+                                            slopeBeans.add(slopeBean);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        logger.info("{} slope params calculated", cnt);
+
+        return;
+
+
+        /*
         for(String key : files.keySet()) {
             Path p = files.get(key);
             if(p != null) {
@@ -168,6 +224,7 @@ public class SlopeResultsWindow {
                 totalTasks ++;
             }
         }
+        */
     }
 
     private class CalculationTask extends SwingWorker<List<Result>, Result> {
