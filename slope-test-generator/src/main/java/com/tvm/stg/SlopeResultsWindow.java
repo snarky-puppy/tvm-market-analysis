@@ -11,8 +11,6 @@ import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -21,8 +19,6 @@ import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.List;
-
-import static com.sun.javafx.tools.resource.DeployResource.Type.data;
 
 /**
  * Created by matt on 2/02/17.

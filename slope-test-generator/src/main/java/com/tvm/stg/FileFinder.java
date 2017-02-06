@@ -31,9 +31,11 @@ public class FileFinder {
 
         files = new HashMap<>();
 
-        // convert into map straight away so our lookups are optimised in #findFiles()
-        for(String s : _symbols) {
-            files.put(s, null);
+        if(_symbols != null) {
+            // convert into map straight away so our lookups are optimised in #findFiles()
+            for (String s : _symbols) {
+                files.put(s, null);
+            }
         }
         update();
     }

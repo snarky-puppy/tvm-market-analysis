@@ -211,9 +211,9 @@ public class ConfigForm {
             if(columnIndex == 1)
                 return defs[rowIndex].val.getStart();
             if(columnIndex == 4)
-                return defs[rowIndex].val.isRange();
+                return defs[rowIndex].val.getIsRange();
 
-            if(defs[rowIndex].val.isRange()) {
+            if(defs[rowIndex].val.getIsRange()) {
                 switch (columnIndex) {
                     case 2:
                         return defs[rowIndex].val.getEnd();
@@ -236,7 +236,7 @@ public class ConfigForm {
                         break;
                     case 3: defs[rowIndex].val.setStep((String)aValue);
                         break;
-                    case 4: defs[rowIndex].val.setRange((Boolean)aValue);
+                    case 4: defs[rowIndex].val.setIsRange((Boolean)aValue);
                             fireTableDataChanged();
                         break;
                 }
@@ -265,7 +265,7 @@ public class ConfigForm {
                 return false;
             if(columnIndex == 1 || columnIndex == 4)
                 return true;
-            return defs[rowIndex].val.isRange();
+            return defs[rowIndex].val.getIsRange();
         }
     }
 
@@ -307,7 +307,7 @@ public class ConfigForm {
                 switch(columnIndex) {
                     case 1:
                         if(range.getEnd() <= val) {
-                            logger.error("End range must be greater than start");
+                            logger.error("End isRange must be greater than start");
                         } else {
                             range.setStart(val);
                         }
@@ -315,7 +315,7 @@ public class ConfigForm {
 
                     case 2:
                         if(range.getStart() >= val)
-                            logger.error("Start range must be less than end");
+                            logger.error("Start isRange must be less than end");
                         else
                             range.setEnd(val);
                         break;

@@ -1,10 +1,7 @@
 package com.tvm.stg;
 
-import sun.misc.FDBigInteger;
-
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -42,26 +39,38 @@ public class ConfigBean {
 
     public int iterations = 10;
 
-    static abstract class Range<T extends Number & Comparable> {
+    public static abstract class Range<T extends Number & Comparable> {
         T start;
         T end;
         T step;
-        boolean range = false;
+        boolean isRange = false;
 
-        Range(T start, T end, T step, boolean range) {
+        Range(T start, T end, T step, boolean isRange) {
             this.start = start;
             this.end = end;
             this.step = step;
-            this.range = range;
+            this.isRange = isRange;
         }
 
-        T getStart() { return start; }
-        T getEnd() { return end; }
-        T getStep() { return step; }
+        public Range() {
+        }
 
-        boolean isRange() { return range; }
-        void setRange(boolean b) { range = b; }
+        public T getStart() { return start; }
+        public T getEnd() { return end; }
+        public T getStep() { return step; }
+        public boolean getIsRange() { return isRange; }
 
+
+        public void setStart(T val) {
+            start = val;
+        }
+        public void setEnd(T val) {
+            end = val;
+        }
+        public void setStep(T val) {
+            step = val;
+        }
+        void setIsRange(boolean b) { isRange = b; }
 
         protected abstract T fromString(String s);
         protected abstract void permute(List<T> list);
@@ -72,30 +81,21 @@ public class ConfigBean {
 
         public List<T> permute() {
             ArrayList<T> rv = new ArrayList<>();
-            if (range) {
+            if (isRange) {
                 permute(rv);
             } else {
                 rv.add(start);
             }
             return rv;
         }
-
-        public void setStart(T val) {
-            start = val;
-        }
-
-        public void setEnd(T val) {
-            end = val;
-        }
-
-        public void setStep(T val) {
-            step = val;
-        }
     }
 
-    static class DoubleRange extends Range<Double> {
-        DoubleRange(Double start, Double end, Double step, boolean range) {
-            super(start, end, step, range);
+    public static class DoubleRange extends Range<Double> {
+        public DoubleRange() {
+            super();
+        }
+        public DoubleRange(Double start, Double end, Double step, boolean isRange) {
+            super(start, end, step, isRange);
         }
 
         @Override
@@ -111,8 +111,9 @@ public class ConfigBean {
         }
     }
 
-    static class IntRange extends Range<Integer> {
-        IntRange(Integer start, Integer end, Integer step, boolean range) {
+    public static class IntRange extends Range<Integer> {
+        public IntRange() { super(); }
+        public IntRange(Integer start, Integer end, Integer step, boolean range) {
             super(start, end, step, range);
         }
 
