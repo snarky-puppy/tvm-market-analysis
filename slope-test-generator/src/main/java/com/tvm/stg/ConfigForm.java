@@ -9,12 +9,14 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,6 +28,8 @@ import java.util.OptionalInt;
  */
 public class ConfigForm {
     private static final Logger logger = LogManager.getLogger(ConfigForm.class);
+    public static long MAX_COMBOS = 100000;
+
 
     private JButton loadSymbolsButton;
     private JList<String> symbolsList;
@@ -39,6 +43,7 @@ public class ConfigForm {
     private JButton goBtn;
     private JPanel goPanel;
     private JTable table1;
+    private JLabel goLabel;
     private ConfigBean bean;
     private TabbedWindow tabbedWindow;
 
@@ -66,7 +71,7 @@ public class ConfigForm {
                     bean.dataDir = chooser.getSelectedFile().toPath();
                     FileFinder.setBaseDir(bean.dataDir);
                     dataDirText.setText(bean.dataDir.toString());
-                    configMngr.updateBean(bean);
+                    updateBean();
                 }
             }
         });
@@ -93,6 +98,38 @@ public class ConfigForm {
         symbolsList.setModel(new SymbolListModel(bean));
         compConfigTable.setModel(new CompounderModel(bean));
         FileFinder.setSymbols(bean.symbols);
+
+        updateGoState();
+    }
+
+    private void updateGoState() {
+        if(bean.pointDistances == null || bean.pointDistances.size() == 0) {
+            goLabel.setText("No point distances");
+            goLabel.setForeground(Color.RED);
+            goBtn.setEnabled(false);
+            return;
+        }
+
+        BigInteger cnt = BigInteger.valueOf(bean.getPointRanges().size());
+        cnt = cnt.multiply(BigInteger.valueOf(bean.targetPc.permute().size()));
+        cnt = cnt.multiply(BigInteger.valueOf(bean.stopPc.permute().size()));
+        cnt = cnt.multiply(BigInteger.valueOf(bean.maxHoldDays.permute().size()));
+        cnt = cnt.multiply(BigInteger.valueOf(bean.slopeCutoff.permute().size()));
+        cnt = cnt.multiply(BigInteger.valueOf(bean.daysDolVol.permute().size()));
+        cnt = cnt.multiply(BigInteger.valueOf(bean.minDolVol.permute().size()));
+        cnt = cnt.multiply(BigInteger.valueOf(bean.tradeStartDays.permute().size()));
+        cnt = cnt.multiply(BigInteger.valueOf(bean.daysLiqVol.permute().size()));
+        logger.info("Combos: "+cnt.longValue());
+        if(cnt.compareTo(BigInteger.valueOf(MAX_COMBOS)) > 0) {
+            String s = String.format("Max combos reached (%d). Try reducing the variation.", cnt);
+            goLabel.setText(s);
+            goLabel.setForeground(Color.RED);
+            goBtn.setEnabled(false);
+            return;
+        }
+        goLabel.setText("Everything seems OK");
+        goLabel.setForeground(Color.GREEN.darker());
+        goBtn.setEnabled(true);
     }
 
     private void loadFile() throws IOException, ParseException {
@@ -119,9 +156,10 @@ public class ConfigForm {
 
             logger.info("Read "+hashSet.size()+" symbols");
             bean.symbols = new ArrayList<>(hashSet);
-            configMngr.updateBean(bean);
+            updateBean();
 
             symbolsList.setModel(new SymbolListModel(bean));
+            FileFinder.setSymbols(bean.symbols);
         }
     }
 
@@ -240,7 +278,7 @@ public class ConfigForm {
                             fireTableDataChanged();
                         break;
                 }
-                configMngr.updateBean(bean);
+                updateBean();
 
             } catch(NumberFormatException ex) {
                 logger.error("NumberFormatException: "+aValue +" just isn't cool", ex);
@@ -330,7 +368,7 @@ public class ConfigForm {
                         logger.error("Invalid column: "+columnIndex);
                         break;
                 }
-                configMngr.updateBean(bean);
+                updateBean();
 
             } catch(NumberFormatException ex) {
                 logger.error("NumberFormatException: "+(String)aValue +" just isn't cool");
@@ -380,7 +418,7 @@ public class ConfigForm {
 
             ((AbstractTableModel)pointsConfigTable.getModel()).fireTableDataChanged();
 
-            configMngr.updateBean(bean);
+            updateBean();
         }
     }
 
@@ -455,10 +493,15 @@ public class ConfigForm {
                     case 8: bean.iterations = Integer.parseInt((String) aValue); break;
 
                 }
-                configMngr.updateBean(bean);
+                updateBean();
             } catch(NumberFormatException ex) {
                 logger.error("NumberFormatException: "+(String)aValue +" just isn't cool");
             }
         }
+    }
+
+    private void updateBean() {
+        configMngr.updateBean(bean);
+        updateGoState();
     }
 }

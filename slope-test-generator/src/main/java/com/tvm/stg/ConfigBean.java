@@ -1,5 +1,7 @@
 package com.tvm.stg;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -128,4 +130,60 @@ public class ConfigBean {
                 list.add(d);
         }
     }
+
+    @JsonIgnore
+    public List<List<Integer>> getPointRanges() {
+        if(pointDistances.size() == 0)
+            return new ArrayList<>();
+
+        // copy array so original is unmolested
+        return getPointRangesPrivate(new ArrayList<>(pointDistances));
+    }
+
+
+    private List<List<Integer>> getPointRangesPrivate(List<IntRange> pointDistances) {
+
+        if(pointDistances.size() == 1) {
+            List<Integer> list = pointDistances.get(0).permute();
+            List<List<Integer>> rv = new ArrayList<>();
+            for(int x : list) {
+                ArrayList<Integer> l = new ArrayList<>();
+                l.add(x);
+                rv.add(l);
+            }
+
+            return rv;
+        }
+
+        IntRange range = pointDistances.remove(0);
+        List<List<Integer>> permutations = getPointRangesPrivate(pointDistances);
+        List<List<Integer>> rv = new ArrayList<>();
+
+        List<Integer> rangePerms = range.permute();
+
+        if(rangePerms.size() > permutations.size()) {
+            for(int x : rangePerms) {
+                for(List<Integer> smallerPerm : permutations) {
+                    ArrayList<Integer> list = new ArrayList<>();
+                    list.add(x);
+                    list.addAll(smallerPerm);
+                    rv.add(list);
+                }
+
+            }
+
+        } else {
+            for(List<Integer> biggerPerm : permutations) {
+                for(int x : rangePerms) {
+                    ArrayList<Integer> list = new ArrayList<>();
+                    list.addAll(biggerPerm);
+                    list.add(x);
+                    rv.add(list);
+                }
+            }
+        }
+
+        return rv;
+    }
+
 }

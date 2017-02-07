@@ -28,7 +28,6 @@ public class SlopeResultsWindow {
     private static final Logger logger = LogManager.getLogger(SlopeResultsWindow.class);
     private ResultTableModel resultTableModel;
 
-    public static long MAX_COMBOS = 100000;
 
     JPanel panel;
     private JTable resultsTable;
@@ -57,57 +56,6 @@ public class SlopeResultsWindow {
                 }
             }
         });
-    }
-
-    public static List<List<Integer>> merge(List<IntRange> pointDistances) {
-        // copy array so original is unmolested
-        return mergePrivate(new ArrayList<>(pointDistances));
-    }
-
-
-    public static List<List<Integer>> mergePrivate(List<IntRange> pointDistances) {
-
-        if(pointDistances.size() == 1) {
-            List<Integer> list = pointDistances.get(0).permute();
-            List<List<Integer>> rv = new ArrayList<>();
-            for(int x : list) {
-                ArrayList<Integer> l = new ArrayList<>();
-                l.add(x);
-                rv.add(l);
-            }
-
-            return rv;
-        }
-
-        IntRange range = pointDistances.remove(0);
-        List<List<Integer>> permutations = merge(pointDistances);
-        List<List<Integer>> rv = new ArrayList<>();
-
-        List<Integer> rangePerms = range.permute();
-
-        if(rangePerms.size() > permutations.size()) {
-            for(int x : rangePerms) {
-                for(List<Integer> smallerPerm : permutations) {
-                    ArrayList<Integer> list = new ArrayList<>();
-                    list.add(x);
-                    list.addAll(smallerPerm);
-                    rv.add(list);
-                }
-
-            }
-
-        } else {
-            for(List<Integer> biggerPerm : permutations) {
-                for(int x : rangePerms) {
-                    ArrayList<Integer> list = new ArrayList<>();
-                    list.addAll(biggerPerm);
-                    list.add(x);
-                    rv.add(list);
-                }
-            }
-        }
-
-        return rv;
     }
 
     static class SlopeBean {
@@ -143,22 +91,8 @@ public class SlopeResultsWindow {
         logger.info("Calculating slope params");
 
         List<SlopeBean> slopeBeans = new ArrayList<>();
-        List<List<Integer>> points = merge(bean.pointDistances);
+        List<List<Integer>> points = bean.getPointRanges();
         logger.info("{} point combinations (out of {} inputs)", points.size(), bean.pointDistances.size());
-
-        long cnt = points.size()
-                * bean.targetPc.permute().size()
-                * bean.stopPc.permute().size()
-                * bean.maxHoldDays.permute().size()
-                * bean.slopeCutoff.permute().size()
-                * bean.daysDolVol.permute().size()
-                * bean.minDolVol.permute().size()
-                * bean.tradeStartDays.permute().size()
-                * bean.daysLiqVol.permute().size();
-        if(cnt >= MAX_COMBOS) {
-            logger.error("Max param combinations reached ({}). Try reducing the variation.", cnt);
-            return;
-        }
 
 
         for(List<Integer> pointSet : points) {
@@ -191,12 +125,8 @@ public class SlopeResultsWindow {
             }
         }
 
-        logger.info("{} slope params calculated", cnt);
+        logger.info("{} slope params calculated", slopeBeans.size());
 
-        return;
-
-
-        /*
         for(String key : files.keySet()) {
             Path p = files.get(key);
             if(p != null) {
@@ -220,7 +150,7 @@ public class SlopeResultsWindow {
                 totalTasks ++;
             }
         }
-        */
+
     }
 
     private class CalculationTask extends SwingWorker<List<Result>, Result> {
