@@ -151,8 +151,8 @@ class YahooDatabase {
         LocalDate now = LocalDate.now();
 
         // don't update if it was already checked today
-        if (row.lastCheck != null && now.isEqual(row.lastCheck))
-            return;
+        //if (row.lastCheck != null && now.isEqual(row.lastCheck))
+        //    return;
 
         //LocalDate first = getDate(row, true);
         LocalDate last = getDate(row, false);
@@ -202,7 +202,7 @@ class YahooDatabase {
             try {
                 writeMux.lock();
                 saveData(row, data);
-                updateLastCheck(row);
+                //updateLastCheck(row);
             } finally {
                 writeMux.unlock();
             }
@@ -258,6 +258,7 @@ class YahooDatabase {
         throw new RuntimeException();
     }
 
+    /*
     static void updateLastCheck(Row symbol) {
         //stock.getHistory().forEach(h -> System.out.println(h));
         Connection connection = connection();
@@ -277,6 +278,7 @@ class YahooDatabase {
             close(null, stmt, connection);
         }
     }
+    */
 
     static List<Row> getActiveSymbols() {
         Connection connection = connection();
@@ -284,9 +286,9 @@ class YahooDatabase {
         ResultSet rs = null;
         ArrayList<Row> rv = new ArrayList<>();
         try {
-            stmt = connection.prepareStatement("SELECT * FROM active_symbols " +
+            stmt = connection.prepareStatement("SELECT * FROM active_symbols ");/* +
                     "WHERE last_check < date('now')" +
-                    "   OR last_check IS NULL");
+                    "   OR last_check IS NULL");*/
             rs = stmt.executeQuery();
             while (rs.next()) {
                 Date dt = rs.getDate("last_check");
@@ -521,14 +523,14 @@ class YahooDatabase {
         final String symbol;
         final String exchange;
         final String sector;
-        final LocalDate lastCheck;
+        //final LocalDate lastCheck;
 
         Row(int id, String symbol, String exchange, String sector, LocalDate lastCheck) {
             this.id = id;
             this.symbol = symbol;
             this.exchange = exchange;
             this.sector = sector;
-            this.lastCheck = lastCheck;
+            //this.lastCheck = lastCheck;
         }
 
         @Override
@@ -537,7 +539,7 @@ class YahooDatabase {
                     ", symbol='" + symbol + '\'' +
                     ", exchange='" + exchange + '\'' +
                     ", sector='" + sector + '\'' +
-                    ", lastCheck=" + lastCheck +
+                    //", lastCheck=" + lastCheck +
                     '}';
         }
     }
