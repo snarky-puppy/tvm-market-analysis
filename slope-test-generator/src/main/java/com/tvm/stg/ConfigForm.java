@@ -97,6 +97,7 @@ public class ConfigForm {
         slopeConfigTable.setModel(new SlopeModel(bean));
         symbolsList.setModel(new SymbolListModel(bean));
         compConfigTable.setModel(new CompounderModel(bean));
+        FileFinder.setBaseDir(bean.dataDir);
         FileFinder.setSymbols(bean.symbols);
 
         updateGoState();
@@ -322,51 +323,78 @@ public class ConfigForm {
 
         @Override
         public int getColumnCount() {
-            return 4;
+            return 5;
         }
 
         @Override
-        public Object getValueAt(int rowIndex, int ci) {
-            switch (ci) {
-                case 0: return "Point "+Integer.toString(rowIndex+1);
-                case 1: return bean.pointDistances.get(rowIndex).getStart();
-                case 2: return bean.pointDistances.get(rowIndex).getEnd();
-                case 3: return bean.pointDistances.get(rowIndex).getStep();
-                default: return "?";
-            }
+        public Class<?> getColumnClass(int columnIndex) {
+            if(columnIndex == 4)
+                return Boolean.class;
+            else
+                return String.class;
+        }
+
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            ConfigBean.IntRange point = bean.pointDistances.get(rowIndex);
+            if (columnIndex == 0)
+                return "Point "+Integer.toString(rowIndex+1);
+            if(columnIndex == 1)
+                return point.getStart();
+            if(columnIndex == 4)
+                return point.getIsRange();
+
+            if(point.getIsRange()) {
+                switch (columnIndex) {
+                    case 2:
+                        return point.getEnd();
+                    case 3:
+                        return point.getStep();
+                    default: return "?";
+                }
+            } else
+                return null;
         }
 
         @Override
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-            logger.info(String.format("Setting param value %d/%d: %s", rowIndex, columnIndex, (String)aValue));
             try {
                 ConfigBean.IntRange range = bean.pointDistances.get(rowIndex);
-                int val = Integer.parseInt((String)aValue);
-                switch(columnIndex) {
-                    case 1:
-                        if(range.getEnd() <= val) {
-                            logger.error("End isRange must be greater than start");
-                        } else {
-                            range.setStart(val);
-                        }
-                        break;
 
-                    case 2:
-                        if(range.getStart() >= val)
-                            logger.error("Start isRange must be less than end");
-                        else
-                            range.setEnd(val);
-                        break;
+                if(columnIndex == 4) {
+                    range.setIsRange((Boolean)aValue);
+                    fireTableDataChanged();
+                } else {
+                    logger.info(String.format("Setting param value %d/%d: %s", rowIndex, columnIndex, (String)aValue));
 
-                    case 3:
-                        if(val <= 0)
-                            logger.error("Negative step make no sense");
-                        else
-                            range.setStep(val);
-                        break;
-                    default:
-                        logger.error("Invalid column: "+columnIndex);
-                        break;
+                    int val = Integer.parseInt((String) aValue);
+                    switch (columnIndex) {
+                        case 1:
+                            if (range.getEnd() <= val) {
+                                logger.error("End isRange must be greater than start");
+                            } else {
+                                range.setStart(val);
+                            }
+                            break;
+
+                        case 2:
+                            if (range.getStart() >= val)
+                                logger.error("Start isRange must be less than end");
+                            else
+                                range.setEnd(val);
+                            break;
+
+                        case 3:
+                            if (val <= 0)
+                                logger.error("Negative step make no sense");
+                            else
+                                range.setStep(val);
+                            break;
+                        default:
+                            logger.error("Invalid column: " + columnIndex);
+                            break;
+                    }
                 }
                 updateBean();
 
@@ -382,6 +410,7 @@ public class ConfigForm {
                 case 1: return "Start";
                 case 2: return "End";
                 case 3: return "Step";
+                case 4: return "Is Range";
                 default: return "?";
             }
         }

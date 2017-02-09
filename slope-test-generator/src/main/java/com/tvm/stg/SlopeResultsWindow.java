@@ -1,6 +1,6 @@
 package com.tvm.stg;
 
-import com.tvm.stg.ConfigBean.IntRange;
+import org.apache.commons.lang3.time.StopWatch;
 import org.apache.commons.math3.stat.descriptive.moment.Mean;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 import org.apache.logging.log4j.LogManager;
@@ -36,6 +36,8 @@ public class SlopeResultsWindow {
 
     private int totalTasks;
     private int doneTasks;
+    List<CalculationTask> taskList = new ArrayList<>();
+    StopWatch stopWatch = new StopWatch();
 
     private Map<String, StringBuilder> debugLog;
 
@@ -74,6 +76,20 @@ public class SlopeResultsWindow {
     }
 
     public void runCalculation(ConfigBean bean) {
+
+        if(taskList.size() > 0) {
+            logger.info("Cancelling previous calculation");
+            for(CalculationTask task : taskList) {
+                task.cancel(true);
+            }
+            taskList.clear();
+        }
+
+        if(stopWatch.isStarted()) {
+            stopWatch.stop();
+            stopWatch.reset();
+        }
+
         logger.info("Starting Calculation");
         Map<String, Path> files = FileFinder.getFiles();
 
@@ -127,44 +143,47 @@ public class SlopeResultsWindow {
 
         logger.info("{} slope params calculated", slopeBeans.size());
 
+
+
         for(String key : files.keySet()) {
             Path p = files.get(key);
-            if(p != null) {
-                File f = p.toFile();
-                Data data = new FileDatabase().loadData(f);
 
-                if(data == null)
-                    continue;
+            Data data = new FileDatabase().loadData(p.toFile());
 
-                for(SlopeBean slopeBean : slopeBeans) {
-                    CalculationTask task = new CalculationTask(f, data, slopeBean);
-                    task.addPropertyChangeListener(evt -> {
-                        if ("progress".equals(evt.getPropertyName())) {
-                            progressBar.setValue((Integer) evt.getNewValue());
-                        }
-                    });
-                    task.execute();
-                }
+            if(data == null)
+                continue;
 
-
+            for(SlopeBean slopeBean : slopeBeans) {
+                CalculationTask task = new CalculationTask(p.toFile().getName().replace(".csv", ""), data, slopeBean);
+                task.addPropertyChangeListener(evt -> {
+                    if ("progress".equals(evt.getPropertyName())) {
+                        progressBar.setValue((Integer) evt.getNewValue());
+                    }
+                });
+                taskList.add(task);
                 totalTasks ++;
             }
+        }
+
+        logger.info("Ready with {} tasks", totalTasks);
+        stopWatch.start();
+        for(CalculationTask task : taskList) {
+            task.execute();
         }
 
     }
 
     private class CalculationTask extends SwingWorker<List<Result>, Result> {
 
-        private final File file;
         private final String symbol;
-        private Data data;
+        private final Data data;
         private SlopeBean bean;
 
-        public CalculationTask(File file, Data data, SlopeBean bean) {
-            this.file = file;
+        public CalculationTask(String symbol, Data data, SlopeBean bean) {
+            this.symbol = symbol;
+
             this.data = data;
             this.bean = bean;
-            symbol = file.getName().replace(".csv", "");
         }
 
         private void debug(String fmt, Object ...args) { debugSymbol(symbol, new Formatter().format(fmt, args).toString()); }
@@ -178,8 +197,6 @@ public class SlopeResultsWindow {
             List<Result> rv = new ArrayList<>();
             try {
                 //logger.info("Processing "+file.getName());
-
-
 
                 double[] c = data.close;
 
@@ -222,6 +239,7 @@ public class SlopeResultsWindow {
                                 Result r = new Result();
                                 r.symbol = symbol;
                                 r.slope = slope;
+                                r.slopeBean = bean;
                                 r.dollarVolume = dollarVolume;
 
                                 // calculate liquidity
@@ -320,7 +338,9 @@ public class SlopeResultsWindow {
         protected void done() {
             doneTasks++;
             if(doneTasks == totalTasks) {
-                logger.info("Calculation completed: {} symbols processed", doneTasks);
+                stopWatch.stop();
+                logger.info("Calculation completed: {} simulations processed in {}", doneTasks, stopWatch.toString());
+                stopWatch.reset();
                 progressBar.setVisible(false);
                 resultTableModel.fireTableDataChanged();
             } else {
@@ -351,6 +371,8 @@ public class SlopeResultsWindow {
     }
 
     class Result {
+        public SlopeBean slopeBean;
+
         public String symbol;
         public int entryDate;
         public double entryOpen;
