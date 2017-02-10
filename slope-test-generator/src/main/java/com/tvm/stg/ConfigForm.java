@@ -200,9 +200,9 @@ public class ConfigForm {
 
         class ColumnDef {
             String name;
-            ConfigBean.Range<?> val;
+            Range<?> val;
 
-            public ColumnDef(String name, ConfigBean.Range<?> val) {
+            public ColumnDef(String name, Range<?> val) {
                 this.name = name;
                 this.val = val;
             }
@@ -337,7 +337,7 @@ public class ConfigForm {
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            ConfigBean.IntRange point = bean.pointDistances.get(rowIndex);
+            IntRange point = bean.pointDistances.get(rowIndex);
             if (columnIndex == 0)
                 return "Point "+Integer.toString(rowIndex+1);
             if(columnIndex == 1)
@@ -360,7 +360,7 @@ public class ConfigForm {
         @Override
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
             try {
-                ConfigBean.IntRange range = bean.pointDistances.get(rowIndex);
+                IntRange range = bean.pointDistances.get(rowIndex);
 
                 if(columnIndex == 4) {
                     range.setIsRange((Boolean)aValue);
@@ -433,7 +433,7 @@ public class ConfigForm {
             }
 
             int max = 0;
-            OptionalInt optionalInt = bean.pointDistances.stream().mapToInt(ConfigBean.IntRange::getStart).max();
+            OptionalInt optionalInt = bean.pointDistances.stream().mapToInt(IntRange::getStart).max();
             if(optionalInt.isPresent())
                 max = optionalInt.getAsInt();
 
@@ -442,7 +442,7 @@ public class ConfigForm {
 
             while(bean.pointDistances.size() < newVal) {
                 max += 7;
-                bean.pointDistances.add(new ConfigBean.IntRange(max, max + 7, 1, true));
+                bean.pointDistances.add(new IntRange(max, max + 7, 1, true));
             }
 
             ((AbstractTableModel)pointsConfigTable.getModel()).fireTableDataChanged();
