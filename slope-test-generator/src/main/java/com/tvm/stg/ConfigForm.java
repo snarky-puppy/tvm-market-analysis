@@ -44,11 +44,11 @@ public class ConfigForm {
     private JPanel goPanel;
     private JTable table1;
     private JLabel goLabel;
+    private JProgressBar progressBar;
+    JTextArea logText;
     private ConfigBean bean;
-    private TabbedWindow tabbedWindow;
 
-    ConfigForm(TabbedWindow tabbedWindow) {
-        this.tabbedWindow = tabbedWindow;
+    ConfigForm() {
         configMngr.setBeanCallback(this::applyBean);
         pointsSpinner.addChangeListener(new SlopeSpinnerListener());
 
@@ -77,7 +77,7 @@ public class ConfigForm {
         });
 
         goBtn.addActionListener(e -> {
-            tabbedWindow.runCalc(bean);
+            //runCalc(bean);
         });
     }
 

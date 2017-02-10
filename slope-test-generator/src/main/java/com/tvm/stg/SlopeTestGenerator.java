@@ -25,12 +25,13 @@ public class SlopeTestGenerator {
         }
 
 
-        //MainWindow mainWindow = new MainWindow();
         JFrame frame = new JFrame("Slope Test Generator Tool");
-        //frame.setContentPane(mainWindow.mainPanel);
-        TabbedWindow tabbedWindow = new TabbedWindow();
-        GuiAppender.setTabbedWindow(tabbedWindow);
-        frame.setContentPane(tabbedWindow.panel);
+
+        ConfigForm configForm = new ConfigForm();
+
+
+        GuiAppender.setTextArea(configForm.logText);
+        frame.setContentPane(configForm.panel);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         //frame.pack();
 
@@ -44,7 +45,5 @@ public class SlopeTestGenerator {
             }
         }, "Shutdown-thread"));
         */
-
-        tabbedWindow.init();
     }
 }
