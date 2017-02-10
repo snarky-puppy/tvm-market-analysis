@@ -39,7 +39,7 @@ public class FileDatabase {
         try {
             List<String> lines = FileUtils.readLines(file);
             String symbol = file.getName();
-            Data rv = new Data(file.getName(), lines.size() - 1);
+            Data rv = new Data(file.getName().replace(".csv", ""), lines.size() - 1);
             int i = 0;
             boolean first = true;
             for(String line : lines) {

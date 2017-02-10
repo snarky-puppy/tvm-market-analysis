@@ -1,7 +1,5 @@
 package com.tvm.stg;
 
-import com.tvm.stg.ConfigBean.IntRange;
-
 import java.util.ArrayList;
 import java.util.List;
 
