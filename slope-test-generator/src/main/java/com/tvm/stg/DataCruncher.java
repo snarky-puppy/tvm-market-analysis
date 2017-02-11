@@ -120,13 +120,20 @@ public class DataCruncher {
         logger.info("{} parameter combinations calculated", simulationBeans.size());
 
         Map<String, Path> files = FileFinder.getFiles();
+        files.values().removeIf(Objects::isNull);
 
-        monitor.setNumCrunchJobs(files.size() * simulationBeans.size());
+        logger.info("{} valid input files", files.size());
+
+        int numCrunchJobs = files.size() * simulationBeans.size();
+        monitor.setNumCrunchJobs(numCrunchJobs);
 
         writerThread.start();
 
+        long cnt = 0;
         for (String key : files.keySet()) {
             Path p = files.get(key);
+            if(p == null)
+                continue;
 
             Data data = new FileDatabase().loadData(p.toFile());
 
@@ -134,9 +141,16 @@ public class DataCruncher {
                 continue;
 
             for (SimulationBean simulationBean : simulationBeans) {
-                executorService.execute(() -> runCrunch(simulationBean, data));
+                executorService.submit(() -> runCrunch(simulationBean, data));
+                cnt++;
             }
         }
+
+        if(cnt != numCrunchJobs)
+            throw new RuntimeException("job cnt unexpected");
+
+        logger.info("{} jobs enqueued", cnt);
+
     }
 
 
@@ -152,6 +166,7 @@ public class DataCruncher {
         if(finalised)
             return;
         enqueueResultSet(resultSet);
+        monitor.jobFinished();
     }
 
     private void crunchCompound(List<Result> results) {
@@ -298,8 +313,6 @@ public class DataCruncher {
             }
         } catch(Exception ex) {
             logger.error("Uncaught exception", ex);
-        } finally {
-            monitor.jobFinished();
         }
     }
 
@@ -317,17 +330,27 @@ public class DataCruncher {
     }
 
     public void finalise() {
+        logger.info("Finalising");
         finalised = true;
+
         try {
+            logger.info("Waiting termination of ExecutorService");
+            executorService.shutdown();
+            while(!executorService.isShutdown()) {
+                executorService.awaitTermination(1, TimeUnit.SECONDS);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            logger.info("Joining writer thread");
             writerThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        try {
-            executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.DAYS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        logger.info("Done finalising");
     }
 
     private void resultWriter() {

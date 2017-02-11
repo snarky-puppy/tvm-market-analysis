@@ -6,5 +6,4 @@ package com.tvm.stg;
 public interface DataCruncherMonitor {
     void setNumCrunchJobs(int numCrunchJobs);
     void jobFinished();
-    void allJobsFinished();
 }

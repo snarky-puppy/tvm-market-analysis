@@ -1,5 +1,6 @@
 package com.tvm.stg;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIInlineBinaryData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,10 +27,10 @@ import java.util.OptionalInt;
 /**
  * Created by horse on 21/1/17.
  */
-public class ConfigForm {
+public class ConfigForm implements DataCruncherMonitor {
     private static final Logger logger = LogManager.getLogger(ConfigForm.class);
     public static long MAX_COMBOS = 100000;
-
+    private DataCruncher dataCruncher;
 
     private JButton loadSymbolsButton;
     private JList<String> symbolsList;
@@ -47,8 +48,12 @@ public class ConfigForm {
     private JProgressBar progressBar;
     JTextArea logText;
     private ConfigBean bean;
+    private int numCrunchJobs;
+    private int doneTasks;
 
     ConfigForm() {
+        progressBar.setVisible(false);
+
         configMngr.setBeanCallback(this::applyBean);
         pointsSpinner.addChangeListener(new SlopeSpinnerListener());
 
@@ -77,7 +82,11 @@ public class ConfigForm {
         });
 
         goBtn.addActionListener(e -> {
-            //runCalc(bean);
+            progressBar.setVisible(true);
+            dataCruncher = new DataCruncher(bean, this);
+            goBtn.setEnabled(false);
+            goLabel.setText("In Progress");
+            goLabel.setForeground(Color.GREEN.darker());
         });
     }
 
@@ -111,6 +120,14 @@ public class ConfigForm {
             return;
         }
 
+        if(bean.dataDir == null || !(bean.dataDir.toFile().exists() && bean.dataDir.toFile().isDirectory())) {
+            goLabel.setText("Invalid data directory");
+            goLabel.setForeground(Color.RED);
+            goBtn.setEnabled(false);
+            return;
+        }
+
+        // slope
         BigInteger cnt = BigInteger.valueOf(bean.getPointRanges().size());
         cnt = cnt.multiply(BigInteger.valueOf(bean.targetPc.permute().size()));
         cnt = cnt.multiply(BigInteger.valueOf(bean.stopPc.permute().size()));
@@ -120,7 +137,17 @@ public class ConfigForm {
         cnt = cnt.multiply(BigInteger.valueOf(bean.minDolVol.permute().size()));
         cnt = cnt.multiply(BigInteger.valueOf(bean.tradeStartDays.permute().size()));
         cnt = cnt.multiply(BigInteger.valueOf(bean.daysLiqVol.permute().size()));
-        logger.info("Combos: "+cnt.longValue());
+
+        // symbols
+        //cnt = cnt.multiply(BigInteger.valueOf(bean.symbols.size()));
+
+        // compounder
+        cnt = cnt.multiply(BigInteger.valueOf(bean.iterations));
+        cnt = cnt.multiply(BigInteger.valueOf(bean.investSpread.permute().size()));
+        cnt = cnt.multiply(BigInteger.valueOf(bean.investPercent.permute().size()));
+
+
+        logger.info("Parameter Combos: "+cnt.longValue());
         if(cnt.compareTo(BigInteger.valueOf(MAX_COMBOS)) > 0) {
             String s = String.format("Max combos reached (%d). Try reducing the variation.", cnt);
             goLabel.setText(s);
@@ -161,6 +188,26 @@ public class ConfigForm {
 
             symbolsList.setModel(new SymbolListModel(bean));
             FileFinder.setSymbols(bean.symbols);
+        }
+    }
+
+    @Override
+    public void setNumCrunchJobs(int numCrunchJobs) {
+        this.numCrunchJobs = numCrunchJobs;
+        doneTasks = 0;
+    }
+
+    @Override
+    public void jobFinished() {
+        doneTasks ++;
+        Double d = ((float)doneTasks / numCrunchJobs) * 100.00;
+        int progress = d.intValue();
+        progressBar.setValue(progress);
+        logger.info("jobFinished({} of {})", doneTasks, numCrunchJobs);
+        if(doneTasks >= numCrunchJobs) {
+            progressBar.setVisible(false);
+            dataCruncher.finalise();
+            updateGoState();
         }
     }
 
@@ -442,7 +489,7 @@ public class ConfigForm {
 
             while(bean.pointDistances.size() < newVal) {
                 max += 7;
-                bean.pointDistances.add(new IntRange(max, max + 7, 1, true));
+                bean.pointDistances.add(new IntRange(max, max + 7, 1, false));
             }
 
             ((AbstractTableModel)pointsConfigTable.getModel()).fireTableDataChanged();
@@ -461,41 +508,111 @@ public class ConfigForm {
 
         @Override
         public int getRowCount() {
-            return 9;
+            return 5;
         }
 
         @Override
         public int getColumnCount() {
-            return 2;
+            return 5;
         }
 
         @Override
-        public Object getValueAt(int rowIndex, int ci) {
-
-            switch(rowIndex) {
-                case 0: return ci == 0 ? "Start Bank" : Integer.toString(bean.startBank);
-                case 1: return ci == 0 ? "Profit Roll" : Integer.toString(bean.profitRollover);
-
-                case 2: return ci == 0 ? "Min %" : Double.toString(bean.minPercent);
-                case 3: return ci == 0 ? "Max %" : Double.toString(bean.maxPercent);
-                case 4: return ci == 0 ? "Step %" : Double.toString(bean.stepPercent);
-
-                case 5: return ci == 0 ? "Min Spread" : Integer.toString(bean.minSpread);
-                case 6: return ci == 0 ? "Max Spread" : Integer.toString(bean.maxSpread);
-                case 7: return ci == 0 ? "Step Spread" : Integer.toString(bean.stepSpread);
-
-                case 8: return ci == 0 ? "Iterations" : Integer.toString(bean.iterations);
-
-                default: return "n/a";
-            }
+        public Class<?> getColumnClass(int columnIndex) {
+            if(columnIndex == 4)
+                return Boolean.class;
+            else
+                return String.class;
         }
 
         @Override
         public String getColumnName(int column) {
-            if(column == 0)
-                return "Parameter";
-            return "Value";
+            switch (column) {
+                case 0: return "Parameter";
+                case 1: return "Start Range";
+                case 2: return "End Range";
+                case 3: return "Step";
+                case 4: return "Is Range";
+                default: return "?";
+            }
+        }
 
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            if(columnIndex == 0) {
+                switch (rowIndex) {
+                    case 0:
+                        return "Start Bank";
+                    case 1:
+                        return "Profit Roll";
+                    case 2:
+                        return "Iterations";
+                    case 3:
+                        return "Invest %";
+                    case 4:
+                        return "Spread";
+                    default:
+                        return "?";
+                }
+            }
+            if(columnIndex == 1) {
+                switch (rowIndex) {
+                    case 0:
+                        return Integer.toString(bean.startBank);
+                    case 1:
+                        return Integer.toString(bean.profitRollover);
+                    case 2:
+                        return Integer.toString(bean.iterations);
+                    case 3:
+                        return bean.investPercent.getStart();
+                    case 4:
+                        return bean.investSpread.getStart();
+                    default:
+                        return "?";
+                }
+            }
+            if(columnIndex == 2) {
+                switch (rowIndex) {
+                    case 0:
+                    case 1:
+                    case 2:
+                        return null;
+                    case 3:
+                        return bean.investPercent.getIsRange() ? bean.investPercent.getEnd() : null;
+                    case 4:
+                        return bean.investSpread.getIsRange() ? bean.investSpread.getEnd() : null;
+                    default:
+                        return "?";
+                }
+            }
+            if(columnIndex == 3) {
+                switch (rowIndex) {
+                    case 0:
+                    case 1:
+                    case 2:
+                        return null;
+                    case 3:
+                        return bean.investPercent.getIsRange() ? bean.investPercent.getStep() : null;
+                    case 4:
+                        return bean.investSpread.getIsRange() ? bean.investSpread.getStep() : null;
+                    default:
+                        return "?";
+                }
+            }
+            if(columnIndex == 4) {
+                switch (rowIndex) {
+                    case 0:
+                    case 1:
+                    case 2:
+                        return null;
+                    case 3:
+                        return bean.investPercent.getIsRange();
+                    case 4:
+                        return bean.investSpread.getIsRange();
+                    default:
+                        return null;
+                }
+            }
+            return null;
         }
 
         @Override
@@ -505,22 +622,45 @@ public class ConfigForm {
 
         @Override
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-            logger.info(String.format("param value %d/%d: %s", rowIndex, columnIndex, (String)aValue));
             try {
-                switch (rowIndex) {
-                    case 0: bean.startBank = Integer.parseInt((String) aValue); break;
-                    case 1: bean.profitRollover = Integer.parseInt((String) aValue); break;
+                if(rowIndex <= 2) {
+                    if(columnIndex == 1) {
+                        switch (rowIndex) {
+                            case 0:
+                                bean.startBank = Integer.parseInt((String) aValue);
+                                break;
+                            case 1:
+                                bean.profitRollover = Integer.parseInt((String) aValue);
+                                break;
+                            case 2:
+                                bean.iterations = Integer.parseInt((String) aValue);
+                                break;
+                        }
+                    }
+                    fireTableDataChanged();
+                } else {
 
+                    Range range;
+                    if(rowIndex == 3)
+                        range = bean.investPercent;
+                    else
+                        range = bean.investSpread;
 
-                    case 2: bean.minPercent = Double.parseDouble((String) aValue); break;
-                    case 3: bean.maxPercent = Double.parseDouble((String) aValue); break;
-                    case 4: bean.stepPercent = Double.parseDouble((String) aValue); break;
-
-                    case 5: bean.minSpread = Integer.parseInt((String) aValue); break;
-                    case 6: bean.maxSpread = Integer.parseInt((String) aValue); break;
-                    case 7: bean.stepSpread = Integer.parseInt((String) aValue); break;
-                    case 8: bean.iterations = Integer.parseInt((String) aValue); break;
-
+                    switch(columnIndex) {
+                        case 1: // start
+                            range.setStart((String) aValue);
+                            break;
+                        case 2: // end
+                            range.setEnd((String) aValue);
+                            break;
+                        case 3: // step
+                            range.setStep((String) aValue);
+                            break;
+                        case 4:
+                            range.setIsRange((Boolean) aValue);
+                            fireTableDataChanged();
+                            break;
+                    }
                 }
                 updateBean();
             } catch(NumberFormatException ex) {
