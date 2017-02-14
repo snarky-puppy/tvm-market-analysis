@@ -1,6 +1,5 @@
 package com.tvm.stg;
 
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIInlineBinaryData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -198,12 +197,12 @@ public class ConfigForm implements DataCruncherMonitor {
     }
 
     @Override
-    public void jobFinished() {
+    public synchronized void jobFinished() {
         doneTasks ++;
         Double d = ((float)doneTasks / numCrunchJobs) * 100.00;
         int progress = d.intValue();
         progressBar.setValue(progress);
-        logger.info("jobFinished({} of {})", doneTasks, numCrunchJobs);
+        //logger.info("jobFinished({} of {})", doneTasks, numCrunchJobs);
         if(doneTasks >= numCrunchJobs) {
             progressBar.setVisible(false);
             dataCruncher.finalise();

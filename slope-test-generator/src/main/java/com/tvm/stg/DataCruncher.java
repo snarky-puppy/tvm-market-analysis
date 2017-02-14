@@ -5,7 +5,6 @@ import org.apache.commons.math3.stat.regression.SimpleRegression;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.util.*;
@@ -19,12 +18,13 @@ public class DataCruncher {
     private final DataCruncherMonitor monitor;
     ExecutorService executorService = Executors.newFixedThreadPool(8);
     List<SimulationBean> simulationBeans = new ArrayList<>();
-    private final ArrayBlockingQueue<ResultSet> queue = new ArrayBlockingQueue<ResultSet>(1024);
+    private final ArrayBlockingQueue<Object> queue = new ArrayBlockingQueue<>(8*1024);
     private boolean finalised = false;
-    private Thread writerThread = new Thread(this::resultWriter);
-
+    private Thread writerThread;
+    private ResultWriter resultWriter;
 
     static class SimulationBean {
+        public int id;
         public double minDolVol;
         public int daysDolVol;
         public double slopeCutoff;
@@ -36,12 +36,14 @@ public class DataCruncher {
         public double targetPc;
         public int tradeStartDays;
 
-        public List<Integer> pointDistances = new ArrayList<>();
         public double investPc;
         public int investSpread;
+
+        public List<Integer> pointDistances = new ArrayList<>();
     }
 
-    class Result {
+    class SlopeResult {
+        public int simId;
         public String symbol;
         public int entryDate;
         public double entryOpen;
@@ -52,24 +54,8 @@ public class DataCruncher {
         public double slope;
         public double dollarVolume;
         public String target;
+        public String stop;
         public double liquidity;
-    }
-
-    class ResultSet {
-        private SimulationBean simulationBean;
-        private List<Result> results = new ArrayList<>();
-
-        public ResultSet(SimulationBean simulationBean) {
-            this.simulationBean = simulationBean;
-        }
-
-        public SimulationBean getSimulationBean() {
-            return simulationBean;
-        }
-
-        public List<Result> getResults() {
-            return results;
-        }
     }
 
     public DataCruncher(ConfigBean bean, DataCruncherMonitor monitor) {
@@ -77,9 +63,13 @@ public class DataCruncher {
 
         logger.info("Calculating slope params");
 
+        resultWriter = new ResultWriter(queue);
+        writerThread = new Thread(resultWriter);
+
         List<List<Integer>> points = bean.getPointRanges();
         logger.info("{} point combinations (out of {} inputs)", points.size(), bean.pointDistances.size());
 
+        int ids = 0;
         for (List<Integer> pointSet : points) {
             for (double targetPc : bean.targetPc.permute()) {
                 for (double stopPc : bean.stopPc.permute()) {
@@ -93,6 +83,7 @@ public class DataCruncher {
                                             for (double investPc : bean.investPercent.permute()) {
                                                 for (int investSpread : bean.investSpread.permute()) {
                                                     SimulationBean simulationBean = new SimulationBean();
+                                                    simulationBean.id = ids++;
                                                     simulationBean.stopPc = stopPc;
                                                     simulationBean.pointDistances = pointSet;
                                                     simulationBean.targetPc = targetPc;
@@ -116,6 +107,8 @@ public class DataCruncher {
                 }
             }
         }
+
+        simulationBeans.forEach(resultWriter::enqueue);
 
         logger.info("{} parameter combinations calculated", simulationBeans.size());
 
@@ -158,18 +151,19 @@ public class DataCruncher {
     private void runCrunch(SimulationBean simulationBean, Data data) {
         if(finalised)
             return;
-        ResultSet resultSet = new ResultSet(simulationBean);
-        crunchSlope(simulationBean, data, resultSet.results);
+        List<SlopeResult> slopeResults = new ArrayList<>();
+        crunchSlope(simulationBean, data, slopeResults);
         if(finalised)
             return;
-        crunchCompound(resultSet.results);
+        slopeResults.forEach(resultWriter::enqueue);
+        crunchCompound(slopeResults);
         if(finalised)
             return;
-        enqueueResultSet(resultSet);
+        //enqueueResultSet(resultSet);
         monitor.jobFinished();
     }
 
-    private void crunchCompound(List<Result> results) {
+    private void crunchCompound(List<SlopeResult> results) {
 
     }
 
@@ -179,7 +173,7 @@ public class DataCruncher {
         return ((end - start)/start);
     }
 
-    private void crunchSlope(SimulationBean bean, Data data, List<Result> results) {
+    private void crunchSlope(SimulationBean bean, Data data, List<SlopeResult> slopeResults) {
         try {
             //logger.info("Processing "+file.getName());
 
@@ -221,7 +215,8 @@ public class DataCruncher {
                         double dollarVolume = avgClose * avgVolume;
                         debug("volume,avgVol=,%.2f,avgClose=,%.2f,dolVol=,%.2f,%s", avgVolume, avgClose, dollarVolume, dollarVolume >= bean.minDolVol ? "yes": "no");
                         if (dollarVolume >= bean.minDolVol) {
-                            Result r = new Result();
+                            SlopeResult r = new SlopeResult();
+                            r.simId = bean.id;
                             r.symbol = data.symbol;
                             r.slope = slope;
                             r.dollarVolume = dollarVolume;
@@ -243,9 +238,10 @@ public class DataCruncher {
                                 r.entryOpen = data.open[idx + bean.tradeStartDays];
 
                                 BigDecimal targetPrice = BigDecimal.valueOf(r.entryOpen + ((r.entryOpen/100)*(bean.targetPc))).setScale(4, BigDecimal.ROUND_HALF_UP);
-                                BigDecimal stopPrice = BigDecimal.valueOf(r.entryOpen + ((r.entryOpen/100)*(bean.stopPc))).setScale(4, BigDecimal.ROUND_HALF_UP);;
+                                BigDecimal stopPrice = BigDecimal.valueOf(r.entryOpen - ((r.entryOpen/100)*(bean.stopPc))).setScale(4, BigDecimal.ROUND_HALF_UP);;
 
                                 r.target = targetPrice.toString();
+                                r.stop = stopPrice.toString();
 
                                 debug("entryDate=,%d,entryOpen=,%.2f,targetPrice=,%.2f,stopPrice=,%.2f", r.entryDate, r.entryOpen, targetPrice.doubleValue(), stopPrice.doubleValue());
 
@@ -304,7 +300,7 @@ public class DataCruncher {
                                 r.exitReason = ExitReason.OUT_OF_DATA; //"NO TRADE DAY DATA";
                                 debug("exitReason=,NO TRADE DAY DATA (trade day starts after our data ends),max=,%d", data.date[data.date.length-1]);
                             }
-                            results.add(r);
+                            slopeResults.add(r);
                         }
                     } else
                         debug("volume, not enough data");
@@ -316,22 +312,10 @@ public class DataCruncher {
         }
     }
 
-    protected void enqueueResultSet(ResultSet resultSet) {
-        boolean accept = false;
-        do {
-            accept = queue.offer(resultSet);
-            try {
-                if(!accept)
-                    Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } while (!accept);
-    }
-
     public void finalise() {
         logger.info("Finalising");
         finalised = true;
+        resultWriter.setFinalised(true);
 
         try {
             logger.info("Waiting termination of ExecutorService");
@@ -352,30 +336,4 @@ public class DataCruncher {
 
         logger.info("Done finalising");
     }
-
-    private void resultWriter() {
-        try {
-            ResultSet r;
-            do {
-                r = queue.poll(1000, TimeUnit.MILLISECONDS);
-                if (r != null) {
-                    try {
-                        writeResults(r);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        System.out.println(e);
-                        System.exit(1);
-                    }
-                }
-            } while (r != null || !finalised);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void writeResults(ResultSet r) throws IOException {
-
-    }
-
 }
