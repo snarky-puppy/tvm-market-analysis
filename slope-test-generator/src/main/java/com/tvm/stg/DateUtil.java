@@ -9,6 +9,7 @@ import org.joda.time.Days;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Miscellaneous date functions.
@@ -43,6 +44,12 @@ public class DateUtil {
     public static int toInteger(Date d) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         return Integer.parseInt(sdf.format(d));
+    }
+
+    public static Date fromInteger(int d) {
+        DateComponents dc = new DateComponents(d);
+        DateTime dt = new DateTime(dc.y, dc.m, dc.d, 0, 0);
+        return dt.toDate();
     }
 
 

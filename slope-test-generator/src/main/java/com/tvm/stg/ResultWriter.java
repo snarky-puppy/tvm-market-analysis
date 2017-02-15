@@ -44,6 +44,7 @@ public class ResultWriter implements Runnable {
 
     private static final String[] slopeTitles = {
             "simId",
+            "slopeId",
             "symbol",
             "entryDate",
             "entryOpen",
@@ -56,6 +57,21 @@ public class ResultWriter implements Runnable {
             "stop",
             "liquidity" };
 
+    private static final String[] compTitles = {
+            "simId",
+            "slopeId",
+            "iteration",
+            "Date",
+            "Symbol",
+            "Liquidity",
+            "Transact",
+            "Real Transact",
+            "ROI%",
+            "Compound Tally",
+            "Bank Balance",
+            "Total Assets",
+            "Note"
+    };
 
     public ResultWriter(ArrayBlockingQueue<Object> queue) {
         this.queue = queue;
@@ -97,6 +113,7 @@ public class ResultWriter implements Runnable {
         Map<String, CellStyle> styles = createStyles(wb);
         writeHeaders(simSheet, simTitles, styles);
         writeHeaders(slopeSheet, slopeTitles, styles);
+        writeHeaders(compSheet, compTitles, styles);
 
         try {
             Object obj;
@@ -127,6 +144,7 @@ public class ResultWriter implements Runnable {
                         int c = 0;
                         Row row = slopeSheet.createRow(slopeRow++);
                         row.createCell(c++).setCellValue(result.simId);
+                        row.createCell(c++).setCellValue(result.slopeId);
                         row.createCell(c++).setCellValue(result.symbol);
                         row.createCell(c++).setCellValue(result.entryDate);
                         row.createCell(c++).setCellValue(result.entryOpen);
@@ -138,6 +156,35 @@ public class ResultWriter implements Runnable {
                         row.createCell(c++).setCellValue(result.target);
                         row.createCell(c++).setCellValue(result.stop);
                         row.createCell(c++).setCellValue(result.liquidity);
+                    } else if(obj instanceof Compounder.Row) {
+                        Compounder.Row r = (Compounder.Row)obj;
+                        int c = 0;
+                        Row row = compSheet.createRow(compRow++);
+                        row.createCell(c++).setCellValue(r.simId);
+                        row.createCell(c++).setCellValue(r.slopeId);
+                        row.createCell(c++).setCellValue(r.iteration);
+                        row.createCell(c++).setCellValue(DateUtil.toInteger(r.date));
+                        row.createCell(c++).setCellValue(r.symbol);
+                        if(r.transact > 0)
+                            row.createCell(c++).setCellValue(r.liquidity);
+                        else
+                            c++;
+                        row.createCell(c++).setCellValue(r.transact);
+                        if(r.compTransact != null)
+                            row.createCell(c++).setCellValue(r.compTransact);
+                        else
+                            c++;
+                        if(r.roi != null)
+                            row.createCell(c++).setCellValue(r.roi);
+                        else
+                            c++;
+                        if(r.compoundTally != null)
+                            row.createCell(c++).setCellValue(r.compoundTally);
+                        else
+                            c++;
+                        row.createCell(c++).setCellValue(r.bankBalance);
+                        row.createCell(c++).setCellValue(r.totalAssets);
+                        row.createCell(c++).setCellValue(r.note);
                     }
                 }
             } while (obj != null || !finalised);
@@ -148,8 +195,7 @@ public class ResultWriter implements Runnable {
 
         resetColumnSize(simSheet);
         resetColumnSize(slopeSheet);
-
-
+        resetColumnSize(compSheet);
 
         try {
             File file = File.createTempFile("STG", ".xlsx");

@@ -52,7 +52,7 @@ lotus.log
 
 target
 
-lib/*.jar
+dist/lib/*.jar
 
 slopevis.json
 *.zip

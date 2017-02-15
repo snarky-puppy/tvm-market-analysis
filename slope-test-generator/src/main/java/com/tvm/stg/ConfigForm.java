@@ -507,7 +507,7 @@ public class ConfigForm implements DataCruncherMonitor {
 
         @Override
         public int getRowCount() {
-            return 5;
+            return 6;
         }
 
         @Override
@@ -546,8 +546,10 @@ public class ConfigForm implements DataCruncherMonitor {
                     case 2:
                         return "Iterations";
                     case 3:
-                        return "Invest %";
+                        return "Max Dol Vol%";
                     case 4:
+                        return "Invest %";
+                    case 5:
                         return "Spread";
                     default:
                         return "?";
@@ -562,8 +564,10 @@ public class ConfigForm implements DataCruncherMonitor {
                     case 2:
                         return Integer.toString(bean.iterations);
                     case 3:
-                        return bean.investPercent.getStart();
+                        return Double.toString(bean.maxDolVol);
                     case 4:
+                        return bean.investPercent.getStart();
+                    case 5:
                         return bean.investSpread.getStart();
                     default:
                         return "?";
@@ -574,10 +578,11 @@ public class ConfigForm implements DataCruncherMonitor {
                     case 0:
                     case 1:
                     case 2:
-                        return null;
                     case 3:
-                        return bean.investPercent.getIsRange() ? bean.investPercent.getEnd() : null;
+                        return null;
                     case 4:
+                        return bean.investPercent.getIsRange() ? bean.investPercent.getEnd() : null;
+                    case 5:
                         return bean.investSpread.getIsRange() ? bean.investSpread.getEnd() : null;
                     default:
                         return "?";
@@ -588,10 +593,11 @@ public class ConfigForm implements DataCruncherMonitor {
                     case 0:
                     case 1:
                     case 2:
-                        return null;
                     case 3:
-                        return bean.investPercent.getIsRange() ? bean.investPercent.getStep() : null;
+                        return null;
                     case 4:
+                        return bean.investPercent.getIsRange() ? bean.investPercent.getStep() : null;
+                    case 5:
                         return bean.investSpread.getIsRange() ? bean.investSpread.getStep() : null;
                     default:
                         return "?";
@@ -602,10 +608,11 @@ public class ConfigForm implements DataCruncherMonitor {
                     case 0:
                     case 1:
                     case 2:
-                        return null;
                     case 3:
-                        return bean.investPercent.getIsRange();
+                        return null;
                     case 4:
+                        return bean.investPercent.getIsRange();
+                    case 5:
                         return bean.investSpread.getIsRange();
                     default:
                         return null;
@@ -634,13 +641,15 @@ public class ConfigForm implements DataCruncherMonitor {
                             case 2:
                                 bean.iterations = Integer.parseInt((String) aValue);
                                 break;
+                            case 3:
+                                bean.maxDolVol = Double.parseDouble((String) aValue);
                         }
                     }
                     fireTableDataChanged();
                 } else {
 
                     Range range;
-                    if(rowIndex == 3)
+                    if(rowIndex == 4)
                         range = bean.investPercent;
                     else
                         range = bean.investSpread;

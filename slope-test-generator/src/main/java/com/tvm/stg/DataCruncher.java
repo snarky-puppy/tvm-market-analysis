@@ -16,12 +16,14 @@ import java.util.concurrent.*;
 public class DataCruncher {
     private static final Logger logger = LogManager.getLogger(DataCruncher.class);
     private final DataCruncherMonitor monitor;
+    private final ConfigBean configBean;
     ExecutorService executorService = Executors.newFixedThreadPool(8);
     List<SimulationBean> simulationBeans = new ArrayList<>();
     private final ArrayBlockingQueue<Object> queue = new ArrayBlockingQueue<>(8*1024);
     private boolean finalised = false;
     private Thread writerThread;
     private ResultWriter resultWriter;
+    private long slopeId;
 
     static class SimulationBean {
         public int id;
@@ -44,6 +46,7 @@ public class DataCruncher {
 
     class SlopeResult {
         public int simId;
+        public long slopeId;
         public String symbol;
         public int entryDate;
         public double entryOpen;
@@ -53,13 +56,14 @@ public class DataCruncher {
 
         public double slope;
         public double dollarVolume;
-        public String target;
-        public String stop;
+        public double target;
+        public double stop;
         public double liquidity;
     }
 
     public DataCruncher(ConfigBean bean, DataCruncherMonitor monitor) {
         this.monitor = monitor;
+        this.configBean = bean;
 
         logger.info("Calculating slope params");
 
@@ -146,6 +150,9 @@ public class DataCruncher {
 
     }
 
+    private synchronized long getNextSlopeId() {
+        return slopeId ++;
+    }
 
 
     private void runCrunch(SimulationBean simulationBean, Data data) {
@@ -156,15 +163,34 @@ public class DataCruncher {
         if(finalised)
             return;
         slopeResults.forEach(resultWriter::enqueue);
-        crunchCompound(slopeResults);
+        crunchCompound(simulationBean, slopeResults);
         if(finalised)
             return;
         //enqueueResultSet(resultSet);
         monitor.jobFinished();
     }
 
-    private void crunchCompound(List<SlopeResult> results) {
+    private void crunchCompound(SimulationBean bean, List<SlopeResult> results) {
+        Compounder compounder = new Compounder(results);
+        for(int i = 0; i < configBean.iterations; i++) {
+            compounder.startBank = configBean.startBank;
+            compounder.profitRollover = configBean.profitRollover;
+            compounder.maxDolVolPc = configBean.maxDolVol;
 
+            compounder.investPercent = bean.investPc;
+            compounder.spread = bean.investSpread;
+
+            compounder.shuffle();
+            compounder.calculate(i);
+
+            for(Compounder.Row row : compounder.data) {
+                resultWriter.enqueue(new Compounder.Row(row));
+            }
+        }
+    }
+
+    private double roundDouble(double d, int places) {
+        return BigDecimal.valueOf(d).setScale(places, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
     private void debug(String fmt, Object ...args) { /* debugSymbol(symbol, new Formatter().format(fmt, args).toString()); */ }
@@ -218,8 +244,9 @@ public class DataCruncher {
                             SlopeResult r = new SlopeResult();
                             r.simId = bean.id;
                             r.symbol = data.symbol;
-                            r.slope = slope;
-                            r.dollarVolume = dollarVolume;
+                            r.slope = roundDouble(slope, 4);
+                            r.dollarVolume = roundDouble(dollarVolume, 2);
+                            r.slopeId = getNextSlopeId();
 
                             // calculate liquidity
                             try {
@@ -228,7 +255,7 @@ public class DataCruncher {
                                 double liqAvgClose = new Mean().evaluate(data.close, (idx + maxP) - bean.daysLiqVol, bean.daysLiqVol);
                                 double liquidity = liqAvgClose * liqAvgVolume;
                                 debug("liquidity,avgVol=,%.2f,avgClose=,%.2f,dolVol=,%.2f", liqAvgVolume, liqAvgClose, liquidity);
-                                r.liquidity = liquidity;
+                                r.liquidity = roundDouble(liquidity, 2);
                             } catch(ArrayIndexOutOfBoundsException e) {
                                 debug("liquidity,not enough data");
                             }
@@ -238,10 +265,10 @@ public class DataCruncher {
                                 r.entryOpen = data.open[idx + bean.tradeStartDays];
 
                                 BigDecimal targetPrice = BigDecimal.valueOf(r.entryOpen + ((r.entryOpen/100)*(bean.targetPc))).setScale(4, BigDecimal.ROUND_HALF_UP);
-                                BigDecimal stopPrice = BigDecimal.valueOf(r.entryOpen - ((r.entryOpen/100)*(bean.stopPc))).setScale(4, BigDecimal.ROUND_HALF_UP);;
+                                BigDecimal stopPrice = BigDecimal.valueOf(r.entryOpen - ((r.entryOpen/100)*(bean.stopPc))).setScale(4, BigDecimal.ROUND_HALF_UP);
 
-                                r.target = targetPrice.toString();
-                                r.stop = stopPrice.toString();
+                                r.target = targetPrice.setScale(2, BigDecimal.ROUND_UP).doubleValue();
+                                r.stop = stopPrice.setScale(2, BigDecimal.ROUND_UP).doubleValue();
 
                                 debug("entryDate=,%d,entryOpen=,%.2f,targetPrice=,%.2f,stopPrice=,%.2f", r.entryDate, r.entryOpen, targetPrice.doubleValue(), stopPrice.doubleValue());
 

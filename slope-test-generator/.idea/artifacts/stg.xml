@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="stg">
+    <output-path>$PROJECT_DIR$/dist/lib</output-path>
+    <root id="archive" name="stg.jar">
+      <element id="module-output" name="SlopeTestGenerator" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/log4j2.xml" />
+    </root>
+  </artifact>
+</component>

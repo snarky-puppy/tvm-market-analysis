@@ -31,9 +31,11 @@ public class ConfigBean {
     public int startBank = 200000;
     public int profitRollover = 20000;
     public int iterations = 10;
+    public double maxDolVol = 1;
 
-    public DoubleRange investPercent = new DoubleRange(0.0, 50.0, 10.0, false);
-    public IntRange investSpread = new IntRange(0, 25, 5, false);
+
+    public DoubleRange investPercent = new DoubleRange(10.0, 50.0, 10.0, false);
+    public IntRange investSpread = new IntRange(5, 25, 5, false);
 
     @JsonIgnore
     public List<List<Integer>> getPointRanges() {

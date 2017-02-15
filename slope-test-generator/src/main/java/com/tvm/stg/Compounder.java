@@ -5,9 +5,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import com.tvm.stg.DataCruncher.SlopeResult;
 
 /**
  * Created by matt on 10/02/17.
@@ -16,7 +19,7 @@ public class Compounder {
 
     private static final Logger logger = LogManager.getLogger(Compounder.class);
 
-    private ArrayList<Row> data;
+    public ArrayList<Row> data;
 
     public double startBank = 200000.0;
     public double investPercent = 10.0;
@@ -38,8 +41,7 @@ public class Compounder {
         return data.get(rowIndex);
     }
 
-
-    public class Row {
+    public static class Row {
         public String symbol;
         public Double transact;
         public Date date;
@@ -57,6 +59,31 @@ public class Compounder {
         public double weight = 1.0;
         public double liquidity;
         public String note;
+        public long slopeId;
+        public int simId;
+        public int iteration;
+
+        public Row() {}
+
+        public Row(Row row) {
+            this.symbol = row.symbol;
+            this.transact = row.transact;
+            this.date = row.date;
+            this.compTransact = row.compTransact;
+            this.bankBalance = row.bankBalance;
+            this.roi = row.roi;
+            this.compoundTally = row.compoundTally;
+            this.totalAssets = row.totalAssets;
+            this.order = row.order;
+            this.preCompoundInvestAmt = row.preCompoundInvestAmt;
+            this.compoundInvestAmt = row.compoundInvestAmt;
+            this.weight = row.weight;
+            this.liquidity = row.liquidity;
+            this.note = row.note;
+            this.slopeId = row.slopeId;
+            this.simId = row.simId;
+            this.iteration = row.iteration;
+        }
 
         public String getSymbol() {
             return symbol;
@@ -66,7 +93,7 @@ public class Compounder {
             return date;
         }
 
-        public void reset() {
+        public void reset(int iteration) {
             compTransact = null;
             bankBalance = null;
             roi = null;
@@ -74,6 +101,7 @@ public class Compounder {
             preCompoundInvestAmt = 0.0;
             compoundInvestAmt = 0.0;
             note = null;
+            this.iteration = iteration;
         }
 
         public String toString() {
@@ -88,9 +116,41 @@ public class Compounder {
     }
 
 
-    public Compounder() {
-        data = new ArrayList<Row>();
+    public Compounder(List<SlopeResult> slopeResults) {
+
+        populateData(slopeResults);
         order = 0;
+    }
+
+    private double roundDouble(double d, int places) {
+        return BigDecimal.valueOf(d).setScale(places, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+
+    private void populateData(List<SlopeResult> slopeResults) {
+        data = new ArrayList<Row>();
+
+        for(SlopeResult slopeResult : slopeResults) {
+            // I
+            Row i = new Row();
+            i.simId = slopeResult.simId;
+            i.slopeId = slopeResult.slopeId;
+            i.symbol = slopeResult.symbol;
+            i.date = DateUtil.fromInteger(slopeResult.entryDate);
+            i.transact = 100.0;
+            i.liquidity = slopeResult.liquidity;
+            data.add(i);
+
+            double pcChange = ((slopeResult.entryOpen-slopeResult.exitOpen)/slopeResult.entryOpen)*100;
+
+            // W
+            Row w = new Row();
+            w.simId = slopeResult.simId;
+            w.slopeId = slopeResult.slopeId;
+            w.symbol = slopeResult.symbol;
+            w.date = DateUtil.fromInteger(slopeResult.exitDate);
+            w.transact = roundDouble(-(100.0 + pcChange), 2);
+            data.add(w);
+        }
     }
 
 
@@ -131,8 +191,9 @@ public class Compounder {
         double minInvestment = (startBank / 100) * investPercent;
         double trueProfit = 0.0;
 
-        data.forEach(Row::reset);
-
+        data.forEach((Row r) -> {
+            r.reset(iteration);
+        });
 
         double maxVolPc = maxDolVolPc / 100;
 
@@ -152,8 +213,8 @@ public class Compounder {
 
                 if((balanceCash - investAmt) < 0) {
                     //logger.info(String.format("%s: I: not enough funds[%.2f] to cover investment[%.2f], skipping", r.symbol, totalBank, investAmt));
-                    r.bankBalance = balanceCash;
-                    r.totalAssets = balanceCash + balanceTrades;
+                    r.bankBalance = roundDouble(balanceCash, 2);
+                    r.totalAssets = roundDouble(balanceCash + balanceTrades, 2);
                     iter++;
                     r.note = "SKIPPED - no cash";
                     continue;
@@ -190,7 +251,7 @@ public class Compounder {
                     // volume check failed
                     //r.compTransact = -1.0;
                     r.note = String.format("SKIPPED - volume %.2f%%", (liqPc*100));
-                    r.bankBalance = balanceCash;
+                    r.bankBalance = roundDouble(balanceCash, 2);
 
                     // reset any compounding
                     compoundTally = oldCompoundTally;
@@ -202,8 +263,8 @@ public class Compounder {
 
                     balanceTrades += investAmt;
                     balanceCash -= investAmt;
-                    r.bankBalance = balanceCash;
-                    r.compTransact = investAmt;
+                    r.bankBalance = roundDouble(balanceCash, 2);
+                    r.compTransact = roundDouble(investAmt, 2);
                 }
             }
 
@@ -215,8 +276,8 @@ public class Compounder {
                 if(!(i != null && i.compTransact != null)) {
                     // no I or I didn't go through due to lack of funds
                     iter++;
-                    r.bankBalance = balanceCash;
-                    r.totalAssets = balanceCash + balanceTrades;
+                    r.bankBalance = roundDouble(balanceCash, 2);
+                    r.totalAssets = roundDouble(balanceCash + balanceTrades, 2);
                     continue;
                 }
 
@@ -236,12 +297,12 @@ public class Compounder {
 
                 //log(String.format("%s: W: roi=%.2f, profit=%.2f, withdrawal=%.2f, compoundTally=%.2f", r.symbol, roiAmt, profit, withdrawal, compoundTally), iteration);
 
-                r.roi = roi;
-                r.compTransact = -withdrawal;
+                r.roi = roundDouble(roi, 2);
+                r.compTransact = roundDouble(-withdrawal, 2);
                 balanceCash += withdrawal;
-                r.compoundTally = compoundTally;
+                r.compoundTally = roundDouble(compoundTally, 2);
                 balanceTrades -= i.compTransact;
-                r.bankBalance = balanceCash;
+                r.bankBalance = roundDouble(balanceCash, 2);
 
                 if(withdrawal - i.compTransact > 0) {
                     // a profit was made
@@ -262,7 +323,7 @@ public class Compounder {
                 }
             }
 
-            r.totalAssets = balanceCash + balanceTrades;
+            r.totalAssets = roundDouble(balanceCash + balanceTrades, 2);
             iter ++;
         }
 
