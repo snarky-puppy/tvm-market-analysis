@@ -1,3 +1,3 @@
-java -cp "lib/*" com.tvm.SlopeTestGenerator
+java -cp "lib/*" com.tvm.stg.SlopeTestGenerator
 
 pause
