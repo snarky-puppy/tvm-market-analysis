@@ -82,7 +82,16 @@ public class ConfigForm implements DataCruncherMonitor {
 
         goBtn.addActionListener(e -> {
             progressBar.setVisible(true);
-            dataCruncher = new DataCruncher(bean, this);
+            final DataCruncherMonitor thisMonitor = this;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    dataCruncher = new DataCruncher(bean, thisMonitor);
+                }
+            }).start();
+
+
+
             goBtn.setEnabled(false);
             goLabel.setText("In Progress");
             goLabel.setForeground(Color.GREEN.darker());

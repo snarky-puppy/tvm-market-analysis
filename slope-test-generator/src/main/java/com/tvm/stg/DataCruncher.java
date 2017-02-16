@@ -156,18 +156,27 @@ public class DataCruncher {
 
 
     private void runCrunch(SimulationBean simulationBean, Data data) {
-        if(finalised)
-            return;
-        List<SlopeResult> slopeResults = new ArrayList<>();
-        crunchSlope(simulationBean, data, slopeResults);
-        if(finalised)
-            return;
-        slopeResults.forEach(resultWriter::enqueue);
-        crunchCompound(simulationBean, slopeResults);
-        if(finalised)
-            return;
-        //enqueueResultSet(resultSet);
-        monitor.jobFinished();
+        try {
+            if (finalised)
+                return;
+            List<SlopeResult> slopeResults = new ArrayList<>();
+            crunchSlope(simulationBean, data, slopeResults);
+            if (finalised)
+                return;
+            slopeResults.forEach(resultWriter::enqueue);
+            crunchCompound(simulationBean, slopeResults);
+            if (finalised)
+                return;
+            //enqueueResultSet(resultSet);
+        } catch(Throwable e) {
+            logger.error(e);
+            System.out.println(e);
+            e.printStackTrace();
+            System.exit(1);
+        } finally {
+            monitor.jobFinished();
+        }
+
     }
 
     private void crunchCompound(SimulationBean bean, List<SlopeResult> results) {
@@ -193,7 +202,7 @@ public class DataCruncher {
         return BigDecimal.valueOf(d).setScale(places, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
-    private void debug(String fmt, Object ...args) { /* debugSymbol(symbol, new Formatter().format(fmt, args).toString()); */ }
+    //private void debug(String fmt, Object ...args) { /* debugSymbol(symbol, new Formatter().format(fmt, args).toString()); */ }
 
     private double change(double start, double end) {
         return ((end - start)/start);
@@ -220,12 +229,12 @@ public class DataCruncher {
                 int i = 0;
                 for(int d : bean.pointDistances) {
                     p[i++] = change(c[idx], c[idx + d-1]);
-                    debug("date=,%d,d=,%d,close=,%.2f,close+d=,%.2f,x=,%d,y=,%.2f", data.date[idx], d, c[idx], c[idx+d-1], i, p[i-1]);
+                    //debug("date=,%d,d=,%d,close=,%.2f,close+d=,%.2f,x=,%d,y=,%.2f", data.date[idx], d, c[idx], c[idx+d-1], i, p[i-1]);
                     simpleRegression.addData(i, p[i-1]);
                 }
 
                 double slope = simpleRegression.getSlope();
-                debug("slope,%.2f,%s", slope, slope <= bean.slopeCutoff ? "yes" : "no");
+                //debug("slope,%.2f,%s", slope, slope <= bean.slopeCutoff ? "yes" : "no");
 
                 if(slope <= bean.slopeCutoff) {
                     //double avgVolume = new Mean().evaluate(data.volume, idx, 21);
@@ -239,7 +248,7 @@ public class DataCruncher {
                         double avgVolume = optionalDouble.getAsDouble();
                         double avgClose = new Mean().evaluate(data.close, (idx + maxP) - bean.daysDolVol, bean.daysDolVol);
                         double dollarVolume = avgClose * avgVolume;
-                        debug("volume,avgVol=,%.2f,avgClose=,%.2f,dolVol=,%.2f,%s", avgVolume, avgClose, dollarVolume, dollarVolume >= bean.minDolVol ? "yes": "no");
+                        //debug("volume,avgVol=,%.2f,avgClose=,%.2f,dolVol=,%.2f,%s", avgVolume, avgClose, dollarVolume, dollarVolume >= bean.minDolVol ? "yes": "no");
                         if (dollarVolume >= bean.minDolVol) {
                             SlopeResult r = new SlopeResult();
                             r.simId = bean.id;
@@ -254,10 +263,10 @@ public class DataCruncher {
                                 double liqAvgVolume = liqDbl.getAsDouble();
                                 double liqAvgClose = new Mean().evaluate(data.close, (idx + maxP) - bean.daysLiqVol, bean.daysLiqVol);
                                 double liquidity = liqAvgClose * liqAvgVolume;
-                                debug("liquidity,avgVol=,%.2f,avgClose=,%.2f,dolVol=,%.2f", liqAvgVolume, liqAvgClose, liquidity);
+                                //debug("liquidity,avgVol=,%.2f,avgClose=,%.2f,dolVol=,%.2f", liqAvgVolume, liqAvgClose, liquidity);
                                 r.liquidity = roundDouble(liquidity, 2);
                             } catch(ArrayIndexOutOfBoundsException e) {
-                                debug("liquidity,not enough data");
+                                //debug("liquidity,not enough data");
                             }
 
                             if(idx+bean.tradeStartDays < data.open.length) {
@@ -270,33 +279,33 @@ public class DataCruncher {
                                 r.target = targetPrice.setScale(2, BigDecimal.ROUND_UP).doubleValue();
                                 r.stop = stopPrice.setScale(2, BigDecimal.ROUND_UP).doubleValue();
 
-                                debug("entryDate=,%d,entryOpen=,%.2f,targetPrice=,%.2f,stopPrice=,%.2f", r.entryDate, r.entryOpen, targetPrice.doubleValue(), stopPrice.doubleValue());
+                                //debug("entryDate=,%d,entryOpen=,%.2f,targetPrice=,%.2f,stopPrice=,%.2f", r.entryDate, r.entryOpen, targetPrice.doubleValue(), stopPrice.doubleValue());
 
                                 for(i = bean.tradeStartDays + 1; i < bean.tradeStartDays+bean.maxHoldDays+1; i++) {
                                     if(idx+i >= data.close.length) {
                                         r.exitReason = ExitReason.END_DATA;
-                                        debug("exitReason=,END DATA (run out of data before found target/stop/maxHold),max=,%d",
-                                                data.date[data.date.length-1]);
+                                        //debug("exitReason=,END DATA (run out of data before found target/stop/maxHold),max=,%d",
+                                                //data.date[data.date.length-1]);
                                         break;
                                     }
 
                                     BigDecimal close = BigDecimal.valueOf(data.close[idx+i]).setScale(4, BigDecimal.ROUND_HALF_UP);
 
-                                    debug("find target,date=,%d,close=,%.2f,isTarget=%s,isStop=%s", data.date[idx+i], data.close[idx+1],
+                                    /*debug("find target,date=,%d,close=,%.2f,isTarget=%s,isStop=%s", data.date[idx+i], data.close[idx+1],
                                             close.compareTo(targetPrice) >= 0,
                                             close.compareTo(stopPrice) <= 0);
-
+*/
                                     if(close.compareTo(targetPrice) >= 0) {
                                         if(idx+i+1 < data.close.length) {
                                             r.exitDate = data.date[idx + i + 1];
                                             r.exitOpen = data.open[idx + i + 1];
                                             r.exitReason = ExitReason.STOP_TARGET;
-                                            debug("find target,TARGET FOUND,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
+  //                                          debug("find target,TARGET FOUND,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
                                         } else {
                                             r.exitDate = data.date[idx + i];
                                             r.exitOpen = data.close[idx + i];
                                             r.exitReason = ExitReason.STOP_TARGET; //"TARGET (No Next Day Data - showing close of target date)";
-                                            debug("find target,TARGET FOUND but next day no data so showing found date,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
+    //                                        debug("find target,TARGET FOUND but next day no data so showing found date,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
                                         }
                                         break;
                                     }
@@ -305,12 +314,12 @@ public class DataCruncher {
                                             r.exitDate = data.date[idx + i + 1];
                                             r.exitOpen = data.open[idx + i + 1];
                                             r.exitReason = ExitReason.STOP_PRICE; // "STOP";
-                                            debug("find target,STOP FOUND,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
+      //                                      debug("find target,STOP FOUND,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
                                         } else {
                                             r.exitDate = data.date[idx + i];
                                             r.exitOpen = data.open[idx + i];
                                             r.exitReason = ExitReason.STOP_PRICE;// "STOP (No Next Day Data - showing close)";
-                                            debug("find target,STOP FOUND but next day no data so showing found date,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
+        //                                    debug("find target,STOP FOUND but next day no data so showing found date,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
                                         }
                                         break;
                                     }
@@ -320,17 +329,17 @@ public class DataCruncher {
                                     r.exitDate = data.date[idx + i];
                                     r.exitOpen = data.open[idx + i];
                                     r.exitReason = ExitReason.STOP_MAX_HOLD;
-                                    debug("exitReason=,MAX HOLD");
+          //                          debug("exitReason=,MAX HOLD");
                                 }
 
                             } else {
                                 r.exitReason = ExitReason.OUT_OF_DATA; //"NO TRADE DAY DATA";
-                                debug("exitReason=,NO TRADE DAY DATA (trade day starts after our data ends),max=,%d", data.date[data.date.length-1]);
+            //                    debug("exitReason=,NO TRADE DAY DATA (trade day starts after our data ends),max=,%d", data.date[data.date.length-1]);
                             }
                             slopeResults.add(r);
                         }
-                    } else
-                        debug("volume, not enough data");
+                    } //else
+                        //debug("volume, not enough data");
                 }
                 idx++;
             }

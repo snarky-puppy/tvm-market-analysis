@@ -130,6 +130,10 @@ public class Compounder {
         data = new ArrayList<Row>();
 
         for(SlopeResult slopeResult : slopeResults) {
+
+            if(slopeResult.exitReason == ExitReason.OUT_OF_DATA)
+                continue;
+
             // I
             Row i = new Row();
             i.simId = slopeResult.simId;
@@ -140,16 +144,19 @@ public class Compounder {
             i.liquidity = slopeResult.liquidity;
             data.add(i);
 
-            double pcChange = ((slopeResult.entryOpen-slopeResult.exitOpen)/slopeResult.entryOpen)*100;
+            double pcChange = ((slopeResult.entryOpen - slopeResult.exitOpen) / slopeResult.entryOpen) * 100;
 
             // W
-            Row w = new Row();
-            w.simId = slopeResult.simId;
-            w.slopeId = slopeResult.slopeId;
-            w.symbol = slopeResult.symbol;
-            w.date = DateUtil.fromInteger(slopeResult.exitDate);
-            w.transact = roundDouble(-(100.0 + pcChange), 2);
-            data.add(w);
+            if (slopeResult.exitDate != 0) {
+                Row w = new Row();
+                w.simId = slopeResult.simId;
+                w.slopeId = slopeResult.slopeId;
+                w.symbol = slopeResult.symbol;
+
+                w.date = DateUtil.fromInteger(slopeResult.exitDate);
+                w.transact = roundDouble(-(100.0 + pcChange), 2);
+                data.add(w);
+            }
         }
     }
 
@@ -161,7 +168,7 @@ public class Compounder {
 
 
     private void log(String msg, int iteration) {
-        logger.info(String.format("[p=%.2f,s=%d,i=%d]: %s", investPercent, spread, iteration, msg));
+        //logger.info(String.format("[p=%.2f,s=%d,i=%d]: %s", investPercent, spread, iteration, msg));
     }
 
     public void calculate(int iteration) {
@@ -318,7 +325,7 @@ public class Compounder {
                             trueProfit %= profitRollover;
                         minInvestment = (startBank / 100) * investPercent;
 
-                        logger.info(String.format("new period: trueProfit=%.2f, minInvest=%.2f", trueProfit, minInvestment));
+                        //logger.info(String.format("new period: trueProfit=%.2f, minInvest=%.2f", trueProfit, minInvestment));
                     }
                 }
             }
@@ -328,7 +335,7 @@ public class Compounder {
         }
 
         balanceTotal = balanceCash + balanceTrades;
-        logger.info(String.format("End of compound run: cash=%.2f trade=%.2f total=%.2f", balanceCash, balanceTrades, balanceTotal));
+        //logger.info(String.format("End of compound run: cash=%.2f trade=%.2f total=%.2f", balanceCash, balanceTrades, balanceTotal));
     }
 
     private Row findIfromW(String symbol, int iter) {
