@@ -119,7 +119,7 @@ public class ResultWriter implements Runnable {
             Object obj;
             do {
                 obj = queue.poll(1000, TimeUnit.MILLISECONDS);
-                /*
+
                 if (obj != null) {
                     if(obj instanceof SimulationBean) {
                         SimulationBean bean = (SimulationBean) obj;
@@ -188,7 +188,7 @@ public class ResultWriter implements Runnable {
                         row.createCell(c++).setCellValue(r.note);
                     }
                 }
-                */
+
             } while (obj != null || !finalised);
 
         } catch (InterruptedException e) {

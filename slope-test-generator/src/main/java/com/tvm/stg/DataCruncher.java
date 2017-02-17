@@ -176,7 +176,6 @@ public class DataCruncher {
         } finally {
             monitor.jobFinished();
         }
-
     }
 
     private void crunchCompound(SimulationBean bean, List<SlopeResult> results) {
