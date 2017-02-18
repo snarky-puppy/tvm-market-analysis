@@ -1,10 +1,15 @@
 package com.tvm.stg;
 
+import com.sun.xml.internal.ws.api.pipe.FiberContextSwitchInterceptor;
 import com.tvm.stg.DataCruncher.SimulationBean;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.NPOIFSFileSystem;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.awt.*;
@@ -103,10 +108,16 @@ public class ResultWriter implements Runnable {
 
     @Override
     public void run() {
-        Workbook wb = new XSSFWorkbook();
-        Sheet simSheet = wb.createSheet("Simulation");
-        Sheet slopeSheet = wb.createSheet("Slope");
-        Sheet compSheet = wb.createSheet("Compound");
+        SXSSFWorkbook wb = new SXSSFWorkbook(1024);
+        SXSSFSheet simSheet = wb.createSheet("Simulation");
+        SXSSFSheet slopeSheet = wb.createSheet("Slope");
+        SXSSFSheet compSheet = wb.createSheet("Compound");
+
+        /*
+        simSheet.trackAllColumnsForAutoSizing();
+        slopeSheet.trackAllColumnsForAutoSizing();
+        compSheet.trackAllColumnsForAutoSizing();
+        */
 
         int simRow = 1, slopeRow = 1, compRow = 1;
 
@@ -114,6 +125,19 @@ public class ResultWriter implements Runnable {
         writeHeaders(simSheet, simTitles, styles);
         writeHeaders(slopeSheet, slopeTitles, styles);
         writeHeaders(compSheet, compTitles, styles);
+
+        File file = null;
+        FileOutputStream out = null;
+
+        try {
+            file = File.createTempFile("STG", ".xlsx");
+            out = new FileOutputStream(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        int cnt = 0;
 
         try {
             Object obj;
@@ -189,25 +213,41 @@ public class ResultWriter implements Runnable {
                     }
                 }
 
+                if(finalised) {
+                    if(cnt++ > 50000) {
+                        cnt = 0;
+                        logger.info("{} rows remaining to be flushed to disc", queue.size());
+                    }
+                }
+
             } while (obj != null || !finalised);
+
+            logger.info("Finished queue loop");
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+        /*
+        logger.info("Resetting simulation column width");
         resetColumnSize(simSheet);
+        logger.info("Resetting slope column width");
         resetColumnSize(slopeSheet);
+        logger.info("Resetting compounder column width");
         resetColumnSize(compSheet);
 
+        logger.info("Resized columns, writing file. Please hold...");
+        */
+
+        logger.info("Writing file, please be patient...");
+
         try {
-            File file = File.createTempFile("STG", ".xlsx");
-            FileOutputStream out = null;
-            out = new FileOutputStream(file);
+
             wb.write(out);
             out.close();
             wb.close();
             file.deleteOnExit();
-            logger.info("Opening "+file.toString());
+            logger.info("File written. Opening "+file.toString());
             Desktop.getDesktop().open(file);
 
         } catch (IOException e) {
@@ -346,6 +386,7 @@ public class ResultWriter implements Runnable {
     }
 
     public void setFinalised(boolean finalised) {
+        logger.info("Sending term signal to writer thread.... {} rows left to process. Please wait", queue.size());
         this.finalised = finalised;
     }
 }

@@ -19,7 +19,7 @@ public class DataCruncher {
     private final ConfigBean configBean;
     ExecutorService executorService = Executors.newFixedThreadPool(8);
     List<SimulationBean> simulationBeans = new ArrayList<>();
-    private final ArrayBlockingQueue<Object> queue = new ArrayBlockingQueue<>(8*1024);
+    private final ArrayBlockingQueue<Object> queue = new ArrayBlockingQueue<>(512*1024);
     private boolean finalised = false;
     private Thread writerThread;
     private ResultWriter resultWriter;
@@ -225,11 +225,11 @@ public class DataCruncher {
                 double p[] = new double[bean.pointDistances.size()];
                 SimpleRegression simpleRegression = new SimpleRegression();
 
-                int i = 0;
+                int x = 0;
                 for(int d : bean.pointDistances) {
-                    p[i++] = change(c[idx], c[idx + d-1]);
+                    p[x++] = change(c[idx], c[idx + d-1]);
                     //debug("date=,%d,d=,%d,close=,%.2f,close+d=,%.2f,x=,%d,y=,%.2f", data.date[idx], d, c[idx], c[idx+d-1], i, p[i-1]);
-                    simpleRegression.addData(i, p[i-1]);
+                    simpleRegression.addData(x, p[x-1]);
                 }
 
                 double slope = simpleRegression.getSlope();
@@ -280,6 +280,7 @@ public class DataCruncher {
 
                                 //debug("entryDate=,%d,entryOpen=,%.2f,targetPrice=,%.2f,stopPrice=,%.2f", r.entryDate, r.entryOpen, targetPrice.doubleValue(), stopPrice.doubleValue());
 
+                                int i = 0;
                                 for(i = bean.tradeStartDays + 1; i < bean.tradeStartDays+bean.maxHoldDays+1; i++) {
                                     if(idx+i >= data.close.length) {
                                         r.exitReason = ExitReason.END_DATA;
@@ -325,9 +326,17 @@ public class DataCruncher {
                                 }
 
                                 if(r.exitReason == null) {
-                                    r.exitDate = data.date[idx + i];
-                                    r.exitOpen = data.open[idx + i];
-                                    r.exitReason = ExitReason.STOP_MAX_HOLD;
+                                    try {
+                                        r.exitDate = data.date[idx];
+                                        r.exitOpen = data.open[idx];
+                                        r.exitReason = ExitReason.STOP_MAX_HOLD;
+                                        // INFO: idx=2578 i=51 close.len=2629
+                                        // maxHoldDays=28 tradeStartDays=22
+                                    } catch(ArrayIndexOutOfBoundsException e) {
+                                        logger.error(e);
+                                        e.printStackTrace();
+                                        logger.info("idx={} i={} close.len={}", idx, i, data.open.length);
+                                    }
           //                          debug("exitReason=,MAX HOLD");
                                 }
 
