@@ -76,7 +76,7 @@ public class GuruFinancialsBatch {
         ExecutorService executorService = Executors.newFixedThreadPool(32);
 
         for(String symbol : symbols) {
-            String file = symbol+".xls";
+            String file = symbol.replace("/", "_")+".xls";
             if(Files.exists(Paths.get(file))) {
                 System.out.println(file+" exists");
                 continue;
@@ -84,6 +84,7 @@ public class GuruFinancialsBatch {
             executorService.submit(new Runnable() {
                 @Override
                 public void run() {
+
                     scrapeSymbol(webClient, symbol, file);
                 }
             });
