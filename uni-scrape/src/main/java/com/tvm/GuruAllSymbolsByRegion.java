@@ -19,7 +19,7 @@ public class GuruAllSymbolsByRegion {
     private static final Logger logger = LoggerFactory.getLogger(GuruAllSymbolsByRegion.class);
 
     WebClient getWebClient() {
-        WebClient client = new WebClient(BrowserVersion.CHROME, "127.0.0.1", 3128);
+        WebClient client = new WebClient(BrowserVersion.CHROME);//, "127.0.0.1", 3128);
         client.getOptions().setJavaScriptEnabled(false);
         client.getOptions().setThrowExceptionOnScriptError(false);
         client.getOptions().setCssEnabled(false);
@@ -72,38 +72,23 @@ public class GuruAllSymbolsByRegion {
             a = page.getFirstByXPath("//img[@alt=\"Next Page\"]/parent::a");
             System.out.println("a="+a);
             if(a != null) {
-                page = a.click();
+                try {
+                    page = a.click();
+                } catch(Exception e) {
+                    e.printStackTrace();
+
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+
+                }
                 System.out.println("page="+page);
             }
         } while(a != null);
 
         fileWriter.close();
-
-        /*
-        List<?> list = page.getByXPath("//a[@class='gurunames']");
-        for(Object obj : list) {
-            HtmlAnchor a = (HtmlAnchor)obj;
-
-            String fileName = StringEscapeUtils.unescapeHtml4(a.getHrefAttribute().replace("/StockBuy.php?GuruName=", ""));
-            fileName = fileName.replace("+", " ").replace("%2C", ",").replace("%26", "&") + ".xls";
-
-            if(new File(fileName).exists()) {
-                System.out.println(fileName+" exists, continuing");
-                continue;
-            }
-
-            System.out.println(a);
-            page = a.click();
-
-            try {
-                a = page.getAnchorByText("Download");
-                System.out.println(a);
-                IOUtils.copy(a.click().getWebResponse().getContentAsStream(), new FileOutputStream(fileName));
-            } catch(ElementNotFoundException e) {
-                System.out.println("No download link found");
-            }
-        }
-        */
     }
 
     public static void main(String[] args) throws IOException {
