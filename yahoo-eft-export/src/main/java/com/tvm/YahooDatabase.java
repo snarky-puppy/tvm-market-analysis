@@ -39,7 +39,6 @@ class YahooDatabase {
     static int MAX_RETRIES = 5;
 
     static List<ActiveSymbol> symbols;
-    static Map<String, Set<String>> marketSymbols;
 
     private final Lock writeMux = new ReentrantLock(true);
 
@@ -54,6 +53,8 @@ class YahooDatabase {
     }
 
     public YahooDatabase() throws SQLException {
+        System.setProperty("yahoofinance.baseurl.histquotes", "https://ichart.yahoo.com/table.csv");
+
         connection().prepareStatement("CREATE TABLE IF NOT EXISTS yahoo_data (\n" +
                 "    symbol_id INTEGER NOT NULL,\n" +
                 "    dt DATE NOT NULL,\n" +
@@ -68,12 +69,11 @@ class YahooDatabase {
 
         connection().prepareStatement("CREATE TABLE IF NOT EXISTS active_symbols (\n" +
                 "    id INTEGER PRIMARY KEY,\n" +
-                "    exchange CHAR(16) NOT NULL,\n" +
                 "    symbol CHAR(64) NOT NULL,\n" +
                 "    sector CHAR(32) NOT NULL,\n" +
                 "    last_check DATE\n" +
                 ");").execute();
-        connection().prepareStatement("CREATE UNIQUE INDEX IF NOT EXISTS mapping_uniq ON active_symbols(exchange, symbol);").execute();
+        connection().prepareStatement("CREATE UNIQUE INDEX IF NOT EXISTS mapping_uniq ON active_symbols(symbol);").execute();
     }
 
     public void update() throws IOException {
@@ -94,11 +94,10 @@ class YahooDatabase {
             for (ActiveSymbol activeSymbol : symbols) {
                 try {
                     //System.out.printf("%s:%d %s:%d\n", activeSymbol.exchange, activeSymbol.exchange.length(), activeSymbol.symbol, activeSymbol.symbol.length());
-                    stmt = connection.prepareStatement("INSERT INTO active_symbols(exchange, symbol, sector)" +
-                            " VALUES(?,?,?);");
-                    stmt.setString(1, activeSymbol.exchange);
-                    stmt.setString(2, activeSymbol.symbol);
-                    stmt.setString(3, "");
+                    stmt = connection.prepareStatement("INSERT INTO active_symbols(symbol, sector)" +
+                            " VALUES(?,?);");
+                    stmt.setString(1, activeSymbol.symbol);
+                    stmt.setString(2, "");
 
                     stmt.execute();
                 } catch (SQLiteException e) {
@@ -226,19 +225,11 @@ class YahooDatabase {
         String line;
 
         symbols = new ArrayList<>();
-        marketSymbols = new HashMap<>();
         while((line = br.readLine()) != null) {
             String[] data = line.split("[,\\t]");
-            if(data.length == 2) {
+            if(data.length >= 1) {
                 String symbol = data[0];
-                String market = data[1];
-                symbols.add(new ActiveSymbol(symbol, market));
-                Set<String> l = marketSymbols.get(market);
-                if(l == null) {
-                    l = new HashSet<>();
-                    marketSymbols.put(market, l);
-                }
-                l.add(symbol);
+                symbols.add(new ActiveSymbol(symbol));
             }
         }
     }
@@ -299,7 +290,6 @@ class YahooDatabase {
                 rv.add(new Row(
                         rs.getInt("id"),
                         rs.getString("symbol"),
-                        rs.getString("exchange"),
                         rs.getString("sector"),
                         ldt));
             }
@@ -429,7 +419,7 @@ class YahooDatabase {
     }
 
 
-    public void exportFile(String market, String symbol) throws IOException {
+    public void exportFile(String symbol) throws IOException {
         Connection connection = connection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -439,12 +429,11 @@ class YahooDatabase {
 
             stmt = connection.prepareStatement(
                     "SELECT * FROM yahoo_data" +
-                    " WHERE symbol_id = (SELECT id FROM active_symbols WHERE exchange = ? AND symbol = ?)" +
+                    " WHERE symbol_id = (SELECT id FROM active_symbols WHERE symbol = ?)" +
                     " ORDER BY dt");
 
 
-            stmt.setString(1, market);
-            stmt.setString(2, symbol);
+            stmt.setString(1, symbol);
             rs = stmt.executeQuery();
 
             if(rs.isBeforeFirst()) {
@@ -491,7 +480,7 @@ class YahooDatabase {
                 @Override
                 public void run() {
                     try {
-                        exportFile(r.exchange, r.symbol);
+                        exportFile(r.symbol);
                     } catch (IOException e) {
                         e.printStackTrace();
                         System.exit(1);
@@ -510,25 +499,21 @@ class YahooDatabase {
 
     static class ActiveSymbol {
         final String symbol;
-        final String exchange;
 
-        ActiveSymbol(String symbol, String exchange) {
+        ActiveSymbol(String symbol) {
             this.symbol = symbol;
-            this.exchange = exchange;
         }
     }
 
     static class Row {
         final int id;
         final String symbol;
-        final String exchange;
         final String sector;
         //final LocalDate lastCheck;
 
-        Row(int id, String symbol, String exchange, String sector, LocalDate lastCheck) {
+        Row(int id, String symbol, String sector, LocalDate lastCheck) {
             this.id = id;
             this.symbol = symbol;
-            this.exchange = exchange;
             this.sector = sector;
             //this.lastCheck = lastCheck;
         }
@@ -537,7 +522,6 @@ class YahooDatabase {
         public String toString() {
             return "ActiveSymbol{" + "id=" + id +
                     ", symbol='" + symbol + '\'' +
-                    ", exchange='" + exchange + '\'' +
                     ", sector='" + sector + '\'' +
                     //", lastCheck=" + lastCheck +
                     '}';

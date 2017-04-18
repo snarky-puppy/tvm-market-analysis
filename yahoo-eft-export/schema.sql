@@ -14,9 +14,8 @@ CREATE UNIQUE INDEX IF NOT EXISTS yahoo_uniq ON yahoo_data(symbol_id, dt);
 
 CREATE TABLE IF NOT EXISTS active_symbols (
 	id INTEGER PRIMARY KEY,
-	exchange CHAR(16) NOT NULL,
 	symbol CHAR(64) NOT NULL,
 	sector CHAR(32) NOT NULL,
     last_check DATE
 );
-CREATE UNIQUE INDEX IF NOT EXISTS mapping_uniq ON active_symbols(exchange, symbol);
+CREATE UNIQUE INDEX IF NOT EXISTS mapping_uniq ON active_symbols(symbol);
