@@ -180,6 +180,7 @@ public class ResultsWindow {
 
                                 if(idx+bean.tradeStartDays < data.open.length) {
                                     r.entryDate = data.date[idx + bean.tradeStartDays];
+                                    r.entryPrevClose = data.close[idx + bean.tradeStartDays - 1];
                                     r.entryOpen = data.open[idx + bean.tradeStartDays];
 
                                     BigDecimal targetPrice = BigDecimal.valueOf(r.entryOpen + ((r.entryOpen/100)*(bean.targetPc))).setScale(4, BigDecimal.ROUND_HALF_UP);
@@ -295,6 +296,7 @@ public class ResultsWindow {
     class Result {
         public String symbol;
         public int entryDate;
+        public double entryPrevClose;
         public double entryOpen;
         public int exitDate;
         public double exitOpen;
@@ -311,6 +313,7 @@ public class ResultsWindow {
         final ColumnDef[] columnDefs = new ColumnDef[] {
                 new ColumnDef("Symbol", String.class),
                 new ColumnDef("Entry Date", Integer.class),
+                new ColumnDef("Prev Entry Close", Double.class),
                 new ColumnDef("Entry Open", Double.class),
 
                 new ColumnDef("Target", String.class),
@@ -362,15 +365,16 @@ public class ResultsWindow {
             switch(columnIndex) {
                 case 0:                return data.get(rowIndex).symbol;
                 case 1:                return data.get(rowIndex).entryDate;
-                case 2:                return data.get(rowIndex).entryOpen;
-                case 3:                return data.get(rowIndex).target;
-                case 4:                return data.get(rowIndex).exitDate;
-                case 5:                return data.get(rowIndex).exitOpen;
-                case 6:                return data.get(rowIndex).exitReason;
-                case 7:                return calcProfit(rowIndex);
-                case 8:                return data.get(rowIndex).slope;
-                case 9:                return data.get(rowIndex).dollarVolume;
-                case 10:               return data.get(rowIndex).liquidity;
+                case 2:                return data.get(rowIndex).entryPrevClose;
+                case 3:                return data.get(rowIndex).entryOpen;
+                case 4:                return data.get(rowIndex).target;
+                case 5:                return data.get(rowIndex).exitDate;
+                case 6:                return data.get(rowIndex).exitOpen;
+                case 7:                return data.get(rowIndex).exitReason;
+                case 8:                return calcProfit(rowIndex);
+                case 9:                return data.get(rowIndex).slope;
+                case 10:                return data.get(rowIndex).dollarVolume;
+                case 11:               return data.get(rowIndex).liquidity;
 
                 default:
                     logger.error(String.format("Invalid column index: r=%d c=%d", rowIndex, columnIndex));
