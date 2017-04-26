@@ -35,6 +35,7 @@ public class ResultsWindow {
     private JTable resultsTable;
     private JButton debugButton;
     private JProgressBar progressBar;
+    private JButton exportButton;
 
     private int totalTasks;
     private int doneTasks;
@@ -53,10 +54,35 @@ public class ResultsWindow {
         debugButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(e.getSource() == debugButton) {
+                if (e.getSource() == debugButton) {
                     openResults();
                 }
             }
+        });
+
+        exportButton.addActionListener(l -> {
+            File f = null;
+            try {
+                f = File.createTempFile("SlopeVisTemp", ".csv");
+
+                BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+                bw.write(resultTableModel.header());
+                bw.write("\n");
+                for (Result r : resultTableModel.getResults()) {
+                    bw.write(r.toString());
+                    bw.write("\n");
+                }
+                bw.flush();
+                bw.close();
+
+                f.deleteOnExit();
+
+                Desktop.getDesktop().open(f);
+            } catch (IOException e) {
+                logger.error("Could not write file", e);
+                e.printStackTrace();
+            }
+
         });
     }
 
@@ -125,7 +151,7 @@ public class ResultsWindow {
 
                 double[] c = data.close;
 
-                int maxP = Collections.max(bean.pointDistances);
+                int maxP = Collections.max(bean.pointDistances) - 1;
 
                 //int idx = maxP - bean.daysDolVol;
                 int idx = 0;
@@ -164,7 +190,9 @@ public class ResultsWindow {
                                 Result r = new Result();
                                 r.symbol = symbol;
                                 r.slope = slope;
-                                r.dollarVolume = dollarVolume;
+
+                                BigDecimal dvRounded = BigDecimal.valueOf(dollarVolume).setScale(2, BigDecimal.ROUND_HALF_UP);
+                                r.dollarVolume = dvRounded.doubleValue();
 
                                 // calculate liquidity
                                 try {
@@ -173,7 +201,8 @@ public class ResultsWindow {
                                     double liqAvgClose = new Mean().evaluate(data.close, (idx + maxP) - bean.daysLiqVol, bean.daysLiqVol);
                                     double liquidity = liqAvgClose * liqAvgVolume;
                                     debug("liquidity,avgVol=,%.2f,avgClose=,%.2f,dolVol=,%.2f", liqAvgVolume, liqAvgClose, liquidity);
-                                    r.liquidity = liquidity;
+                                    BigDecimal liqRounded = BigDecimal.valueOf(liquidity).setScale(2, BigDecimal.ROUND_HALF_UP);
+                                    r.liquidity = liqRounded.doubleValue();
                                 } catch(ArrayIndexOutOfBoundsException e) {
                                     debug("liquidity,not enough data");
                                 }
@@ -182,9 +211,10 @@ public class ResultsWindow {
                                     r.entryDate = data.date[idx + bean.tradeStartDays];
                                     r.entryPrevClose = data.close[idx + bean.tradeStartDays - 1];
                                     r.entryOpen = data.open[idx + bean.tradeStartDays];
+                                    r.entryLow = data.low[idx + bean.tradeStartDays];
 
-                                    BigDecimal targetPrice = BigDecimal.valueOf(r.entryOpen + ((r.entryOpen/100)*(bean.targetPc))).setScale(4, BigDecimal.ROUND_HALF_UP);
-                                    BigDecimal stopPrice = BigDecimal.valueOf(r.entryOpen + ((r.entryOpen/100)*(bean.stopPc))).setScale(4, BigDecimal.ROUND_HALF_UP);;
+                                    BigDecimal targetPrice = BigDecimal.valueOf(r.entryOpen + ((r.entryOpen/100)*(bean.targetPc))).setScale(2, BigDecimal.ROUND_HALF_UP);
+                                    BigDecimal stopPrice = BigDecimal.valueOf(r.entryOpen + ((r.entryOpen/100)*(bean.stopPc))).setScale(2, BigDecimal.ROUND_HALF_UP);
 
                                     r.target = targetPrice.toString();
 
@@ -210,11 +240,13 @@ public class ResultsWindow {
                                                 r.exitOpen = data.open[idx + i + 1];
                                                 r.exitReason = "TARGET";
                                                 debug("find target,TARGET FOUND,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
+                                                r.profitPc = ((r.exitOpen-r.entryOpen)/r.entryOpen)*100;
                                             } else {
                                                 r.exitDate = data.date[idx + i];
                                                 r.exitOpen = data.close[idx + i];
                                                 r.exitReason = "TARGET (No Next Day Data - showing close of target date)";
                                                 debug("find target,TARGET FOUND but next day no data so showing found date,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
+                                                r.profitPc = ((r.exitOpen-r.entryOpen)/r.entryOpen)*100;
                                             }
                                             break;
                                         }
@@ -224,11 +256,13 @@ public class ResultsWindow {
                                                 r.exitOpen = data.open[idx + i + 1];
                                                 r.exitReason = "STOP";
                                                 debug("find target,STOP FOUND,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
+                                                r.profitPc = ((r.exitOpen-r.entryOpen)/r.entryOpen)*100;
                                             } else {
                                                 r.exitDate = data.date[idx + i];
                                                 r.exitOpen = data.open[idx + i];
                                                 r.exitReason = "STOP (No Next Day Data - showing close)";
                                                 debug("find target,STOP FOUND but next day no data so showing found date,exitDate=,%d,exitOpen=,%.2f", r.exitDate, r.exitOpen);
+                                                r.profitPc = ((r.exitOpen-r.entryOpen)/r.entryOpen)*100;
                                             }
                                             break;
                                         }
@@ -298,14 +332,43 @@ public class ResultsWindow {
         public int entryDate;
         public double entryPrevClose;
         public double entryOpen;
+        public double entryLow;
+
+        public String target;
         public int exitDate;
         public double exitOpen;
         public String exitReason;
 
+        public double profitPc;
+
         public double slope;
         public double dollarVolume;
-        public String target;
+
         public double liquidity;
+
+
+        @Override
+        public String toString() {
+            final StringBuffer sb = new StringBuffer();
+            sb.append(symbol);
+            sb.append(", ").append(entryDate);
+            sb.append(",").append(entryPrevClose);
+            sb.append(",").append(entryOpen);
+            sb.append(",").append(entryLow);
+            sb.append(",").append(target);
+
+            sb.append(",").append(exitDate);
+            sb.append(",").append(exitOpen);
+            sb.append(",").append(exitReason);
+            sb.append(",").append(profitPc);
+
+            sb.append(",").append(slope);
+            sb.append(",").append(dollarVolume);
+
+            sb.append(",").append(liquidity);
+
+            return sb.toString();
+        }
     }
 
     public class ResultTableModel extends AbstractTableModel {
@@ -315,6 +378,7 @@ public class ResultsWindow {
                 new ColumnDef("Entry Date", Integer.class),
                 new ColumnDef("Prev Entry Close", Double.class),
                 new ColumnDef("Entry Open", Double.class),
+                new ColumnDef("Entry Low", Double.class),
 
                 new ColumnDef("Target", String.class),
                 new ColumnDef("Exit Date", Integer.class),
@@ -367,14 +431,15 @@ public class ResultsWindow {
                 case 1:                return data.get(rowIndex).entryDate;
                 case 2:                return data.get(rowIndex).entryPrevClose;
                 case 3:                return data.get(rowIndex).entryOpen;
-                case 4:                return data.get(rowIndex).target;
-                case 5:                return data.get(rowIndex).exitDate;
-                case 6:                return data.get(rowIndex).exitOpen;
-                case 7:                return data.get(rowIndex).exitReason;
-                case 8:                return calcProfit(rowIndex);
-                case 9:                return data.get(rowIndex).slope;
-                case 10:                return data.get(rowIndex).dollarVolume;
-                case 11:               return data.get(rowIndex).liquidity;
+                case 4:                return data.get(rowIndex).entryLow;
+                case 5:                return data.get(rowIndex).target;
+                case 6:                return data.get(rowIndex).exitDate;
+                case 7:                return data.get(rowIndex).exitOpen;
+                case 8:                return data.get(rowIndex).exitReason;
+                case 9:                return calcProfit(rowIndex);
+                case 10:                return data.get(rowIndex).slope;
+                case 11:                return data.get(rowIndex).dollarVolume;
+                case 12:               return data.get(rowIndex).liquidity;
 
                 default:
                     logger.error(String.format("Invalid column index: r=%d c=%d", rowIndex, columnIndex));
@@ -394,6 +459,19 @@ public class ResultsWindow {
         public void addResult(Result r) {
             if(r.entryDate != 0)
                 data.add(r);
+        }
+
+        public String header() {
+            StringBuilder builder = new StringBuilder();
+            for(ColumnDef c : columnDefs) {
+                builder.append(c.name);
+                builder.append(",");
+            }
+            return builder.toString();
+        }
+
+        public List<Result> getResults() {
+            return data;
         }
     }
 

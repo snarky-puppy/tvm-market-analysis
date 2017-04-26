@@ -25,8 +25,8 @@ public class FileDatabase {
 
         d.date[idx] = Integer.parseInt(tok.nextToken());
         d.open[idx] = Double.parseDouble(tok.nextToken());
-        tok.nextToken(); //d.high[idx] = Double.parseDouble(tok.nextToken());
-        tok.nextToken(); //d.low[idx] = Double.parseDouble(tok.nextToken());
+        d.high[idx] = Double.parseDouble(tok.nextToken());
+        d.low[idx] = Double.parseDouble(tok.nextToken());
         d.close[idx] = Double.parseDouble(tok.nextToken());
         d.volume[idx] = Long.parseLong(tok.nextToken());
         tok.nextToken(); //d.openInterest[idx] = Double.parseDouble(tok.nextToken());

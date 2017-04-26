@@ -25,8 +25,8 @@ public class Data {
 
     public int[] date;
     public double[] open;
-    //public double[] high;
-    //public double[] low;
+    public double[] high;
+    public double[] low;
     public double[] close;
     public long[] volume;
     public String symbol;
@@ -37,8 +37,8 @@ public class Data {
         this.symbol = symbol;
         date = new int[size];
         open = new double[size];
-        //high = new double[size];
-        //low = new double[size];
+        high = new double[size];
+        low = new double[size];
         close = new double[size];
         volume = new long[size];
         //openInterest = new double[size];
