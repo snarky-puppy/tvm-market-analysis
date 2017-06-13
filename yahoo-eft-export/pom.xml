@@ -65,11 +65,11 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.yahoofinance-api/YahooFinanceAPI -->
-        <dependency>
+        <!-- dependency>
             <groupId>com.yahoofinance-api</groupId>
             <artifactId>YahooFinanceAPI</artifactId>
             <version>3.6.0</version>
-        </dependency>
+        </dependency -->
 
     </dependencies>
 

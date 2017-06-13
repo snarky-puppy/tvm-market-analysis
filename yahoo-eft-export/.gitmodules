@@ -1,0 +1,3 @@
+[submodule "yahoofinance-api"]
+	path = yahoofinance-api
+	url = https://github.com/mwlazlo/yahoofinance-api.git

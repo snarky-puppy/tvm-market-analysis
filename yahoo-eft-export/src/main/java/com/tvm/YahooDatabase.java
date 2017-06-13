@@ -348,7 +348,7 @@ class YahooDatabase {
                     stmt.setDouble(6, quote.getAdjClose().doubleValue());
                     stmt.setLong(7, quote.getVolume());
                     stmt.setDouble(8, 0);
-                    stmt.execute();
+                    stmt.executeLargeUpdate();
                 } catch (SQLiteException e) {
                     // ignore overruns. NB: this us why using SQL db, save us messy manual coding!
                     if(e.getErrorCode() != SQLiteErrorCode.SQLITE_CONSTRAINT.code)

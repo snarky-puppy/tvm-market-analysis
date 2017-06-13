@@ -64,3 +64,6 @@ data
 dist/lib/*.jar
 dist/data
 dist/yahoo.db
+
+yahoofinance-api
+yahoofinance-api/*
