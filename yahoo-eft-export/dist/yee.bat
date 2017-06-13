@@ -1,3 +1,3 @@
-java -cp "lib/*" com.tvm.YahooEFT
+java -cp "lib/*" com.tvm.YahooEFT >log.txt 2>&1
 
 pause
