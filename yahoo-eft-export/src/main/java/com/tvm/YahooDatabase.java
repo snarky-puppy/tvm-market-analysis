@@ -35,12 +35,13 @@ import static org.sqlite.SQLiteErrorCode.SQLITE_CONSTRAINT_UNIQUE;
 class YahooDatabase {
 
     private static final Logger logger = LogManager.getLogger(YahooDatabase.class);
+    private static final int NTHREADS = 32;
 
     static int MAX_RETRIES = 5;
 
     static List<ActiveSymbol> symbols;
 
-    private final Lock writeMux = new ReentrantLock(true);
+    //private final Lock writeMux = new ReentrantLock(true);
 
 
     static {
@@ -81,12 +82,12 @@ class YahooDatabase {
         updateYahooData();
     }
 
-    private void updateActiveSymbolsTable() {
+    private synchronized void updateActiveSymbolsTable() {
         Connection connection = connection();
         PreparedStatement stmt = null;
         try {
 
-            writeMux.lock();
+            //writeMux.lock();
 
             connection.setAutoCommit(false);
 
@@ -112,7 +113,7 @@ class YahooDatabase {
             e.printStackTrace();
             System.exit(1);
         } finally {
-            writeMux.unlock();
+            //writeMux.unlock();
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
@@ -125,7 +126,7 @@ class YahooDatabase {
 
     private void updateYahooData() {
 
-        ExecutorService executorService = Executors.newFixedThreadPool(32);
+        ExecutorService executorService = Executors.newFixedThreadPool(NTHREADS);
 
         for(Row r : getActiveSymbols()) {
             executorService.submit(new Runnable() {
@@ -199,11 +200,11 @@ class YahooDatabase {
 
 
             try {
-                writeMux.lock();
+                //writeMux.lock();
                 saveData(row, data);
                 //updateLastCheck(row);
             } finally {
-                writeMux.unlock();
+                //writeMux.unlock();
             }
 
         } catch (FileNotFoundException e) {
@@ -326,19 +327,19 @@ class YahooDatabase {
         return LocalDate.now();
     }
 
-    static void saveData(Row symbol, List<HistoricalQuote> history) {
+    static synchronized void saveData(Row symbol, List<HistoricalQuote> history) {
         Connection connection = connection();
         PreparedStatement stmt = null;
         try {
             connection.setAutoCommit(false);
             // symbol_id, date, open, high, low, close, volume, openInterest
-            stmt = connection.prepareStatement("INSERT INTO yahoo_data VALUES("+generateParams(8)+");");
 
             for (HistoricalQuote quote : history) {
 
                 LocalDate date = quote.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
                 try {
+                    stmt = connection.prepareStatement("INSERT INTO yahoo_data VALUES("+generateParams(8)+");");
                     // date, open, high, low, close, volume, openInterest
                     stmt.setInt(1, symbol.id);
                     stmt.setDate(2, Date.valueOf(date));
