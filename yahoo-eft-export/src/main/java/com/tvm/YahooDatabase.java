@@ -132,7 +132,12 @@ class YahooDatabase {
             executorService.submit(new Runnable() {
                 @Override
                 public void run() {
+		    try {
                     updateData(r);
+		    } catch(Throwable t) {
+			    t.printStackTrace();
+			    System.exit(1);
+		    }
                 }
             });
         }
