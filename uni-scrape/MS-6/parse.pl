@@ -9,6 +9,10 @@ my $symbol = $ARGV[0];
 
 die "Must give sym as 1st arg\n" unless length($symbol) > 0;
 
+if(! -d 'results') {
+    mkdir 'results';
+}
+
 open my $fh, '<', "data/$symbol" or die $!;
 
 my $si_txt;
