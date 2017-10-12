@@ -130,10 +130,10 @@ public class ConfigWindow {
         });
 
         if(bean.fromDate == null)
-            bean.fromDate = LocalDate.now();
+            bean.fromDate = LocalDate.now().minusYears(5);
 
         if(bean.toDate == null)
-            bean.toDate = LocalDate.now().minusYears(5);
+            bean.toDate = LocalDate.now();
 
         toDateText.setInputVerifier(new DateVerifier(false));
         fromDateText.setInputVerifier(new DateVerifier(true));

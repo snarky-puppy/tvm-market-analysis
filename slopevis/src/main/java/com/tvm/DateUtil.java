@@ -2,11 +2,14 @@ package com.tvm;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.pattern.IntegerPatternConverter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -43,6 +46,11 @@ public class DateUtil {
     public static int toInteger(Date d) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         return Integer.parseInt(sdf.format(d));
+    }
+
+    public static int toInteger(LocalDate d) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        return Integer.parseInt(d.format(formatter));
     }
 
 

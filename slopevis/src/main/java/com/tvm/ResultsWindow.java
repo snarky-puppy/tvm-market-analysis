@@ -144,7 +144,7 @@ public class ResultsWindow {
             try {
                 //logger.info("Processing "+file.getName());
 
-                Data data = new FileDatabase().loadData(file);
+                Data data = new FileDatabase().loadData(file, bean);
 
                 if(data == null)
                     return null;
@@ -163,11 +163,13 @@ public class ResultsWindow {
                     double p[] = new double[bean.pointDistances.size()];
                     SimpleRegression simpleRegression = new SimpleRegression();
 
-                    int i = 0;
-                    for(int d : bean.pointDistances) {
-                        p[i++] = change(c[idx], c[idx + d-1]);
-                        debug("date=,%d,d=,%d,close=,%.2f,close+d=,%.2f,x=,%d,y=,%.2f", data.date[idx], d, c[idx], c[idx+d-1], i, p[i-1]);
-                        simpleRegression.addData(i, p[i-1]);
+                    {
+                        int i = 0;
+                        for (int d : bean.pointDistances) {
+                            p[i++] = change(c[idx], c[idx + d - 1]);
+                            debug("date=,%d,d=,%d,close=,%.2f,close+d=,%.2f,x=,%d,y=,%.2f", data.date[idx], d, c[idx], c[idx + d - 1], i, p[i - 1]);
+                            simpleRegression.addData(i, p[i - 1]);
+                        }
                     }
 
                     double slope = simpleRegression.getSlope();
@@ -220,7 +222,8 @@ public class ResultsWindow {
 
                                     debug("entryDate=,%d,entryOpen=,%.2f,targetPrice=,%.2f,stopPrice=,%.2f", r.entryDate, r.entryOpen, targetPrice.doubleValue(), stopPrice.doubleValue());
 
-                                    for(i = bean.tradeStartDays + 1; i < bean.tradeStartDays+bean.maxHoldDays+1; i++) {
+                                    int i = 0;
+                                    for(i = bean.tradeStartDays + 1; i <= bean.tradeStartDays+bean.maxHoldDays; i++) {
                                         if(idx+i >= data.close.length) {
                                             r.exitReason = "END DATA";
                                             debug("exitReason=,END DATA (run out of data before found target/stop/maxHold),max=,%d",
@@ -268,6 +271,12 @@ public class ResultsWindow {
                                         }
                                     }
 
+                                    // edge case: data is exactly as long as idx + tradeStartDays + maxHoldDays
+                                    if(idx + i == data.date.length) {
+                                        r.exitReason = "END DATA";
+                                    }
+
+                                    // we exceeded the max hold period
                                     if(r.exitReason == null) {
                                         r.exitDate = data.date[idx + i];
                                         r.exitOpen = data.open[idx + i];

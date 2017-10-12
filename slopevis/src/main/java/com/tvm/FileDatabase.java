@@ -10,6 +10,7 @@ import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -20,24 +21,11 @@ import java.util.*;
 public class FileDatabase {
     private static final Logger logger = LogManager.getLogger(FileDatabase.class);
 
-    private void parseDataLine(String symbol, Data d, int idx, String line) {
-        StringTokenizer tok = new StringTokenizer(line, ",", false);
+    private void parseDataLine(String symbol, Data d, int idx, String line, int fromDate, int toDate) {
 
-        d.date[idx] = Integer.parseInt(tok.nextToken());
-        d.open[idx] = Double.parseDouble(tok.nextToken());
-        d.high[idx] = Double.parseDouble(tok.nextToken());
-        d.low[idx] = Double.parseDouble(tok.nextToken());
-        d.close[idx] = Double.parseDouble(tok.nextToken());
-        d.volume[idx] = Long.parseLong(tok.nextToken());
-        tok.nextToken(); //d.openInterest[idx] = Double.parseDouble(tok.nextToken());
-        tok.nextToken(); // symbol
-
-        if(tok.hasMoreTokens()) {
-            logger.error("parse data error: " + symbol + ":"+idx+": too many fields: " + tok.nextToken());
-        }
     }
 
-    public Data loadData(File file) {
+    public Data loadData(File file, int fromDate, int toDate) {
         //logger.info("Loading data: "+file.getName());
         try {
             List<String> lines = FileUtils.readLines(file);
@@ -49,8 +37,26 @@ public class FileDatabase {
                 if(first) {
                     first = false;
                 } else {
-                    parseDataLine(symbol, rv, i, line);
+
+                    StringTokenizer tok = new StringTokenizer(line, ",", false);
+
+                    int date = Integer.parseInt(tok.nextToken());
+                    if(date < fromDate || date > toDate)
+                        continue;
+
+                    rv.date[i] = date;
+                    rv.open[i] = Double.parseDouble(tok.nextToken());
+                    rv.high[i] = Double.parseDouble(tok.nextToken());
+                    rv.low[i] = Double.parseDouble(tok.nextToken());
+                    rv.close[i] = Double.parseDouble(tok.nextToken());
+                    rv.volume[i] = Long.parseLong(tok.nextToken());
+                    tok.nextToken(); //d.openInterest[idx] = Double.parseDouble(tok.nextToken());
+                    tok.nextToken(); // symbol
                     i++;
+
+                    if(tok.hasMoreTokens()) {
+                        logger.error("parse data error: " + symbol + ":"+i+": too many fields: " + tok.nextToken());
+                    }
                 }
             }
             return rv;
@@ -58,5 +64,11 @@ public class FileDatabase {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    public Data loadData(File file, ConfigBean bean) {
+        int fromDate = DateUtil.toInteger(bean.fromDate);
+        int toDate = DateUtil.toInteger(bean.toDate);
+        return loadData(file, fromDate, toDate);
     }
 }
