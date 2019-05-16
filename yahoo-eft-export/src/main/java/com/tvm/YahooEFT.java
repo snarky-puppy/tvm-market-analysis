@@ -12,8 +12,12 @@ public class YahooEFT {
 
     public static void main(String[] args) {
         YahooDatabase db;
+        String name = "symbols";
+        if (args.length != 0) {
+            name = args[0];
+        }
         try {
-            db = new YahooDatabase();
+            db = new YahooDatabase(name);
             db.update();
             db.export();
         } catch (SQLException e) {

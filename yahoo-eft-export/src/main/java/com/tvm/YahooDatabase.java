@@ -10,21 +10,16 @@ import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
 
 import java.io.*;
-import java.net.SocketTimeoutException;
 import java.sql.*;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import static org.sqlite.SQLiteErrorCode.SQLITE_CONSTRAINT_UNIQUE;
 
 
 /**
@@ -40,20 +35,22 @@ class YahooDatabase {
     static int MAX_RETRIES = 5;
 
     static List<ActiveSymbol> symbols;
+    private final String name;
 
     //private final Lock writeMux = new ReentrantLock(true);
 
 
-    static {
+    public YahooDatabase(String name) throws SQLException {
+        this.name = name;
+
         try {
             loadSymbols();
-        } catch(IOException e) {
+        } catch (IOException e) {
             logger.error(e);
             System.exit(1);
         }
-    }
 
-    public YahooDatabase() throws SQLException {
+
         System.setProperty("yahoofinance.baseurl.histquotes", "https://ichart.yahoo.com/table.csv");
 
         connection().prepareStatement("CREATE TABLE IF NOT EXISTS yahoo_data (\n" +
@@ -102,7 +99,7 @@ class YahooDatabase {
 
                     stmt.execute();
                 } catch (SQLiteException e) {
-                    if(e.getErrorCode() != SQLiteErrorCode.SQLITE_CONSTRAINT.code)
+                    if (e.getErrorCode() != SQLiteErrorCode.SQLITE_CONSTRAINT.code)
                         throw e;
                 }
             }
@@ -128,16 +125,16 @@ class YahooDatabase {
 
         ExecutorService executorService = Executors.newFixedThreadPool(NTHREADS);
 
-        for(Row r : getActiveSymbols()) {
+        for (Row r : getActiveSymbols()) {
             executorService.submit(new Runnable() {
                 @Override
                 public void run() {
-		    try {
-                    updateData(r);
-		    } catch(Throwable t) {
-			    t.printStackTrace();
-			    System.exit(1);
-		    }
+                    try {
+                        updateData(r);
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                        System.exit(1);
+                    }
                 }
             });
         }
@@ -164,7 +161,7 @@ class YahooDatabase {
 
         //if(first == null)
         //    first = now;
-        if(last == null)
+        if (last == null)
             last = now.minusYears(100);
 
         /*
@@ -180,7 +177,7 @@ class YahooDatabase {
         }
         */
 
-        if(now.isAfter(last)) {
+        if (now.isAfter(last)) {
             updateData(row, last, now, 1);
         }
     }
@@ -193,7 +190,7 @@ class YahooDatabase {
 
     private void updateData(Row row, LocalDate from, LocalDate to, int runNum) {
 
-        if(to.equals(from))
+        if (to.equals(from))
             return;
 
         try {
@@ -226,23 +223,25 @@ class YahooDatabase {
             }
         }
     }
-    private static void loadSymbols() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(new File("symbols.csv")));
+
+    private void loadSymbols() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(new File(this.name + ".csv")));
         String line;
 
         symbols = new ArrayList<>();
-        while((line = br.readLine()) != null) {
+        while ((line = br.readLine()) != null) {
             String[] data = line.split("[,\\t]");
-            if(data.length >= 1) {
+            if (data.length >= 1) {
                 String symbol = data[0];
                 symbols.add(new ActiveSymbol(symbol));
             }
         }
     }
 
-    private static Connection connection() {
+    private synchronized Connection connection() {
+
         try {
-            return DriverManager.getConnection("jdbc:sqlite:yahoo.db");
+            return DriverManager.getConnection("jdbc:sqlite:" + this.name + ".db");
 
         } catch (SQLException /*|IllegalAccessException|InstantiationException|ClassNotFoundException*/ ex) {
             System.out.println("SQLException: " + ex.getMessage());
@@ -277,7 +276,7 @@ class YahooDatabase {
     }
     */
 
-    static List<Row> getActiveSymbols() {
+    List<Row> getActiveSymbols() {
         Connection connection = connection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -308,18 +307,18 @@ class YahooDatabase {
         return rv;
     }
 
-    static LocalDate getDate(Row activeSymbol, boolean first) {
+    LocalDate getDate(Row activeSymbol, boolean first) {
         Connection connection = connection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-            stmt = connection.prepareStatement("SELECT "+(first?"MIN":"MAX")+"(dt) " +
+            stmt = connection.prepareStatement("SELECT " + (first ? "MIN" : "MAX") + "(dt) " +
                     " FROM yahoo_data WHERE symbol_id = ?");
             stmt.setInt(1, activeSymbol.id);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 Date dt = rs.getDate(1);
-                if(dt != null)
+                if (dt != null)
                     return dt.toLocalDate();
                 return null;
             }
@@ -332,7 +331,7 @@ class YahooDatabase {
         return LocalDate.now();
     }
 
-    static synchronized void saveData(Row symbol, List<HistoricalQuote> history) {
+    synchronized void saveData(Row symbol, List<HistoricalQuote> history) {
         Connection connection = connection();
         PreparedStatement stmt = null;
         try {
@@ -341,10 +340,13 @@ class YahooDatabase {
 
             for (HistoricalQuote quote : history) {
 
+                if (quote.getOpen() == null || quote.getClose() == null)
+                    continue;
+
                 LocalDate date = quote.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
                 try {
-                    stmt = connection.prepareStatement("INSERT INTO yahoo_data VALUES("+generateParams(8)+");");
+                    stmt = connection.prepareStatement("INSERT INTO yahoo_data VALUES(" + generateParams(8) + ");");
                     // date, open, high, low, close, volume, openInterest
                     stmt.setInt(1, symbol.id);
                     stmt.setDate(2, Date.valueOf(date));
@@ -357,7 +359,7 @@ class YahooDatabase {
                     stmt.execute();
                 } catch (SQLiteException e) {
                     // ignore overruns. NB: this us why using SQL db, save us messy manual coding!
-                    if(e.getErrorCode() != SQLiteErrorCode.SQLITE_CONSTRAINT.code)
+                    if (e.getErrorCode() != SQLiteErrorCode.SQLITE_CONSTRAINT.code)
                         throw e;
                 }
             }
@@ -375,7 +377,7 @@ class YahooDatabase {
         }
     }
 
-    private static String generateParams(int nParams) {
+    private String generateParams(int nParams) {
         StringBuilder builder = new StringBuilder();
         while (nParams > 0) {
             builder.append("?");
@@ -386,7 +388,7 @@ class YahooDatabase {
         return builder.toString();
     }
 
-    private static void close(Connection connection) {
+    private void close(Connection connection) {
         try {
             if (connection != null) {
                 connection.close();
@@ -397,7 +399,7 @@ class YahooDatabase {
         }
     }
 
-    private static void close(PreparedStatement stmt) {
+    private void close(PreparedStatement stmt) {
         try {
             if (stmt != null)
                 stmt.close();
@@ -408,7 +410,7 @@ class YahooDatabase {
 
     }
 
-    private static void close(ResultSet rs) {
+    private void close(ResultSet rs) {
         try {
             if (rs != null)
                 rs.close();
@@ -418,7 +420,7 @@ class YahooDatabase {
         }
     }
 
-    private static void close(ResultSet rs, PreparedStatement stmt, Connection connection) {
+    private void close(ResultSet rs, PreparedStatement stmt, Connection connection) {
         close(rs);
         close(stmt);
         close(connection);
@@ -435,22 +437,22 @@ class YahooDatabase {
 
             stmt = connection.prepareStatement(
                     "SELECT * FROM yahoo_data" +
-                    " WHERE symbol_id = (SELECT id FROM active_symbols WHERE symbol = ?)" +
-                    " ORDER BY dt");
+                            " WHERE symbol_id = (SELECT id FROM active_symbols WHERE symbol = ?)" +
+                            " ORDER BY dt");
 
 
             stmt.setString(1, symbol);
             rs = stmt.executeQuery();
 
-            if(rs.isBeforeFirst()) {
-                FileWriter fw = new FileWriter(new File("data/"+symbol+".csv"), false);
+            if (rs.isBeforeFirst()) {
+                FileWriter fw = new FileWriter(new File(this.name+"/" + symbol + ".csv"), false);
                 String hdr = "Date,Open,High,Low,Close,Volume,Open Interest,Ticker\n";
                 fw.write(hdr);
 
                 while (rs.next()) {
                     // date, open, high, low, close, volume, openInterest, symbol
                     String line = String.format("%d,%.5f,%.5f,%.5f,%.5f,%d,%.5f,%s\n",
-                        Long.parseLong(sdf.format(rs.getDate("dt"))),
+                            Long.parseLong(sdf.format(rs.getDate("dt"))),
                             rs.getDouble("open"),
                             rs.getDouble("high"),
                             rs.getDouble("low"),
@@ -475,13 +477,13 @@ class YahooDatabase {
 
 
     public void export() throws IOException {
-        File dir = new File("data");
-        if(!dir.exists())
+        File dir = new File(this.name);
+        if (!dir.exists())
             dir.mkdir();
 
         ExecutorService executorService = Executors.newFixedThreadPool(4);
 
-        for(Row r : getActiveSymbols()) {
+        for (Row r : getActiveSymbols()) {
             executorService.submit(new Runnable() {
                 @Override
                 public void run() {
