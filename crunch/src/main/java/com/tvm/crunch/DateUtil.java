@@ -20,8 +20,8 @@ public class DateUtil {
     private static final Logger logger = LogManager.getLogger(DateUtil.class);
 
     public static void assertValidDate(int date) throws IndexOutOfBoundsException {
-        // If this code is still kicking around 6 years from now I will be impressed^H^H^H^H^H^H^Hdissapointed
-        if(date < 19500101 || date > 20200101) {
+        // If this code is still kicking around 10 years from now I will be impressed^H^H^H^H^H^H^Hdissapointed
+        if(date < 19500101 || date > 20300101) {
             logger.error("Invalid date: "+date);
             System.out.println("Invalid date: "+date);
             throw new IndexOutOfBoundsException();
