@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
+import org.joda.time.LocalDateTime;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -154,8 +155,8 @@ public class DateUtil {
     public static int distance(int start, int end) {
         DateComponents startDateComponents = new DateComponents(start);
         DateComponents endDateComponents = new DateComponents(end);
-        DateTime startDateTime = new DateTime(startDateComponents.y, startDateComponents.m, startDateComponents.d, 0, 0);
-        DateTime endDateTime = new DateTime(endDateComponents.y, endDateComponents.m, endDateComponents.d, 0, 0);
+        LocalDateTime startDateTime = new LocalDateTime(startDateComponents.y, startDateComponents.m, startDateComponents.d, 0, 0);
+        LocalDateTime endDateTime = new LocalDateTime(endDateComponents.y, endDateComponents.m, endDateComponents.d, 0, 0);
         Days rv = Days.daysBetween(startDateTime.toLocalDate(), endDateTime.toLocalDate());
         return rv.getDays();
     }

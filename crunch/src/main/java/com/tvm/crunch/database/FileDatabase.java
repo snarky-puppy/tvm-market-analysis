@@ -20,14 +20,20 @@ import java.util.*;
 public class FileDatabase implements Database {
     private static final Logger logger = LogManager.getLogger(FileDatabase.class);
 
-    public static final Path PD_DIR = Paths.get("/Users/horse/Projects/data");
+//    public static final Path PD_DIR = Paths.get("/home/matt/IdeaProjects/yahoo-eft-export/symbols");
+//    public static final Path PD_DIR = Paths.get("/home/matt/IdeaProjects/yahoo-eft-export/ASXListedCompanies");
+    public Path PD_DIR;
 
-    public static Path getDataDir(String market) {
+    public Path getDataDir(String market) {
         return PD_DIR.resolve(market);
     }
 
-    private static Path dataFile(String market, String symbol) {
+    private Path dataFile(String market, String symbol) {
         return getDataDir(market).resolve(symbol + ".csv");
+    }
+
+    FileDatabase(Path dbname) {
+        this.PD_DIR = dbname;
     }
 
     public Set<String> listSymbols(String market) {

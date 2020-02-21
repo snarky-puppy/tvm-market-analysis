@@ -7,6 +7,8 @@ import com.tvm.crunch.scenario.AbstractScenarioFactory;
 import com.tvm.crunch.scenario.DailyBackTestScenarioFactory;
 import com.tvm.crunch.scenario.Scenario;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -35,10 +37,10 @@ public class ZScoreBackTest extends MarketExecutor implements TriggerProcessor {
         Util.waitForKeypress(visualvm);
 
         if(false) {
-            ZScoreBackTest trendContBackTest = new ZScoreBackTest("test", new FileDatabaseFactory());
+            ZScoreBackTest trendContBackTest = new ZScoreBackTest("test", new FileDatabaseFactory(Paths.get(args[0])));
             trendContBackTest.executeAllSymbols();
         } else {
-            executeAllMarkets(new FileDatabaseFactory(), ZScoreBackTest::new);
+            executeAllMarkets(new FileDatabaseFactory(Paths.get(args[0])), ZScoreBackTest::new);
         }
 
         Util.waitForKeypress(visualvm);
