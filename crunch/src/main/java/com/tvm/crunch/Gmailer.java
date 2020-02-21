@@ -29,7 +29,7 @@ public class Gmailer {
     private static final Logger logger = LogManager.getLogger(Gmailer.class);
 
     private static Session getSession() {
-        final String username = "mwlazlo@gmail.com";
+        final String username = "matt@wasabisoftware.com";
         final String password = readPassword();
 
         Properties props = new Properties();
@@ -74,7 +74,7 @@ public class Gmailer {
         StringBuilder builder = new StringBuilder();
         builder.append("DailyTriggerReport possible error condition " + Integer.toString(DateUtil.today()));
 
-        String fileName = "/Users/horse/mbox";
+        String fileName = args[0]; //"/Users/horse/mbox";
 
         sendMessage(session, "me",
                 createEmailWithAttachment(session,
@@ -106,8 +106,8 @@ public class Gmailer {
         email.setFrom(new InternetAddress(from));
         email.addRecipient(Message.RecipientType.TO,
                 new InternetAddress("vinniekeoghs@gmail.com"));
-        email.addRecipient(Message.RecipientType.TO,
-                new InternetAddress("chamberlaintimothy61@gmail.com"));
+//        email.addRecipient(Message.RecipientType.TO,
+//                new InternetAddress("chamberlaintimothy61@gmail.com"));
         email.addRecipient(Message.RecipientType.TO,
                 new InternetAddress("mwlazlo@gmail.com"));
 
@@ -174,9 +174,8 @@ public class Gmailer {
         email.setFrom(fAddress);
         email.addRecipient(Message.RecipientType.TO,
                 new InternetAddress("vinniekeoghs@gmail.com"));
-        email.addRecipient(Message.RecipientType.TO,
-                new InternetAddress("chamberlaintimothy61@gmail.com"));
-
+//        email.addRecipient(Message.RecipientType.TO,
+//                new InternetAddress("chamberlaintimothy61@gmail.com"));
         email.addRecipient(Message.RecipientType.TO,
                 new InternetAddress("mwlazlo@gmail.com"));
         email.setSubject(subject);
@@ -217,12 +216,12 @@ public class Gmailer {
             sendMessage(session, "me",
                     createEmail(session,
                             "mwlazlo@gmail.com",
-                            "TVM Trigger Report ["+Integer.toString(size)+"]",
+                            "Trigger Report ["+Integer.toString(size)+"]",
                             builder.toString()));
         } else {
             sendMessage(session, "me",
                     createEmailWithAttachment(session,
-                            "TVM Trigger Report ["+Integer.toString(size)+"]",
+                            "Trigger Report ["+Integer.toString(size)+"]",
                             builder.toString(),
                             fileDir,
                             filename));
