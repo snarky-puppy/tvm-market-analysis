@@ -196,6 +196,10 @@ class YahooDatabase {
         try {
             //Stock stock = YahooFinance.get(row.symbol.replace('.', '-'), from, to, Interval.DAILY);
             Stock stock = YahooFinance.get(row.symbol, toCal(from), toCal(to), Interval.DAILY);
+            if (stock == null) {
+                System.out.println(row.symbol + ": " + row.symbol + ": from " + from + " to " + to + ": symbol not found?");
+                return;
+            }
             List<HistoricalQuote> data = stock.getHistory();
 
             System.out.println(row.symbol + ": " + row.symbol + ": from " + from + " to " + to + ": " + data.size() + " rows");
