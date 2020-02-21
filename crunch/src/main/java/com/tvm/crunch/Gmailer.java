@@ -29,7 +29,7 @@ public class Gmailer {
     private static final Logger logger = LogManager.getLogger(Gmailer.class);
 
     private static Session getSession() {
-        final String username = "matt@wasabisoftware.com";
+        final String username = "screener@wasabisoftware.com";
         final String password = readPassword();
 
         Properties props = new Properties();
