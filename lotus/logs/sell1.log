@@ -1,0 +1,497 @@
+/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/bin/java -Didea.launcher.port=7532 "-Didea.launcher.bin.path=/Applications/IntelliJ IDEA 15 CE.app/Contents/bin" -Dfile.encoding=UTF-8 -classpath "/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/ant-javafx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/dt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/javafx-mx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/sa-jdi.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/tools.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/deploy.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/javaws.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jfxswt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/management-agent.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/plugin.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/cldrdata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/nashorn.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/Users/horse/Projects/Lotus/build/classes/main:/Users/horse/Projects/Lotus/build/resources/main:/Users/horse/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.0.2/13521c5364501478e28c77a7f86b90b6ed5dbb77/log4j-core-2.0.2.jar:/Users/horse/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.0.2/8bc86f5add32e0259d83d1b62ab64f9ecfda109d/log4j-api-2.0.2.jar:/Users/horse/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar:/Users/horse/.gradle/caches/modules-2/files-2.1/mysql/mysql-connector-java/5.1.38/dbbd7cd309ce167ec8367de4e41c63c2c8593cc5/mysql-connector-java-5.1.38.jar:/Users/horse/.gradle/caches/modules-2/files-2.1/org.apache.tomcat/tomcat-jdbc/8.0.32/55396c45fc8c34f31420a3b280fde4b1387b044d/tomcat-jdbc-8.0.32.jar:/Users/horse/.gradle/caches/modules-2/files-2.1/org.apache.tomcat/tomcat-juli/8.0.32/71471069cea029dfdce0735337864c7d0a3d9992/tomcat-juli-8.0.32.jar:/Applications/IntelliJ IDEA 15 CE.app/Contents/lib/idea_rt.jar" com.intellij.rt.execution.application.AppMain com.tvmresearch.lotus.Lotus
+Console output is saving to: /Users/horse/Projects/Lotus/logs
+Server Version:76
+TWS Time at connection:20160405 06:51:54 AEST
+waiting...
+06:51:55.394 [EReader] INFO  AccountHandler - account=DU289674 key=AccountCode value=DU289674 currency=null
+06:51:55.395 [EReader] INFO  AccountHandler - account=DU289674 key=AccountOrGroup value=DU289674 currency=AUD
+06:51:55.396 [EReader] INFO  AccountHandler - account=DU289674 key=AccountOrGroup value=DU289674 currency=BASE
+06:51:55.396 [EReader] INFO  AccountHandler - account=DU289674 key=AccountOrGroup value=DU289674 currency=USD
+06:51:55.396 [EReader] INFO  AccountHandler - account=DU289674 key=AccountReady value=true currency=null
+06:51:55.396 [EReader] INFO  AccountHandler - account=DU289674 key=AccountType value=TRUST currency=null
+06:51:55.397 [EReader] INFO  AccountHandler - account=DU289674 key=AccruedCash value=0 currency=AUD
+06:51:55.397 [EReader] INFO  AccountHandler - account=DU289674 key=AccruedCash value=0 currency=BASE
+06:51:55.397 [EReader] INFO  AccountHandler - account=DU289674 key=AccruedCash value=0 currency=USD
+06:51:55.397 [EReader] INFO  AccountHandler - account=DU289674 key=AccruedCash-C value=0.00 currency=AUD
+06:51:55.398 [EReader] INFO  AccountHandler - account=DU289674 key=AccruedCash-S value=0.00 currency=AUD
+06:51:55.398 [EReader] INFO  AccountHandler - account=DU289674 key=AccruedDividend value=0.00 currency=AUD
+06:51:55.398 [EReader] INFO  AccountHandler - account=DU289674 key=AccruedDividend-C value=0.00 currency=AUD
+06:51:55.399 [EReader] INFO  AccountHandler - account=DU289674 key=AccruedDividend-S value=0.00 currency=AUD
+06:51:55.399 [EReader] INFO  AccountHandler - account=DU289674 key=AvailableFunds value=1276123.64 currency=AUD
+06:51:55.399 [EReader] INFO  AccountHandler - account=DU289674 key=AvailableFunds-C value=0.00 currency=AUD
+06:51:55.399 [EReader] INFO  AccountHandler - account=DU289674 key=AvailableFunds-S value=1276123.64 currency=AUD
+06:51:55.400 [EReader] INFO  AccountHandler - account=DU289674 key=Billable value=0.00 currency=AUD
+06:51:55.400 [EReader] INFO  AccountHandler - account=DU289674 key=Billable-C value=0.00 currency=AUD
+06:51:55.400 [EReader] INFO  AccountHandler - account=DU289674 key=Billable-S value=0.00 currency=AUD
+06:51:55.401 [EReader] INFO  AccountHandler - account=DU289674 key=BuyingPower value=5104494.55 currency=AUD
+06:51:55.401 [EReader] INFO  AccountHandler - account=DU289674 key=CashBalance value=-1617 currency=AUD
+06:51:55.401 [EReader] INFO  AccountHandler - account=DU289674 key=CashBalance value=1300867 currency=BASE
+06:51:55.401 [EReader] INFO  AccountHandler - account=DU289674 key=CashBalance value=990415 currency=USD
+06:51:55.401 [EReader] INFO  AccountHandler - account=DU289674 key=CorporateBondValue value=0 currency=AUD
+06:51:55.402 [EReader] INFO  AccountHandler - account=DU289674 key=CorporateBondValue value=0 currency=BASE
+06:51:55.402 [EReader] INFO  AccountHandler - account=DU289674 key=CorporateBondValue value=0 currency=USD
+06:51:55.402 [EReader] INFO  AccountHandler - account=DU289674 key=Cushion value=0.995003 currency=null
+06:51:55.403 [EReader] INFO  AccountHandler - account=DU289674 key=DayTradesRemaining value=-1 currency=null
+06:51:55.403 [EReader] INFO  AccountHandler - account=DU289674 key=DayTradesRemainingT+1 value=-1 currency=null
+06:51:55.403 [EReader] INFO  AccountHandler - account=DU289674 key=DayTradesRemainingT+2 value=-1 currency=null
+06:51:55.403 [EReader] INFO  AccountHandler - account=DU289674 key=DayTradesRemainingT+3 value=-1 currency=null
+06:51:55.404 [EReader] INFO  AccountHandler - account=DU289674 key=DayTradesRemainingT+4 value=-1 currency=null
+06:51:55.404 [EReader] INFO  AccountHandler - account=DU289674 key=EquityWithLoanValue value=1282532.46 currency=AUD
+06:51:55.404 [EReader] INFO  AccountHandler - account=DU289674 key=EquityWithLoanValue-C value=0.00 currency=AUD
+06:51:55.404 [EReader] INFO  AccountHandler - account=DU289674 key=EquityWithLoanValue-S value=1282532.46 currency=AUD
+06:51:55.404 [EReader] INFO  AccountHandler - account=DU289674 key=ExcessLiquidity value=1276123.64 currency=AUD
+06:51:55.405 [EReader] INFO  AccountHandler - account=DU289674 key=ExcessLiquidity-C value=0.00 currency=AUD
+06:51:55.405 [EReader] INFO  AccountHandler - account=DU289674 key=ExcessLiquidity-S value=1276123.64 currency=AUD
+06:51:55.405 [EReader] INFO  AccountHandler - account=DU289674 key=ExchangeRate value=1.00 currency=AUD
+06:51:55.405 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:hfarm
+06:51:55.405 [EReader] INFO  AccountHandler - account=DU289674 key=ExchangeRate value=1.00 currency=BASE
+06:51:55.406 [EReader] INFO  AccountHandler - account=DU289674 key=ExchangeRate value=1.3150887 currency=USD
+06:51:55.406 [EReader] INFO  AccountHandler - account=DU289674 key=FullAvailableFunds value=1276123.64 currency=AUD
+06:51:55.406 [EReader] INFO  AccountHandler - account=DU289674 key=FullAvailableFunds-C value=0.00 currency=AUD
+06:51:55.406 [EReader] INFO  AccountHandler - account=DU289674 key=FullAvailableFunds-S value=1276123.64 currency=AUD
+06:51:55.407 [EReader] INFO  AccountHandler - account=DU289674 key=FullExcessLiquidity value=1276123.64 currency=AUD
+06:51:55.407 [EReader] INFO  AccountHandler - account=DU289674 key=FullExcessLiquidity-C value=0.00 currency=AUD
+06:51:55.407 [EReader] INFO  AccountHandler - account=DU289674 key=FullExcessLiquidity-S value=1276123.64 currency=AUD
+06:51:55.407 [EReader] INFO  AccountHandler - account=DU289674 key=FullInitMarginReq value=6408.82 currency=AUD
+06:51:55.408 [EReader] INFO  AccountHandler - account=DU289674 key=FullInitMarginReq-C value=0.00 currency=AUD
+06:51:55.408 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:eufarm
+06:51:55.408 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:jfarm
+06:51:55.408 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:usfuture
+06:51:55.409 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:afarm
+06:51:55.409 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:cashfarm
+06:51:55.409 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:usfarm.us
+06:51:55.410 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:usfarm
+06:51:55.410 [EReader] INFO  AccountHandler - account=DU289674 key=FullInitMarginReq-S value=6408.82 currency=AUD
+06:51:55.410 [EReader] INFO  AccountHandler - account=DU289674 key=FullMaintMarginReq value=6408.82 currency=AUD
+06:51:55.410 [EReader] INFO  AccountHandler - account=DU289674 key=FullMaintMarginReq-C value=0.00 currency=AUD
+06:51:55.411 [EReader] INFO  AccountHandler - account=DU289674 key=FullMaintMarginReq-S value=6408.82 currency=AUD
+06:51:55.411 [EReader] INFO  AccountHandler - account=DU289674 key=FundValue value=0 currency=AUD
+06:51:55.411 [EReader] INFO  AccountHandler - account=DU289674 key=FundValue value=0 currency=BASE
+06:51:55.411 [EReader] INFO  AccountHandler - account=DU289674 key=FundValue value=0 currency=USD
+06:51:55.412 [EReader] INFO  AccountHandler - account=DU289674 key=FutureOptionValue value=0 currency=AUD
+06:51:55.412 [EReader] INFO  AccountHandler - account=DU289674 key=FutureOptionValue value=0 currency=BASE
+06:51:55.412 [EReader] INFO  AccountHandler - account=DU289674 key=FutureOptionValue value=0 currency=USD
+06:51:55.412 [EReader] INFO  AccountHandler - account=DU289674 key=FuturesPNL value=0 currency=AUD
+06:51:55.412 [EReader] INFO  AccountHandler - account=DU289674 key=FuturesPNL value=0 currency=BASE
+06:51:55.413 [EReader] INFO  AccountHandler - account=DU289674 key=FuturesPNL value=0 currency=USD
+06:51:55.413 [EReader] INFO  AccountHandler - account=DU289674 key=FxCashBalance value=0 currency=AUD
+06:51:55.413 [EReader] INFO  AccountHandler - account=DU289674 key=FxCashBalance value=0 currency=BASE
+06:51:55.413 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:ilhmds
+06:51:55.413 [EReader] INFO  AccountHandler - account=DU289674 key=FxCashBalance value=0 currency=USD
+06:51:55.413 [EReader] INFO  AccountHandler - account=DU289674 key=GrossPositionValue value=21638.06 currency=AUD
+06:51:55.413 [EReader] INFO  AccountHandler - account=DU289674 key=GrossPositionValue-S value=21638.06 currency=AUD
+06:51:55.414 [EReader] INFO  AccountHandler - account=DU289674 key=IndianStockHaircut value=0.00 currency=AUD
+06:51:55.414 [EReader] INFO  AccountHandler - account=DU289674 key=IndianStockHaircut-C value=0.00 currency=AUD
+06:51:55.414 [EReader] INFO  AccountHandler - account=DU289674 key=IndianStockHaircut-S value=0.00 currency=AUD
+06:51:55.414 [EReader] INFO  AccountHandler - account=DU289674 key=InitMarginReq value=6408.82 currency=AUD
+06:51:55.415 [EReader] INFO  AccountHandler - account=DU289674 key=InitMarginReq-C value=0.00 currency=AUD
+06:51:55.415 [EReader] INFO  AccountHandler - account=DU289674 key=InitMarginReq-S value=6408.82 currency=AUD
+06:51:55.415 [EReader] INFO  AccountHandler - account=DU289674 key=IssuerOptionValue value=0 currency=AUD
+06:51:55.415 [EReader] INFO  AccountHandler - account=DU289674 key=IssuerOptionValue value=0 currency=BASE
+06:51:55.416 [EReader] INFO  AccountHandler - account=DU289674 key=IssuerOptionValue value=0 currency=USD
+06:51:55.416 [EReader] INFO  AccountHandler - account=DU289674 key=Leverage-S value=0.02 currency=null
+06:51:55.416 [EReader] INFO  AccountHandler - account=DU289674 key=LookAheadAvailableFunds value=1276123.64 currency=AUD
+06:51:55.416 [EReader] INFO  AccountHandler - account=DU289674 key=LookAheadAvailableFunds-C value=0.00 currency=AUD
+06:51:55.417 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:hthmds
+06:51:55.417 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:cashhmds
+06:51:55.417 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:fundfarm
+06:51:55.417 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:ethmds
+06:51:55.418 [EReader] ERROR ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:ushmds
+06:51:55.418 [EReader] INFO  AccountHandler - account=DU289674 key=LookAheadAvailableFunds-S value=1276123.64 currency=AUD
+06:51:55.418 [EReader] INFO  AccountHandler - account=DU289674 key=LookAheadExcessLiquidity value=1276123.64 currency=AUD
+06:51:55.418 [EReader] INFO  AccountHandler - account=DU289674 key=LookAheadExcessLiquidity-C value=0.00 currency=AUD
+06:51:55.419 [EReader] INFO  AccountHandler - account=DU289674 key=LookAheadExcessLiquidity-S value=1276123.64 currency=AUD
+06:51:55.419 [EReader] INFO  AccountHandler - account=DU289674 key=LookAheadInitMarginReq value=6408.82 currency=AUD
+06:51:55.419 [EReader] INFO  AccountHandler - account=DU289674 key=LookAheadInitMarginReq-C value=0.00 currency=AUD
+06:51:55.419 [EReader] INFO  AccountHandler - account=DU289674 key=LookAheadInitMarginReq-S value=6408.82 currency=AUD
+06:51:55.420 [EReader] INFO  AccountHandler - account=DU289674 key=LookAheadMaintMarginReq value=6408.82 currency=AUD
+06:51:55.420 [EReader] INFO  AccountHandler - account=DU289674 key=LookAheadMaintMarginReq-C value=0.00 currency=AUD
+06:51:55.420 [EReader] INFO  AccountHandler - account=DU289674 key=LookAheadMaintMarginReq-S value=6408.82 currency=AUD
+06:51:55.420 [EReader] INFO  AccountHandler - account=DU289674 key=LookAheadNextChange value=0 currency=null
+06:51:55.420 [EReader] INFO  AccountHandler - account=DU289674 key=MaintMarginReq value=6408.82 currency=AUD
+06:51:55.421 [EReader] INFO  AccountHandler - account=DU289674 key=MaintMarginReq-C value=0.00 currency=AUD
+06:51:55.421 [EReader] INFO  AccountHandler - account=DU289674 key=MaintMarginReq-S value=6408.82 currency=AUD
+06:51:55.421 [EReader] INFO  AccountHandler - account=DU289674 key=MoneyMarketFundValue value=0 currency=AUD
+06:51:55.421 [EReader] INFO  AccountHandler - account=DU289674 key=MoneyMarketFundValue value=0 currency=BASE
+06:51:55.421 [EReader] INFO  AccountHandler - account=DU289674 key=MoneyMarketFundValue value=0 currency=USD
+06:51:55.422 [EReader] INFO  AccountHandler - account=DU289674 key=MutualFundValue value=0 currency=AUD
+06:51:55.422 [EReader] INFO  AccountHandler - account=DU289674 key=MutualFundValue value=0 currency=BASE
+06:51:55.422 [EReader] INFO  AccountHandler - account=DU289674 key=MutualFundValue value=0 currency=USD
+06:51:55.422 [EReader] INFO  AccountHandler - account=DU289674 key=NetDividend value=0 currency=AUD
+06:51:55.423 [EReader] INFO  AccountHandler - account=DU289674 key=NetDividend value=0 currency=BASE
+06:51:55.423 [EReader] INFO  AccountHandler - account=DU289674 key=NetDividend value=0 currency=USD
+06:51:55.423 [EReader] INFO  AccountHandler - account=DU289674 key=NetLiquidation value=1282532.46 currency=AUD
+06:51:55.423 [EReader] INFO  AccountHandler - account=DU289674 key=NetLiquidation-C value=0.00 currency=AUD
+06:51:55.423 [EReader] INFO  AccountHandler - account=DU289674 key=NetLiquidation-S value=1282532.46 currency=AUD
+06:51:55.423 [EReader] INFO  AccountHandler - account=DU289674 key=NetLiquidationByCurrency value=35 currency=AUD
+06:51:55.423 [EReader] INFO  AccountHandler - account=DU289674 key=NetLiquidationByCurrency value=1282532 currency=BASE
+06:51:55.424 [EReader] INFO  AccountHandler - account=DU289674 key=NetLiquidationByCurrency value=975217 currency=USD
+06:51:55.424 [EReader] INFO  AccountHandler - account=DU289674 key=OptionMarketValue value=0 currency=AUD
+06:51:55.424 [EReader] INFO  AccountHandler - account=DU289674 key=OptionMarketValue value=0 currency=BASE
+06:51:55.424 [EReader] INFO  AccountHandler - account=DU289674 key=OptionMarketValue value=0 currency=USD
+06:51:55.425 [EReader] INFO  AccountHandler - account=DU289674 key=PASharesValue value=0.00 currency=AUD
+06:51:55.425 [EReader] INFO  AccountHandler - account=DU289674 key=PASharesValue-C value=0.00 currency=AUD
+06:51:55.425 [EReader] INFO  AccountHandler - account=DU289674 key=PASharesValue-S value=0.00 currency=AUD
+06:51:55.426 [EReader] INFO  AccountHandler - account=DU289674 key=PostExpirationExcess value=0.00 currency=AUD
+06:51:55.426 [EReader] INFO  AccountHandler - account=DU289674 key=PostExpirationExcess-C value=0.00 currency=AUD
+06:51:55.426 [EReader] INFO  AccountHandler - account=DU289674 key=PostExpirationExcess-S value=0.00 currency=AUD
+06:51:55.426 [EReader] INFO  AccountHandler - account=DU289674 key=PostExpirationMargin value=0.00 currency=AUD
+06:51:55.427 [EReader] INFO  AccountHandler - account=DU289674 key=PostExpirationMargin-C value=0.00 currency=AUD
+06:51:55.427 [EReader] INFO  AccountHandler - account=DU289674 key=PostExpirationMargin-S value=0.00 currency=AUD
+06:51:55.427 [EReader] INFO  AccountHandler - account=DU289674 key=PreviousDayEquityWithLoanValue value=1282453.27 currency=AUD
+06:51:55.427 [EReader] INFO  AccountHandler - account=DU289674 key=PreviousDayEquityWithLoanValue-S value=1282453.27 currency=AUD
+06:51:55.427 [EReader] INFO  AccountHandler - account=DU289674 key=RealCurrency value=AUD currency=AUD
+06:51:55.428 [EReader] INFO  AccountHandler - account=DU289674 key=RealCurrency value=BASE currency=BASE
+06:51:55.428 [EReader] INFO  AccountHandler - account=DU289674 key=RealCurrency value=USD currency=USD
+06:51:55.428 [EReader] INFO  AccountHandler - account=DU289674 key=RealizedPnL value=0 currency=AUD
+06:51:55.428 [EReader] INFO  AccountHandler - account=DU289674 key=RealizedPnL value=-33334 currency=BASE
+06:51:55.428 [EReader] INFO  AccountHandler - account=DU289674 key=RealizedPnL value=-25347 currency=USD
+06:51:55.428 [EReader] INFO  AccountHandler - account=DU289674 key=RegTEquity value=1282532.46 currency=AUD
+06:51:55.429 [EReader] INFO  AccountHandler - account=DU289674 key=RegTEquity-S value=1282532.46 currency=AUD
+06:51:55.429 [EReader] INFO  AccountHandler - account=DU289674 key=RegTMargin value=10819.03 currency=AUD
+06:51:55.429 [EReader] INFO  AccountHandler - account=DU289674 key=RegTMargin-S value=10819.03 currency=AUD
+06:51:55.429 [EReader] INFO  AccountHandler - account=DU289674 key=SMA value=2720391.70 currency=AUD
+06:51:55.429 [EReader] INFO  AccountHandler - account=DU289674 key=SMA-S value=2720391.70 currency=AUD
+06:51:55.430 [EReader] INFO  AccountHandler - account=DU289674 key=SegmentTitle-C value=US Commodities currency=null
+06:51:55.430 [EReader] INFO  AccountHandler - account=DU289674 key=SegmentTitle-S value=US Securities currency=null
+06:51:55.430 [EReader] INFO  AccountHandler - account=DU289674 key=StockMarketValue value=1652 currency=AUD
+06:51:55.430 [EReader] INFO  AccountHandler - account=DU289674 key=StockMarketValue value=-18334 currency=BASE
+06:51:55.430 [EReader] INFO  AccountHandler - account=DU289674 key=StockMarketValue value=-15197 currency=USD
+06:51:55.431 [EReader] INFO  AccountHandler - account=DU289674 key=TBillValue value=0 currency=AUD
+06:51:55.431 [EReader] INFO  AccountHandler - account=DU289674 key=TBillValue value=0 currency=BASE
+06:51:55.431 [EReader] INFO  AccountHandler - account=DU289674 key=TBillValue value=0 currency=USD
+06:51:55.431 [EReader] INFO  AccountHandler - account=DU289674 key=TBondValue value=0 currency=AUD
+06:51:55.431 [EReader] INFO  AccountHandler - account=DU289674 key=TBondValue value=0 currency=BASE
+06:51:55.432 [EReader] INFO  AccountHandler - account=DU289674 key=TBondValue value=0 currency=USD
+06:51:55.432 [EReader] INFO  AccountHandler - account=DU289674 key=TotalCashBalance value=-1617 currency=AUD
+06:51:55.432 [EReader] INFO  AccountHandler - account=DU289674 key=TotalCashBalance value=1300867 currency=BASE
+06:51:55.432 [EReader] INFO  AccountHandler - account=DU289674 key=TotalCashBalance value=990415 currency=USD
+06:51:55.432 [EReader] INFO  AccountHandler - account=DU289674 key=TotalCashValue value=1300866.52 currency=AUD
+06:51:55.433 [EReader] INFO  AccountHandler - account=DU289674 key=TotalCashValue-C value=0.00 currency=AUD
+06:51:55.433 [EReader] INFO  AccountHandler - account=DU289674 key=TotalCashValue-S value=1300866.52 currency=AUD
+06:51:55.433 [EReader] INFO  AccountHandler - account=DU289674 key=TradingType-S value=STKNOPT currency=null
+06:51:55.433 [EReader] INFO  AccountHandler - account=DU289674 key=UnrealizedPnL value=-33 currency=AUD
+06:51:55.433 [EReader] INFO  AccountHandler - account=DU289674 key=UnrealizedPnL value=-17 currency=BASE
+06:51:55.434 [EReader] INFO  AccountHandler - account=DU289674 key=UnrealizedPnL value=12 currency=USD
+06:51:55.434 [EReader] INFO  AccountHandler - account=DU289674 key=WarrantValue value=0 currency=AUD
+06:51:55.434 [EReader] INFO  AccountHandler - account=DU289674 key=WarrantValue value=0 currency=BASE
+06:51:55.434 [EReader] INFO  AccountHandler - account=DU289674 key=WarrantValue value=0 currency=USD
+06:51:55.434 [EReader] INFO  AccountHandler - account=DU289674 key=WhatIfPMEnabled value=true currency=null
+06:51:55.438 [EReader] INFO  AccountHandler - Position{m_contract=conid	221646038
+symbol	ARLZ
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	ARLZ
+tradingClass	NMS
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=4.0250001, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=-5639.89}
+06:51:55.438 [EReader] INFO  AccountHandler - Position{m_contract=conid	4036812
+symbol	BHP
+secType	STK
+strike	0.0
+right	None
+exchange	ASX
+currency	AUD
+localSymbol	BHP
+tradingClass	BHP
+primaryExch	ASX
+secIdType	None
+, m_account='DU289674', m_position=100, m_marketPrice=16.52000045, m_marketValue=1652.0, m_averageCost=16.85228815, m_unrealPnl=-33.23, m_realPnl=-0.0}
+06:51:55.439 [EReader] INFO  AccountHandler - Position{m_contract=conid	88421820
+symbol	CALL
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	CALL
+tradingClass	NMS
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=6.6999998, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=-961.19}
+06:51:55.439 [EReader] INFO  AccountHandler - Position{m_contract=conid	74619520
+symbol	CDXS
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	CDXS
+tradingClass	NMS
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=3.1300001, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=-4375.41}
+06:51:55.439 [EReader] INFO  AccountHandler - Position{m_contract=conid	4728102
+symbol	CDZI
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	CDZI
+tradingClass	NMS
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=5.23, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=66.14}
+06:51:55.439 [EReader] INFO  AccountHandler - Position{m_contract=conid	118017934
+symbol	DSKX
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	DSKX
+tradingClass	SCM
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=0.6699, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=-5913.96}
+06:51:55.440 [EReader] INFO  AccountHandler - Position{m_contract=conid	88965571
+symbol	ENT
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	ENT
+tradingClass	SCM
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=8.40999985, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=2668.8}
+06:51:55.440 [EReader] INFO  AccountHandler - Position{m_contract=conid	106671139
+symbol	FRGI
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	FRGI
+tradingClass	NMS
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=34.02000045, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=3675.12}
+06:51:55.440 [EReader] INFO  AccountHandler - Position{m_contract=conid	4812281
+symbol	GIFI
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	GIFI
+tradingClass	NMS
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=7.75, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=-6982.95}
+06:51:55.440 [EReader] INFO  AccountHandler - Position{m_contract=conid	8314
+symbol	IBM
+secType	STK
+strike	0.0
+right	None
+exchange	NYSE
+currency	USD
+localSymbol	IBM
+tradingClass	IBM
+primaryExch	NYSE
+secIdType	None
+, m_account='DU289674', m_position=-100, m_marketPrice=151.9750061, m_marketValue=-15197.5, m_averageCost=152.09986245, m_unrealPnl=12.49, m_realPnl=0.0}
+06:51:55.440 [EReader] INFO  AccountHandler - Position{m_contract=conid	130614404
+symbol	IQNT
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	IQNT
+tradingClass	NMS
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=16.8299999, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=4312.69}
+06:51:55.440 [EReader] INFO  AccountHandler - Position{m_contract=conid	271009
+symbol	KOPN
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	KOPN
+tradingClass	NMS
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=1.645, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=2083.55}
+06:51:55.441 [EReader] INFO  AccountHandler - Position{m_contract=conid	102558681
+symbol	MVIS
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	MVIS
+tradingClass	NMS
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=1.81500005, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=-363.14}
+06:51:55.441 [EReader] INFO  AccountHandler - Position{m_contract=conid	137461529
+symbol	QRHC
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	QRHC
+tradingClass	SCM
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=0.4675, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=-554.05}
+06:51:55.441 [EReader] INFO  AccountHandler - Position{m_contract=conid	161829179
+symbol	SPKE
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	SPKE
+tradingClass	NMS
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=18.3999996, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=-8630.18}
+06:51:55.441 [EReader] INFO  AccountHandler - Position{m_contract=conid	12471
+symbol	STR
+secType	STK
+strike	0.0
+right	None
+exchange	NYSE
+currency	USD
+localSymbol	STR
+tradingClass	STR
+primaryExch	NYSE
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=24.84000015, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=75.35}
+06:51:55.441 [EReader] INFO  AccountHandler - Position{m_contract=conid	37451201
+symbol	UEC
+secType	STK
+strike	0.0
+right	None
+exchange	AMEX
+currency	USD
+localSymbol	UEC
+tradingClass	UEC
+primaryExch	AMEX
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=0.73005005, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=292.93}
+06:51:55.442 [EReader] INFO  AccountHandler - Position{m_contract=conid	124918130
+symbol	UTSI
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	UTSI
+tradingClass	NMS
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=1.83000005, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=-2987.75}
+06:51:55.442 [EReader] INFO  AccountHandler - Position{m_contract=conid	46943340
+symbol	VNR
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	VNR
+tradingClass	NMS
+primaryExch	NASDAQ
+secIdType	None
+, m_account='DU289674', m_position=0, m_marketPrice=1.45500005, m_marketValue=0.0, m_averageCost=0.0, m_unrealPnl=0.0, m_realPnl=-2113.43}
+Event occured
+finished waiting
+waiting...
+Event occured
+finished waiting
+waiting...
+06:51:55.455 [EReader] INFO  PositionHandler - acc=DU289674, con=conid	124918130
+symbol	UTSI
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	UTSI
+tradingClass	NMS
+secIdType	None
+, pos=0, avgCost=0.00
+06:51:55.455 [EReader] INFO  PositionHandler - acc=DU289674, con=conid	4036812
+symbol	BHP
+secType	STK
+strike	0.0
+right	None
+exchange	ASX
+currency	AUD
+localSymbol	BHP
+tradingClass	BHP
+secIdType	None
+, pos=100, avgCost=16.85
+06:51:55.455 [EReader] INFO  PositionHandler - acc=DU289674, con=conid	271009
+symbol	KOPN
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	KOPN
+tradingClass	NMS
+secIdType	None
+, pos=0, avgCost=0.00
+06:51:55.455 [EReader] INFO  PositionHandler - acc=DU289674, con=conid	118017934
+symbol	DSKX
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	DSKX
+tradingClass	SCM
+secIdType	None
+, pos=0, avgCost=0.00
+06:51:55.456 [EReader] INFO  PositionHandler - acc=DU289674, con=conid	137461529
+symbol	QRHC
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	QRHC
+tradingClass	SCM
+secIdType	None
+, pos=0, avgCost=0.00
+06:51:55.456 [EReader] INFO  PositionHandler - acc=DU289674, con=conid	88421820
+symbol	CALL
+secType	STK
+strike	0.0
+right	None
+exchange	NASDAQ
+currency	USD
+localSymbol	CALL
+tradingClass	NMS
+secIdType	None
+, pos=0, avgCost=0.00
+06:51:55.456 [EReader] INFO  PositionHandler - acc=DU289674, con=conid	8314
+symbol	IBM
+secType	STK
+strike	0.0
+right	None
+exchange	NYSE
+currency	USD
+localSymbol	IBM
+tradingClass	IBM
+secIdType	None
+, pos=-100, avgCost=152.10
+Event occured
+finished waiting
+06:52:05.488 [main] INFO  CompounderState - compound_tally=0.00 tally_slice=0.00
+06:52:05.489 [main] INFO  Lotus - The Final final block
+06:52:05.490 [main] INFO  ConnectionHandler - Connection disconnected
+
+Process finished with exit code 0

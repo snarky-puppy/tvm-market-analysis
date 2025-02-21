@@ -1,0 +1,14 @@
+ERROR StatusLogger No log4j2 configuration file found. Using default configuration: logging only errors to the console.
+Server Version:76
+TWS Time at connection:20160513 08:26:12 AEST
+08:26:12.833 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:hfarm
+08:26:12.835 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:jfarm
+08:26:12.835 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:eufarm
+08:26:12.835 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:usfuture
+08:26:12.836 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:cashfarm
+08:26:12.836 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:usfarm.us
+08:26:12.836 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2104, msg=Market data farm connection is OK:usfarm
+08:26:12.837 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:ilhmds
+08:26:12.838 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:ethmds
+08:26:12.838 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:fundfarm
+08:26:12.839 [EReader] ERROR com.tvmresearch.lotus.broker.ConnectionHandler - id=-1, errorCode=2106, msg=HMDS data farm connection is OK:ushmds

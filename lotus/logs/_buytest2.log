@@ -1,0 +1,419 @@
+Server Version:76
+TWS Time at connection:20160531 17:41:08 AEST
+Got account: DU289674
+Connected
+Account=DU289674
+message: id=-1, errorCode=2107, msg=HMDS data farm connection is inactive but should be available upon demand.ushmds
+LIVE ORDERS: openOrder: contract=NewContract{m_conid=265598, m_symbol='AAPL', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='AAPL', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}
+order=NewOrder{m_clientId=1, m_orderId=19, m_permId=539592039, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=1, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}
+orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+LIVE ORDERS: orderStatus: orderId=19 orderStatus=PreSubmitted filled=0 remaining=1 avgFillPrice=0.000000 permId=539592039 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+LIVE ORDERS - END
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218710.72 currency=AUD
+ACCOUNT SUMMARY: END
+PLACE OR MODIFY ORDER: handle: code=399 msg=Order Message:
+BUY 100 A NYSE
+Warning: your order will not be placed at the exchange until 2016-05-31 09:30:00 US/Eastern
+LIVE ORDERS: handle: orderId=22, code=399, msg=Order Message:
+BUY 100 A NYSE
+Warning: your order will not be placed at the exchange until 2016-05-31 09:30:00 US/Eastern
+PLACE OR MODIFY ORDER: orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+LIVE ORDERS: openOrder: contract=NewContract{m_conid=1715006, m_symbol='A', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='A', m_tradingClass='A', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}
+order=NewOrder{m_clientId=1, m_orderId=22, m_permId=539592042, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=100, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}
+orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+PLACE OR MODIFY ORDER: orderStatus: status=PreSubmitted, filled=0, remain=100 avgFillPrice=0.000000 permId=539592042 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+REQ EXECUTIONS Start
+LIVE ORDERS: orderStatus: orderId=22 orderStatus=PreSubmitted filled=0 remaining=100 avgFillPrice=0.000000 permId=539592042 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+REQ EXECUTIONS End
+Order Id=22
+-- little sleep --
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218701.66 currency=AUD
+-- /little sleep --
+--------------- SLEEPING (forever) --------------------------------
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218740.96 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218703.17 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218772.70 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218796.91 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218712.24 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218703.17 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218704.69 currency=AUD
+PLACE OR MODIFY ORDER: orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+LIVE ORDERS: openOrder: contract=NewContract{m_conid=1715006, m_symbol='A', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='A', m_tradingClass='A', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}
+order=NewOrder{m_clientId=1, m_orderId=22, m_permId=539592042, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=100, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}
+orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+PLACE OR MODIFY ORDER: orderStatus: status=PreSubmitted, filled=0, remain=100 avgFillPrice=0.000000 permId=539592042 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+LIVE ORDERS: orderStatus: orderId=22 orderStatus=PreSubmitted filled=0 remaining=100 avgFillPrice=0.000000 permId=539592042 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+LIVE ORDERS: openOrder: contract=NewContract{m_conid=265598, m_symbol='AAPL', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='AAPL', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}
+order=NewOrder{m_clientId=1, m_orderId=19, m_permId=539592039, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=1, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}
+orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+LIVE ORDERS: orderStatus: orderId=19 orderStatus=PreSubmitted filled=0 remaining=1 avgFillPrice=0.000000 permId=539592039 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218851.36 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218872.56 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218945.23 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218981.60 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218892.23 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218886.19 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218924.04 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218948.26 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218983.12 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218940.70 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218886.19 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218884.67 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218828.67 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218757.60 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218760.61 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218756.08 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218798.41 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218833.22 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218775.73 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218710.72 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218736.42 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218771.21 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218786.31 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218731.88 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218766.66 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218737.93 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218801.44 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218818.09 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218834.73 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218798.41 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218818.09 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218827.16 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218812.03 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218774.22 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218678.98 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218701.66 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218650.29 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218621.59 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218524.98 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218479.74 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218509.89 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218392.29 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218351.61 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218434.49 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218344.08 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218374.20 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218345.59 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218342.57 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218377.22 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218434.49 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218414.89 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218500.85 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218473.70 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218472.19 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218478.23 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218499.34 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218571.77 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218559.68 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218469.17 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218383.25 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218451.08 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218464.65 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218463.14 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218442.02 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218502.36 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218479.74 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218375.71 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218282.33 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218204.07 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218177.00 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218172.50 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=217906.62 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=217789.66 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=217986.16 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=217921.63 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=217927.62 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=217965.14 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=217960.65 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=217956.14 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=217969.65 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218020.70 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218043.24 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218022.20 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=217992.16 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=217987.67 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=217956.14 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218004.19 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=217944.13 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218031.21 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=217966.64 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218020.70 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218073.27 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218089.81 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218034.21 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218076.28 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218041.73 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218052.25 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218169.49 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218228.16 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218365.16 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218316.97 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218289.87 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218326.00 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218481.23 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218476.72 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218511.40 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218521.96 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218526.49 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218414.89 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218452.59 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218404.34 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218493.29 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218380.23 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218359.15 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218407.36 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218484.25 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218442.02 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218499.34 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218509.89 currency=AUD
+REQ EXECUTIONS: trade_key=00018037.5773685f.01 contract=NewContract{m_conid=265598, m_symbol='AAPL', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='ARCA', m_primaryExch='null', m_currency='USD', m_localSymbol='AAPL', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]} execution=Execution{m_orderId=19, m_clientId=1, m_execId='00018037.5773685f.01.01', m_time='20160531  23:30:22', m_acctNumber='DU289674', m_exchange='ARCA', m_side='BOT', m_shares=1, m_price=99.8, m_permId=539592039, m_liquidation=0, m_cumQty=1, m_avgPrice=99.8, m_orderRef='null', m_evRule='null', m_evMultiplier=0.0}
+LIVE ORDERS: openOrder: contract=NewContract{m_conid=265598, m_symbol='AAPL', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='AAPL', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}
+order=NewOrder{m_clientId=1, m_orderId=19, m_permId=539592039, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=1, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}
+orderState=NewOrderState{m_status=Filled, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+LIVE ORDERS: orderStatus: orderId=19 orderStatus=Filled filled=1 remaining=0 avgFillPrice=99.800000 permId=539592039 parentId=0 lastFillPrice=99.800000 clientId=1 whyHeld=null
+LIVE ORDERS: openOrder: contract=NewContract{m_conid=265598, m_symbol='AAPL', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='AAPL', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}
+order=NewOrder{m_clientId=1, m_orderId=19, m_permId=539592039, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=1, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}
+orderState=NewOrderState{m_status=Filled, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=0.348457, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='USD', m_warningText='null'}
+LIVE ORDERS: orderStatus: orderId=19 orderStatus=Filled filled=1 remaining=0 avgFillPrice=99.800000 permId=539592039 parentId=0 lastFillPrice=99.800000 clientId=1 whyHeld=null
+REQ EXECUTIONS trade_key=00018037.5773685f.01 report=CommissionReport{m_execId='00018037.5773685f.01.01', m_commission=0.348457, m_currency='USD', m_realizedPNL=1.7976931348623157E308, m_yield=1.7976931348623157E308, m_yieldRedemptionDate=0}
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218346.00 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=218329.41 currency=AUD
+PLACE OR MODIFY ORDER: orderState=NewOrderState{m_status=Submitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+LIVE ORDERS: openOrder: contract=NewContract{m_conid=1715006, m_symbol='A', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='A', m_tradingClass='A', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}
+order=NewOrder{m_clientId=1, m_orderId=22, m_permId=539592042, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=100, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}
+orderState=NewOrderState{m_status=Submitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+PLACE OR MODIFY ORDER: orderStatus: status=Submitted, filled=0, remain=100 avgFillPrice=0.000000 permId=539592042 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+LIVE ORDERS: orderStatus: orderId=22 orderStatus=Submitted filled=0 remaining=100 avgFillPrice=0.000000 permId=539592042 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+PLACE OR MODIFY ORDER: orderState=NewOrderState{m_status=Submitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+LIVE ORDERS: openOrder: contract=NewContract{m_conid=1715006, m_symbol='A', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='A', m_tradingClass='A', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}
+order=NewOrder{m_clientId=1, m_orderId=22, m_permId=539592042, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=100, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}
+orderState=NewOrderState{m_status=Submitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+PLACE OR MODIFY ORDER: orderStatus: status=Submitted, filled=0, remain=100 avgFillPrice=0.000000 permId=539592042 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+LIVE ORDERS: orderStatus: orderId=22 orderStatus=Submitted filled=0 remaining=100 avgFillPrice=0.000000 permId=539592042 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+PLACE OR MODIFY ORDER: orderState=NewOrderState{m_status=Submitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+LIVE ORDERS: openOrder: contract=NewContract{m_conid=1715006, m_symbol='A', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='A', m_tradingClass='A', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}
+order=NewOrder{m_clientId=1, m_orderId=22, m_permId=539592042, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=100, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}
+orderState=NewOrderState{m_status=Submitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+PLACE OR MODIFY ORDER: orderStatus: status=Submitted, filled=0, remain=100 avgFillPrice=0.000000 permId=539592042 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+LIVE ORDERS: orderStatus: orderId=22 orderStatus=Submitted filled=0 remaining=100 avgFillPrice=0.000000 permId=539592042 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+PLACE OR MODIFY ORDER: orderState=NewOrderState{m_status=Submitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+LIVE ORDERS: openOrder: contract=NewContract{m_conid=1715006, m_symbol='A', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='A', m_tradingClass='A', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}
+order=NewOrder{m_clientId=1, m_orderId=22, m_permId=539592042, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=100, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}
+orderState=NewOrderState{m_status=Submitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+PLACE OR MODIFY ORDER: orderStatus: status=Submitted, filled=0, remain=100 avgFillPrice=0.000000 permId=539592042 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+LIVE ORDERS: orderStatus: orderId=22 orderStatus=Submitted filled=0 remaining=100 avgFillPrice=0.000000 permId=539592042 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+PLACE OR MODIFY ORDER: orderState=NewOrderState{m_status=Submitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+LIVE ORDERS: openOrder: contract=NewContract{m_conid=1715006, m_symbol='A', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='A', m_tradingClass='A', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}
+order=NewOrder{m_clientId=1, m_orderId=22, m_permId=539592042, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=100, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}
+orderState=NewOrderState{m_status=Submitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+PLACE OR MODIFY ORDER: orderStatus: status=Submitted, filled=0, remain=100 avgFillPrice=0.000000 permId=539592042 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+LIVE ORDERS: orderStatus: orderId=22 orderStatus=Submitted filled=0 remaining=100 avgFillPrice=0.000000 permId=539592042 parentId=0 lastFillPrice=0.000000 clientId=1 whyHeld=null
+REQ EXECUTIONS: trade_key=00018037.57737e41.01 contract=NewContract{m_conid=1715006, m_symbol='A', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NYSE', m_primaryExch='null', m_currency='USD', m_localSymbol='A', m_tradingClass='A', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]} execution=Execution{m_orderId=22, m_clientId=1, m_execId='00018037.57737e41.01.01', m_time='20160531  23:31:55', m_acctNumber='DU289674', m_exchange='NYSE', m_side='BOT', m_shares=100, m_price=46.0, m_permId=539592042, m_liquidation=0, m_cumQty=100, m_avgPrice=46.0, m_orderRef='null', m_evRule='null', m_evMultiplier=0.0}
+PLACE OR MODIFY ORDER: orderState=NewOrderState{m_status=Filled, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+LIVE ORDERS: openOrder: contract=NewContract{m_conid=1715006, m_symbol='A', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='A', m_tradingClass='A', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}
+order=NewOrder{m_clientId=1, m_orderId=22, m_permId=539592042, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=100, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}
+orderState=NewOrderState{m_status=Filled, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+PLACE OR MODIFY ORDER: orderStatus: status=Filled, filled=100, remain=0 avgFillPrice=46.000000 permId=539592042 parentId=0 lastFillPrice=46.000000 clientId=1 whyHeld=null
+LIVE ORDERS: orderStatus: orderId=22 orderStatus=Filled filled=100 remaining=0 avgFillPrice=46.000000 permId=539592042 parentId=0 lastFillPrice=46.000000 clientId=1 whyHeld=null
+PLACE OR MODIFY ORDER: orderState=NewOrderState{m_status=Filled, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=0.645257, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='USD', m_warningText='null'}
+LIVE ORDERS: openOrder: contract=NewContract{m_conid=1715006, m_symbol='A', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='A', m_tradingClass='A', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}
+order=NewOrder{m_clientId=1, m_orderId=22, m_permId=539592042, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=100, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}
+orderState=NewOrderState{m_status=Filled, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=0.645257, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='USD', m_warningText='null'}
+PLACE OR MODIFY ORDER: orderStatus: status=Filled, filled=100, remain=0 avgFillPrice=46.000000 permId=539592042 parentId=0 lastFillPrice=46.000000 clientId=1 whyHeld=null
+LIVE ORDERS: orderStatus: orderId=22 orderStatus=Filled filled=100 remaining=0 avgFillPrice=46.000000 permId=539592042 parentId=0 lastFillPrice=46.000000 clientId=1 whyHeld=null
+REQ EXECUTIONS trade_key=00018037.57737e41.01 report=CommissionReport{m_execId='00018037.57737e41.01.01', m_commission=0.645257, m_currency='USD', m_realizedPNL=1.7976931348623157E308, m_yield=1.7976931348623157E308, m_yieldRedemptionDate=0}
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212021.15 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212016.75 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212145.64 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212157.38 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212129.53 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211983.10 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211888.02 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211794.51 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211951.67 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211973.60 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211972.15 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211982.38 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212002.85 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211837.69 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211713.62 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211662.58 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211788.04 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211827.47 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211747.17 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211687.37 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211649.45 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211639.25 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211742.79 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211720.91 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211779.29 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211725.29 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211782.20 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212059.93 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211919.52 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212010.18 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212030.65 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211938.51 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211945.83 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=211985.31 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212007.25 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212071.63 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212180.00 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212193.18 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212234.23 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212177.08 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212147.77 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212158.02 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212149.24 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212150.71 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212143.37 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212187.33 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212216.65 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212178.53 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212247.42 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212275.29 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212248.89 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212297.28 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212248.89 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212245.95 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212276.76 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212210.78 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212206.37 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212262.09 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212254.76 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212294.34 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212251.83 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212301.69 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212266.49 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212232.76 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212201.99 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212203.46 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212175.61 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212146.31 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212095.05 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212117.01 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212128.73 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212158.02 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212182.93 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212218.10 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212196.12 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212133.12 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212117.01 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212234.23 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212237.16 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212386.80 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212379.47 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212355.98 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212404.42 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212423.50 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212389.74 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212410.29 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212438.19 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212388.27 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212385.33 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212332.51 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212335.43 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212385.33 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212445.55 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212473.46 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212470.52 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212420.58 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212414.70 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212480.80 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212442.61 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212439.66 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212535.19 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212586.66 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212560.18 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212598.42 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212558.71 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212560.18 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212588.13 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212616.08 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212620.49 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212639.62 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212507.26 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212566.06 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212651.39 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212582.24 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212644.03 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212617.54 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212629.31 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212710.27 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212788.35 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212738.26 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212794.25 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212856.16 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212845.85 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212876.80 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212907.79 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212875.33 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212801.61 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212823.72 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212795.73 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212769.20 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212679.36 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212689.67 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212654.34 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212649.92 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212641.10 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212594.00 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212539.59 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212557.24 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212563.13 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212566.06 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212626.38 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212648.45 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212623.43 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212588.13 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212560.18 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212594.00 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212529.30 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212599.90 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212577.82 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212594.00 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212542.53 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212529.30 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212588.13 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212579.29 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212498.44 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212545.48 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212539.59 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212542.53 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212560.18 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212551.37 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212499.92 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212467.58 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212451.41 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212470.52 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212439.66 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212442.61 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212429.39 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212394.15 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212408.83 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212441.14 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212454.36 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212460.24 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212441.14 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212458.77 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212476.39 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212479.33 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212508.73 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212501.37 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212502.84 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212496.97 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212447.02 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212496.97 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212477.86 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212451.41 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212445.55 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212449.94 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212439.66 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212473.46 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212474.92 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212485.22 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212530.77 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212508.73 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212504.31 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212519.01 currency=AUD
+ACCOUNT SUMMARY: account=DU289674 tag=TotalCashValue value=212496.97 currency=AUD

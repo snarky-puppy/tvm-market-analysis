@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="Lotus:jar">
+    <output-path>$PROJECT_DIR$/out/</output-path>
+    <root id="root">
+      <element id="archive" name="Lotus.jar">
+        <element id="module-output" name="Lotus" />
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/log4j2.xml" />
+      </element>
+      <element id="library" level="project" name="Gradle: mysql:mysql-connector-java:5.1.38" />
+      <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-api:2.0.2" />
+      <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-core:2.0.2" />
+      <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-jdbc:8.0.32" />
+      <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-juli:8.0.32" />
+      <element id="library" level="project" name="Gradle: commons-io:commons-io:2.4" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,962 @@
+/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/bin/java -Didea.launcher.port=7532 "-Didea.launcher.bin.path=/Applications/IntelliJ IDEA CE.app/Contents/bin" -Dfile.encoding=UTF-8 -classpath "/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/ant-javafx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/dt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/javafx-mx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/sa-jdi.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/lib/tools.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/deploy.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/javaws.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jfxswt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/management-agent.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/plugin.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/cldrdata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/nashorn.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/Users/horse/Projects/Lotus-alwayson/build/classes/main:/Users/horse/Projects/Lotus-alwayson/build/resources/main:/Users/horse/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.0.2/13521c5364501478e28c77a7f86b90b6ed5dbb77/log4j-core-2.0.2.jar:/Users/horse/.gradle/caches/modules-2/files-2.1/mysql/mysql-connector-java/5.1.38/dbbd7cd309ce167ec8367de4e41c63c2c8593cc5/mysql-connector-java-5.1.38.jar:/Users/horse/.gradle/caches/modules-2/files-2.1/org.apache.tomcat/tomcat-jdbc/8.0.32/55396c45fc8c34f31420a3b280fde4b1387b044d/tomcat-jdbc-8.0.32.jar:/Users/horse/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar:/Users/horse/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.0.2/8bc86f5add32e0259d83d1b62ab64f9ecfda109d/log4j-api-2.0.2.jar:/Users/horse/.gradle/caches/modules-2/files-2.1/org.apache.tomcat/tomcat-juli/8.0.32/71471069cea029dfdce0735337864c7d0a3d9992/tomcat-juli-8.0.32.jar:/Applications/IntelliJ IDEA CE.app/Contents/lib/idea_rt.jar" com.intellij.rt.execution.application.AppMain com.tvmresearch.lotus.Lotus
+2016-06-27 09:19:14.057 [main] INFO  Lotus - --- LOTUS STARTUP ---
+Server Version:76
+TWS Time at connection:20160627 09:19:13 Eastern Standard Time (New South Wales)
+2016-06-27 09:19:14.271 [EReader] INFO  InteractiveBroker$1 - Got account: DU289674
+2016-06-27 09:19:14.272 [EReader] INFO  InteractiveBroker$1 - Connected
+2016-06-27 09:19:14.281 [EReader] INFO  InteractiveBroker$2 - accountValue: ExchangeRate=1.3438693
+2016-06-27 09:19:14.287 [EReader] INFO  InteractiveBroker$2 - accountValue: TotalCashValue=223444.69
+2016-06-27 09:19:14.290 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=4065, m_symbol='ABT', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NYSE', m_primaryExch='NYSE', m_currency='USD', m_localSymbol='ABT', m_tradingClass='ABT', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=1500, m_marketPrice=37.90999985, m_marketValue=56865.0, m_averageCost=39.01388385, m_unrealPnl=-1655.83, m_realPnl=0.0}
+2016-06-27 09:19:14.292 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=4726176, m_symbol='ALXN', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NASDAQ', m_primaryExch='NASDAQ', m_currency='USD', m_localSymbol='ALXN', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=165, m_marketPrice=112.98999785, m_marketValue=18643.35, m_averageCost=127.5047182, m_unrealPnl=-2394.93, m_realPnl=0.0}
+2016-06-27 09:19:14.292 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=4521593, m_symbol='AZN', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NYSE', m_primaryExch='NYSE', m_currency='USD', m_localSymbol='AZN', m_tradingClass='AZN', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=775, m_marketPrice=27.8600006, m_marketValue=21591.5, m_averageCost=27.55929485, m_unrealPnl=233.05, m_realPnl=0.0}
+2016-06-27 09:19:14.293 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=5960, m_symbol='COO', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NYSE', m_primaryExch='NYSE', m_currency='USD', m_localSymbol='COO', m_tradingClass='COO', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=381, m_marketPrice=166.80000305, m_marketValue=63550.8, m_averageCost=154.2480798, m_unrealPnl=4782.28, m_realPnl=0.0}
+2016-06-27 09:19:14.293 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=9087676, m_symbol='CPHD', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NASDAQ', m_primaryExch='NASDAQ', m_currency='USD', m_localSymbol='CPHD', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=2044, m_marketPrice=29.0699997, m_marketValue=59419.08, m_averageCost=28.82621825, m_unrealPnl=498.29, m_realPnl=0.0}
+2016-06-27 09:19:14.294 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=10377696, m_symbol='CYH', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NYSE', m_primaryExch='NYSE', m_currency='USD', m_localSymbol='CYH', m_tradingClass='CYH', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=3707, m_marketPrice=13.02000045, m_marketValue=48265.14, m_averageCost=15.21768025, m_unrealPnl=-8146.8, m_realPnl=0.0}
+2016-06-27 09:19:14.294 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=7884, m_symbol='HAE', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NYSE', m_primaryExch='NYSE', m_currency='USD', m_localSymbol='HAE', m_tradingClass='HAE', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=2110, m_marketPrice=28.76000025, m_marketValue=60683.6, m_averageCost=27.9325888, m_unrealPnl=1745.84, m_realPnl=0.0}
+2016-06-27 09:19:14.295 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=49601334, m_symbol='HRC', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NYSE', m_primaryExch='NYSE', m_currency='USD', m_localSymbol='HRC', m_tradingClass='HRC', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=1207, m_marketPrice=50.27000045, m_marketValue=60675.89, m_averageCost=48.6457981, m_unrealPnl=1960.41, m_realPnl=0.0}
+2016-06-27 09:19:14.295 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=81026179, m_symbol='LGND', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NASDAQ', m_primaryExch='NASDAQ', m_currency='USD', m_localSymbol='LGND', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=93, m_marketPrice=111.7900009, m_marketValue=10396.47, m_averageCost=113.50696665, m_unrealPnl=-159.68, m_realPnl=0.0}
+2016-06-27 09:19:14.296 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=4646771, m_symbol='MYGN', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NASDAQ', m_primaryExch='NASDAQ', m_currency='USD', m_localSymbol='MYGN', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=344, m_marketPrice=30.0, m_marketValue=10320.0, m_averageCost=31.1767026, m_unrealPnl=-404.79, m_realPnl=0.0}
+2016-06-27 09:19:14.296 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=185731883, m_symbol='MYL', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NASDAQ', m_primaryExch='NASDAQ', m_currency='USD', m_localSymbol='MYL', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=1573, m_marketPrice=43.56000135, m_marketValue=68519.88, m_averageCost=42.6621309, m_unrealPnl=1412.35, m_realPnl=0.0}
+2016-06-27 09:19:14.297 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=140067524, m_symbol='PRGO', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NYSE', m_primaryExch='NYSE', m_currency='USD', m_localSymbol='PRGO', m_tradingClass='PRGO', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=552, m_marketPrice=91.01000215, m_marketValue=50237.52, m_averageCost=105.80510145, m_unrealPnl=-8166.89, m_realPnl=0.0}
+2016-06-27 09:19:14.297 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=4816936, m_symbol='PRXL', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NASDAQ', m_primaryExch='NASDAQ', m_currency='USD', m_localSymbol='PRXL', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=955, m_marketPrice=59.31000135, m_marketValue=56641.05, m_averageCost=61.7116026, m_unrealPnl=-2293.53, m_realPnl=0.0}
+2016-06-27 09:19:14.298 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=7498692, m_symbol='QGEN', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NASDAQ', m_primaryExch='NASDAQ', m_currency='USD', m_localSymbol='QGEN', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=513, m_marketPrice=21.01000025, m_marketValue=10778.13, m_averageCost=20.81670255, m_unrealPnl=99.16, m_realPnl=0.0}
+2016-06-27 09:19:14.298 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=273733, m_symbol='REGN', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NASDAQ', m_primaryExch='NASDAQ', m_currency='USD', m_localSymbol='REGN', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=154, m_marketPrice=339.480011, m_marketValue=52279.92, m_averageCost=379.4331961, m_unrealPnl=-6152.79, m_realPnl=0.0}
+2016-06-27 09:19:14.299 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=4817352, m_symbol='RMD', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NYSE', m_primaryExch='NYSE', m_currency='USD', m_localSymbol='RMD', m_tradingClass='RMD', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=1045, m_marketPrice=60.52000045, m_marketValue=63243.4, m_averageCost=56.0252803, m_unrealPnl=4696.98, m_realPnl=0.0}
+2016-06-27 09:19:14.299 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=15435308, m_symbol='SNY', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NYSE', m_primaryExch='NYSE', m_currency='USD', m_localSymbol='SNY', m_tradingClass='SNY', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=279, m_marketPrice=38.45000075, m_marketValue=10727.55, m_averageCost=38.5123025, m_unrealPnl=-17.38, m_realPnl=0.0}
+2016-06-27 09:19:14.299 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=6746327, m_symbol='USNA', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NYSE', m_primaryExch='NYSE', m_currency='USD', m_localSymbol='USNA', m_tradingClass='USNA', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=584, m_marketPrice=111.08000185, m_marketValue=64870.72, m_averageCost=119.1750567, m_unrealPnl=-4727.51, m_realPnl=0.0}
+2016-06-27 09:19:14.300 [EReader] INFO  InteractiveBroker$2 - updatePortfolio: Position{m_contract=NewContract{m_conid=1448494, m_symbol='WAT', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='NYSE', m_primaryExch='NYSE', m_currency='USD', m_localSymbol='WAT', m_tradingClass='WAT', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, m_account='DU289674', m_position=162, m_marketPrice=135.5299988, m_marketValue=21955.86, m_averageCost=136.6052864, m_unrealPnl=-174.2, m_realPnl=0.0}
+2016-06-27 09:19:14.300 [EReader] INFO  InteractiveBroker$2 - accountDownloadEnd - pre release
+2016-06-27 09:19:14.301 [EReader] INFO  InteractiveBroker$2 - accountDownloadEnd - post release
+2016-06-27 09:19:14.302 [main] INFO  InteractiveBroker - Account: AUD=223444.69 rate=1.34 USD=166269.66
+2016-06-27 09:19:14.318 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=4521593, m_symbol='AZN', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='AZN', m_tradingClass='AZN', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=0, m_orderId=0, m_permId=2134923633, m_parentId=0, m_account='DU289674', m_action=SELL, m_totalQuantity=390, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=GTC, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='ActivityMonitor', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:14.320 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=0 orderStatus=PreSubmitted filled=0 remaining=390 avgFillPrice=0.000000 permId=2134923633 parentId=0 lastFillPrice=0.000000 clientId=0 whyHeld=null
+2016-06-27 09:19:14.322 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=4726176, m_symbol='ALXN', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='ALXN', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=0, m_orderId=0, m_permId=1915728954, m_parentId=0, m_account='DU289674', m_action=SELL, m_totalQuantity=82, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=GTC, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='ActivityMonitor', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:14.322 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=0 orderStatus=PreSubmitted filled=0 remaining=82 avgFillPrice=0.000000 permId=1915728954 parentId=0 lastFillPrice=0.000000 clientId=0 whyHeld=null
+2016-06-27 09:19:14.324 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=1448494, m_symbol='WAT', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='WAT', m_tradingClass='WAT', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=0, m_orderId=0, m_permId=1915728949, m_parentId=0, m_account='DU289674', m_action=SELL, m_totalQuantity=162, m_displaySize=0, m_orderType=MKT, m_lmtPrice=0.0, m_auxPrice=0.0, m_tif=GTC, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='ActivityMonitor', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:14.325 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=0 orderStatus=PreSubmitted filled=0 remaining=162 avgFillPrice=0.000000 permId=1915728949 parentId=0 lastFillPrice=0.000000 clientId=0 whyHeld=null
+2016-06-27 09:19:14.677 [main] INFO  CompoundState - start_bank=153643.71 cash=166269.66 min_invest=10755.06 compound_tally=0.00 tally_slice=0.00, tally_slice_cnt=0
+2016-06-27 09:19:14.788 [main] INFO  Lotus - processTriggers: Trigger{id=1816754, exchange='NASDAQ', symbol='GILD', date=2016-06-24, price=80.47, zscore=-2.09029, avgVolume=8615851.681818, avgCost=84.758636, event=true, rejectReason=OK, rejectData=null}
+2016-06-27 09:19:14.789 [main] INFO  Compounder - apply: min=10755.06 cmp=0.00 slice=0.00 cnt=0 cash=166269.66
+2016-06-27 09:19:14.792 [main] INFO  InteractiveBroker - BUY: NASDAQ/GILD lim=80.55 qty=133
+2016-06-27 09:19:14.880 [main] INFO  Lotus - processTriggers: Trigger{id=1816854, exchange='NASDAQ', symbol='BMRN', date=2016-06-24, price=77.01, zscore=-2.260565, avgVolume=1508313.590909, avgCost=84.765455, event=true, rejectReason=OK, rejectData=null}
+2016-06-27 09:19:14.881 [main] INFO  Compounder - apply: min=10755.06 cmp=0.00 slice=0.00 cnt=0 cash=155514.60
+2016-06-27 09:19:14.886 [main] INFO  InteractiveBroker - BUY: NASDAQ/BMRN lim=77.09 qty=139
+2016-06-27 09:19:14.989 [main] INFO  Lotus - processTriggers: Trigger{id=1816982, exchange='NASDAQ', symbol='AMGN', date=2016-06-24, price=146.45, zscore=-2.132493, avgVolume=2687733.363636, avgCost=154.547728, event=true, rejectReason=OK, rejectData=null}
+2016-06-27 09:19:14.990 [main] INFO  Compounder - apply: min=10755.06 cmp=0.00 slice=0.00 cnt=0 cash=144759.54
+2016-06-27 09:19:14.992 [main] INFO  InteractiveBroker - BUY: NASDAQ/AMGN lim=146.60 qty=73
+2016-06-27 09:19:15.181 [main] INFO  Lotus - processTriggers: Trigger{id=1817266, exchange='NYSE', symbol='VAR', date=2016-06-24, price=80.11, zscore=-2.19187, avgVolume=773089.954545, avgCost=83.096818, event=true, rejectReason=OK, rejectData=null}
+2016-06-27 09:19:15.182 [main] INFO  Compounder - apply: min=10755.06 cmp=0.00 slice=0.00 cnt=0 cash=134004.48
+2016-06-27 09:19:15.184 [main] INFO  InteractiveBroker - BUY: NYSE/VAR lim=80.19 qty=134
+2016-06-27 09:19:15.302 [main] INFO  Lotus - processTriggers: Trigger{id=1817346, exchange='NYSE', symbol='PHG', date=2016-06-24, price=24.31, zscore=-2.361912, avgVolume=1028916.272727, avgCost=26.168636, event=true, rejectReason=OK, rejectData=null}
+2016-06-27 09:19:15.303 [main] INFO  Compounder - apply: min=10755.06 cmp=0.00 slice=0.00 cnt=0 cash=123249.42
+2016-06-27 09:19:15.307 [main] INFO  InteractiveBroker - BUY: NYSE/PHG lim=24.33 qty=442
+2016-06-27 09:19:15.349 [main] INFO  Lotus - processTriggers: Trigger{id=1817375, exchange='NYSE', symbol='ANTM', date=2016-06-24, price=126.38, zscore=-2.010314, avgVolume=2012585.318182, avgCost=131.375454, event=true, rejectReason=OK, rejectData=null}
+2016-06-27 09:19:15.350 [main] INFO  Compounder - apply: min=10755.06 cmp=0.00 slice=0.00 cnt=0 cash=112494.36
+2016-06-27 09:19:15.352 [main] INFO  InteractiveBroker - BUY: NYSE/ANTM lim=126.51 qty=85
+2016-06-27 09:19:15.577 [main] INFO  InteractiveBroker - updateHistory: NYSE/PRGO missingDays=66
+2016-06-27 09:19:16.037 [EReader] INFO  InteractiveBroker$3 - handle: orderId=1 code=399 msg=Order Message::::BUY 133 GILD NASDAQ.NMS:::Warning: your order will not be placed at the exchange until 2016-06-27 09:30:00 US/Eastern
+2016-06-27 09:19:16.038 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=269753, m_symbol='GILD', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='GILD', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=2, m_orderId=1, m_permId=841981874, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=133, m_displaySize=0, m_orderType=LMT, m_lmtPrice=80.55, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:16.039 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=1 orderStatus=PreSubmitted filled=0 remaining=133 avgFillPrice=0.000000 permId=841981874 parentId=0 lastFillPrice=0.000000 clientId=2 whyHeld=null
+2016-06-27 09:19:17.040 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=269753, m_symbol='GILD', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='GILD', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=2, m_orderId=1, m_permId=841981874, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=133, m_displaySize=0, m_orderType=LMT, m_lmtPrice=80.55, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:17.041 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=1 orderStatus=PreSubmitted filled=0 remaining=133 avgFillPrice=0.000000 permId=841981874 parentId=0 lastFillPrice=0.000000 clientId=2 whyHeld=null
+2016-06-27 09:19:17.041 [EReader] INFO  InteractiveBroker$3 - handle: orderId=2 code=399 msg=Order Message::::BUY 139 BMRN NASDAQ.NMS:::Warning: your order will not be placed at the exchange until 2016-06-27 09:30:00 US/Eastern
+2016-06-27 09:19:17.042 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=6857447, m_symbol='BMRN', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='BMRN', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=2, m_orderId=2, m_permId=841981875, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=139, m_displaySize=0, m_orderType=LMT, m_lmtPrice=77.09, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:17.042 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=2 orderStatus=PreSubmitted filled=0 remaining=139 avgFillPrice=0.000000 permId=841981875 parentId=0 lastFillPrice=0.000000 clientId=2 whyHeld=null
+2016-06-27 09:19:17.042 [EReader] INFO  InteractiveBroker$3 - handle: orderId=3 code=399 msg=Order Message::::BUY 73 AMGN NASDAQ.NMS:::Warning: your order will not be placed at the exchange until 2016-06-27 09:30:00 US/Eastern
+2016-06-27 09:19:17.043 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=266145, m_symbol='AMGN', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='AMGN', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=2, m_orderId=3, m_permId=841981876, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=73, m_displaySize=0, m_orderType=LMT, m_lmtPrice=146.6, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:17.043 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=3 orderStatus=PreSubmitted filled=0 remaining=73 avgFillPrice=0.000000 permId=841981876 parentId=0 lastFillPrice=0.000000 clientId=2 whyHeld=null
+2016-06-27 09:19:17.044 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=6857447, m_symbol='BMRN', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='BMRN', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=2, m_orderId=2, m_permId=841981875, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=139, m_displaySize=0, m_orderType=LMT, m_lmtPrice=77.09, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:17.044 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=2 orderStatus=PreSubmitted filled=0 remaining=139 avgFillPrice=0.000000 permId=841981875 parentId=0 lastFillPrice=0.000000 clientId=2 whyHeld=null
+2016-06-27 09:19:17.045 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=266145, m_symbol='AMGN', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='AMGN', m_tradingClass='NMS', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=2, m_orderId=3, m_permId=841981876, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=73, m_displaySize=0, m_orderType=LMT, m_lmtPrice=146.6, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:17.045 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=3 orderStatus=PreSubmitted filled=0 remaining=73 avgFillPrice=0.000000 permId=841981876 parentId=0 lastFillPrice=0.000000 clientId=2 whyHeld=null
+2016-06-27 09:19:17.046 [EReader] INFO  InteractiveBroker$3 - handle: orderId=4 code=399 msg=Order Message::::BUY 134 VAR NYSE:::Warning: your order will not be placed at the exchange until 2016-06-27 09:30:00 US/Eastern
+2016-06-27 09:19:17.046 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=13400, m_symbol='VAR', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='VAR', m_tradingClass='VAR', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=2, m_orderId=4, m_permId=841981877, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=134, m_displaySize=0, m_orderType=LMT, m_lmtPrice=80.19, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:17.047 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=4 orderStatus=PreSubmitted filled=0 remaining=134 avgFillPrice=0.000000 permId=841981877 parentId=0 lastFillPrice=0.000000 clientId=2 whyHeld=null
+2016-06-27 09:19:17.047 [EReader] INFO  InteractiveBroker$3 - handle: orderId=6 code=399 msg=Order Message::::BUY 85 ANTM NYSE:::Warning: your order will not be placed at the exchange until 2016-06-27 09:30:00 US/Eastern
+2016-06-27 09:19:17.048 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=173962302, m_symbol='ANTM', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='ANTM', m_tradingClass='ANTM', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=2, m_orderId=6, m_permId=841981878, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=85, m_displaySize=0, m_orderType=LMT, m_lmtPrice=126.51, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:17.048 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=6 orderStatus=PreSubmitted filled=0 remaining=85 avgFillPrice=0.000000 permId=841981878 parentId=0 lastFillPrice=0.000000 clientId=2 whyHeld=null
+2016-06-27 09:19:17.466 [EReader] INFO  InteractiveBroker$3 - handle: orderId=5 code=399 msg=Order Message::::BUY 442 PHG NYSE:::Warning: your order will not be placed at the exchange until 2016-06-27 09:30:00 US/Eastern
+2016-06-27 09:19:17.466 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=11097, m_symbol='PHG', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='PHG', m_tradingClass='PHG', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=2, m_orderId=5, m_permId=841981879, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=442, m_displaySize=0, m_orderType=LMT, m_lmtPrice=24.33, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:17.467 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=5 orderStatus=PreSubmitted filled=0 remaining=442 avgFillPrice=0.000000 permId=841981879 parentId=0 lastFillPrice=0.000000 clientId=2 whyHeld=null
+2016-06-27 09:19:17.874 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=13400, m_symbol='VAR', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='VAR', m_tradingClass='VAR', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=2, m_orderId=4, m_permId=841981877, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=134, m_displaySize=0, m_orderType=LMT, m_lmtPrice=80.19, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:17.874 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=4 orderStatus=PreSubmitted filled=0 remaining=134 avgFillPrice=0.000000 permId=841981877 parentId=0 lastFillPrice=0.000000 clientId=2 whyHeld=null
+2016-06-27 09:19:17.875 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=173962302, m_symbol='ANTM', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='ANTM', m_tradingClass='ANTM', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=2, m_orderId=6, m_permId=841981878, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=85, m_displaySize=0, m_orderType=LMT, m_lmtPrice=126.51, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:17.875 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=6 orderStatus=PreSubmitted filled=0 remaining=85 avgFillPrice=0.000000 permId=841981878 parentId=0 lastFillPrice=0.000000 clientId=2 whyHeld=null
+2016-06-27 09:19:18.412 [EReader] INFO  InteractiveBroker$3 - openOrder: contract=NewContract{m_conid=11097, m_symbol='PHG', m_secType=STK, m_expiry='', m_strike=0.0, m_right=None, m_multiplier='null', m_exchange='SMART', m_primaryExch='null', m_currency='USD', m_localSymbol='PHG', m_tradingClass='PHG', m_secIdType=None, m_secId='null', m_underComp=null, m_comboLegs=[]}, order=NewOrder{m_clientId=2, m_orderId=5, m_permId=841981879, m_parentId=0, m_account='DU289674', m_action=BUY, m_totalQuantity=442, m_displaySize=0, m_orderType=LMT, m_lmtPrice=24.33, m_auxPrice=0.0, m_tif=DAY, m_allOrNone=false, m_blockOrder=false, m_eTradeOnly=false, m_firmQuoteOnly=false, m_hidden=false, m_notHeld=false, m_optOutSmartRouting=false, m_outsideRth=false, m_sweepToFill=false, m_delta=1.7976931348623157E308, m_discretionaryAmt=0.0, m_nbboPriceCap=1.7976931348623157E308, m_percentOffset=1.7976931348623157E308, m_startingPrice=1.7976931348623157E308, m_stockRangeLower=1.7976931348623157E308, m_stockRangeUpper=1.7976931348623157E308, m_stockRefPrice=1.7976931348623157E308, m_trailingPercent=1.7976931348623157E308, m_trailStopPrice=1.7976931348623157E308, m_minQty=2147483647, m_goodAfterTime='null', m_goodTillDate='null', m_ocaGroup='null', m_orderRef='null', m_rule80A=None, m_ocaType=ReduceWithoutBlocking, m_triggerMethod=Default, m_faGroup='null', m_faMethod=None, m_faPercentage='null', m_faProfile='null', m_volatility=1.7976931348623157E308, m_volatilityType=None, m_continuousUpdate=false, m_referencePriceType=None, m_deltaNeutralOrderType=None, m_deltaNeutralAuxPrice=1.7976931348623157E308, m_deltaNeutralConId=0, m_scaleInitLevelSize=2147483647, m_scaleSubsLevelSize=2147483647, m_scalePriceIncrement=1.7976931348623157E308, m_scalePriceAdjustValue=1.7976931348623157E308, m_scalePriceAdjustInterval=2147483647, m_scaleProfitOffset=1.7976931348623157E308, m_scaleAutoReset=false, m_scaleInitPosition=2147483647, m_scaleInitFillQty=2147483647, m_scaleRandomPercent=false, m_scaleTable='null', m_hedgeType=None, m_hedgeParam='null', m_algoStrategy=None, m_algoParams=[], m_smartComboRoutingParams=[], m_orderComboLegs=[], m_whatIf=false, m_transmit=true, m_overridePercentageConstraints=false}, orderState=NewOrderState{m_status=PreSubmitted, m_initMargin='1.7976931348623157E308', m_maintMargin='1.7976931348623157E308', m_equityWithLoan='1.7976931348623157E308', m_commission=1.7976931348623157E308, m_minCommission=1.7976931348623157E308, m_maxCommission=1.7976931348623157E308, m_commissionCurrency='null', m_warningText='null'}
+2016-06-27 09:19:18.412 [EReader] INFO  InteractiveBroker$3 - orderStatus: orderId=5 orderStatus=PreSubmitted filled=0 remaining=442 avgFillPrice=0.000000 permId=841981879 parentId=0 lastFillPrice=0.000000 clientId=2 whyHeld=null
+2016-06-27 09:19:19.004 [EReader] INFO  InteractiveBroker$3 - handle: orderId=-1 code=2106 msg=HMDS data farm connection is OK:ushmds
+2016-06-27 09:19:19.005 [EReader] ERROR InteractiveBroker$1 - message: id=-1, errorCode=2106, msg=HMDS data farm connection is OK:ushmds
+2016-06-27 09:19:20.246 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-11 00:00:00: 127.230000
+2016-06-27 09:19:20.247 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-12 00:00:00: 125.760000
+2016-06-27 09:19:20.247 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-13 00:00:00: 127.790000
+2016-06-27 09:19:20.247 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-14 00:00:00: 128.030000
+2016-06-27 09:19:20.247 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-15 00:00:00: 127.990000
+2016-06-27 09:19:20.248 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-18 00:00:00: 128.940000
+2016-06-27 09:19:20.248 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-19 00:00:00: 130.620000
+2016-06-27 09:19:20.248 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-20 00:00:00: 128.620000
+2016-06-27 09:19:20.248 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-21 00:00:00: 128.680000
+2016-06-27 09:19:20.248 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-22 00:00:00: 121.350000
+2016-06-27 09:19:20.250 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-25 00:00:00: 99.400000
+2016-06-27 09:19:20.250 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-26 00:00:00: 99.550000
+2016-06-27 09:19:20.250 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-27 00:00:00: 97.240000
+2016-06-27 09:19:20.250 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-28 00:00:00: 96.450000
+2016-06-27 09:19:20.250 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-04-29 00:00:00: 96.670000
+2016-06-27 09:19:20.251 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-02 00:00:00: 96.110000
+2016-06-27 09:19:20.251 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-03 00:00:00: 96.610000
+2016-06-27 09:19:20.251 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-04 00:00:00: 95.700000
+2016-06-27 09:19:20.251 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-05 00:00:00: 97.070000
+2016-06-27 09:19:20.251 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-06 00:00:00: 92.390000
+2016-06-27 09:19:20.252 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-09 00:00:00: 93.780000
+2016-06-27 09:19:20.252 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-10 00:00:00: 93.070000
+2016-06-27 09:19:20.252 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-11 00:00:00: 92.750000
+2016-06-27 09:19:20.252 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-12 00:00:00: 89.040000
+2016-06-27 09:19:20.253 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-13 00:00:00: 88.360000
+2016-06-27 09:19:20.253 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-16 00:00:00: 88.730000
+2016-06-27 09:19:20.253 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-17 00:00:00: 90.290000
+2016-06-27 09:19:20.254 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-18 00:00:00: 93.550000
+2016-06-27 09:19:20.254 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-19 00:00:00: 91.940000
+2016-06-27 09:19:20.254 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-20 00:00:00: 93.780000
+2016-06-27 09:19:21.462 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-09 00:00:00: 93.780000
+2016-06-27 09:19:21.463 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-10 00:00:00: 93.070000
+2016-06-27 09:19:21.463 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-11 00:00:00: 92.750000
+2016-06-27 09:19:21.463 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-12 00:00:00: 89.040000
+2016-06-27 09:19:21.464 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-13 00:00:00: 88.360000
+2016-06-27 09:19:21.464 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-16 00:00:00: 88.730000
+2016-06-27 09:19:21.464 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-17 00:00:00: 90.290000
+2016-06-27 09:19:21.465 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-18 00:00:00: 93.550000
+2016-06-27 09:19:21.465 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-19 00:00:00: 91.940000
+2016-06-27 09:19:21.465 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-20 00:00:00: 93.780000
+2016-06-27 09:19:21.465 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-23 00:00:00: 93.500000
+2016-06-27 09:19:21.466 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-24 00:00:00: 96.260000
+2016-06-27 09:19:21.466 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-25 00:00:00: 96.420000
+2016-06-27 09:19:21.466 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-26 00:00:00: 96.200000
+2016-06-27 09:19:21.467 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-27 00:00:00: 96.610000
+2016-06-27 09:19:21.467 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-05-31 00:00:00: 95.840000
+2016-06-27 09:19:21.467 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-01 00:00:00: 96.950000
+2016-06-27 09:19:21.468 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-02 00:00:00: 98.150000
+2016-06-27 09:19:21.468 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-03 00:00:00: 97.230000
+2016-06-27 09:19:21.468 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-06 00:00:00: 99.260000
+2016-06-27 09:19:21.468 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-07 00:00:00: 99.110000
+2016-06-27 09:19:21.469 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-08 00:00:00: 100.320000
+2016-06-27 09:19:21.469 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-09 00:00:00: 100.480000
+2016-06-27 09:19:21.469 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-10 00:00:00: 98.510000
+2016-06-27 09:19:21.470 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-13 00:00:00: 99.060000
+2016-06-27 09:19:21.470 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-14 00:00:00: 108.130000
+2016-06-27 09:19:21.470 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-15 00:00:00: 98.190000
+2016-06-27 09:19:21.470 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-16 00:00:00: 98.540000
+2016-06-27 09:19:21.471 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-17 00:00:00: 98.040000
+2016-06-27 09:19:21.471 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-20 00:00:00: 96.750000
+2016-06-27 09:19:22.555 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-17 00:00:00: 98.040000
+2016-06-27 09:19:22.555 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-20 00:00:00: 96.750000
+2016-06-27 09:19:22.556 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-21 00:00:00: 96.450000
+2016-06-27 09:19:22.556 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-22 00:00:00: 93.810000
+2016-06-27 09:19:22.556 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-23 00:00:00: 95.200000
+2016-06-27 09:19:22.556 [EReader] INFO  InteractiveBroker$6 - history: PRGO: 2016-06-24 00:00:00: 91.010000
+2016-06-27 09:19:22.608 [main] INFO  InteractiveBroker - updateHistory: NASDAQ/MYL missingDays=60
+2016-06-27 09:19:24.126 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-04-18 00:00:00: 47.600000
+2016-06-27 09:19:24.127 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-04-19 00:00:00: 47.770000
+2016-06-27 09:19:24.127 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-04-20 00:00:00: 47.930000
+2016-06-27 09:19:24.127 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-04-21 00:00:00: 48.800000
+2016-06-27 09:19:24.127 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-04-22 00:00:00: 48.290000
+2016-06-27 09:19:24.127 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-04-25 00:00:00: 45.020000
+2016-06-27 09:19:24.127 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-04-26 00:00:00: 44.990000
+2016-06-27 09:19:24.128 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-04-27 00:00:00: 44.480000
+2016-06-27 09:19:24.128 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-04-28 00:00:00: 42.600000
+2016-06-27 09:19:24.128 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-04-29 00:00:00: 41.710000
+2016-06-27 09:19:24.128 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-02 00:00:00: 42.710000
+2016-06-27 09:19:24.128 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-03 00:00:00: 43.690000
+2016-06-27 09:19:24.129 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-04 00:00:00: 41.940000
+2016-06-27 09:19:24.129 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-05 00:00:00: 41.400000
+2016-06-27 09:19:24.129 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-06 00:00:00: 39.650000
+2016-06-27 09:19:24.129 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-09 00:00:00: 40.770000
+2016-06-27 09:19:24.129 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-10 00:00:00: 40.810000
+2016-06-27 09:19:24.130 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-11 00:00:00: 39.640000
+2016-06-27 09:19:24.130 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-12 00:00:00: 38.620000
+2016-06-27 09:19:24.130 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-13 00:00:00: 39.160000
+2016-06-27 09:19:24.130 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-16 00:00:00: 40.450000
+2016-06-27 09:19:24.131 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-17 00:00:00: 41.020000
+2016-06-27 09:19:24.131 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-18 00:00:00: 42.040000
+2016-06-27 09:19:24.131 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-19 00:00:00: 41.120000
+2016-06-27 09:19:24.131 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-20 00:00:00: 41.510000
+2016-06-27 09:19:24.131 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-23 00:00:00: 41.210000
+2016-06-27 09:19:24.131 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-24 00:00:00: 42.440000
+2016-06-27 09:19:24.132 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-25 00:00:00: 42.680000
+2016-06-27 09:19:24.132 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-26 00:00:00: 42.860000
+2016-06-27 09:19:24.132 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-27 00:00:00: 43.060000
+2016-06-27 09:19:25.251 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-13 00:00:00: 39.160000
+2016-06-27 09:19:25.251 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-16 00:00:00: 40.450000
+2016-06-27 09:19:25.252 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-17 00:00:00: 41.020000
+2016-06-27 09:19:25.252 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-18 00:00:00: 42.040000
+2016-06-27 09:19:25.252 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-19 00:00:00: 41.120000
+2016-06-27 09:19:25.252 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-20 00:00:00: 41.510000
+2016-06-27 09:19:25.252 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-23 00:00:00: 41.210000
+2016-06-27 09:19:25.252 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-24 00:00:00: 42.440000
+2016-06-27 09:19:25.253 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-25 00:00:00: 42.680000
+2016-06-27 09:19:25.253 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-26 00:00:00: 42.860000
+2016-06-27 09:19:25.253 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-27 00:00:00: 43.060000
+2016-06-27 09:19:25.253 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-05-31 00:00:00: 43.340000
+2016-06-27 09:19:25.253 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-01 00:00:00: 44.460000
+2016-06-27 09:19:25.253 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-02 00:00:00: 44.960000
+2016-06-27 09:19:25.254 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-03 00:00:00: 44.520000
+2016-06-27 09:19:25.254 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-06 00:00:00: 46.520000
+2016-06-27 09:19:25.254 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-07 00:00:00: 46.610000
+2016-06-27 09:19:25.254 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-08 00:00:00: 46.510000
+2016-06-27 09:19:25.254 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-09 00:00:00: 45.760000
+2016-06-27 09:19:25.254 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-10 00:00:00: 44.530000
+2016-06-27 09:19:25.255 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-13 00:00:00: 44.770000
+2016-06-27 09:19:25.255 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-14 00:00:00: 44.870000
+2016-06-27 09:19:25.255 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-15 00:00:00: 44.740000
+2016-06-27 09:19:25.255 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-16 00:00:00: 45.050000
+2016-06-27 09:19:25.255 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-17 00:00:00: 45.010000
+2016-06-27 09:19:25.256 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-20 00:00:00: 45.380000
+2016-06-27 09:19:25.256 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-21 00:00:00: 44.880000
+2016-06-27 09:19:25.256 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-22 00:00:00: 45.000000
+2016-06-27 09:19:25.256 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-23 00:00:00: 46.160000
+2016-06-27 09:19:25.256 [EReader] INFO  InteractiveBroker$6 - history: MYL: 2016-06-24 00:00:00: 43.560000
+2016-06-27 09:19:25.299 [main] INFO  InteractiveBroker - updateHistory: NASDAQ/CPHD missingDays=59
+2016-06-27 09:19:26.893 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-04-18 00:00:00: 35.890000
+2016-06-27 09:19:26.894 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-04-19 00:00:00: 35.020000
+2016-06-27 09:19:26.894 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-04-20 00:00:00: 34.720000
+2016-06-27 09:19:26.894 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-04-21 00:00:00: 34.980000
+2016-06-27 09:19:26.894 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-04-22 00:00:00: 35.340000
+2016-06-27 09:19:26.894 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-04-25 00:00:00: 35.940000
+2016-06-27 09:19:26.895 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-04-26 00:00:00: 36.590000
+2016-06-27 09:19:26.895 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-04-27 00:00:00: 36.570000
+2016-06-27 09:19:26.895 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-04-28 00:00:00: 35.400000
+2016-06-27 09:19:26.895 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-04-29 00:00:00: 28.540000
+2016-06-27 09:19:26.895 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-02 00:00:00: 28.450000
+2016-06-27 09:19:26.896 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-03 00:00:00: 27.320000
+2016-06-27 09:19:26.896 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-04 00:00:00: 25.790000
+2016-06-27 09:19:26.896 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-05 00:00:00: 25.970000
+2016-06-27 09:19:26.896 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-06 00:00:00: 25.640000
+2016-06-27 09:19:26.896 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-09 00:00:00: 26.390000
+2016-06-27 09:19:26.897 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-10 00:00:00: 26.700000
+2016-06-27 09:19:26.897 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-11 00:00:00: 26.820000
+2016-06-27 09:19:26.897 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-12 00:00:00: 25.800000
+2016-06-27 09:19:26.897 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-13 00:00:00: 25.730000
+2016-06-27 09:19:26.897 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-16 00:00:00: 26.170000
+2016-06-27 09:19:26.897 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-17 00:00:00: 26.360000
+2016-06-27 09:19:26.898 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-18 00:00:00: 26.750000
+2016-06-27 09:19:26.898 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-19 00:00:00: 26.640000
+2016-06-27 09:19:26.898 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-20 00:00:00: 26.830000
+2016-06-27 09:19:26.898 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-23 00:00:00: 27.110000
+2016-06-27 09:19:26.898 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-24 00:00:00: 27.770000
+2016-06-27 09:19:26.898 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-25 00:00:00: 27.860000
+2016-06-27 09:19:26.899 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-26 00:00:00: 27.480000
+2016-06-27 09:19:26.899 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-27 00:00:00: 28.250000
+2016-06-27 09:19:27.993 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-16 00:00:00: 26.170000
+2016-06-27 09:19:27.993 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-17 00:00:00: 26.360000
+2016-06-27 09:19:27.993 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-18 00:00:00: 26.750000
+2016-06-27 09:19:27.993 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-19 00:00:00: 26.640000
+2016-06-27 09:19:27.994 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-20 00:00:00: 26.830000
+2016-06-27 09:19:27.994 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-23 00:00:00: 27.110000
+2016-06-27 09:19:27.994 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-24 00:00:00: 27.770000
+2016-06-27 09:19:27.994 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-25 00:00:00: 27.860000
+2016-06-27 09:19:27.994 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-26 00:00:00: 27.480000
+2016-06-27 09:19:27.994 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-27 00:00:00: 28.250000
+2016-06-27 09:19:27.995 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-05-31 00:00:00: 28.010000
+2016-06-27 09:19:27.995 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-01 00:00:00: 28.380000
+2016-06-27 09:19:27.995 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-02 00:00:00: 28.890000
+2016-06-27 09:19:27.995 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-03 00:00:00: 27.890000
+2016-06-27 09:19:27.995 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-06 00:00:00: 28.860000
+2016-06-27 09:19:27.995 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-07 00:00:00: 28.630000
+2016-06-27 09:19:27.996 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-08 00:00:00: 28.960000
+2016-06-27 09:19:27.996 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-09 00:00:00: 28.870000
+2016-06-27 09:19:27.996 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-10 00:00:00: 28.270000
+2016-06-27 09:19:27.996 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-13 00:00:00: 28.010000
+2016-06-27 09:19:27.996 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-14 00:00:00: 28.080000
+2016-06-27 09:19:27.996 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-15 00:00:00: 28.660000
+2016-06-27 09:19:27.996 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-16 00:00:00: 29.560000
+2016-06-27 09:19:27.997 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-17 00:00:00: 29.030000
+2016-06-27 09:19:27.997 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-20 00:00:00: 29.790000
+2016-06-27 09:19:27.997 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-21 00:00:00: 29.360000
+2016-06-27 09:19:27.997 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-22 00:00:00: 29.500000
+2016-06-27 09:19:27.997 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-23 00:00:00: 30.960000
+2016-06-27 09:19:27.997 [EReader] INFO  InteractiveBroker$6 - history: CPHD: 2016-06-24 00:00:00: 29.070000
+2016-06-27 09:19:28.034 [main] INFO  InteractiveBroker - updateHistory: NASDAQ/REGN missingDays=59
+2016-06-27 09:19:29.551 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-04-18 00:00:00: 422.380000
+2016-06-27 09:19:29.551 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-04-19 00:00:00: 413.780000
+2016-06-27 09:19:29.551 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-04-20 00:00:00: 399.750000
+2016-06-27 09:19:29.552 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-04-21 00:00:00: 409.570000
+2016-06-27 09:19:29.552 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-04-22 00:00:00: 404.380000
+2016-06-27 09:19:29.552 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-04-25 00:00:00: 406.920000
+2016-06-27 09:19:29.552 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-04-26 00:00:00: 406.660000
+2016-06-27 09:19:29.552 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-04-27 00:00:00: 390.280000
+2016-06-27 09:19:29.553 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-04-28 00:00:00: 391.300000
+2016-06-27 09:19:29.553 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-04-29 00:00:00: 376.710000
+2016-06-27 09:19:29.553 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-02 00:00:00: 384.520000
+2016-06-27 09:19:29.553 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-03 00:00:00: 371.320000
+2016-06-27 09:19:29.554 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-04 00:00:00: 360.640000
+2016-06-27 09:19:29.554 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-05 00:00:00: 377.730000
+2016-06-27 09:19:29.554 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-06 00:00:00: 369.950000
+2016-06-27 09:19:29.554 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-09 00:00:00: 375.470000
+2016-06-27 09:19:29.554 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-10 00:00:00: 385.870000
+2016-06-27 09:19:29.555 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-11 00:00:00: 371.860000
+2016-06-27 09:19:29.555 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-12 00:00:00: 365.640000
+2016-06-27 09:19:29.555 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-13 00:00:00: 369.460000
+2016-06-27 09:19:29.555 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-16 00:00:00: 391.950000
+2016-06-27 09:19:29.556 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-17 00:00:00: 386.380000
+2016-06-27 09:19:29.556 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-18 00:00:00: 390.280000
+2016-06-27 09:19:29.556 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-19 00:00:00: 383.300000
+2016-06-27 09:19:29.556 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-20 00:00:00: 386.000000
+2016-06-27 09:19:29.556 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-23 00:00:00: 392.640000
+2016-06-27 09:19:29.557 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-24 00:00:00: 397.700000
+2016-06-27 09:19:29.557 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-25 00:00:00: 394.490000
+2016-06-27 09:19:29.557 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-26 00:00:00: 393.540000
+2016-06-27 09:19:29.557 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-27 00:00:00: 396.220000
+2016-06-27 09:19:30.676 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-16 00:00:00: 391.950000
+2016-06-27 09:19:30.677 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-17 00:00:00: 386.380000
+2016-06-27 09:19:30.677 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-18 00:00:00: 390.280000
+2016-06-27 09:19:30.677 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-19 00:00:00: 383.300000
+2016-06-27 09:19:30.677 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-20 00:00:00: 386.000000
+2016-06-27 09:19:30.677 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-23 00:00:00: 392.640000
+2016-06-27 09:19:30.677 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-24 00:00:00: 397.700000
+2016-06-27 09:19:30.677 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-25 00:00:00: 394.490000
+2016-06-27 09:19:30.678 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-26 00:00:00: 393.540000
+2016-06-27 09:19:30.678 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-27 00:00:00: 396.220000
+2016-06-27 09:19:30.678 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-05-31 00:00:00: 398.930000
+2016-06-27 09:19:30.678 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-01 00:00:00: 404.310000
+2016-06-27 09:19:30.678 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-02 00:00:00: 407.130000
+2016-06-27 09:19:30.678 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-03 00:00:00: 400.750000
+2016-06-27 09:19:30.679 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-06 00:00:00: 403.890000
+2016-06-27 09:19:30.679 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-07 00:00:00: 394.470000
+2016-06-27 09:19:30.679 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-08 00:00:00: 388.970000
+2016-06-27 09:19:30.679 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-09 00:00:00: 381.080000
+2016-06-27 09:19:30.679 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-10 00:00:00: 372.030000
+2016-06-27 09:19:30.679 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-13 00:00:00: 367.230000
+2016-06-27 09:19:30.680 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-14 00:00:00: 366.490000
+2016-06-27 09:19:30.680 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-15 00:00:00: 367.910000
+2016-06-27 09:19:30.680 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-16 00:00:00: 366.520000
+2016-06-27 09:19:30.680 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-17 00:00:00: 354.210000
+2016-06-27 09:19:30.680 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-20 00:00:00: 352.660000
+2016-06-27 09:19:30.680 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-21 00:00:00: 345.140000
+2016-06-27 09:19:30.680 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-22 00:00:00: 351.920000
+2016-06-27 09:19:30.681 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-23 00:00:00: 357.140000
+2016-06-27 09:19:30.681 [EReader] INFO  InteractiveBroker$6 - history: REGN: 2016-06-24 00:00:00: 339.480000
+2016-06-27 09:19:30.716 [main] INFO  InteractiveBroker - updateHistory: NASDAQ/PRXL missingDays=59
+2016-06-27 09:19:32.213 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-04-18 00:00:00: 67.010000
+2016-06-27 09:19:32.213 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-04-19 00:00:00: 65.700000
+2016-06-27 09:19:32.213 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-04-20 00:00:00: 66.180000
+2016-06-27 09:19:32.214 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-04-21 00:00:00: 66.820000
+2016-06-27 09:19:32.214 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-04-22 00:00:00: 67.640000
+2016-06-27 09:19:32.214 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-04-25 00:00:00: 67.570000
+2016-06-27 09:19:32.214 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-04-26 00:00:00: 65.000000
+2016-06-27 09:19:32.215 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-04-27 00:00:00: 64.560000
+2016-06-27 09:19:32.215 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-04-28 00:00:00: 60.580000
+2016-06-27 09:19:32.215 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-04-29 00:00:00: 61.100000
+2016-06-27 09:19:32.215 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-02 00:00:00: 61.470000
+2016-06-27 09:19:32.215 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-03 00:00:00: 58.860000
+2016-06-27 09:19:32.216 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-04 00:00:00: 59.470000
+2016-06-27 09:19:32.216 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-05 00:00:00: 60.670000
+2016-06-27 09:19:32.216 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-06 00:00:00: 59.240000
+2016-06-27 09:19:32.216 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-09 00:00:00: 59.440000
+2016-06-27 09:19:32.216 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-10 00:00:00: 59.200000
+2016-06-27 09:19:32.216 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-11 00:00:00: 58.890000
+2016-06-27 09:19:32.217 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-12 00:00:00: 58.390000
+2016-06-27 09:19:32.217 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-13 00:00:00: 58.520000
+2016-06-27 09:19:32.217 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-16 00:00:00: 58.970000
+2016-06-27 09:19:32.217 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-17 00:00:00: 58.300000
+2016-06-27 09:19:32.217 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-18 00:00:00: 58.900000
+2016-06-27 09:19:32.218 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-19 00:00:00: 58.480000
+2016-06-27 09:19:32.218 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-20 00:00:00: 59.510000
+2016-06-27 09:19:32.218 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-23 00:00:00: 59.450000
+2016-06-27 09:19:32.218 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-24 00:00:00: 61.260000
+2016-06-27 09:19:32.218 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-25 00:00:00: 61.600000
+2016-06-27 09:19:32.218 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-26 00:00:00: 61.620000
+2016-06-27 09:19:32.218 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-27 00:00:00: 62.740000
+2016-06-27 09:19:33.441 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-16 00:00:00: 58.970000
+2016-06-27 09:19:33.441 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-17 00:00:00: 58.300000
+2016-06-27 09:19:33.441 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-18 00:00:00: 58.900000
+2016-06-27 09:19:33.441 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-19 00:00:00: 58.480000
+2016-06-27 09:19:33.442 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-20 00:00:00: 59.510000
+2016-06-27 09:19:33.442 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-23 00:00:00: 59.450000
+2016-06-27 09:19:33.442 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-24 00:00:00: 61.260000
+2016-06-27 09:19:33.442 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-25 00:00:00: 61.600000
+2016-06-27 09:19:33.442 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-26 00:00:00: 61.620000
+2016-06-27 09:19:33.442 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-27 00:00:00: 62.740000
+2016-06-27 09:19:33.442 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-05-31 00:00:00: 62.890000
+2016-06-27 09:19:33.443 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-01 00:00:00: 63.300000
+2016-06-27 09:19:33.443 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-02 00:00:00: 64.430000
+2016-06-27 09:19:33.443 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-03 00:00:00: 62.780000
+2016-06-27 09:19:33.443 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-06 00:00:00: 62.960000
+2016-06-27 09:19:33.444 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-07 00:00:00: 62.040000
+2016-06-27 09:19:33.444 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-08 00:00:00: 62.550000
+2016-06-27 09:19:33.444 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-09 00:00:00: 61.700000
+2016-06-27 09:19:33.445 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-10 00:00:00: 60.160000
+2016-06-27 09:19:33.445 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-13 00:00:00: 59.010000
+2016-06-27 09:19:33.445 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-14 00:00:00: 58.440000
+2016-06-27 09:19:33.445 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-15 00:00:00: 58.570000
+2016-06-27 09:19:33.446 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-16 00:00:00: 58.390000
+2016-06-27 09:19:33.446 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-17 00:00:00: 57.110000
+2016-06-27 09:19:33.446 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-20 00:00:00: 58.330000
+2016-06-27 09:19:33.446 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-21 00:00:00: 59.380000
+2016-06-27 09:19:33.446 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-22 00:00:00: 59.450000
+2016-06-27 09:19:33.447 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-23 00:00:00: 60.510000
+2016-06-27 09:19:33.447 [EReader] INFO  InteractiveBroker$6 - history: PRXL: 2016-06-24 00:00:00: 59.310000
+2016-06-27 09:19:33.483 [main] INFO  InteractiveBroker - updateHistory: NYSE/USNA missingDays=59
+2016-06-27 09:19:34.977 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-04-18 00:00:00: 125.360000
+2016-06-27 09:19:34.977 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-04-19 00:00:00: 126.920000
+2016-06-27 09:19:34.977 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-04-20 00:00:00: 127.910000
+2016-06-27 09:19:34.978 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-04-21 00:00:00: 122.620000
+2016-06-27 09:19:34.978 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-04-22 00:00:00: 122.580000
+2016-06-27 09:19:34.978 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-04-25 00:00:00: 122.970000
+2016-06-27 09:19:34.978 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-04-26 00:00:00: 124.260000
+2016-06-27 09:19:34.978 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-04-27 00:00:00: 123.450000
+2016-06-27 09:19:34.978 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-04-28 00:00:00: 120.740000
+2016-06-27 09:19:34.978 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-04-29 00:00:00: 118.440000
+2016-06-27 09:19:34.979 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-02 00:00:00: 118.180000
+2016-06-27 09:19:34.979 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-03 00:00:00: 116.210000
+2016-06-27 09:19:34.979 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-04 00:00:00: 125.460000
+2016-06-27 09:19:34.979 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-05 00:00:00: 123.760000
+2016-06-27 09:19:34.979 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-06 00:00:00: 124.570000
+2016-06-27 09:19:34.979 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-09 00:00:00: 124.450000
+2016-06-27 09:19:34.979 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-10 00:00:00: 125.360000
+2016-06-27 09:19:34.980 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-11 00:00:00: 122.550000
+2016-06-27 09:19:34.980 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-12 00:00:00: 124.520000
+2016-06-27 09:19:34.980 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-13 00:00:00: 120.930000
+2016-06-27 09:19:34.980 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-16 00:00:00: 122.090000
+2016-06-27 09:19:34.980 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-17 00:00:00: 120.000000
+2016-06-27 09:19:34.980 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-18 00:00:00: 121.260000
+2016-06-27 09:19:34.980 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-19 00:00:00: 119.860000
+2016-06-27 09:19:34.980 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-20 00:00:00: 121.000000
+2016-06-27 09:19:34.981 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-23 00:00:00: 121.720000
+2016-06-27 09:19:34.981 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-24 00:00:00: 125.890000
+2016-06-27 09:19:34.981 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-25 00:00:00: 122.700000
+2016-06-27 09:19:34.981 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-26 00:00:00: 121.100000
+2016-06-27 09:19:34.981 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-27 00:00:00: 121.250000
+2016-06-27 09:19:36.118 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-16 00:00:00: 122.090000
+2016-06-27 09:19:36.119 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-17 00:00:00: 120.000000
+2016-06-27 09:19:36.119 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-18 00:00:00: 121.260000
+2016-06-27 09:19:36.119 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-19 00:00:00: 119.860000
+2016-06-27 09:19:36.119 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-20 00:00:00: 121.000000
+2016-06-27 09:19:36.119 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-23 00:00:00: 121.720000
+2016-06-27 09:19:36.120 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-24 00:00:00: 125.890000
+2016-06-27 09:19:36.120 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-25 00:00:00: 122.700000
+2016-06-27 09:19:36.120 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-26 00:00:00: 121.100000
+2016-06-27 09:19:36.120 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-27 00:00:00: 121.250000
+2016-06-27 09:19:36.120 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-05-31 00:00:00: 120.650000
+2016-06-27 09:19:36.120 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-01 00:00:00: 122.160000
+2016-06-27 09:19:36.120 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-02 00:00:00: 125.590000
+2016-06-27 09:19:36.120 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-03 00:00:00: 124.420000
+2016-06-27 09:19:36.121 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-06 00:00:00: 124.620000
+2016-06-27 09:19:36.121 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-07 00:00:00: 125.300000
+2016-06-27 09:19:36.121 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-08 00:00:00: 122.470000
+2016-06-27 09:19:36.121 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-09 00:00:00: 122.980000
+2016-06-27 09:19:36.121 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-10 00:00:00: 120.730000
+2016-06-27 09:19:36.121 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-13 00:00:00: 118.380000
+2016-06-27 09:19:36.121 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-14 00:00:00: 118.010000
+2016-06-27 09:19:36.121 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-15 00:00:00: 115.620000
+2016-06-27 09:19:36.122 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-16 00:00:00: 116.530000
+2016-06-27 09:19:36.122 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-17 00:00:00: 112.430000
+2016-06-27 09:19:36.122 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-20 00:00:00: 115.630000
+2016-06-27 09:19:36.122 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-21 00:00:00: 115.010000
+2016-06-27 09:19:36.122 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-22 00:00:00: 113.350000
+2016-06-27 09:19:36.122 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-23 00:00:00: 116.810000
+2016-06-27 09:19:36.122 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-24 00:00:00: 111.080000
+2016-06-27 09:19:36.156 [main] INFO  InteractiveBroker - updateHistory: NYSE/COO missingDays=59
+2016-06-27 09:19:37.533 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-04-18 00:00:00: 157.190000
+2016-06-27 09:19:37.534 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-04-19 00:00:00: 157.450000
+2016-06-27 09:19:37.534 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-04-20 00:00:00: 158.740000
+2016-06-27 09:19:37.534 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-04-21 00:00:00: 158.630000
+2016-06-27 09:19:37.534 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-04-22 00:00:00: 157.860000
+2016-06-27 09:19:37.534 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-04-25 00:00:00: 157.360000
+2016-06-27 09:19:37.534 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-04-26 00:00:00: 159.080000
+2016-06-27 09:19:37.534 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-04-27 00:00:00: 158.040000
+2016-06-27 09:19:37.535 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-04-28 00:00:00: 155.800000
+2016-06-27 09:19:37.535 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-04-29 00:00:00: 153.080000
+2016-06-27 09:19:37.535 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-02 00:00:00: 154.610000
+2016-06-27 09:19:37.535 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-03 00:00:00: 154.310000
+2016-06-27 09:19:37.535 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-04 00:00:00: 153.260000
+2016-06-27 09:19:37.535 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-05 00:00:00: 153.690000
+2016-06-27 09:19:37.535 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-06 00:00:00: 153.310000
+2016-06-27 09:19:37.535 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-09 00:00:00: 155.130000
+2016-06-27 09:19:37.536 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-10 00:00:00: 156.060000
+2016-06-27 09:19:37.536 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-11 00:00:00: 155.020000
+2016-06-27 09:19:37.536 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-12 00:00:00: 155.410000
+2016-06-27 09:19:37.536 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-13 00:00:00: 155.970000
+2016-06-27 09:19:37.536 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-16 00:00:00: 160.330000
+2016-06-27 09:19:37.536 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-17 00:00:00: 158.200000
+2016-06-27 09:19:37.536 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-18 00:00:00: 158.280000
+2016-06-27 09:19:37.537 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-19 00:00:00: 159.290000
+2016-06-27 09:19:37.537 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-20 00:00:00: 160.350000
+2016-06-27 09:19:37.537 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-23 00:00:00: 161.100000
+2016-06-27 09:19:37.537 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-24 00:00:00: 163.010000
+2016-06-27 09:19:37.537 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-25 00:00:00: 164.620000
+2016-06-27 09:19:37.537 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-26 00:00:00: 161.930000
+2016-06-27 09:19:37.537 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-27 00:00:00: 162.500000
+2016-06-27 09:19:39.042 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-16 00:00:00: 160.330000
+2016-06-27 09:19:39.042 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-17 00:00:00: 158.200000
+2016-06-27 09:19:39.042 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-18 00:00:00: 158.280000
+2016-06-27 09:19:39.042 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-19 00:00:00: 159.290000
+2016-06-27 09:19:39.042 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-20 00:00:00: 160.350000
+2016-06-27 09:19:39.043 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-23 00:00:00: 161.100000
+2016-06-27 09:19:39.043 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-24 00:00:00: 163.010000
+2016-06-27 09:19:39.043 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-25 00:00:00: 164.620000
+2016-06-27 09:19:39.043 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-26 00:00:00: 161.930000
+2016-06-27 09:19:39.043 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-27 00:00:00: 162.500000
+2016-06-27 09:19:39.043 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-05-31 00:00:00: 162.810000
+2016-06-27 09:19:39.043 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-01 00:00:00: 165.630000
+2016-06-27 09:19:39.043 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-02 00:00:00: 167.420000
+2016-06-27 09:19:39.043 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-03 00:00:00: 165.400000
+2016-06-27 09:19:39.044 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-06 00:00:00: 163.070000
+2016-06-27 09:19:39.044 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-07 00:00:00: 165.020000
+2016-06-27 09:19:39.044 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-08 00:00:00: 164.920000
+2016-06-27 09:19:39.044 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-09 00:00:00: 165.200000
+2016-06-27 09:19:39.044 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-10 00:00:00: 163.240000
+2016-06-27 09:19:39.044 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-13 00:00:00: 162.320000
+2016-06-27 09:19:39.044 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-14 00:00:00: 162.990000
+2016-06-27 09:19:39.044 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-15 00:00:00: 162.540000
+2016-06-27 09:19:39.044 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-16 00:00:00: 162.930000
+2016-06-27 09:19:39.045 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-17 00:00:00: 161.890000
+2016-06-27 09:19:39.045 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-20 00:00:00: 164.280000
+2016-06-27 09:19:39.045 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-21 00:00:00: 165.560000
+2016-06-27 09:19:39.045 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-22 00:00:00: 164.550000
+2016-06-27 09:19:39.045 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-23 00:00:00: 166.590000
+2016-06-27 09:19:39.045 [EReader] INFO  InteractiveBroker$6 - history: COO: 2016-06-24 00:00:00: 166.800000
+2016-06-27 09:19:39.079 [main] INFO  InteractiveBroker - updateHistory: NYSE/HRC missingDays=59
+2016-06-27 09:19:40.609 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-04-18 00:00:00: 54.220000
+2016-06-27 09:19:40.609 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-04-19 00:00:00: 53.570000
+2016-06-27 09:19:40.610 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-04-20 00:00:00: 54.210000
+2016-06-27 09:19:40.610 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-04-21 00:00:00: 54.050000
+2016-06-27 09:19:40.610 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-04-22 00:00:00: 53.860000
+2016-06-27 09:19:40.610 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-04-25 00:00:00: 54.140000
+2016-06-27 09:19:40.610 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-04-26 00:00:00: 54.310000
+2016-06-27 09:19:40.610 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-04-27 00:00:00: 54.390000
+2016-06-27 09:19:40.610 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-04-28 00:00:00: 53.100000
+2016-06-27 09:19:40.610 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-04-29 00:00:00: 48.350000
+2016-06-27 09:19:40.611 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-02 00:00:00: 48.090000
+2016-06-27 09:19:40.611 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-03 00:00:00: 47.360000
+2016-06-27 09:19:40.611 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-04 00:00:00: 47.560000
+2016-06-27 09:19:40.611 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-05 00:00:00: 47.910000
+2016-06-27 09:19:40.611 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-06 00:00:00: 47.530000
+2016-06-27 09:19:40.611 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-09 00:00:00: 47.840000
+2016-06-27 09:19:40.611 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-10 00:00:00: 48.210000
+2016-06-27 09:19:40.611 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-11 00:00:00: 48.690000
+2016-06-27 09:19:40.611 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-12 00:00:00: 47.730000
+2016-06-27 09:19:40.611 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-13 00:00:00: 47.160000
+2016-06-27 09:19:40.612 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-16 00:00:00: 47.920000
+2016-06-27 09:19:40.612 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-17 00:00:00: 47.520000
+2016-06-27 09:19:40.612 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-18 00:00:00: 47.400000
+2016-06-27 09:19:40.612 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-19 00:00:00: 47.520000
+2016-06-27 09:19:40.612 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-20 00:00:00: 48.090000
+2016-06-27 09:19:40.612 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-23 00:00:00: 48.020000
+2016-06-27 09:19:40.612 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-24 00:00:00: 48.930000
+2016-06-27 09:19:40.612 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-25 00:00:00: 49.000000
+2016-06-27 09:19:40.613 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-26 00:00:00: 48.680000
+2016-06-27 09:19:40.613 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-27 00:00:00: 49.030000
+2016-06-27 09:19:41.838 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-16 00:00:00: 47.920000
+2016-06-27 09:19:41.839 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-17 00:00:00: 47.520000
+2016-06-27 09:19:41.839 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-18 00:00:00: 47.400000
+2016-06-27 09:19:41.839 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-19 00:00:00: 47.520000
+2016-06-27 09:19:41.839 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-20 00:00:00: 48.090000
+2016-06-27 09:19:41.839 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-23 00:00:00: 48.020000
+2016-06-27 09:19:41.839 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-24 00:00:00: 48.930000
+2016-06-27 09:19:41.839 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-25 00:00:00: 49.000000
+2016-06-27 09:19:41.839 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-26 00:00:00: 48.680000
+2016-06-27 09:19:41.840 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-27 00:00:00: 49.030000
+2016-06-27 09:19:41.840 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-05-31 00:00:00: 49.130000
+2016-06-27 09:19:41.840 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-01 00:00:00: 49.720000
+2016-06-27 09:19:41.840 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-02 00:00:00: 50.210000
+2016-06-27 09:19:41.840 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-03 00:00:00: 50.030000
+2016-06-27 09:19:41.840 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-06 00:00:00: 50.340000
+2016-06-27 09:19:41.840 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-07 00:00:00: 50.200000
+2016-06-27 09:19:41.840 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-08 00:00:00: 51.100000
+2016-06-27 09:19:41.840 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-09 00:00:00: 51.220000
+2016-06-27 09:19:41.840 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-10 00:00:00: 50.100000
+2016-06-27 09:19:41.841 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-13 00:00:00: 49.350000
+2016-06-27 09:19:41.841 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-14 00:00:00: 48.950000
+2016-06-27 09:19:41.841 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-15 00:00:00: 48.910000
+2016-06-27 09:19:41.841 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-16 00:00:00: 51.550000
+2016-06-27 09:19:41.841 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-17 00:00:00: 50.900000
+2016-06-27 09:19:41.841 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-20 00:00:00: 51.070000
+2016-06-27 09:19:41.841 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-21 00:00:00: 51.120000
+2016-06-27 09:19:41.841 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-22 00:00:00: 51.280000
+2016-06-27 09:19:41.841 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-23 00:00:00: 52.060000
+2016-06-27 09:19:41.842 [EReader] INFO  InteractiveBroker$6 - history: HRC: 2016-06-24 00:00:00: 50.270000
+2016-06-27 09:19:41.876 [main] INFO  InteractiveBroker - updateHistory: NYSE/ABT missingDays=59
+2016-06-27 09:19:43.255 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-04-18 00:00:00: 43.950000
+2016-06-27 09:19:43.255 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-04-19 00:00:00: 43.850000
+2016-06-27 09:19:43.255 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-04-20 00:00:00: 43.970000
+2016-06-27 09:19:43.255 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-04-21 00:00:00: 43.880000
+2016-06-27 09:19:43.255 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-04-22 00:00:00: 44.080000
+2016-06-27 09:19:43.256 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-04-25 00:00:00: 44.010000
+2016-06-27 09:19:43.256 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-04-26 00:00:00: 43.880000
+2016-06-27 09:19:43.256 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-04-27 00:00:00: 43.830000
+2016-06-27 09:19:43.256 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-04-28 00:00:00: 40.420000
+2016-06-27 09:19:43.256 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-04-29 00:00:00: 38.900000
+2016-06-27 09:19:43.256 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-02 00:00:00: 38.850000
+2016-06-27 09:19:43.256 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-03 00:00:00: 38.550000
+2016-06-27 09:19:43.256 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-04 00:00:00: 38.100000
+2016-06-27 09:19:43.257 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-05 00:00:00: 38.500000
+2016-06-27 09:19:43.257 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-06 00:00:00: 37.970000
+2016-06-27 09:19:43.257 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-09 00:00:00: 37.980000
+2016-06-27 09:19:43.257 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-10 00:00:00: 38.100000
+2016-06-27 09:19:43.257 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-11 00:00:00: 38.010000
+2016-06-27 09:19:43.257 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-12 00:00:00: 38.000000
+2016-06-27 09:19:43.257 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-13 00:00:00: 37.600000
+2016-06-27 09:19:43.257 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-16 00:00:00: 38.250000
+2016-06-27 09:19:43.257 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-17 00:00:00: 37.710000
+2016-06-27 09:19:43.258 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-18 00:00:00: 37.750000
+2016-06-27 09:19:43.258 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-19 00:00:00: 37.240000
+2016-06-27 09:19:43.258 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-20 00:00:00: 37.600000
+2016-06-27 09:19:43.258 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-23 00:00:00: 37.370000
+2016-06-27 09:19:43.258 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-24 00:00:00: 37.980000
+2016-06-27 09:19:43.258 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-25 00:00:00: 38.680000
+2016-06-27 09:19:43.258 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-26 00:00:00: 38.890000
+2016-06-27 09:19:43.258 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-27 00:00:00: 39.300000
+2016-06-27 09:19:44.273 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-16 00:00:00: 38.250000
+2016-06-27 09:19:44.273 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-17 00:00:00: 37.710000
+2016-06-27 09:19:44.273 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-18 00:00:00: 37.750000
+2016-06-27 09:19:44.273 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-19 00:00:00: 37.240000
+2016-06-27 09:19:44.274 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-20 00:00:00: 37.600000
+2016-06-27 09:19:44.274 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-23 00:00:00: 37.370000
+2016-06-27 09:19:44.274 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-24 00:00:00: 37.980000
+2016-06-27 09:19:44.274 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-25 00:00:00: 38.680000
+2016-06-27 09:19:44.274 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-26 00:00:00: 38.890000
+2016-06-27 09:19:44.274 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-27 00:00:00: 39.300000
+2016-06-27 09:19:44.274 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-05-31 00:00:00: 39.630000
+2016-06-27 09:19:44.274 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-01 00:00:00: 39.500000
+2016-06-27 09:19:44.274 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-02 00:00:00: 39.530000
+2016-06-27 09:19:44.274 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-03 00:00:00: 39.180000
+2016-06-27 09:19:44.275 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-06 00:00:00: 39.170000
+2016-06-27 09:19:44.275 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-07 00:00:00: 38.930000
+2016-06-27 09:19:44.275 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-08 00:00:00: 38.910000
+2016-06-27 09:19:44.275 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-09 00:00:00: 38.870000
+2016-06-27 09:19:44.275 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-10 00:00:00: 38.400000
+2016-06-27 09:19:44.275 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-13 00:00:00: 37.860000
+2016-06-27 09:19:44.275 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-14 00:00:00: 37.660000
+2016-06-27 09:19:44.275 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-15 00:00:00: 37.430000
+2016-06-27 09:19:44.275 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-16 00:00:00: 37.500000
+2016-06-27 09:19:44.276 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-17 00:00:00: 37.390000
+2016-06-27 09:19:44.276 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-20 00:00:00: 37.750000
+2016-06-27 09:19:44.276 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-21 00:00:00: 37.730000
+2016-06-27 09:19:44.276 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-22 00:00:00: 38.740000
+2016-06-27 09:19:44.276 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-23 00:00:00: 39.630000
+2016-06-27 09:19:44.276 [EReader] INFO  InteractiveBroker$6 - history: ABT: 2016-06-24 00:00:00: 37.910000
+2016-06-27 09:19:44.310 [main] INFO  InteractiveBroker - updateHistory: NYSE/RMD missingDays=59
+2016-06-27 09:19:45.663 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-04-18 00:00:00: 59.900000
+2016-06-27 09:19:45.663 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-04-19 00:00:00: 59.670000
+2016-06-27 09:19:45.663 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-04-20 00:00:00: 60.020000
+2016-06-27 09:19:45.663 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-04-21 00:00:00: 60.440000
+2016-06-27 09:19:45.663 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-04-22 00:00:00: 60.720000
+2016-06-27 09:19:45.664 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-04-25 00:00:00: 61.160000
+2016-06-27 09:19:45.664 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-04-26 00:00:00: 60.950000
+2016-06-27 09:19:45.664 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-04-27 00:00:00: 56.650000
+2016-06-27 09:19:45.664 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-04-28 00:00:00: 56.500000
+2016-06-27 09:19:45.664 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-04-29 00:00:00: 55.800000
+2016-06-27 09:19:45.664 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-02 00:00:00: 56.130000
+2016-06-27 09:19:45.664 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-03 00:00:00: 55.640000
+2016-06-27 09:19:45.664 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-04 00:00:00: 56.030000
+2016-06-27 09:19:45.664 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-05 00:00:00: 56.410000
+2016-06-27 09:19:45.664 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-06 00:00:00: 56.480000
+2016-06-27 09:19:45.665 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-09 00:00:00: 56.840000
+2016-06-27 09:19:45.665 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-10 00:00:00: 57.550000
+2016-06-27 09:19:45.665 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-11 00:00:00: 57.550000
+2016-06-27 09:19:45.665 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-12 00:00:00: 57.810000
+2016-06-27 09:19:45.665 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-13 00:00:00: 57.440000
+2016-06-27 09:19:45.665 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-16 00:00:00: 58.090000
+2016-06-27 09:19:45.665 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-17 00:00:00: 57.230000
+2016-06-27 09:19:45.665 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-18 00:00:00: 56.900000
+2016-06-27 09:19:45.665 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-19 00:00:00: 56.840000
+2016-06-27 09:19:45.665 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-20 00:00:00: 57.620000
+2016-06-27 09:19:45.665 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-23 00:00:00: 57.420000
+2016-06-27 09:19:45.666 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-24 00:00:00: 58.130000
+2016-06-27 09:19:45.666 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-25 00:00:00: 57.720000
+2016-06-27 09:19:45.666 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-26 00:00:00: 58.220000
+2016-06-27 09:19:45.666 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-27 00:00:00: 58.440000
+2016-06-27 09:19:46.683 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-16 00:00:00: 58.090000
+2016-06-27 09:19:46.683 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-17 00:00:00: 57.230000
+2016-06-27 09:19:46.683 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-18 00:00:00: 56.900000
+2016-06-27 09:19:46.683 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-19 00:00:00: 56.840000
+2016-06-27 09:19:46.684 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-20 00:00:00: 57.620000
+2016-06-27 09:19:46.684 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-23 00:00:00: 57.420000
+2016-06-27 09:19:46.684 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-24 00:00:00: 58.130000
+2016-06-27 09:19:46.684 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-25 00:00:00: 57.720000
+2016-06-27 09:19:46.684 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-26 00:00:00: 58.220000
+2016-06-27 09:19:46.684 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-27 00:00:00: 58.440000
+2016-06-27 09:19:46.684 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-05-31 00:00:00: 59.060000
+2016-06-27 09:19:46.684 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-01 00:00:00: 59.170000
+2016-06-27 09:19:46.684 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-02 00:00:00: 59.550000
+2016-06-27 09:19:46.684 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-03 00:00:00: 59.540000
+2016-06-27 09:19:46.684 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-06 00:00:00: 59.860000
+2016-06-27 09:19:46.685 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-07 00:00:00: 59.880000
+2016-06-27 09:19:46.685 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-08 00:00:00: 60.230000
+2016-06-27 09:19:46.685 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-09 00:00:00: 60.500000
+2016-06-27 09:19:46.685 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-10 00:00:00: 59.800000
+2016-06-27 09:19:46.685 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-13 00:00:00: 59.220000
+2016-06-27 09:19:46.685 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-14 00:00:00: 59.580000
+2016-06-27 09:19:46.685 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-15 00:00:00: 58.980000
+2016-06-27 09:19:46.685 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-16 00:00:00: 58.740000
+2016-06-27 09:19:46.685 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-17 00:00:00: 58.360000
+2016-06-27 09:19:46.685 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-20 00:00:00: 59.850000
+2016-06-27 09:19:46.686 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-21 00:00:00: 61.780000
+2016-06-27 09:19:46.686 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-22 00:00:00: 62.330000
+2016-06-27 09:19:46.686 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-23 00:00:00: 64.080000
+2016-06-27 09:19:46.686 [EReader] INFO  InteractiveBroker$6 - history: RMD: 2016-06-24 00:00:00: 60.520000
+2016-06-27 09:19:46.711 [main] INFO  InteractiveBroker - updateHistory: NYSE/CYH missingDays=56
+2016-06-27 09:19:48.065 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-04-19 00:00:00: 15.870000
+2016-06-27 09:19:48.066 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-04-20 00:00:00: 16.610000
+2016-06-27 09:19:48.066 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-04-21 00:00:00: 16.715000
+2016-06-27 09:19:48.066 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-04-22 00:00:00: 17.155000
+2016-06-27 09:19:48.066 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-04-25 00:00:00: 15.855000
+2016-06-27 09:19:48.066 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-04-26 00:00:00: 16.460000
+2016-06-27 09:19:48.066 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-04-27 00:00:00: 16.840000
+2016-06-27 09:19:48.066 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-04-28 00:00:00: 16.445000
+2016-06-27 09:19:48.067 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-04-29 00:00:00: 15.705000
+2016-06-27 09:19:48.067 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-02 00:00:00: 15.740000
+2016-06-27 09:19:48.067 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-03 00:00:00: 14.870000
+2016-06-27 09:19:48.067 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-04 00:00:00: 15.020000
+2016-06-27 09:19:48.067 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-05 00:00:00: 15.300000
+2016-06-27 09:19:48.067 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-06 00:00:00: 14.860000
+2016-06-27 09:19:48.067 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-09 00:00:00: 14.710000
+2016-06-27 09:19:48.067 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-10 00:00:00: 14.090000
+2016-06-27 09:19:48.067 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-11 00:00:00: 14.080000
+2016-06-27 09:19:48.068 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-12 00:00:00: 12.560000
+2016-06-27 09:19:48.068 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-13 00:00:00: 12.500000
+2016-06-27 09:19:48.068 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-16 00:00:00: 12.750000
+2016-06-27 09:19:48.068 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-17 00:00:00: 13.240000
+2016-06-27 09:19:48.068 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-18 00:00:00: 12.580000
+2016-06-27 09:19:48.068 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-19 00:00:00: 12.550000
+2016-06-27 09:19:48.068 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-20 00:00:00: 12.750000
+2016-06-27 09:19:48.068 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-23 00:00:00: 12.390000
+2016-06-27 09:19:48.068 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-24 00:00:00: 12.350000
+2016-06-27 09:19:48.069 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-25 00:00:00: 13.120000
+2016-06-27 09:19:48.069 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-26 00:00:00: 12.880000
+2016-06-27 09:19:48.069 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-27 00:00:00: 13.080000
+2016-06-27 09:19:48.069 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-31 00:00:00: 13.440000
+2016-06-27 09:19:49.083 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-19 00:00:00: 12.550000
+2016-06-27 09:19:49.083 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-20 00:00:00: 12.750000
+2016-06-27 09:19:49.083 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-23 00:00:00: 12.390000
+2016-06-27 09:19:49.083 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-24 00:00:00: 12.350000
+2016-06-27 09:19:49.084 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-25 00:00:00: 13.120000
+2016-06-27 09:19:49.084 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-26 00:00:00: 12.880000
+2016-06-27 09:19:49.084 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-27 00:00:00: 13.080000
+2016-06-27 09:19:49.084 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-05-31 00:00:00: 13.440000
+2016-06-27 09:19:49.084 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-01 00:00:00: 13.940000
+2016-06-27 09:19:49.084 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-02 00:00:00: 14.060000
+2016-06-27 09:19:49.084 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-03 00:00:00: 13.750000
+2016-06-27 09:19:49.084 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-06 00:00:00: 14.230000
+2016-06-27 09:19:49.084 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-07 00:00:00: 14.600000
+2016-06-27 09:19:49.085 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-08 00:00:00: 15.260000
+2016-06-27 09:19:49.085 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-09 00:00:00: 14.770000
+2016-06-27 09:19:49.085 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-10 00:00:00: 14.050000
+2016-06-27 09:19:49.085 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-13 00:00:00: 13.280000
+2016-06-27 09:19:49.085 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-14 00:00:00: 13.320000
+2016-06-27 09:19:49.085 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-15 00:00:00: 13.240000
+2016-06-27 09:19:49.085 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-16 00:00:00: 13.110000
+2016-06-27 09:19:49.085 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-17 00:00:00: 13.020000
+2016-06-27 09:19:49.085 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-20 00:00:00: 13.190000
+2016-06-27 09:19:49.085 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-21 00:00:00: 13.220000
+2016-06-27 09:19:49.086 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-22 00:00:00: 13.380000
+2016-06-27 09:19:49.086 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-23 00:00:00: 13.890000
+2016-06-27 09:19:49.086 [EReader] INFO  InteractiveBroker$6 - history: CYH: 2016-06-24 00:00:00: 13.020000
+2016-06-27 09:19:49.116 [main] INFO  InteractiveBroker - updateHistory: NYSE/HAE missingDays=56
+2016-06-27 09:19:50.468 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-04-19 00:00:00: 33.650000
+2016-06-27 09:19:50.468 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-04-20 00:00:00: 33.400000
+2016-06-27 09:19:50.469 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-04-21 00:00:00: 33.400000
+2016-06-27 09:19:50.469 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-04-22 00:00:00: 33.250000
+2016-06-27 09:19:50.469 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-04-25 00:00:00: 32.810000
+2016-06-27 09:19:50.469 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-04-26 00:00:00: 33.170000
+2016-06-27 09:19:50.469 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-04-27 00:00:00: 33.280000
+2016-06-27 09:19:50.469 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-04-28 00:00:00: 33.340000
+2016-06-27 09:19:50.469 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-04-29 00:00:00: 32.430000
+2016-06-27 09:19:50.469 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-02 00:00:00: 27.650000
+2016-06-27 09:19:50.469 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-03 00:00:00: 27.550000
+2016-06-27 09:19:50.469 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-04 00:00:00: 27.790000
+2016-06-27 09:19:50.470 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-05 00:00:00: 28.010000
+2016-06-27 09:19:50.470 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-06 00:00:00: 27.800000
+2016-06-27 09:19:50.470 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-09 00:00:00: 27.300000
+2016-06-27 09:19:50.470 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-10 00:00:00: 27.490000
+2016-06-27 09:19:50.470 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-11 00:00:00: 26.890000
+2016-06-27 09:19:50.470 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-12 00:00:00: 26.580000
+2016-06-27 09:19:50.470 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-13 00:00:00: 26.130000
+2016-06-27 09:19:50.470 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-16 00:00:00: 27.730000
+2016-06-27 09:19:50.470 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-17 00:00:00: 27.300000
+2016-06-27 09:19:50.470 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-18 00:00:00: 27.310000
+2016-06-27 09:19:50.471 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-19 00:00:00: 27.500000
+2016-06-27 09:19:50.471 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-20 00:00:00: 27.630000
+2016-06-27 09:19:50.471 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-23 00:00:00: 27.500000
+2016-06-27 09:19:50.471 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-24 00:00:00: 27.930000
+2016-06-27 09:19:50.471 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-25 00:00:00: 28.090000
+2016-06-27 09:19:50.471 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-26 00:00:00: 27.670000
+2016-06-27 09:19:50.471 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-27 00:00:00: 28.000000
+2016-06-27 09:19:50.471 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-31 00:00:00: 28.000000
+2016-06-27 09:19:51.483 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-19 00:00:00: 27.500000
+2016-06-27 09:19:51.483 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-20 00:00:00: 27.630000
+2016-06-27 09:19:51.483 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-23 00:00:00: 27.500000
+2016-06-27 09:19:51.483 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-24 00:00:00: 27.930000
+2016-06-27 09:19:51.483 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-25 00:00:00: 28.090000
+2016-06-27 09:19:51.483 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-26 00:00:00: 27.670000
+2016-06-27 09:19:51.484 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-27 00:00:00: 28.000000
+2016-06-27 09:19:51.484 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-05-31 00:00:00: 28.000000
+2016-06-27 09:19:51.484 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-01 00:00:00: 28.500000
+2016-06-27 09:19:51.484 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-02 00:00:00: 28.650000
+2016-06-27 09:19:51.484 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-03 00:00:00: 28.490000
+2016-06-27 09:19:51.484 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-06 00:00:00: 29.020000
+2016-06-27 09:19:51.484 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-07 00:00:00: 29.080000
+2016-06-27 09:19:51.484 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-08 00:00:00: 29.440000
+2016-06-27 09:19:51.484 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-09 00:00:00: 29.720000
+2016-06-27 09:19:51.484 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-10 00:00:00: 29.580000
+2016-06-27 09:19:51.485 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-13 00:00:00: 29.060000
+2016-06-27 09:19:51.485 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-14 00:00:00: 29.310000
+2016-06-27 09:19:51.485 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-15 00:00:00: 29.490000
+2016-06-27 09:19:51.485 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-16 00:00:00: 29.470000
+2016-06-27 09:19:51.485 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-17 00:00:00: 29.660000
+2016-06-27 09:19:51.485 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-20 00:00:00: 30.000000
+2016-06-27 09:19:51.485 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-21 00:00:00: 29.860000
+2016-06-27 09:19:51.485 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-22 00:00:00: 29.820000
+2016-06-27 09:19:51.485 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-23 00:00:00: 30.170000
+2016-06-27 09:19:51.485 [EReader] INFO  InteractiveBroker$6 - history: HAE: 2016-06-24 00:00:00: 28.760000
+2016-06-27 09:19:51.519 [main] INFO  InteractiveBroker - updateHistory: NASDAQ/LGND missingDays=17
+2016-06-27 09:19:52.871 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-02 00:00:00: 119.160000
+2016-06-27 09:19:52.871 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-03 00:00:00: 118.070000
+2016-06-27 09:19:52.871 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-06 00:00:00: 116.710000
+2016-06-27 09:19:52.871 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-07 00:00:00: 115.270000
+2016-06-27 09:19:52.871 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-08 00:00:00: 118.340000
+2016-06-27 09:19:52.872 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-09 00:00:00: 115.080000
+2016-06-27 09:19:52.872 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-10 00:00:00: 113.740000
+2016-06-27 09:19:52.872 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-13 00:00:00: 113.060000
+2016-06-27 09:19:52.872 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-14 00:00:00: 115.650000
+2016-06-27 09:19:52.872 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-15 00:00:00: 114.950000
+2016-06-27 09:19:52.872 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-16 00:00:00: 115.750000
+2016-06-27 09:19:52.872 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-17 00:00:00: 112.390000
+2016-06-27 09:19:52.872 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-20 00:00:00: 114.910000
+2016-06-27 09:19:52.872 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-21 00:00:00: 113.990000
+2016-06-27 09:19:52.872 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-22 00:00:00: 113.830000
+2016-06-27 09:19:52.873 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-23 00:00:00: 115.110000
+2016-06-27 09:19:52.873 [EReader] INFO  InteractiveBroker$6 - history: LGND: 2016-06-24 00:00:00: 111.790000
+2016-06-27 09:19:52.891 [main] INFO  InteractiveBroker - updateHistory: NASDAQ/MYGN missingDays=17
+2016-06-27 09:19:54.432 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-02 00:00:00: 35.160000
+2016-06-27 09:19:54.432 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-03 00:00:00: 33.970000
+2016-06-27 09:19:54.432 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-06 00:00:00: 34.480000
+2016-06-27 09:19:54.432 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-07 00:00:00: 34.760000
+2016-06-27 09:19:54.432 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-08 00:00:00: 34.790000
+2016-06-27 09:19:54.432 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-09 00:00:00: 34.020000
+2016-06-27 09:19:54.432 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-10 00:00:00: 30.950000
+2016-06-27 09:19:54.433 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-13 00:00:00: 30.580000
+2016-06-27 09:19:54.433 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-14 00:00:00: 30.440000
+2016-06-27 09:19:54.433 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-15 00:00:00: 30.190000
+2016-06-27 09:19:54.433 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-16 00:00:00: 30.630000
+2016-06-27 09:19:54.433 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-17 00:00:00: 30.080000
+2016-06-27 09:19:54.433 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-20 00:00:00: 30.930000
+2016-06-27 09:19:54.433 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-21 00:00:00: 30.720000
+2016-06-27 09:19:54.433 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-22 00:00:00: 30.970000
+2016-06-27 09:19:54.433 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-23 00:00:00: 30.760000
+2016-06-27 09:19:54.433 [EReader] INFO  InteractiveBroker$6 - history: MYGN: 2016-06-24 00:00:00: 30.000000
+2016-06-27 09:19:54.442 [main] INFO  InteractiveBroker - updateHistory: NASDAQ/QGEN missingDays=13
+2016-06-27 09:19:56.070 [EReader] INFO  InteractiveBroker$2 - accountValue: TotalCashValue=223495.75
+2016-06-27 09:19:56.071 [EReader] INFO  InteractiveBroker$6 - history: QGEN: 2016-06-08 00:00:00: 22.540000
+2016-06-27 09:19:56.072 [EReader] INFO  InteractiveBroker$6 - history: QGEN: 2016-06-09 00:00:00: 22.200000
+2016-06-27 09:19:56.072 [EReader] INFO  InteractiveBroker$6 - history: QGEN: 2016-06-10 00:00:00: 21.710000
+2016-06-27 09:19:56.072 [EReader] INFO  InteractiveBroker$6 - history: QGEN: 2016-06-13 00:00:00: 21.430000
+2016-06-27 09:19:56.072 [EReader] INFO  InteractiveBroker$6 - history: QGEN: 2016-06-14 00:00:00: 20.750000
+2016-06-27 09:19:56.072 [EReader] INFO  InteractiveBroker$6 - history: QGEN: 2016-06-15 00:00:00: 20.800000
+2016-06-27 09:19:56.072 [EReader] INFO  InteractiveBroker$6 - history: QGEN: 2016-06-16 00:00:00: 20.740000
+2016-06-27 09:19:56.072 [EReader] INFO  InteractiveBroker$6 - history: QGEN: 2016-06-17 00:00:00: 20.610000
+2016-06-27 09:19:56.072 [EReader] INFO  InteractiveBroker$6 - history: QGEN: 2016-06-20 00:00:00: 21.050000
+2016-06-27 09:19:56.072 [EReader] INFO  InteractiveBroker$6 - history: QGEN: 2016-06-21 00:00:00: 21.390000
+2016-06-27 09:19:56.072 [EReader] INFO  InteractiveBroker$6 - history: QGEN: 2016-06-22 00:00:00: 21.750000
+2016-06-27 09:19:56.073 [EReader] INFO  InteractiveBroker$6 - history: QGEN: 2016-06-23 00:00:00: 22.390000
+2016-06-27 09:19:56.073 [EReader] INFO  InteractiveBroker$6 - history: QGEN: 2016-06-24 00:00:00: 21.010000
+2016-06-27 09:19:56.089 [main] INFO  InteractiveBroker - updateHistory: NYSE/SNY missingDays=13
+2016-06-27 09:19:56.396 [EReader] INFO  InteractiveBroker$2 - accountValue: ExchangeRate=1.3441763
+2016-06-27 09:19:57.928 [EReader] INFO  InteractiveBroker$6 - history: SNY: 2016-06-08 00:00:00: 41.400000
+2016-06-27 09:19:57.928 [EReader] INFO  InteractiveBroker$6 - history: SNY: 2016-06-09 00:00:00: 40.860000
+2016-06-27 09:19:57.928 [EReader] INFO  InteractiveBroker$6 - history: SNY: 2016-06-10 00:00:00: 39.410000
+2016-06-27 09:19:57.928 [EReader] INFO  InteractiveBroker$6 - history: SNY: 2016-06-13 00:00:00: 39.000000
+2016-06-27 09:19:57.928 [EReader] INFO  InteractiveBroker$6 - history: SNY: 2016-06-14 00:00:00: 38.130000
+2016-06-27 09:19:57.928 [EReader] INFO  InteractiveBroker$6 - history: SNY: 2016-06-15 00:00:00: 38.170000
+2016-06-27 09:19:57.929 [EReader] INFO  InteractiveBroker$6 - history: SNY: 2016-06-16 00:00:00: 38.400000
+2016-06-27 09:19:57.929 [EReader] INFO  InteractiveBroker$6 - history: SNY: 2016-06-17 00:00:00: 38.360000
+2016-06-27 09:19:57.929 [EReader] INFO  InteractiveBroker$6 - history: SNY: 2016-06-20 00:00:00: 39.100000
+2016-06-27 09:19:57.929 [EReader] INFO  InteractiveBroker$6 - history: SNY: 2016-06-21 00:00:00: 39.790000
+2016-06-27 09:19:57.929 [EReader] INFO  InteractiveBroker$6 - history: SNY: 2016-06-22 00:00:00: 40.290000
+2016-06-27 09:19:57.929 [EReader] INFO  InteractiveBroker$6 - history: SNY: 2016-06-23 00:00:00: 41.190000
+2016-06-27 09:19:57.929 [EReader] INFO  InteractiveBroker$6 - history: SNY: 2016-06-24 00:00:00: 38.450000
+2016-06-27 09:19:57.945 [main] INFO  InteractiveBroker - updateHistory: NYSE/AZN missingDays=14
+2016-06-27 09:19:59.449 [EReader] INFO  InteractiveBroker$6 - history: AZN: 2016-06-07 00:00:00: 29.850000
+2016-06-27 09:19:59.449 [EReader] INFO  InteractiveBroker$6 - history: AZN: 2016-06-08 00:00:00: 29.640000
+2016-06-27 09:19:59.449 [EReader] INFO  InteractiveBroker$6 - history: AZN: 2016-06-09 00:00:00: 28.960000
+2016-06-27 09:19:59.449 [EReader] INFO  InteractiveBroker$6 - history: AZN: 2016-06-10 00:00:00: 27.970000
+2016-06-27 09:19:59.450 [EReader] INFO  InteractiveBroker$6 - history: AZN: 2016-06-13 00:00:00: 27.600000
+2016-06-27 09:19:59.450 [EReader] INFO  InteractiveBroker$6 - history: AZN: 2016-06-14 00:00:00: 27.260000
+2016-06-27 09:19:59.450 [EReader] INFO  InteractiveBroker$6 - history: AZN: 2016-06-15 00:00:00: 27.370000
+2016-06-27 09:19:59.450 [EReader] INFO  InteractiveBroker$6 - history: AZN: 2016-06-16 00:00:00: 27.630000
+2016-06-27 09:19:59.450 [EReader] INFO  InteractiveBroker$6 - history: AZN: 2016-06-17 00:00:00: 27.580000
+2016-06-27 09:19:59.450 [EReader] INFO  InteractiveBroker$6 - history: AZN: 2016-06-20 00:00:00: 28.420000
+2016-06-27 09:19:59.450 [EReader] INFO  InteractiveBroker$6 - history: AZN: 2016-06-21 00:00:00: 28.640000
+2016-06-27 09:19:59.450 [EReader] INFO  InteractiveBroker$6 - history: AZN: 2016-06-22 00:00:00: 28.700000
+2016-06-27 09:19:59.450 [EReader] INFO  InteractiveBroker$6 - history: AZN: 2016-06-23 00:00:00: 29.290000
+2016-06-27 09:19:59.450 [EReader] INFO  InteractiveBroker$6 - history: AZN: 2016-06-24 00:00:00: 27.860000
+2016-06-27 09:19:59.459 [main] INFO  InteractiveBroker - updateHistory: NASDAQ/ALXN missingDays=12
+2016-06-27 09:20:00.869 [EReader] INFO  InteractiveBroker$6 - history: ALXN: 2016-06-09 00:00:00: 138.240000
+2016-06-27 09:20:00.869 [EReader] INFO  InteractiveBroker$6 - history: ALXN: 2016-06-10 00:00:00: 135.610000
+2016-06-27 09:20:00.870 [EReader] INFO  InteractiveBroker$6 - history: ALXN: 2016-06-13 00:00:00: 133.320000
+2016-06-27 09:20:00.870 [EReader] INFO  InteractiveBroker$6 - history: ALXN: 2016-06-14 00:00:00: 131.220000
+2016-06-27 09:20:00.870 [EReader] INFO  InteractiveBroker$6 - history: ALXN: 2016-06-15 00:00:00: 129.550000
+2016-06-27 09:20:00.870 [EReader] INFO  InteractiveBroker$6 - history: ALXN: 2016-06-16 00:00:00: 127.490000
+2016-06-27 09:20:00.870 [EReader] INFO  InteractiveBroker$6 - history: ALXN: 2016-06-17 00:00:00: 125.200000
+2016-06-27 09:20:00.870 [EReader] INFO  InteractiveBroker$6 - history: ALXN: 2016-06-20 00:00:00: 123.960000
+2016-06-27 09:20:00.870 [EReader] INFO  InteractiveBroker$6 - history: ALXN: 2016-06-21 00:00:00: 124.140000
+2016-06-27 09:20:00.870 [EReader] INFO  InteractiveBroker$6 - history: ALXN: 2016-06-22 00:00:00: 121.410000
+2016-06-27 09:20:00.870 [EReader] INFO  InteractiveBroker$6 - history: ALXN: 2016-06-23 00:00:00: 123.570000
+2016-06-27 09:20:00.871 [EReader] INFO  InteractiveBroker$6 - history: ALXN: 2016-06-24 00:00:00: 112.990000
+2016-06-27 09:20:00.887 [main] INFO  InteractiveBroker - updateHistory: NYSE/USNA missingDays=12
+2016-06-27 09:20:02.011 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-09 00:00:00: 122.980000
+2016-06-27 09:20:02.011 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-10 00:00:00: 120.730000
+2016-06-27 09:20:02.011 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-13 00:00:00: 118.380000
+2016-06-27 09:20:02.011 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-14 00:00:00: 118.010000
+2016-06-27 09:20:02.011 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-15 00:00:00: 115.620000
+2016-06-27 09:20:02.012 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-16 00:00:00: 116.530000
+2016-06-27 09:20:02.012 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-17 00:00:00: 112.430000
+2016-06-27 09:20:02.012 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-20 00:00:00: 115.630000
+2016-06-27 09:20:02.012 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-21 00:00:00: 115.010000
+2016-06-27 09:20:02.012 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-22 00:00:00: 113.350000
+2016-06-27 09:20:02.012 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-23 00:00:00: 116.810000
+2016-06-27 09:20:02.012 [EReader] INFO  InteractiveBroker$6 - history: USNA: 2016-06-24 00:00:00: 111.080000
+2016-06-27 09:20:02.053 [main] WARN  InvestmentDaoImpl - findOrder: conId 1448494 not found
+2016-06-27 09:20:02.053 [main] INFO  Lotus - Position not found: WAT/NYSE
+2016-06-27 09:20:02.060 [main] INFO  Lotus - processOrderError: id=1 code=399 msg=Order Message::::BUY 133 GILD NASDAQ.NMS:::Warning: your order will not be placed at the exchange until 2016-06-27 09:30:00 US/Eastern
+2016-06-27 09:20:02.064 [main] INFO  Lotus - processOrderError: id=2 code=399 msg=Order Message::::BUY 139 BMRN NASDAQ.NMS:::Warning: your order will not be placed at the exchange until 2016-06-27 09:30:00 US/Eastern
+2016-06-27 09:20:02.067 [main] INFO  Lotus - processOrderError: id=3 code=399 msg=Order Message::::BUY 73 AMGN NASDAQ.NMS:::Warning: your order will not be placed at the exchange until 2016-06-27 09:30:00 US/Eastern
+2016-06-27 09:20:02.073 [main] INFO  Lotus - processOrderError: id=4 code=399 msg=Order Message::::BUY 134 VAR NYSE:::Warning: your order will not be placed at the exchange until 2016-06-27 09:30:00 US/Eastern
+2016-06-27 09:20:02.075 [main] INFO  Lotus - processOrderError: id=6 code=399 msg=Order Message::::BUY 85 ANTM NYSE:::Warning: your order will not be placed at the exchange until 2016-06-27 09:30:00 US/Eastern
+2016-06-27 09:20:02.077 [main] INFO  Lotus - processOrderError: id=5 code=399 msg=Order Message::::BUY 442 PHG NYSE:::Warning: your order will not be placed at the exchange until 2016-06-27 09:30:00 US/Eastern
+2016-06-27 09:20:02.085 [main] INFO  Lotus - processOrderError: id=-1 code=2106 msg=HMDS data farm connection is OK:ushmds
+2016-06-27 09:20:03.093 [main] INFO  Lotus - doSellCheck: NASDAQ/MYL: lastClose[43.56] >= sellLimit[46.86]? No
+2016-06-27 09:20:03.094 [main] INFO  Lotus - doSellCheck: NASDAQ/MYL: now >= sellDateLimit[2016-07-22]? No (-25 days remaining)
+2016-06-27 09:20:03.094 [main] INFO  Lotus - doSellCheck: NASDAQ/CPHD: lastClose[29.07] >= sellLimit[31.39]? No
+2016-06-27 09:20:03.094 [main] INFO  Lotus - doSellCheck: NASDAQ/CPHD: now >= sellDateLimit[2016-07-24]? No (-27 days remaining)
+2016-06-27 09:20:03.094 [main] INFO  Lotus - doSellCheck: NASDAQ/REGN: lastClose[339.48] >= sellLimit[414.38]? No
+2016-06-27 09:20:03.094 [main] INFO  Lotus - doSellCheck: NASDAQ/REGN: now >= sellDateLimit[2016-07-24]? No (-27 days remaining)
+2016-06-27 09:20:03.095 [main] INFO  Lotus - doSellCheck: NASDAQ/PRXL: lastClose[59.31] >= sellLimit[67.21]? No
+2016-06-27 09:20:03.095 [main] INFO  Lotus - doSellCheck: NASDAQ/PRXL: now >= sellDateLimit[2016-07-24]? No (-27 days remaining)
+2016-06-27 09:20:03.095 [main] INFO  Lotus - doSellCheck: NYSE/USNA: lastClose[111.08] >= sellLimit[130.28]? No
+2016-06-27 09:20:03.095 [main] INFO  Lotus - doSellCheck: NYSE/USNA: now >= sellDateLimit[2016-07-24]? No (-27 days remaining)
+2016-06-27 09:20:03.096 [main] INFO  Lotus - doSellCheck: NYSE/COO: lastClose[166.80] >= sellLimit[168.39]? No
+2016-06-27 09:20:03.096 [main] INFO  Lotus - doSellCheck: NYSE/COO: now >= sellDateLimit[2016-07-24]? No (-27 days remaining)
+2016-06-27 09:20:03.096 [main] INFO  Lotus - doSellCheck: NYSE/HRC: lastClose[50.27] >= sellLimit[53.19]? No
+2016-06-27 09:20:03.096 [main] INFO  Lotus - doSellCheck: NYSE/HRC: now >= sellDateLimit[2016-07-24]? No (-27 days remaining)
+2016-06-27 09:20:03.096 [main] INFO  Lotus - doSellCheck: NYSE/ABT: lastClose[37.91] >= sellLimit[42.79]? No
+2016-06-27 09:20:03.096 [main] INFO  Lotus - doSellCheck: NYSE/ABT: now >= sellDateLimit[2016-07-24]? No (-27 days remaining)
+2016-06-27 09:20:03.097 [main] INFO  Lotus - doSellCheck: NYSE/RMD: lastClose[60.52] >= sellLimit[61.38]? No
+2016-06-27 09:20:03.097 [main] INFO  Lotus - doSellCheck: NYSE/RMD: now >= sellDateLimit[2016-07-24]? No (-27 days remaining)
+2016-06-27 09:20:03.097 [main] INFO  Lotus - doSellCheck: NYSE/CYH: lastClose[13.02] >= sellLimit[17.31]? No
+2016-06-27 09:20:03.097 [main] INFO  Lotus - doSellCheck: NYSE/CYH: now >= sellDateLimit[2016-07-29]? No (-32 days remaining)
+2016-06-27 09:20:03.098 [main] INFO  Lotus - doSellCheck: NYSE/HAE: lastClose[28.76] >= sellLimit[30.41]? No
+2016-06-27 09:20:03.098 [main] INFO  Lotus - doSellCheck: NYSE/HAE: now >= sellDateLimit[2016-07-29]? No (-32 days remaining)
+2016-06-27 09:20:03.098 [main] INFO  Lotus - doSellCheck: NASDAQ/LGND: lastClose[111.79] >= sellLimit[125.11]? No
+2016-06-27 09:20:03.098 [main] INFO  Lotus - doSellCheck: NASDAQ/LGND: now >= sellDateLimit[2016-09-04]? No (-69 days remaining)
+2016-06-27 09:20:03.098 [main] INFO  Lotus - doSellCheck: NASDAQ/MYGN: lastClose[30.00] >= sellLimit[34.05]? No
+2016-06-27 09:20:03.099 [main] INFO  Lotus - doSellCheck: NASDAQ/MYGN: now >= sellDateLimit[2016-09-04]? No (-69 days remaining)
+2016-06-27 09:20:03.099 [main] INFO  Lotus - doSellCheck: NASDAQ/QGEN: lastClose[21.01] >= sellLimit[22.83]? No
+2016-06-27 09:20:03.099 [main] INFO  Lotus - doSellCheck: NASDAQ/QGEN: now >= sellDateLimit[2016-09-07]? No (-72 days remaining)
+2016-06-27 09:20:03.099 [main] INFO  Lotus - doSellCheck: NYSE/SNY: lastClose[38.45] >= sellLimit[41.94]? No
+2016-06-27 09:20:03.099 [main] INFO  Lotus - doSellCheck: NYSE/SNY: now >= sellDateLimit[2016-09-07]? No (-72 days remaining)
+2016-06-27 09:20:03.100 [main] INFO  Lotus - doSellCheck: NYSE/AZN: lastClose[27.86] >= sellLimit[30.36]? No
+2016-06-27 09:20:03.100 [main] INFO  Lotus - doSellCheck: NYSE/AZN: now >= sellDateLimit[2016-09-07]? No (-72 days remaining)
+2016-06-27 09:20:03.100 [main] INFO  Lotus - doSellCheck: NASDAQ/ALXN: lastClose[112.99] >= sellLimit[142.51]? No
+2016-06-27 09:20:03.100 [main] INFO  Lotus - doSellCheck: NASDAQ/ALXN: now >= sellDateLimit[2016-09-09]? No (-74 days remaining)
+2016-06-27 09:20:03.100 [main] INFO  Lotus - doSellCheck: NYSE/USNA: lastClose[111.08] >= sellLimit[127.18]? No
+2016-06-27 09:20:03.101 [main] INFO  Lotus - doSellCheck: NYSE/USNA: now >= sellDateLimit[2016-09-09]? No (-74 days remaining)
+
