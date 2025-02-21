@@ -1,4 +1,4 @@
-== TVM - Time Value Money
+# TVM - Time Value Money
 
 Our foray into stock market analysis.
 
@@ -8,12 +8,13 @@ Our foray into stock market analysis.
 
 We didn't make much money but we learned a lot
 
+```
     RIP
 
     TVM
 
 2016 - 2018
-
+```
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣾⠿⠿⠛⠛⠛⠋⠉⠉⠉⢉⣿⡟⠛⠿⢿⣿⡿⣷⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣾⠟⠋⢡⣶⠶⠶⠶⣶⣶⣦⠤⠶⠞⠛⠋⠀⠀⠀⠀⠈⠻⣦⡉⠻⢿⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀
