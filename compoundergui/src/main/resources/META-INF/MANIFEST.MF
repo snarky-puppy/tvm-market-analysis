@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Wlazlo: was here
+Main-Class: com.tvminvestments.hcomp.HComp
+
