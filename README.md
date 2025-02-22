@@ -4,7 +4,7 @@ Our foray into stock market analysis.
 
 - Tim provided the mathematical chops
 - Vince came good with the business end
--Matt hacked out tools to support the others
+- Matt hacked out tools to support the others
 
 We didn't make much money but we learned a lot
 
