@@ -6,14 +6,16 @@ Our foray into stock market analysis.
 - Vince came good with the business end
 - Matt hacked out tools to support the others
 
-We didn't make much money but we learned a lot
+
 
 ```
-    RIP
+                   RIP
 
-    TVM
+                   TVM
 
-2014 - 2018
+               2014 - 2018
+
+We didn't make much money but we learned a lot
 ```
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣾⠿⠿⠛⠛⠛⠋⠉⠉⠉⢉⣿⡟⠛⠿⢿⣿⡿⣷⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
